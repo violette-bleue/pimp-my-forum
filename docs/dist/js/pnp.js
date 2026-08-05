@@ -34,3 +34,8 @@ if (document.querySelector('[data-pnp-slot="categories"]')) {
 if (document.querySelector('[data-pnp-slot="postrow"]')) {
   import("./modules/viewtopic-post-menu.js").then((m) => m.init());
 }
+
+// Conditionnel : coloration BBCode dans l'éditeur SCEditor (pages post/réponse/édition)
+if (document.getElementById("text_editor_textarea")) {
+  import("./modules/sceditor-highlight.js").then((m) => m.init());
+}

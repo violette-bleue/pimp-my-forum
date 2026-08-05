@@ -1,7 +1,8 @@
 /* ==========================================================================
    pnp.js — point d'entrée (chargé en <script type="module">)
    Ne charge (import() dynamique) que les modules nécessaires, selon
-   window.pnpConfig exposé en inline dans overall_header.
+   window.pnpConfig exposé en inline dans overall_header, ou la présence
+   d'un data-pnp-slot précis dans le DOM de la page.
    ========================================================================== */
 
 const cfg = window.pnpConfig || {};
@@ -22,4 +23,14 @@ if (cfg.login && cfg.login.enabled) {
 // Conditionnel : popups natifs PM / signalement
 if (cfg.popups && (cfg.popups.pm || cfg.popups.report)) {
   import("./modules/native-popups.js").then((m) => m.init(cfg.popups));
+}
+
+// Conditionnel : repli/dépli des catégories (index_box, viewforum si catégories présentes)
+if (document.querySelector('[data-pnp-slot="categories"]')) {
+  import("./modules/collapsible-categories.js").then((m) => m.init());
+}
+
+// Conditionnel : menu post + highlight.js (viewtopic_body uniquement)
+if (document.querySelector('[data-pnp-slot="postrow"]')) {
+  import("./modules/viewtopic-post-menu.js").then((m) => m.init());
 }

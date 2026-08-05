@@ -1,0 +1,44 @@
+/* modules/viewtopic-post-menu.js — toggle du menu +/- sur chaque post, highlight.js, fix hauteur profil sans avatar */
+
+export function init() {
+  if (window.jQuery && window.hljs) {
+    document.querySelectorAll("pre, code").forEach((block) => window.hljs.highlightBlock(block));
+  }
+
+  document.querySelectorAll(".pnp-post").forEach((post) => {
+    const avatarBox = post.querySelector(".pnp-post__avatar");
+    if (avatarBox && !avatarBox.innerHTML.trim().length) {
+      const rank = post.querySelector(".pnp-post__rank");
+      const dt = post.querySelector(".pnp-post__profile > dl > dt");
+      const head = post.querySelector(".pnp-post__head");
+      if (rank) rank.style.borderBottom = "none";
+      if (dt && head) dt.style.minHeight = head.offsetHeight + "px";
+    }
+  });
+
+  const menus = document.querySelectorAll(".pnp-post__menu-btn");
+  menus.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("pnp-is-expanded")) {
+        btn.innerHTML = "+";
+        btn.classList.remove("pnp-is-expanded");
+      } else {
+        document.querySelectorAll(".pnp-post__menu-btn.pnp-is-expanded").forEach((m) => {
+          m.innerHTML = "+";
+          m.classList.remove("pnp-is-expanded");
+        });
+        btn.innerHTML = "-";
+        btn.classList.add("pnp-is-expanded");
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".pnp-post__menu-wrap")) {
+      document.querySelectorAll(".pnp-post__menu-btn.pnp-is-expanded").forEach((m) => {
+        m.innerHTML = "+";
+        m.classList.remove("pnp-is-expanded");
+      });
+    }
+  });
+}

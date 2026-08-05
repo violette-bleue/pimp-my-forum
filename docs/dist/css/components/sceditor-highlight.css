@@ -1,0 +1,52 @@
+/* ==========================================================================
+   components/sceditor-highlight.css — habillage CodeMirror (theme "pnp")
+   pour la coloration BBCode de l'editeur source SCEditor.
+   S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
+   car le module peut charger cette CSS avant/independamment du reste.
+   ========================================================================== */
+
+.CodeMirror.cm-s-pnp {
+  background: var(--pnp-color-bg, #f5efe4);
+  color: var(--pnp-color-text, #2b2118);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: normal;
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: var(--pnp-radius, 12px);
+  height: auto;
+  padding: 4px 2px;
+}
+
+/* Balises ouvrantes/fermantes : [b] [/b] [url ... ] */
+.cm-s-pnp .cm-tag {
+  color: var(--pnp-color-accent, #d9a441);
+  font-weight: 600;
+}
+
+/* Nom/valeur d'attribut apres le = : [url=VALEUR] */
+.cm-s-pnp .cm-attribute {
+  color: var(--pnp-color-accent-3, #2f8f8a);
+}
+
+/* Le signe = lui-meme */
+.cm-s-pnp .cm-operator {
+  color: var(--pnp-color-text, #2b2118);
+  opacity: 0.6;
+}
+
+/* Valeurs entre guillemets */
+.cm-s-pnp .cm-string {
+  color: var(--pnp-color-accent-2, #c1502e);
+}
+
+/* Curseur et selection accordes a la palette */
+.cm-s-pnp .CodeMirror-cursor {
+  border-left-color: var(--pnp-color-accent-2, #c1502e);
+}
+.cm-s-pnp .CodeMirror-selected {
+  background: rgba(47, 143, 138, 0.18);
+}
+.cm-s-pnp .CodeMirror-gutters {
+  background: var(--pnp-color-bg, #f5efe4);
+  border-right: 1px solid rgba(43, 33, 24, 0.12);
+}

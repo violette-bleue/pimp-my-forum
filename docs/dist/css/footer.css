@@ -1,0 +1,16 @@
+/* ==========================================================================
+   footer.css
+   ========================================================================== */
+
+.pnp-footer {
+  background: var(--pnp-color-text);
+  color: var(--pnp-color-bg);
+}
+
+.pnp-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 1rem;
+}

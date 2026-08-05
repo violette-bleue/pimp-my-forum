@@ -1,0 +1,26 @@
+/* ==========================================================================
+   components/buttons.css
+   ========================================================================== */
+
+.pnp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  line-height: normal;
+  border-radius: var(--pnp-radius);
+  padding: 0.5em 1em;
+  font-family: var(--pnp-font-body);
+  border: 2px solid var(--pnp-color-text);
+  background: var(--pnp-color-bg);
+  color: var(--pnp-color-text);
+  cursor: pointer;
+}
+
+.pnp-btn--accent {
+  background: var(--pnp-color-accent);
+  border-color: var(--pnp-color-accent);
+}
+
+.pnp-btn--outline {
+  background: transparent;
+}

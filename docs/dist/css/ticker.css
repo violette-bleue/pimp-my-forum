@@ -1,0 +1,26 @@
+/* ==========================================================================
+   ticker.css
+   ========================================================================== */
+
+.pnp-ticker {
+  margin-top: 4px;
+}
+
+.pnp-ticker--legacy {
+  /* switch_ticker (ancien mode, non-jcarousel) */
+}
+
+.jcarousel-skin-tango .jcarousel-item {
+  text-align: center;
+  width: 10px;
+}
+
+/* Le spacing dépend d'une valeur admin FA (switch_ticker.SPACING) :
+   appliqué dynamiquement en JS via une variable CSS plutôt qu'en inline template. */
+.jcarousel-skin-tango .jcarousel-item-horizontal {
+  margin-right: var(--pnp-ticker-spacing, 5px);
+}
+
+.jcarousel-skin-tango .jcarousel-item-vertical {
+  margin-bottom: var(--pnp-ticker-spacing, 5px);
+}

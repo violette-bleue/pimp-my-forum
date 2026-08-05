@@ -1,0 +1,24 @@
+/* ==========================================================================
+   tokens.css — variables partagées (design tokens)
+   Posées sur body : le header natif FA (hors #wrap) doit pouvoir en hériter.
+   Valeurs actuelles = placeholders, DA finale pas encore tranchée (brief §3/§7).
+   ========================================================================== */
+
+body.pnp-body {
+  /* Couleurs */
+  --pnp-color-bg: #f5efe4;          /* crème cassée */
+  --pnp-color-text: #2b2118;        /* brun profond plutôt que noir pur */
+  --pnp-color-accent: #d9a441;      /* moutarde */
+  --pnp-color-accent-2: #c1502e;    /* orange brûlé */
+  --pnp-color-accent-3: #2f8f8a;    /* teal / turquoise */
+
+  /* Typo */
+  --pnp-font-display: "Audionugget", sans-serif;
+  --pnp-font-body: "Roboto", sans-serif;
+
+  /* Layout */
+  --pnp-radius: 12px;
+  --pnp-gap: 1.5rem;
+  --pnp-sidebar-width: 220px;
+  --pnp-content-max-width: 1200px;
+}

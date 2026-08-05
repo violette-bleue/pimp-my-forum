@@ -1,0 +1,25 @@
+/* ==========================================================================
+   pnp.js — point d'entrée (chargé en <script type="module">)
+   Ne charge (import() dynamique) que les modules nécessaires, selon
+   window.pnpConfig exposé en inline dans overall_header.
+   ========================================================================== */
+
+const cfg = window.pnpConfig || {};
+
+// Toujours actif : gestion du menu burger mobile
+import("./modules/burger-menu.js").then((m) => m.init());
+
+// Conditionnel : ticker "new" (jcarousel), seulement si activé côté admin FA
+if (cfg.ticker && cfg.ticker.enabled) {
+  import("./modules/ticker.js").then((m) => m.init(cfg.ticker));
+}
+
+// Conditionnel : recentrage du popup de login au resize
+if (cfg.login && cfg.login.enabled) {
+  import("./modules/login-popup.js").then((m) => m.init(cfg.login));
+}
+
+// Conditionnel : popups natifs PM / signalement
+if (cfg.popups && (cfg.popups.pm || cfg.popups.report)) {
+  import("./modules/native-popups.js").then((m) => m.init(cfg.popups));
+}

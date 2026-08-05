@@ -1,0 +1,23 @@
+/* ==========================================================================
+   header.css
+   ========================================================================== */
+
+.pnp-header {
+  background: var(--pnp-color-bg);
+}
+
+.pnp-logo img {
+  display: block;
+  height: 48px;
+  width: auto;
+}
+
+.pnp-site-desc__title {
+  font-family: var(--pnp-font-display);
+  color: var(--pnp-color-accent-2);
+}
+
+.pnp-site-desc__tagline {
+  color: var(--pnp-color-text);
+  opacity: 0.8;
+}

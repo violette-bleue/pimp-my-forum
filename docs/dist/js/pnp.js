@@ -35,7 +35,8 @@ if (document.querySelector('[data-pnp-slot="postrow"]')) {
   import("./modules/viewtopic-post-menu.js").then((m) => m.init());
 }
 
-// Conditionnel : coloration BBCode dans l'éditeur SCEditor (pages post/réponse/édition)
+// Conditionnel : Pimp My Post (coloration BBCode/HTML + inputs assistes) dans l'editeur
+// SCEditor (pages post/reponse/edition).
 if (document.getElementById("text_editor_textarea")) {
-  import("./modules/sceditor-highlight.js").then((m) => m.init());
+  import("./modules/pimp-my-post.js").then((m) => m.init());
 }

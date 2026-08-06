@@ -57,3 +57,24 @@
   background: var(--pnp-color-bg);
   border-right: 1px solid rgba(43, 33, 24, 0.12);
 }
+
+/* ---- Volet INPUTS : bouton bascule + panneau formulaire ------------------- */
+.pnp-pmp-toggle {
+  display: inline-block;
+  margin: 6px 0;
+  line-height: normal;
+}
+
+.pnp-pmp-panel {
+  background: var(--pnp-color-bg, #f5efe4);
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: var(--pnp-radius, 12px);
+  padding: var(--pnp-gap, 1rem);
+  color: var(--pnp-color-text, #2b2118);
+}
+
+.pnp-pmp-empty {
+  opacity: 0.6;
+  font-style: italic;
+  margin: 0;
+}

@@ -1,15 +1,23 @@
-/* modules/sceditor-highlight.js — coloration syntaxique BBCode + HTML pour l'editeur SCEditor.
+/* modules/pimp-my-post.js — "Pimp My Post" : glow-up des posts dans l'editeur SCEditor.
+   Deux volets sous un meme toit, partageant la meme instance CodeMirror :
+     1. COLORATION syntaxique BBCode + HTML (balises, attributs, valeurs, commentaires)
+     2. INPUTS assistes : bascule code <-> formulaire genere a partir des data-input
+
    CM est monte HORS du container SCEditor (frere, apres lui) pour echapper a l'interception
    clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
-   masque mais nourri via l'API de l'instance (ciblee par ID, marche depuis n'importe ou).
-   Lecture/ecriture via inst.val() : renvoie du BBCode canonique propre (getSourceEditorValue
-   renvoyait une representation HTML intermediaire, d'ou des <div>/entites parasites).
+   masque mais nourri via inst.val() (BBCode canonique propre, ciblee par ID).
    Sync bidirectionnel : frappe CM -> val(x) ; toolbar FA (insert) -> relit val() vers CM.
-   CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois). */
+   CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
+
+   Convention inputs (declaree par l'auteur du template) :
+     data-input="href target text"  -> cibles editables ; "text" = textContent
+     fillable                       -> sucre pour data-input="text"
+     data-label="..."               -> en-tete humain du groupe
+     data-label-text="..."          -> intitule du champ texte (defaut "Contenu") */
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
-const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/sceditor-highlight.css";
+const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/pimp-my-post.css";
 
 export function init() {
   const $ = window.jQuery;
@@ -30,7 +38,7 @@ export function init() {
 }
 
 function setupEditor(container, inst) {
-  if (container._pnpDone) return; // garde anti double-init sur le container lui-meme
+  if (container._pnpDone) return; // garde anti double-init
   container._pnpDone = true;
 
   // 1. Wrapper HORS du container SCEditor (frere juste apres) : hors de portee de
@@ -97,6 +105,49 @@ function setupEditor(container, inst) {
     attributes: true,
     attributeFilter: ["class"]
   });
+
+  // 6. Volet INPUTS : bouton bascule code <-> formulaire assiste.
+  setupForm(host, cm);
+}
+
+/* ---- Volet INPUTS (Pimp My Post) ------------------------------------------
+   Squelette : detection, bascule, passerelle CM. Le parsing data-input et la
+   generation des champs arrivent a l'etape suivante. */
+function setupForm(host, cm) {
+  const panel = document.createElement("div");
+  panel.className = "pnp-pmp-panel";
+  panel.style.display = "none";
+  host.parentNode.insertBefore(panel, host.nextSibling);
+
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "pnp-pmp-toggle button2";
+  toggle.textContent = "Pimp My Post";
+  host.parentNode.insertBefore(toggle, host);
+
+  let formMode = false;
+  toggle.addEventListener("click", () => {
+    formMode = !formMode;
+    if (formMode) {
+      buildForm(panel, cm);
+      host.style.display = "none";
+      panel.style.display = "";
+      toggle.textContent = "\u2190 Revenir au code";
+    } else {
+      host.style.display = "";
+      panel.style.display = "none";
+      cm.refresh();
+      toggle.textContent = "Pimp My Post";
+    }
+  });
+}
+
+function buildForm(panel, cm) {
+  panel.innerHTML = "";
+  const info = document.createElement("p");
+  info.className = "pnp-pmp-empty";
+  info.textContent = "(squelette) Les champs generes a partir des data-input apparaitront ici.";
+  panel.appendChild(info);
 }
 
 // Enrobe une methode de l'instance : execute l'originale puis notre callback.
@@ -135,12 +186,9 @@ function defineBBCodeMode() {
   if (CM._pnpBBCodeDefined) return;
   CM.defineSimpleMode("pnp-bbcode", {
     start: [
-      // Commentaire HTML (prioritaire pour ne pas confondre <!-- avec une balise)
       { regex: /<!--/, token: "comment", next: "comment" },
-      // BBCode
       { regex: /\[\/[a-zA-Z0-9*]+\]/, token: "tag" },
       { regex: /\[[a-zA-Z0-9*]+/, token: "tag", next: "inTag" },
-      // HTML : balise ouvrante/fermante -> on entre dans l'etat attributs
       { regex: /<\/?[a-zA-Z][\w-]*/, token: "tag", next: "inHtmlTag" }
     ],
     inTag: [

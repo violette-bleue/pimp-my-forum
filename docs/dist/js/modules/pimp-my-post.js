@@ -22,6 +22,11 @@
      data-freezone[="Titre"]      -> emplacement (et libelle) de la zone de texte libre ;
                                      a defaut, la zone libre ecrit avant la derniere fermeture.
 
+   Zone de texte libre : le contenu saisi vit dans un element custom <pmp-freezone>...</pmp-freezone>
+   (cree a la 1ere saisie). Balise custom volontaire : pas de collision avec le contenu utilisateur
+   (contrairement a un <p> ou un </p> tape par l'utilisateur casserait le reperage), et l'auteur
+   peut la styler librement en CSS. Elle reste dans le code final du post.
+
    Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
      labels  : { "href": "...", "img href": "...", "freezone": "...", ... }
      selects : { "data-size": ["sm", { value:"lg", label:"Grand" }], ... }
@@ -215,6 +220,8 @@ function setupEditor(container, inst) {
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
 
 const TARGET_SELECTOR = "[data-input], [text], [textarea]";
+// Balise custom de la zone de texte libre (voir entete). Un tiret = custom element valide.
+const FREE_TAG = "pmp-freezone";
 
 function setupForm(host, cm, state) {
   const panel = document.createElement("div");
@@ -457,7 +464,7 @@ function buildForm(panel, cm, state) {
   appendFreeTextarea(panel, cm, state);
 }
 
-// Champ de texte libre : ecrit dans un <p data-pnp-free> unique (cree a la 1ere saisie).
+// Champ de texte libre : ecrit dans un <pmp-freezone> unique (cree a la 1ere saisie non vide).
 function appendFreeTextarea(panel, cm, state) {
   const group = document.createElement("fieldset");
   group.className = "pnp-pmp-group pnp-pmp-free";
@@ -491,34 +498,33 @@ function resolveFreeLabel(cm) {
   return staff.freezone || DEFAULT_LABELS.freezone;
 }
 
-// Lit le contenu actuel du <p data-pnp-free> s'il existe.
+// Lit le contenu actuel du <pmp-freezone> s'il existe.
 function readFreeContent(cm) {
   const code = cm.getValue();
-  const m = code.match(/<p\b[^>]*\bdata-pnp-free\b[^>]*>([\s\S]*?)<\/p>/);
+  const m = code.match(new RegExp(`<${FREE_TAG}\\b[^>]*>([\\s\\S]*?)</${FREE_TAG}>`));
   return m ? m[1] : "";
 }
 
-// Ecrit le contenu de la zone libre. Cree le <p data-pnp-free> a la 1ere saisie non vide,
+// Ecrit le contenu de la zone libre. Cree le <pmp-freezone> a la 1ere saisie non vide,
 // a l'emplacement voulu (data-freezone en priorite, sinon avant la derniere fermeture).
 function writeFreeContent(cm, value) {
   let code = cm.getValue();
-  const existing = /<p\b[^>]*\bdata-pnp-free\b[^>]*>[\s\S]*?<\/p>/;
+  const existing = new RegExp(`<${FREE_TAG}\\b[^>]*>[\\s\\S]*?</${FREE_TAG}>`);
 
   if (existing.test(code)) {
-    code = code.replace(existing, `<p data-pnp-free>${value}</p>`);
+    code = code.replace(existing, `<${FREE_TAG}>${value}</${FREE_TAG}>`);
   } else {
-    if (!value) return; // rien a ecrire, on ne cree pas de <p> vide
-    const p = `<p data-pnp-free>${value}</p>`;
-    code = insertFreeParagraph(code, p);
+    if (!value) return; // rien a ecrire, on ne cree pas d'element vide
+    code = insertFreeZone(code, `<${FREE_TAG}>${value}</${FREE_TAG}>`);
   }
   const cursor = cm.getCursor();
   cm.setValue(code);
   cm.setCursor(cursor);
 }
 
-// Insere le paragraphe libre : dans data-freezone si present, sinon avant la derniere
+// Insere la zone libre : dans data-freezone si present, sinon avant la derniere
 // sequence de balises fermantes (heuristique de repli).
-function insertFreeParagraph(code, p) {
+function insertFreeZone(code, block) {
   // 1. data-freezone : on insere juste avant la fermeture de l'element porteur.
   const fz = code.match(/<([a-zA-Z][\w-]*)\b[^>]*\bdata-freezone\b[^>]*>/);
   if (fz) {
@@ -528,17 +534,17 @@ function insertFreeParagraph(code, p) {
     closeRe.lastIndex = openEnd;
     const close = closeRe.exec(code);
     if (close) {
-      return code.slice(0, close.index) + p + code.slice(close.index);
+      return code.slice(0, close.index) + block + code.slice(close.index);
     }
   }
   // 2. Repli : avant la derniere sequence de balises fermantes en fin de code.
   const tail = code.match(/((?:\s*<\/[a-zA-Z][\w-]*>)+)\s*$/);
   if (tail) {
     const idx = code.lastIndexOf(tail[1]);
-    return code.slice(0, idx) + p + code.slice(idx);
+    return code.slice(0, idx) + block + code.slice(idx);
   }
   // 3. Dernier repli : a la toute fin.
-  return code + p;
+  return code + block;
 }
 
 function insertIntoField(field, cm, open, close) {
@@ -647,11 +653,9 @@ function writeClassGroup(cm, id, groupValues, chosen) {
   cm.setCursor(cursor);
 }
 
-// Retire les ancres data-pnp-id ET l'ancre data-pnp-free (le <p> et son contenu restent).
+// Retire les ancres data-pnp-id (le <pmp-freezone> reste tel quel : il est son propre marqueur).
 function stripAnchors(cm) {
-  let code = cm.getValue();
-  code = code.replace(/\s*data-pnp-id="\d+"/g, "");
-  code = code.replace(/(<p\b[^>]*?)\s*data-pnp-free\b([^>]*>)/g, "$1$2");
+  const code = cm.getValue().replace(/\s*data-pnp-id="\d+"/g, "");
   if (code !== cm.getValue()) cm.setValue(code);
 }
 

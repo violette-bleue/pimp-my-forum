@@ -1,6 +1,7 @@
 /* modules/sceditor-highlight.js — coloration syntaxique BBCode dans l'editeur source SCEditor.
-   Planque le textarea source natif derriere une instance CodeMirror, synchronise en continu
-   vers le vrai champ (celui qui part dans le POST) et suit les bascules source <-> WYSIWYG.
+   Approche shadow-sync decouplee : CodeMirror tourne sur SON PROPRE textarea (libre cote clavier),
+   le textarea source natif de SCEditor est masque mais nourri via l'API de l'instance.
+   Sync bidirectionnel : frappe CM -> setSourceEditorValue ; toolbar FA (insert) -> relit vers CM.
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois). */
 
 const CM_VERSION = "5.65.16";
@@ -11,25 +12,34 @@ export function init() {
   const $ = window.jQuery;
   if (!$ || !$.fn.sceditor) return;
 
-  // SCEditor s'initialise apres le chargement de page : on attend que le container apparaisse.
   let tries = 0;
   const timer = setInterval(() => {
     const orig = document.getElementById("text_editor_textarea");
     const container = orig && orig.nextElementSibling;
-    if (container && container.classList.contains("sceditor-container")) {
+    const inst = orig && $(orig).sceditor("instance");
+    if (container && container.classList.contains("sceditor-container") && inst) {
       clearInterval(timer);
-      loadCodeMirror(() => setupEditor(container));
+      loadCodeMirror(() => setupEditor(container, inst));
     } else if (++tries > 40) {
-      clearInterval(timer); // ~12s max, on abandonne proprement
+      clearInterval(timer);
     }
   }, 300);
 }
 
-function setupEditor(container) {
+function setupEditor(container, inst) {
   const sourceTextarea = container.querySelector("textarea");
-  if (!sourceTextarea || sourceTextarea._pnpCM) return; // deja instrumente
+  if (!sourceTextarea || sourceTextarea._pnpCM) return;
 
-  const cm = window.CodeMirror.fromTextArea(sourceTextarea, {
+  // 1. Notre propre textarea, insere juste apres le natif. CM montera dessus.
+  const shadow = document.createElement("textarea");
+  shadow.className = "pnp-cm-shadow";
+  shadow.value = inst.getSourceEditorValue();
+  sourceTextarea.parentNode.insertBefore(shadow, sourceTextarea.nextSibling);
+
+  // 2. On masque le textarea source natif (garde vivant, jamais retire).
+  sourceTextarea.style.display = "none";
+
+  const cm = window.CodeMirror.fromTextArea(shadow, {
     mode: "pnp-bbcode",
     lineWrapping: true,
     viewportMargin: Infinity,
@@ -37,28 +47,63 @@ function setupEditor(container) {
   });
   sourceTextarea._pnpCM = cm;
 
-  // A chaque frappe cote CodeMirror -> on reecrit dans le vrai textarea source.
-  cm.on("change", () => cm.save());
+  let syncing = false; // garde anti-boucle entre les deux sens
 
-  // Affichage aligne sur le mode courant de SCEditor (source visible ou non).
+  // 3. Sens CM -> SCEditor : chaque edition clavier pousse vers le champ POST.
+  cm.on("change", () => {
+    if (syncing) return;
+    syncing = true;
+    inst.setSourceEditorValue(cm.getValue());
+    if (inst.updateOriginal) inst.updateOriginal();
+    syncing = false;
+  });
+
+  // 4. Sens SCEditor -> CM : la toolbar FA insere via ces methodes. On relit apres coup.
+  const pullIntoCM = () => {
+    if (syncing) return;
+    syncing = true;
+    const v = inst.getSourceEditorValue();
+    if (v !== cm.getValue()) {
+      const pos = cm.getCursor();
+      cm.setValue(v);
+      cm.setCursor(pos);
+    }
+    syncing = false;
+  };
+  wrapInsert(inst, "sourceEditorInsertText", pullIntoCM);
+  wrapInsert(inst, "insert", pullIntoCM);
+
+  // 5. Bascule source <-> WYSIWYG : suit la classe du container.
   const wrapper = cm.getWrapperElement();
   const syncVisibility = () => {
     if (container.classList.contains("sourceMode")) {
-      cm.setValue(sourceTextarea.value); // SCEditor a pu reecrire le champ en basculant
+      syncing = true;
+      cm.setValue(inst.getSourceEditorValue());
+      syncing = false;
       wrapper.style.display = "";
       cm.refresh();
     } else {
-      cm.save();
       wrapper.style.display = "none";
     }
   };
   syncVisibility();
-
-  // SCEditor change juste la classe du container quand on bascule source/WYSIWYG.
   new MutationObserver(syncVisibility).observe(container, {
     attributes: true,
     attributeFilter: ["class"]
   });
+}
+
+// Enrobe une methode de l'instance : execute l'originale puis notre callback.
+function wrapInsert(inst, fnName, after) {
+  const original = inst[fnName];
+  if (typeof original !== "function" || original._pnpWrapped) return;
+  const wrapped = function () {
+    const r = original.apply(this, arguments);
+    after();
+    return r;
+  };
+  wrapped._pnpWrapped = true;
+  inst[fnName] = wrapped;
 }
 
 function loadCodeMirror(cb) {

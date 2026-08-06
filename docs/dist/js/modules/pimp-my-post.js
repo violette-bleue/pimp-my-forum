@@ -24,8 +24,9 @@
 
    Zone de texte libre : mini-instance CodeMirror (coloree comme l'editeur principal) dont le
    contenu vit dans un element custom <pmp-freezone>...</pmp-freezone> (cree a la 1ere saisie).
-   Balise custom volontaire : pas de collision avec le contenu utilisateur, et l'auteur peut la
-   styler librement en CSS. Elle reste dans le code final du post.
+   Si l'utilisateur y tape un element porteur d'un data-input, un bouton "promouvoir" apparait
+   sur sa ligne (line-widget) : au clic, l'element est extrait de la zone libre et insere dans le
+   code principal juste avant <pmp-freezone>, ou il devient un vrai champ assiste.
 
    Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
      labels  : { "href": "...", "img href": "...", "freezone": "...", ... }
@@ -466,6 +467,7 @@ function buildForm(panel, cm, state) {
 
 // Zone de texte libre : mini-instance CodeMirror editant le contenu de <pmp-freezone>.
 // Coloree comme l'editeur principal ; sync vers le code via writeFreeContent.
+// Detecte les data-input tapes et pose un bouton "promouvoir" sur leur ligne.
 function appendFreeEditor(panel, cm, state) {
   const group = document.createElement("fieldset");
   group.className = "pnp-pmp-group pnp-pmp-free";
@@ -486,13 +488,165 @@ function appendFreeEditor(panel, cm, state) {
     theme: "pnp"
   });
   freeCm.setSize(null, 110);
-  // Rendu correct meme si monte dans un conteneur initialement cache.
   setTimeout(() => freeCm.refresh(), 0);
 
-  freeCm.on("change", () => writeFreeContent(cm, freeCm.getValue()));
+  let debounce = null;
+  freeCm.on("change", () => {
+    writeFreeContent(cm, freeCm.getValue());
+    clearTimeout(debounce);
+    debounce = setTimeout(() => refreshPromoteWidgets(freeCm, panel, cm, state), 300);
+  });
   freeCm.on("focus", () => {
     state.activeField = { kind: "cm-free", freeCm };
   });
+
+  // Detection initiale (si la zone contient deja un data-input a l'ouverture).
+  setTimeout(() => refreshPromoteWidgets(freeCm, panel, cm, state), 50);
+}
+
+// Scanne le mini-CM et pose un line-widget "promouvoir" sur chaque ligne portant un data-input.
+function refreshPromoteWidgets(freeCm, panel, cm, state) {
+  // Nettoie les widgets precedents.
+  (freeCm._pnpWidgets || []).forEach((w) => w.clear());
+  freeCm._pnpWidgets = [];
+
+  const found = scanFreeInputs(freeCm.getValue());
+  found.forEach(({ line, tagName, preview }) => {
+    const bar = document.createElement("div");
+    bar.className = "pnp-pmp-promote";
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "pnp-pmp-promote-btn button2";
+    btn.textContent = "\u2295 Ajouter ce champ";
+    const hint = document.createElement("span");
+    hint.className = "pnp-pmp-promote-hint";
+    hint.textContent = preview;
+    bar.appendChild(btn);
+    bar.appendChild(hint);
+
+    btn.addEventListener("click", () => promoteElement(freeCm, panel, cm, state, line, tagName));
+
+    const widget = freeCm.addLineWidget(line, bar, { above: true });
+    freeCm._pnpWidgets.push(widget);
+  });
+}
+
+// Repere chaque balise ouvrante portant data-input -> { line, tagName, openIndex, preview }.
+function scanFreeInputs(text) {
+  const out = [];
+  const re = /<([a-zA-Z][\w-]*)\b[^>]*\bdata-input\b[^>]*>/g;
+  let m;
+  const lineStarts = computeLineStarts(text);
+  while ((m = re.exec(text)) !== null) {
+    const idx = m.index;
+    const line = indexToLine(idx, lineStarts);
+    out.push({
+      line,
+      tagName: m[1].toLowerCase(),
+      openIndex: idx,
+      preview: m[0].length > 42 ? m[0].slice(0, 40) + "\u2026" : m[0]
+    });
+  }
+  return out;
+}
+
+// Positions de debut de chaque ligne, pour convertir un index char -> numero de ligne.
+function computeLineStarts(text) {
+  const starts = [0];
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "\n") starts.push(i + 1);
+  }
+  return starts;
+}
+function indexToLine(idx, lineStarts) {
+  let lo = 0;
+  let hi = lineStarts.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (lineStarts[mid] <= idx) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
+}
+
+// Promeut l'element data-input de la ligne donnee : extrait le bloc complet du mini-CM
+// et l'insere avant <pmp-freezone> dans le code principal, puis regenere le formulaire.
+function promoteElement(freeCm, panel, cm, state, line, tagName) {
+  const text = freeCm.getValue();
+  const lineStarts = computeLineStarts(text);
+  // Retrouve la balise ouvrante sur cette ligne (data-input).
+  const re = /<([a-zA-Z][\w-]*)\b[^>]*\bdata-input\b[^>]*>/g;
+  let m;
+  let openIndex = -1;
+  while ((m = re.exec(text)) !== null) {
+    if (indexToLine(m.index, lineStarts) === line) {
+      openIndex = m.index;
+      break;
+    }
+  }
+  if (openIndex === -1) return;
+
+  const openEnd = openIndex + m[0].length;
+  const closeIdx = findMatchingClose(text, openEnd, tagName);
+  if (closeIdx === -1) return; // extraction impossible -> on laisse dans la freezone
+
+  const closeEnd = closeIdx + `</${tagName}>`.length;
+  const block = text.slice(openIndex, closeEnd);
+
+  // Retire le bloc du mini-CM (et nettoie un eventuel retour a la ligne orphelin).
+  let remaining = text.slice(0, openIndex) + text.slice(closeEnd);
+  remaining = remaining.replace(/\n{3,}/g, "\n\n");
+  freeCm.setValue(remaining);
+  writeFreeContent(cm, remaining);
+
+  // Insere le bloc dans le code principal, juste avant <pmp-freezone>, avec un retour ligne.
+  insertBeforeFreeZone(cm, block);
+
+  // Regenere le formulaire : le nouvel element devient un champ assiste.
+  buildForm(panel, cm, state);
+}
+
+// Trouve l'index de la balise fermante correspondante en comptant l'imbrication du meme tag.
+function findMatchingClose(text, fromIndex, tagName) {
+  const openRe = new RegExp(`<${tagName}\\b[^>]*?>`, "gi");
+  const closeRe = new RegExp(`</${tagName}\\s*>`, "gi");
+  const selfClose = new RegExp(`<${tagName}\\b[^>]*/>`, "i");
+  let depth = 0;
+  let i = fromIndex;
+  while (i < text.length) {
+    openRe.lastIndex = i;
+    closeRe.lastIndex = i;
+    const nextOpen = openRe.exec(text);
+    const nextClose = closeRe.exec(text);
+    if (!nextClose) return -1;
+    if (nextOpen && nextOpen.index < nextClose.index) {
+      // balise ouvrante du meme tag (ignore les self-closing <tag .../>)
+      if (!selfClose.test(nextOpen[0])) depth++;
+      i = nextOpen.index + nextOpen[0].length;
+    } else {
+      if (depth === 0) return nextClose.index;
+      depth--;
+      i = nextClose.index + nextClose[0].length;
+    }
+  }
+  return -1;
+}
+
+// Insere un bloc dans le code principal juste avant <pmp-freezone> (avec retour a la ligne).
+function insertBeforeFreeZone(cm, block) {
+  let code = cm.getValue();
+  const re = new RegExp(`<${FREE_TAG}\\b`);
+  const m = code.match(re);
+  if (m) {
+    const idx = code.indexOf(m[0]);
+    code = code.slice(0, idx) + block + "\n" + code.slice(idx);
+  } else {
+    // pas de freezone (rare ici) : on ajoute a la fin.
+    code = code + "\n" + block;
+  }
+  const cursor = cm.getCursor();
+  cm.setValue(code);
+  cm.setCursor(cursor);
 }
 
 // Libelle de la zone libre : data-freezone="Titre" (auteur) > config staff > dico.
@@ -531,7 +685,6 @@ function writeFreeContent(cm, value) {
 // Insere la zone libre : dans data-freezone si present, sinon avant la derniere
 // sequence de balises fermantes (heuristique de repli).
 function insertFreeZone(code, block) {
-  // 1. data-freezone : on insere juste avant la fermeture de l'element porteur.
   const fz = code.match(/<([a-zA-Z][\w-]*)\b[^>]*\bdata-freezone\b[^>]*>/);
   if (fz) {
     const tagName = fz[1];
@@ -543,13 +696,11 @@ function insertFreeZone(code, block) {
       return code.slice(0, close.index) + block + code.slice(close.index);
     }
   }
-  // 2. Repli : avant la derniere sequence de balises fermantes en fin de code.
   const tail = code.match(/((?:\s*<\/[a-zA-Z][\w-]*>)+)\s*$/);
   if (tail) {
     const idx = code.lastIndexOf(tail[1]);
     return code.slice(0, idx) + block + code.slice(idx);
   }
-  // 3. Dernier repli : a la toute fin.
   return code + block;
 }
 
@@ -564,12 +715,10 @@ function insertIntoField(field, cm, open, close) {
     const sel = fcm.getSelection();
     fcm.replaceSelection(o + sel + c);
     if (!sel) {
-      // curseur entre open et close
       const pos = fcm.getCursor();
       fcm.setCursor({ line: pos.line, ch: pos.ch - c.length });
     }
     fcm.focus();
-    // le change de replaceSelection declenche deja writeFreeContent
     return;
   }
 

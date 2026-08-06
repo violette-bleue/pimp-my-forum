@@ -14,32 +14,30 @@
    Convention inputs (declaree par l'auteur du template) :
      Mode simple   : data-input="href target text"  (cibles separees par espaces)
      Mode groupes  : data-input="(Lien@href) (Cible@target) (@text)"
-                     -> chaque (label@cible) = un champ ; label avant le @, optionnel ;
-                        le label peut contenir virgules, espaces, etc. (tout sauf @ et ')').
-     "text"     -> textContent en input ;  "textarea" -> textContent en textarea (long)
-     text / textarea comme attribut sucre  -> equivalent a data-input="text" / "textarea"
-     data-label="..."       -> en-tete humain du groupe
-     data-label-text="..."  -> intitule du champ texte (compat ; defaut resolu sinon)
+                     -> chaque (label@cible) = un champ ; label avant le @, optionnel.
+     "text"/"textarea"  -> textContent (input / textarea long) ; aussi en attribut sucre.
+     "class--<groupe>"  -> groupe de classes exclusif/multi, valeurs definies en config staff.
+     data-label / data-label-text -> en-tete de groupe / intitule du champ texte.
 
-   Labels : priorite = label du groupe (label@cible) > data-label-text (texte) >
-            config staff (contextuel "img href" puis simple "href") >
-            dico par defaut du module (idem) > nom brut de l'attribut.
-   Config staff optionnelle, lue defensivement depuis PimpMyPost.Config.
+   Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
+     labels  : { "href": "...", "img href": "...", ... }
+     selects : { "data-size": ["petit","moyen","grand"], ... }        (menus deroulants)
+     classes : { layout: ["col1","col2"],                              (groupe exclusif)
+                 couleur: { mode:"multi", values:["rouge","bleu"] } }  (groupe multi)
 
-   Le champ texte accepte du markup brut (BBCode ET HTML) : son contenu part tel quel
-   dans le post, sans echappement. Seules les valeurs d'attributs echappent les guillemets. */
+   Le champ texte accepte du markup brut (BBCode ET HTML), sans echappement.
+   Les valeurs d'attributs echappent seulement les guillemets. */
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
 const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/pimp-my-post.css";
 
-// Attributs rendus en menu deroulant, avec leurs valeurs proposees ("" = option vide).
+// Attributs rendus en menu deroulant par defaut ("" = option vide). Fusionnes avec config.selects.
 const SELECT_ATTRS = {
   target: ["", "_blank", "_self", "_parent", "_top"]
 };
 
-// Dico de labels par defaut du module. Cles simples ("href") ou contextuelles ("img href",
-// "a href") : la version contextuelle (prefixee du nom de balise) prime si elle existe.
+// Dico de labels par defaut du module. Cles simples ("href") ou contextuelles ("img href").
 const DEFAULT_LABELS = {
   href: "Lien",
   "img href": "Lien direct vers l'image",
@@ -59,6 +57,20 @@ function getStaffConfig() {
   } catch (e) {
     return {};
   }
+}
+
+// Selects effectifs = defauts du module + config.selects du staff.
+function getSelectAttrs() {
+  return Object.assign({}, SELECT_ATTRS, getStaffConfig().selects || {});
+}
+
+// Normalise une entree config.classes[name] -> { mode:"single"|"multi", values:[...] }.
+// Tableau nu -> exclusif (single) ; objet { mode, values } -> tel quel.
+function getClassGroup(name) {
+  const raw = (getStaffConfig().classes || {})[name];
+  if (!raw) return null;
+  if (Array.isArray(raw)) return { mode: "single", values: raw };
+  return { mode: raw.mode === "multi" ? "multi" : "single", values: raw.values || [] };
 }
 
 export function init() {
@@ -119,10 +131,8 @@ function setupEditor(container, inst) {
     syncing = false;
   });
 
-  // 4. Toolbar FA. Deux comportements selon le mode :
-  //    - mode code : insertion globale puis relecture vers CM (comportement historique) ;
-  //    - mode formulaire : on route l'insertion vers le champ PMP actif et on court-circuite
-  //      l'insertion globale (sinon le BBCode atterrit hors du champ, a la fin du contenu).
+  // 4. Toolbar FA. Mode code : insertion globale + relecture vers CM. Mode formulaire :
+  //    on route l'insertion vers le champ PMP actif et on court-circuite le global.
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
@@ -161,9 +171,6 @@ function setupEditor(container, inst) {
 
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
 
-// Selecteur des elements porteurs d'une cible editable (data-input ou attribut sucre).
-// NB : "textarea" est ici un ATTRIBUT (<div textarea>), pas la balise <textarea> ;
-// [textarea] cible bien les elements portant cet attribut, aucune collision.
 const TARGET_SELECTOR = "[data-input], [text], [textarea]";
 
 function setupForm(host, cm, state) {
@@ -187,7 +194,7 @@ function setupForm(host, cm, state) {
       toggle.textContent = "\u2190 Revenir au code";
     } else {
       state.activeField = null;
-      stripAnchors(cm); // retire les data-pnp-id avant de rendre la main au code
+      stripAnchors(cm);
       host.style.display = "";
       panel.style.display = "none";
       cm.refresh();
@@ -196,17 +203,13 @@ function setupForm(host, cm, state) {
   });
 }
 
-// Normalise les cibles editables d'un element -> liste de { target, label } (label null si absent).
-//   attribut sucre "text"/"textarea" -> cette cible seule.
-//   data-input mode groupes  "(Label@cible) (@autre)"  -> parse parentheses + @.
-//   data-input mode simple   "href target text"        -> cibles espacees, label null.
+// Normalise les cibles editables -> liste de { target, label } (label null si absent).
 function parseTargets(el) {
   if (el.hasAttribute("textarea")) return [{ target: "textarea", label: null }];
   if (el.hasAttribute("text")) return [{ target: "text", label: null }];
 
   const raw = el.getAttribute("data-input") || "";
   if (raw.indexOf("(") !== -1) {
-    // Mode groupes : chaque (contenu) -> label@cible (label optionnel, avant le @).
     const out = [];
     const re = /\(([^)]*)\)/g;
     let m;
@@ -225,19 +228,21 @@ function parseTargets(el) {
     }
     return out;
   }
-  // Mode simple.
   return raw
     .split(/\s+/)
     .filter(Boolean)
     .map((target) => ({ target, label: null }));
 }
 
-// Une cible designe-t-elle le textContent ? (text ou textarea)
 function isTextTarget(t) {
   return t === "text" || t === "textarea";
 }
 
-// Resout le label a afficher pour un champ, selon la priorite documentee en tete de fichier.
+// Cible groupe de classes ? "class--layout" -> { group:"layout" }, sinon null.
+function classGroupName(target) {
+  return target.indexOf("class--") === 0 ? target.slice("class--".length) : null;
+}
+
 function resolveLabel(target, explicitLabel, tagName, el) {
   if (explicitLabel) return explicitLabel;
   if (isTextTarget(target)) {
@@ -253,7 +258,11 @@ function resolveLabel(target, explicitLabel, tagName, el) {
   return target;
 }
 
-// Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
+// Liste des classes actuelles de l'element (depuis l'attribut class brut).
+function currentClasses(el) {
+  return (el.getAttribute("class") || "").split(/\s+/).filter(Boolean);
+}
+
 function buildForm(panel, cm, state) {
   panel.innerHTML = "";
   ensureAnchors(cm);
@@ -269,6 +278,8 @@ function buildForm(panel, cm, state) {
     panel.appendChild(info);
     return;
   }
+
+  const selectAttrs = getSelectAttrs();
 
   els.forEach((el) => {
     const id = el.getAttribute("data-pnp-id");
@@ -287,14 +298,7 @@ function buildForm(panel, cm, state) {
     }
 
     targets.forEach(({ target, label }) => {
-      const textTarget = isTextTarget(target);
       const fieldLabel = resolveLabel(target, label, tagName, el);
-      // Valeur initiale : pour le texte, on lit le contenu BRUT du code (pas le textContent
-      // decode par DOMParser) pour eviter toute corruption d'entites au premier aller-retour.
-      const initial = textTarget
-        ? readRawText(cm, id, tagName)
-        : el.getAttribute(target) || "";
-
       const row = document.createElement("label");
       row.className = "pnp-pmp-field";
       const span = document.createElement("span");
@@ -302,14 +306,69 @@ function buildForm(panel, cm, state) {
       span.textContent = fieldLabel;
       row.appendChild(span);
 
+      const grpName = classGroupName(target);
+      if (grpName) {
+        // --- Groupe de classes (exclusif ou multi) ---
+        const cfg = getClassGroup(grpName);
+        if (!cfg) {
+          span.textContent = fieldLabel + " (groupe inconnu)";
+          group.appendChild(row);
+          return;
+        }
+        const present = currentClasses(el).filter((c) => cfg.values.indexOf(c) !== -1);
+
+        if (cfg.mode === "multi") {
+          const box = document.createElement("span");
+          box.className = "pnp-pmp-checks";
+          cfg.values.forEach((val) => {
+            const lbl = document.createElement("label");
+            lbl.className = "pnp-pmp-check";
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.value = val;
+            cb.checked = present.indexOf(val) !== -1;
+            cb.addEventListener("change", () => {
+              const chosen = [...box.querySelectorAll("input:checked")].map((c) => c.value);
+              writeClassGroup(cm, id, cfg.values, chosen);
+            });
+            lbl.appendChild(cb);
+            lbl.appendChild(document.createTextNode(" " + val));
+            box.appendChild(lbl);
+          });
+          row.appendChild(box);
+        } else {
+          const sel = document.createElement("select");
+          sel.className = "pnp-pmp-input";
+          [""].concat(cfg.values).forEach((val) => {
+            const o = document.createElement("option");
+            o.value = val;
+            o.textContent = val === "" ? "(aucun)" : val;
+            if (present.indexOf(val) !== -1) o.selected = true;
+            sel.appendChild(o);
+          });
+          sel.addEventListener("change", () => {
+            writeClassGroup(cm, id, cfg.values, sel.value ? [sel.value] : []);
+          });
+          row.appendChild(sel);
+        }
+        group.appendChild(row);
+        return;
+      }
+
+      // --- Cibles standard (texte, attribut libre, select) ---
+      const textTarget = isTextTarget(target);
+      const initial = textTarget
+        ? readRawText(cm, id, tagName)
+        : el.getAttribute(target) || "";
+
       let input;
       if (target === "textarea") {
         input = document.createElement("textarea");
         input.rows = 4;
         input.value = initial;
-      } else if (!textTarget && SELECT_ATTRS[target]) {
+      } else if (!textTarget && selectAttrs[target]) {
         input = document.createElement("select");
-        SELECT_ATTRS[target].forEach((opt) => {
+        selectAttrs[target].forEach((opt) => {
           const o = document.createElement("option");
           o.value = opt;
           o.textContent = opt === "" ? "(aucun)" : opt;
@@ -327,7 +386,6 @@ function buildForm(panel, cm, state) {
       input.addEventListener("input", handler);
       input.addEventListener("change", handler);
 
-      // Routage toolbar : on retient le dernier champ texte actif (input/textarea, pas select).
       if (input.tagName !== "SELECT") {
         input.addEventListener("focus", () => {
           state.activeField = { el: input, id, target };
@@ -342,8 +400,6 @@ function buildForm(panel, cm, state) {
   });
 }
 
-// Insere du texte dans un champ (input/textarea) a la position du curseur, puis resync.
-// open/close encadrent la selection (ex. [b] ... [/b]) ; si pas de selection, curseur au milieu.
 function insertIntoField(field, cm, open, close) {
   const el = field.el;
   const start = el.selectionStart != null ? el.selectionStart : el.value.length;
@@ -362,13 +418,10 @@ function insertIntoField(field, cm, open, close) {
   writeTarget(cm, field.id, field.target, el.value);
 }
 
-// Pose un data-pnp-id unique sur chaque element cible qui n'en a pas encore.
-// Reecriture ciblee dans le texte CM (pas de re-serialisation du HTML utilisateur).
 function ensureAnchors(cm) {
   let code = cm.getValue();
   let counter = 0;
   code = code.replace(/<([a-zA-Z][\w-]*)((?:[^<>]*?))>/g, (full, tag, attrs) => {
-    // Declencheurs : data-input, ou attribut sucre text / textarea.
     if (!/\b(data-input|textarea|text)\b/.test(attrs)) return full;
     if (/\bdata-pnp-id\s*=/.test(attrs)) return full;
     counter++;
@@ -377,7 +430,6 @@ function ensureAnchors(cm) {
   if (counter > 0) cm.setValue(code);
 }
 
-// Lit le contenu litteral (brut, non decode) entre la balise ancree et sa fermante.
 function readRawText(cm, id, tagName) {
   const code = cm.getValue();
   const m = matchAnchoredTag(code, id);
@@ -390,20 +442,18 @@ function readRawText(cm, id, tagName) {
   return code.slice(start, closeMatch.index);
 }
 
-// Localise la balise ouvrante portant data-pnp-id="id".
 function matchAnchoredTag(code, id) {
   const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pnp-id="${id}"[^<>]*?)>`);
   return code.match(tagRe);
 }
 
-// Reecriture chirurgicale : localise la balise data-pnp-id="id" et met a jour la cible.
+// Reecriture chirurgicale d'un attribut ou du textContent.
 function writeTarget(cm, id, target, value) {
   let code = cm.getValue();
   const m = matchAnchoredTag(code, id);
   if (!m) return;
 
   if (isTextTarget(target)) {
-    // Contenu brut : on ecrit la valeur telle quelle (BBCode/HTML autorises, pas d'echappement).
     const openTag = m[0];
     const tagName = m[1];
     const start = code.indexOf(openTag) + openTag.length;
@@ -413,7 +463,6 @@ function writeTarget(cm, id, target, value) {
     if (!closeMatch) return;
     code = code.slice(0, start) + value + code.slice(closeMatch.index);
   } else {
-    // Attribut : remplace (ou insere) la valeur, en echappant seulement les guillemets.
     let attrs = m[2];
     const attrRe = new RegExp(`(\\b${target}\\s*=\\s*")[^"]*(")`);
     if (attrRe.test(attrs)) {
@@ -428,7 +477,32 @@ function writeTarget(cm, id, target, value) {
   cm.setCursor(cursor);
 }
 
-// Retire toutes les ancres data-pnp-id du code (avant retour a l'edition / soumission).
+// Operation d'ensemble sur l'attribut class : retire les membres du groupe presents,
+// ajoute les choisis, preserve les classes hors-groupe. N'ecrase jamais tout l'attribut.
+function writeClassGroup(cm, id, groupValues, chosen) {
+  let code = cm.getValue();
+  const m = matchAnchoredTag(code, id);
+  if (!m) return;
+
+  let attrs = m[2];
+  const classRe = /(\bclass\s*=\s*")([^"]*)(")/;
+  const existing = classRe.test(attrs) ? attrs.match(classRe)[2].split(/\s+/).filter(Boolean) : [];
+  // Garde tout ce qui n'appartient pas au groupe, puis ajoute les valeurs choisies.
+  const kept = existing.filter((c) => groupValues.indexOf(c) === -1);
+  const next = kept.concat(chosen).join(" ");
+
+  if (classRe.test(attrs)) {
+    attrs = attrs.replace(classRe, `$1${escapeAttr(next)}$3`);
+  } else {
+    attrs = ` class="${escapeAttr(next)}"` + attrs;
+  }
+  code = code.replace(m[0], `<${m[1]}${attrs}>`);
+
+  const cursor = cm.getCursor();
+  cm.setValue(code);
+  cm.setCursor(cursor);
+}
+
 function stripAnchors(cm) {
   const code = cm.getValue().replace(/\s*data-pnp-id="\d+"/g, "");
   if (code !== cm.getValue()) cm.setValue(code);
@@ -438,17 +512,13 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
-// Enrobe une methode d'insertion de l'instance SCEditor.
-//   - mode formulaire + champ actif : route l'insertion vers le champ, court-circuite le global ;
-//   - sinon : execute l'originale puis le callback (relecture vers CM).
-// Signatures SCEditor : insert(open, close, ...) ; sourceEditorInsertText(open, close).
 function wrapInsert(inst, fnName, state, after) {
   const original = inst[fnName];
   if (typeof original !== "function" || original._pnpWrapped) return;
   const wrapped = function (open, close) {
     if (state.formMode && state.activeField && state.activeField.el) {
       insertIntoField(state.activeField, getCM(), open, close);
-      return; // court-circuite l'insertion globale
+      return;
     }
     const r = original.apply(this, arguments);
     after();
@@ -458,7 +528,6 @@ function wrapInsert(inst, fnName, state, after) {
   inst[fnName] = wrapped;
 }
 
-// Recupere l'instance CM depuis le container SCEditor (un seul editeur par page).
 function getCM() {
   const orig = document.getElementById("text_editor_textarea");
   const container = orig && orig.nextElementSibling;
@@ -480,9 +549,6 @@ function loadCodeMirror(cb) {
   });
 }
 
-// Grammaire mixte BBCode + HTML. Memes roles de couleur pour les deux langages :
-//   tag = crochets/chevrons + nom de balise ; attribute = nom d'attribut ; string = valeur ;
-//   operator = '=' ; comment = <!-- ... -->.
 function defineBBCodeMode() {
   const CM = window.CodeMirror;
   if (CM._pnpBBCodeDefined) return;

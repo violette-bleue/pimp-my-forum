@@ -12,12 +12,20 @@
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
 
    Convention inputs (declaree par l'auteur du template) :
-     data-input="href target text"  -> cibles editables ; "text" = textContent (input)
-     data-input="textarea href"     -> "textarea" = textContent en textarea (contenu long)
-     text        (attribut sucre)   -> equivaut a data-input="text"
-     textarea    (attribut sucre)   -> equivaut a data-input="textarea"
-     data-label="..."               -> en-tete humain du groupe
-     data-label-text="..."          -> intitule du champ texte (defaut "Contenu")
+     Mode simple   : data-input="href target text"  (cibles separees par espaces)
+     Mode groupes  : data-input="(Lien@href) (Cible@target) (@text)"
+                     -> chaque (label@cible) = un champ ; label avant le @, optionnel ;
+                        le label peut contenir virgules, espaces, etc. (tout sauf @ et ')').
+     "text"     -> textContent en input ;  "textarea" -> textContent en textarea (long)
+     text / textarea comme attribut sucre  -> equivalent a data-input="text" / "textarea"
+     data-label="..."       -> en-tete humain du groupe
+     data-label-text="..."  -> intitule du champ texte (compat ; defaut resolu sinon)
+
+   Labels : priorite = label du groupe (label@cible) > data-label-text (texte) >
+            config staff (contextuel "img href" puis simple "href") >
+            dico par defaut du module (idem) > nom brut de l'attribut.
+   Config staff optionnelle, lue defensivement depuis PimpMyPost.Config.
+
    Le champ texte accepte du markup brut (BBCode ET HTML) : son contenu part tel quel
    dans le post, sans echappement. Seules les valeurs d'attributs echappent les guillemets. */
 
@@ -29,6 +37,29 @@ const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/compon
 const SELECT_ATTRS = {
   target: ["", "_blank", "_self", "_parent", "_top"]
 };
+
+// Dico de labels par defaut du module. Cles simples ("href") ou contextuelles ("img href",
+// "a href") : la version contextuelle (prefixee du nom de balise) prime si elle existe.
+const DEFAULT_LABELS = {
+  href: "Lien",
+  "img href": "Lien direct vers l'image",
+  src: "Source",
+  "img src": "Image (URL)",
+  title: "Contenu du tooltip",
+  alt: "Texte alternatif",
+  target: "Cible",
+  text: "Contenu",
+  textarea: "Contenu"
+};
+
+// Lecture defensive de la config staff : PimpMyPost.Config peut ne pas exister.
+function getStaffConfig() {
+  try {
+    return (window.PimpMyPost && window.PimpMyPost.Config) || {};
+  } catch (e) {
+    return {};
+  }
+}
 
 export function init() {
   const $ = window.jQuery;
@@ -165,19 +196,61 @@ function setupForm(host, cm, state) {
   });
 }
 
-// Normalise les cibles editables d'un element.
-//   attribut sucre "text" -> ["text"] ; "textarea" -> ["textarea"]
-//   sinon la liste data-input (qui peut contenir "text" ou "textarea" + attributs).
+// Normalise les cibles editables d'un element -> liste de { target, label } (label null si absent).
+//   attribut sucre "text"/"textarea" -> cette cible seule.
+//   data-input mode groupes  "(Label@cible) (@autre)"  -> parse parentheses + @.
+//   data-input mode simple   "href target text"        -> cibles espacees, label null.
 function parseTargets(el) {
-  if (el.hasAttribute("textarea")) return ["textarea"];
-  if (el.hasAttribute("text")) return ["text"];
+  if (el.hasAttribute("textarea")) return [{ target: "textarea", label: null }];
+  if (el.hasAttribute("text")) return [{ target: "text", label: null }];
+
   const raw = el.getAttribute("data-input") || "";
-  return raw.split(/\s+/).filter(Boolean);
+  if (raw.indexOf("(") !== -1) {
+    // Mode groupes : chaque (contenu) -> label@cible (label optionnel, avant le @).
+    const out = [];
+    const re = /\(([^)]*)\)/g;
+    let m;
+    while ((m = re.exec(raw)) !== null) {
+      const inner = m[1];
+      const at = inner.lastIndexOf("@");
+      let label = null;
+      let target;
+      if (at !== -1) {
+        label = inner.slice(0, at).trim() || null;
+        target = inner.slice(at + 1).trim();
+      } else {
+        target = inner.trim();
+      }
+      if (target) out.push({ target, label });
+    }
+    return out;
+  }
+  // Mode simple.
+  return raw
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((target) => ({ target, label: null }));
 }
 
 // Une cible designe-t-elle le textContent ? (text ou textarea)
 function isTextTarget(t) {
   return t === "text" || t === "textarea";
+}
+
+// Resout le label a afficher pour un champ, selon la priorite documentee en tete de fichier.
+function resolveLabel(target, explicitLabel, tagName, el) {
+  if (explicitLabel) return explicitLabel;
+  if (isTextTarget(target)) {
+    const dlt = el.getAttribute("data-label-text");
+    if (dlt) return dlt;
+  }
+  const staff = getStaffConfig().labels || {};
+  const ctxKey = tagName + " " + target;
+  if (staff[ctxKey]) return staff[ctxKey];
+  if (staff[target]) return staff[target];
+  if (DEFAULT_LABELS[ctxKey]) return DEFAULT_LABELS[ctxKey];
+  if (DEFAULT_LABELS[target]) return DEFAULT_LABELS[target];
+  return target;
 }
 
 // Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
@@ -206,18 +279,16 @@ function buildForm(panel, cm, state) {
     const group = document.createElement("fieldset");
     group.className = "pnp-pmp-group";
 
-    const label = el.getAttribute("data-label");
-    if (label) {
+    const groupLabel = el.getAttribute("data-label");
+    if (groupLabel) {
       const legend = document.createElement("legend");
-      legend.textContent = label;
+      legend.textContent = groupLabel;
       group.appendChild(legend);
     }
 
-    targets.forEach((target) => {
+    targets.forEach(({ target, label }) => {
       const textTarget = isTextTarget(target);
-      const fieldLabel = textTarget
-        ? el.getAttribute("data-label-text") || "Contenu"
-        : target;
+      const fieldLabel = resolveLabel(target, label, tagName, el);
       // Valeur initiale : pour le texte, on lit le contenu BRUT du code (pas le textContent
       // decode par DOMParser) pour eviter toute corruption d'entites au premier aller-retour.
       const initial = textTarget
@@ -284,7 +355,6 @@ function insertIntoField(field, cm, open, close) {
   const c = close || "";
 
   el.value = before + o + selected + c + after;
-  // Repositionne le curseur : apres l'ouvrant si pas de selection, sinon apres le ferme.
   const caret = selected ? start + o.length + selected.length + c.length : start + o.length;
   el.focus();
   el.setSelectionRange(caret, caret);
@@ -377,7 +447,7 @@ function wrapInsert(inst, fnName, state, after) {
   if (typeof original !== "function" || original._pnpWrapped) return;
   const wrapped = function (open, close) {
     if (state.formMode && state.activeField && state.activeField.el) {
-      insertIntoField(state.activeField, inst._pnpCM || getCM(inst), open, close);
+      insertIntoField(state.activeField, getCM(), open, close);
       return; // court-circuite l'insertion globale
     }
     const r = original.apply(this, arguments);
@@ -388,8 +458,8 @@ function wrapInsert(inst, fnName, state, after) {
   inst[fnName] = wrapped;
 }
 
-// Recupere l'instance CM depuis le container SCEditor (pour insertIntoField cote wrapper).
-function getCM(inst) {
+// Recupere l'instance CM depuis le container SCEditor (un seul editeur par page).
+function getCM() {
   const orig = document.getElementById("text_editor_textarea");
   const container = orig && orig.nextElementSibling;
   return container ? container._pnpCM : null;

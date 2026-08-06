@@ -25,34 +25,34 @@
 }
 /* Balises ouvrantes/fermantes : [b] [/b] [url ... ] */
 .cm-s-pnp .cm-tag {
-  color: var(--pnp-color-accent, #d9a441);
+  color: var(--pnp-color-accent);
   font-weight: 600;
 }
 
 /* Nom/valeur d'attribut apres le = : [url=VALEUR] */
 .cm-s-pnp .cm-attribute {
-  color: var(--pnp-color-accent-3, #2f8f8a);
+  color: var(--pnp-color-accent-3);
 }
 
 /* Le signe = lui-meme */
 .cm-s-pnp .cm-operator {
-  color: var(--pnp-color-text, #2b2118);
+  color: var(--pnp-color-text);
   opacity: 0.6;
 }
 
 /* Valeurs entre guillemets */
 .cm-s-pnp .cm-string {
-  color: var(--pnp-color-accent-2, #c1502e);
+  color: var(--pnp-color-accent-2);
 }
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pnp .CodeMirror-cursor {
-  border-left-color: var(--pnp-color-accent-2, #c1502e);
+  border-left-color: var(--pnp-color-accent-2);
 }
-.cm-s-pnp .CodeMirror-selected {
+
   background: rgba(47, 143, 138, 0.18);
 }
 .cm-s-pnp .CodeMirror-gutters {
-  background: var(--pnp-color-bg, #f5efe4);
+  background: var(--pnp-color-bg);
   border-right: 1px solid rgba(43, 33, 24, 0.12);
 }

@@ -10,10 +10,14 @@
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
 
    Convention inputs (declaree par l'auteur du template) :
-     data-input="href target text"  -> cibles editables ; "text" = textContent
-     fillable                       -> sucre pour data-input="text"
+     data-input="href target text"  -> cibles editables ; "text" = textContent (input)
+     data-input="text:area href"    -> "text:area" = textContent en textarea (contenu long)
+     text        (attribut sucre)   -> equivaut a data-input="text"
+     text:area   (attribut sucre)   -> equivaut a data-input="text:area"
      data-label="..."               -> en-tete humain du groupe
-     data-label-text="..."          -> intitule du champ texte (defaut "Contenu") */
+     data-label-text="..."          -> intitule du champ texte (defaut "Contenu")
+   Le champ texte accepte du markup brut (BBCode ET HTML) : son contenu part tel quel
+   dans le post, sans echappement. Seules les valeurs d'attributs echappent les guillemets. */
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
@@ -117,6 +121,9 @@ function setupEditor(container, inst) {
 
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
 
+// Selecteur des elements porteurs d'une cible editable (data-input ou attribut sucre).
+const TARGET_SELECTOR = "[data-input], [text], [text\\:area]";
+
 function setupForm(host, cm) {
   const panel = document.createElement("div");
   panel.className = "pnp-pmp-panel";
@@ -147,11 +154,19 @@ function setupForm(host, cm) {
   });
 }
 
-// Normalise les cibles editables d'un element : fillable -> ["text"], sinon liste data-input.
+// Normalise les cibles editables d'un element.
+//   attribut sucre "text" -> ["text"] ; "text:area" -> ["text:area"]
+//   sinon la liste data-input (qui peut contenir "text" ou "text:area" + attributs).
 function parseTargets(el) {
-  if (el.hasAttribute("fillable")) return ["text"];
+  if (el.hasAttribute("text:area")) return ["text:area"];
+  if (el.hasAttribute("text")) return ["text"];
   const raw = el.getAttribute("data-input") || "";
   return raw.split(/\s+/).filter(Boolean);
+}
+
+// Une cible designe-t-elle le textContent ? (text ou text:area)
+function isTextTarget(t) {
+  return t === "text" || t === "text:area";
 }
 
 // Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
@@ -160,19 +175,20 @@ function buildForm(panel, cm) {
   ensureAnchors(cm);
 
   const doc = new DOMParser().parseFromString(cm.getValue(), "text/html");
-  const els = [...doc.querySelectorAll("[data-input], [fillable]")];
+  const els = [...doc.querySelectorAll(TARGET_SELECTOR)];
 
   if (!els.length) {
     const info = document.createElement("p");
     info.className = "pnp-pmp-empty";
     info.textContent =
-      "Aucun champ a remplir ici. Ajoute data-input=\"...\" ou fillable sur un element du code.";
+      "Aucun champ a remplir ici. Ajoute data-input=\"...\", text ou text:area sur un element.";
     panel.appendChild(info);
     return;
   }
 
   els.forEach((el) => {
     const id = el.getAttribute("data-pnp-id");
+    const tagName = el.tagName.toLowerCase();
     const targets = parseTargets(el);
     if (!targets.length) return;
 
@@ -187,11 +203,15 @@ function buildForm(panel, cm) {
     }
 
     targets.forEach((target) => {
-      const isText = target === "text";
-      const fieldLabel = isText
+      const textTarget = isTextTarget(target);
+      const fieldLabel = textTarget
         ? el.getAttribute("data-label-text") || "Contenu"
         : target;
-      const initial = isText ? el.textContent : el.getAttribute(target) || "";
+      // Valeur initiale : pour le texte, on lit le contenu BRUT du code (pas le textContent
+      // decode par DOMParser) pour eviter toute corruption d'entites au premier aller-retour.
+      const initial = textTarget
+        ? readRawText(cm, id, tagName)
+        : el.getAttribute(target) || "";
 
       const row = document.createElement("label");
       row.className = "pnp-pmp-field";
@@ -201,7 +221,11 @@ function buildForm(panel, cm) {
       row.appendChild(span);
 
       let input;
-      if (!isText && SELECT_ATTRS[target]) {
+      if (target === "text:area") {
+        input = document.createElement("textarea");
+        input.rows = 4;
+        input.value = initial;
+      } else if (!textTarget && SELECT_ATTRS[target]) {
         input = document.createElement("select");
         SELECT_ATTRS[target].forEach((opt) => {
           const o = document.createElement("option");
@@ -234,9 +258,9 @@ function buildForm(panel, cm) {
 function ensureAnchors(cm) {
   let code = cm.getValue();
   let counter = 0;
-  // Pour chaque balise ouvrante portant data-input ou fillable, injecte l'ancre si absente.
   code = code.replace(/<([a-zA-Z][\w-]*)((?:[^<>]*?))>/g, (full, tag, attrs) => {
-    if (!/\b(data-input|fillable)\b/.test(attrs)) return full;
+    // Declencheurs : data-input, ou attribut sucre text / text:area.
+    if (!/\b(data-input|text:area|text)\b/.test(attrs)) return full;
     if (/\bdata-pnp-id\s*=/.test(attrs)) return full;
     counter++;
     return `<${tag}${attrs} data-pnp-id="${counter}">`;
@@ -244,16 +268,33 @@ function ensureAnchors(cm) {
   if (counter > 0) cm.setValue(code);
 }
 
+// Lit le contenu litteral (brut, non decode) entre la balise ancree et sa fermante.
+function readRawText(cm, id, tagName) {
+  const code = cm.getValue();
+  const m = matchAnchoredTag(code, id);
+  if (!m) return "";
+  const start = code.indexOf(m[0]) + m[0].length;
+  const closeRe = new RegExp(`</${tagName}>`, "g");
+  closeRe.lastIndex = start;
+  const closeMatch = closeRe.exec(code);
+  if (!closeMatch) return "";
+  return code.slice(start, closeMatch.index);
+}
+
+// Localise la balise ouvrante portant data-pnp-id="id".
+function matchAnchoredTag(code, id) {
+  const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pnp-id="${id}"[^<>]*?)>`);
+  return code.match(tagRe);
+}
+
 // Reecriture chirurgicale : localise la balise data-pnp-id="id" et met a jour la cible.
 function writeTarget(cm, id, target, value) {
   let code = cm.getValue();
-  // Isole la balise ouvrante portant l'ancre.
-  const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pnp-id="${id}"[^<>]*?)>`);
-  const m = code.match(tagRe);
+  const m = matchAnchoredTag(code, id);
   if (!m) return;
 
-  if (target === "text") {
-    // Remplace le textContent entre la balise ouvrante ancree et sa fermante correspondante.
+  if (isTextTarget(target)) {
+    // Contenu brut : on ecrit la valeur telle quelle (BBCode/HTML autorises, pas d'echappement).
     const openTag = m[0];
     const tagName = m[1];
     const start = code.indexOf(openTag) + openTag.length;
@@ -261,9 +302,9 @@ function writeTarget(cm, id, target, value) {
     closeRe.lastIndex = start;
     const closeMatch = closeRe.exec(code);
     if (!closeMatch) return;
-    code = code.slice(0, start) + escapeText(value) + code.slice(closeMatch.index);
+    code = code.slice(0, start) + value + code.slice(closeMatch.index);
   } else {
-    // Remplace (ou insere) la valeur de l'attribut cible dans la balise ancree.
+    // Attribut : remplace (ou insere) la valeur, en echappant seulement les guillemets.
     let attrs = m[2];
     const attrRe = new RegExp(`(\\b${target}\\s*=\\s*")[^"]*(")`);
     if (attrRe.test(attrs)) {
@@ -286,9 +327,6 @@ function stripAnchors(cm) {
 
 function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
-}
-function escapeText(s) {
-  return String(s).replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // Enrobe une methode de l'instance : execute l'originale puis notre callback.

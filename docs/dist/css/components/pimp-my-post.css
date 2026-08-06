@@ -1,0 +1,82 @@
+/* ==========================================================================
+   components/pimp-my-post.css — habillage du module "Pimp My Post".
+   Deux volets : coloration CodeMirror (theme "pnp") + panneau formulaire assiste.
+   S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
+   car le module peut charger cette CSS avant/independamment du reste.
+   Memes roles de couleur pour BBCode et HTML : une balise reste moutarde
+   qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
+   ========================================================================== */
+
+.CodeMirror.cm-s-pnp {
+  background: var(--pnp-color-bg, #f5efe4);
+  color: var(--pnp-color-text, #2b2118);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: normal;
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: var(--pnp-radius, 12px);
+  height: auto;
+  padding: 4px 2px;
+}
+
+/* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
+.cm-s-pnp .cm-tag {
+  color: var(--pnp-color-accent, #d9a441);
+  font-weight: 600;
+}
+
+/* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
+.cm-s-pnp .cm-attribute {
+  color: var(--pnp-color-accent-3, #2f8f8a);
+}
+
+/* Le signe = lui-meme */
+.cm-s-pnp .cm-operator {
+  color: var(--pnp-color-text, #2b2118);
+  opacity: 0.6;
+}
+
+/* Valeurs entre guillemets */
+.cm-s-pnp .cm-string {
+  color: var(--pnp-color-accent-2, #c1502e);
+}
+
+/* Commentaires HTML <!-- ... --> : discret, atenue et italique */
+.cm-s-pnp .cm-comment {
+  color: var(--pnp-color-text, #2b2118);
+  opacity: 0.45;
+  font-style: italic;
+}
+
+/* Curseur et selection accordes a la palette */
+.cm-s-pnp .CodeMirror-cursor {
+  border-left-color: var(--pnp-color-accent-2, #c1502e);
+}
+.cm-s-pnp .CodeMirror-selected {
+  background: rgba(47, 143, 138, 0.18);
+}
+.cm-s-pnp .CodeMirror-gutters {
+  background: var(--pnp-color-bg, #f5efe4);
+  border-right: 1px solid rgba(43, 33, 24, 0.12);
+}
+
+/* ---- Volet INPUTS : bouton bascule + panneau formulaire ------------------- */
+.pnp-pmp-toggle {
+  display: inline-block;
+  margin: 6px 0;
+  line-height: normal;
+}
+
+.pnp-pmp-panel {
+  background: var(--pnp-color-bg, #f5efe4);
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: var(--pnp-radius, 12px);
+  padding: var(--pnp-gap, 1rem);
+  color: var(--pnp-color-text, #2b2118);
+}
+
+.pnp-pmp-empty {
+  opacity: 0.6;
+  font-style: italic;
+  margin: 0;
+}

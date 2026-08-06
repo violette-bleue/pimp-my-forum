@@ -21,9 +21,12 @@
 
    Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
      labels  : { "href": "...", "img href": "...", ... }
-     selects : { "data-size": ["petit","moyen","grand"], ... }        (menus deroulants)
-     classes : { layout: ["col1","col2"],                              (groupe exclusif)
-                 couleur: { mode:"multi", values:["rouge","bleu"] } }  (groupe multi)
+     selects : { "data-size": ["sm", { value:"lg", label:"Grand" }], ... }
+     classes : { layout: ["col1", { value:"col2", label:"Deux colonnes" }],   (exclusif)
+                 couleur: { mode:"multi", values:["rouge","bleu"] } }          (multi)
+   Partout ou une liste de valeurs est attendue, chaque entree peut etre une string
+   ("val" -> label = val) ou un objet { value, label } (label optionnel, defaut = value).
+   Le "value" est ce qui s'ecrit dans le code ; le "label" est purement d'affichage.
 
    Le champ texte accepte du markup brut (BBCode ET HTML), sans echappement.
    Les valeurs d'attributs echappent seulement les guillemets. */
@@ -59,18 +62,35 @@ function getStaffConfig() {
   }
 }
 
+// Normalise une liste de valeurs (strings et/ou objets) -> [{ value, label }].
+// "val" -> { value:"val", label:"val" } ; { value, label? } -> label defaut = value.
+function normValues(list) {
+  return (list || []).map((item) => {
+    if (item && typeof item === "object") {
+      const value = item.value != null ? String(item.value) : "";
+      const label = item.label != null ? String(item.label) : value;
+      return { value, label };
+    }
+    const s = String(item);
+    return { value: s, label: s };
+  });
+}
+
 // Selects effectifs = defauts du module + config.selects du staff.
 function getSelectAttrs() {
   return Object.assign({}, SELECT_ATTRS, getStaffConfig().selects || {});
 }
 
-// Normalise une entree config.classes[name] -> { mode:"single"|"multi", values:[...] }.
+// Normalise une entree config.classes[name] -> { mode:"single"|"multi", values:[{value,label}] }.
 // Tableau nu -> exclusif (single) ; objet { mode, values } -> tel quel.
 function getClassGroup(name) {
   const raw = (getStaffConfig().classes || {})[name];
   if (!raw) return null;
-  if (Array.isArray(raw)) return { mode: "single", values: raw };
-  return { mode: raw.mode === "multi" ? "multi" : "single", values: raw.values || [] };
+  if (Array.isArray(raw)) return { mode: "single", values: normValues(raw) };
+  return {
+    mode: raw.mode === "multi" ? "multi" : "single",
+    values: normValues(raw.values)
+  };
 }
 
 export function init() {
@@ -238,7 +258,7 @@ function isTextTarget(t) {
   return t === "text" || t === "textarea";
 }
 
-// Cible groupe de classes ? "class--layout" -> { group:"layout" }, sinon null.
+// Cible groupe de classes ? "class--layout" -> "layout", sinon null.
 function classGroupName(target) {
   return target.indexOf("class--") === 0 ? target.slice("class--".length) : null;
 }
@@ -261,6 +281,15 @@ function resolveLabel(target, explicitLabel, tagName, el) {
 // Liste des classes actuelles de l'element (depuis l'attribut class brut).
 function currentClasses(el) {
   return (el.getAttribute("class") || "").split(/\s+/).filter(Boolean);
+}
+
+// Ajoute une <option> a un select.
+function addOption(sel, value, label, selected) {
+  const o = document.createElement("option");
+  o.value = value;
+  o.textContent = label;
+  if (selected) o.selected = true;
+  sel.appendChild(o);
 }
 
 function buildForm(panel, cm, state) {
@@ -309,45 +338,43 @@ function buildForm(panel, cm, state) {
       const grpName = classGroupName(target);
       if (grpName) {
         // --- Groupe de classes (exclusif ou multi) ---
-        const cfg = getClassGroup(grpName);
+        const cfg = getClassGroup(grpName); // values normalisees en [{value,label}]
         if (!cfg) {
           span.textContent = fieldLabel + " (groupe inconnu)";
           group.appendChild(row);
           return;
         }
-        const present = currentClasses(el).filter((c) => cfg.values.indexOf(c) !== -1);
+        const groupVals = cfg.values.map((v) => v.value);
+        const present = currentClasses(el).filter((c) => groupVals.indexOf(c) !== -1);
 
         if (cfg.mode === "multi") {
           const box = document.createElement("span");
           box.className = "pnp-pmp-checks";
-          cfg.values.forEach((val) => {
+          cfg.values.forEach(({ value, label: optLabel }) => {
             const lbl = document.createElement("label");
             lbl.className = "pnp-pmp-check";
             const cb = document.createElement("input");
             cb.type = "checkbox";
-            cb.value = val;
-            cb.checked = present.indexOf(val) !== -1;
+            cb.value = value;
+            cb.checked = present.indexOf(value) !== -1;
             cb.addEventListener("change", () => {
               const chosen = [...box.querySelectorAll("input:checked")].map((c) => c.value);
-              writeClassGroup(cm, id, cfg.values, chosen);
+              writeClassGroup(cm, id, groupVals, chosen);
             });
             lbl.appendChild(cb);
-            lbl.appendChild(document.createTextNode(" " + val));
+            lbl.appendChild(document.createTextNode(" " + optLabel));
             box.appendChild(lbl);
           });
           row.appendChild(box);
         } else {
           const sel = document.createElement("select");
           sel.className = "pnp-pmp-input";
-          [""].concat(cfg.values).forEach((val) => {
-            const o = document.createElement("option");
-            o.value = val;
-            o.textContent = val === "" ? "(aucun)" : val;
-            if (present.indexOf(val) !== -1) o.selected = true;
-            sel.appendChild(o);
+          addOption(sel, "", "(aucun)", present.length === 0);
+          cfg.values.forEach(({ value, label: optLabel }) => {
+            addOption(sel, value, optLabel, present.indexOf(value) !== -1);
           });
           sel.addEventListener("change", () => {
-            writeClassGroup(cm, id, cfg.values, sel.value ? [sel.value] : []);
+            writeClassGroup(cm, id, groupVals, sel.value ? [sel.value] : []);
           });
           row.appendChild(sel);
         }
@@ -368,12 +395,8 @@ function buildForm(panel, cm, state) {
         input.value = initial;
       } else if (!textTarget && selectAttrs[target]) {
         input = document.createElement("select");
-        selectAttrs[target].forEach((opt) => {
-          const o = document.createElement("option");
-          o.value = opt;
-          o.textContent = opt === "" ? "(aucun)" : opt;
-          if (opt === initial) o.selected = true;
-          input.appendChild(o);
+        normValues(selectAttrs[target]).forEach(({ value, label: optLabel }) => {
+          addOption(input, value, value === "" ? "(aucun)" : optLabel, value === initial);
         });
       } else {
         input = document.createElement("input");
@@ -487,7 +510,6 @@ function writeClassGroup(cm, id, groupValues, chosen) {
   let attrs = m[2];
   const classRe = /(\bclass\s*=\s*")([^"]*)(")/;
   const existing = classRe.test(attrs) ? attrs.match(classRe)[2].split(/\s+/).filter(Boolean) : [];
-  // Garde tout ce qui n'appartient pas au groupe, puis ajoute les valeurs choisies.
   const kept = existing.filter((c) => groupValues.indexOf(c) === -1);
   const next = kept.concat(chosen).join(" ");
 

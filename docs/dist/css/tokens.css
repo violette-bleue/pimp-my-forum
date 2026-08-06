@@ -6,19 +6,19 @@
 
 body.pnp-body {
   /* Couleurs */
-  --pnp-color-bg: #f5efe4;          /* crème cassée */
-  --pnp-color-text: #2b2118;        /* brun profond plutôt que noir pur */
-  --pnp-color-accent: #d9a441;      /* moutarde */
-  --pnp-color-accent-2: #c1502e;    /* orange brûlé */
-  --pnp-color-accent-3: #2f8f8a;    /* teal / turquoise */
+  --pnp-color-bg: #f5efe4;          
+  --pnp-color-text: #23182b;        
+  --pnp-color-accent: #6d1af1;      
+  --pnp-color-accent-2: #eed91b;    
+  --pnp-color-accent-3: #c43176;    
 
   /* Typo */
   --pnp-font-display: "Audionugget", sans-serif;
   --pnp-font-body: "Roboto", sans-serif;
 
   /* Layout */
-  --pnp-radius: 12px;
-  --pnp-gap: 1.5rem;
+  --pnp-radius: 0px;
+  --pnp-gap: 5px;
   --pnp-sidebar-width: 220px;
   --pnp-content-max-width: 1200px;
 }

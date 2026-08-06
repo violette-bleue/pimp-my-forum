@@ -1,4 +1,4 @@
-/* modules/sceditor-highlight.js — coloration syntaxique BBCode pour l'editeur SCEditor.
+/* modules/sceditor-highlight.js — coloration syntaxique BBCode + HTML pour l'editeur SCEditor.
    CM est monte HORS du container SCEditor (frere, apres lui) pour echapper a l'interception
    clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
    masque mais nourri via l'API de l'instance (ciblee par ID, marche depuis n'importe ou).
@@ -127,19 +127,37 @@ function loadCodeMirror(cb) {
   });
 }
 
+// Grammaire mixte BBCode + HTML. Memes roles de couleur pour les deux langages :
+//   tag = crochets/chevrons + nom de balise ; attribute = nom d'attribut ; string = valeur ;
+//   operator = '=' ; comment = <!-- ... -->.
 function defineBBCodeMode() {
   const CM = window.CodeMirror;
   if (CM._pnpBBCodeDefined) return;
   CM.defineSimpleMode("pnp-bbcode", {
     start: [
+      // Commentaire HTML (prioritaire pour ne pas confondre <!-- avec une balise)
+      { regex: /<!--/, token: "comment", next: "comment" },
+      // BBCode
       { regex: /\[\/[a-zA-Z0-9*]+\]/, token: "tag" },
-      { regex: /\[[a-zA-Z0-9*]+/, token: "tag", next: "inTag" }
+      { regex: /\[[a-zA-Z0-9*]+/, token: "tag", next: "inTag" },
+      // HTML : balise ouvrante/fermante -> on entre dans l'etat attributs
+      { regex: /<\/?[a-zA-Z][\w-]*/, token: "tag", next: "inHtmlTag" }
     ],
     inTag: [
       { regex: /=/, token: "operator" },
       { regex: /"[^"]*"|'[^']*'/, token: "string" },
       { regex: /\]/, token: "tag", next: "start" },
       { regex: /[^\]=]+/, token: "attribute" }
+    ],
+    inHtmlTag: [
+      { regex: /"[^"]*"|'[^']*'/, token: "string" },
+      { regex: /=/, token: "operator" },
+      { regex: /\/?>/, token: "tag", next: "start" },
+      { regex: /[a-zA-Z-]+/, token: "attribute" }
+    ],
+    comment: [
+      { regex: /.*?-->/, token: "comment", next: "start" },
+      { regex: /.*/, token: "comment" }
     ]
   });
   CM._pnpBBCodeDefined = true;

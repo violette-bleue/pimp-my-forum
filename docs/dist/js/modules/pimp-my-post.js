@@ -22,10 +22,10 @@
      data-freezone[="Titre"]      -> emplacement (et libelle) de la zone de texte libre ;
                                      a defaut, la zone libre ecrit avant la derniere fermeture.
 
-   Zone de texte libre : le contenu saisi vit dans un element custom <pmp-freezone>...</pmp-freezone>
-   (cree a la 1ere saisie). Balise custom volontaire : pas de collision avec le contenu utilisateur
-   (contrairement a un <p> ou un </p> tape par l'utilisateur casserait le reperage), et l'auteur
-   peut la styler librement en CSS. Elle reste dans le code final du post.
+   Zone de texte libre : mini-instance CodeMirror (coloree comme l'editeur principal) dont le
+   contenu vit dans un element custom <pmp-freezone>...</pmp-freezone> (cree a la 1ere saisie).
+   Balise custom volontaire : pas de collision avec le contenu utilisateur, et l'auteur peut la
+   styler librement en CSS. Elle reste dans le code final du post.
 
    Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
      labels  : { "href": "...", "img href": "...", "freezone": "...", ... }
@@ -460,12 +460,13 @@ function buildForm(panel, cm, state) {
     panel.appendChild(group);
   });
 
-  // Zone de texte libre, toujours presente en fin de formulaire.
-  appendFreeTextarea(panel, cm, state);
+  // Zone de texte libre (mini-CM), toujours presente en fin de formulaire.
+  appendFreeEditor(panel, cm, state);
 }
 
-// Champ de texte libre : ecrit dans un <pmp-freezone> unique (cree a la 1ere saisie non vide).
-function appendFreeTextarea(panel, cm, state) {
+// Zone de texte libre : mini-instance CodeMirror editant le contenu de <pmp-freezone>.
+// Coloree comme l'editeur principal ; sync vers le code via writeFreeContent.
+function appendFreeEditor(panel, cm, state) {
   const group = document.createElement("fieldset");
   group.className = "pnp-pmp-group pnp-pmp-free";
 
@@ -474,19 +475,24 @@ function appendFreeTextarea(panel, cm, state) {
   group.appendChild(legend);
 
   const ta = document.createElement("textarea");
-  ta.className = "pnp-pmp-input";
-  ta.rows = 4;
   ta.value = readFreeContent(cm);
-
-  const handler = () => writeFreeContent(cm, ta.value);
-  ta.addEventListener("input", handler);
-  ta.addEventListener("change", handler);
-  ta.addEventListener("focus", () => {
-    state.activeField = { el: ta, id: "__free__", target: "__free__" };
-  });
-
   group.appendChild(ta);
   panel.appendChild(group);
+
+  const freeCm = window.CodeMirror.fromTextArea(ta, {
+    mode: "pnp-bbcode",
+    lineWrapping: true,
+    viewportMargin: Infinity,
+    theme: "pnp"
+  });
+  freeCm.setSize(null, 110);
+  // Rendu correct meme si monte dans un conteneur initialement cache.
+  setTimeout(() => freeCm.refresh(), 0);
+
+  freeCm.on("change", () => writeFreeContent(cm, freeCm.getValue()));
+  freeCm.on("focus", () => {
+    state.activeField = { kind: "cm-free", freeCm };
+  });
 }
 
 // Libelle de la zone libre : data-freezone="Titre" (auteur) > config staff > dico.
@@ -547,26 +553,40 @@ function insertFreeZone(code, block) {
   return code + block;
 }
 
+// Insere du texte a la position du curseur dans le champ actif, puis resync.
+// Gere deux types de champ actif : input/textarea natif (.el) ou mini-CM libre (.freeCm).
 function insertIntoField(field, cm, open, close) {
+  const o = open || "";
+  const c = close || "";
+
+  if (field.kind === "cm-free" && field.freeCm) {
+    const fcm = field.freeCm;
+    const sel = fcm.getSelection();
+    fcm.replaceSelection(o + sel + c);
+    if (!sel) {
+      // curseur entre open et close
+      const pos = fcm.getCursor();
+      fcm.setCursor({ line: pos.line, ch: pos.ch - c.length });
+    }
+    fcm.focus();
+    // le change de replaceSelection declenche deja writeFreeContent
+    return;
+  }
+
   const el = field.el;
+  if (!el) return;
   const start = el.selectionStart != null ? el.selectionStart : el.value.length;
   const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
   const before = el.value.slice(0, start);
   const selected = el.value.slice(start, end);
   const after = el.value.slice(end);
-  const o = open || "";
-  const c = close || "";
 
   el.value = before + o + selected + c + after;
   const caret = selected ? start + o.length + selected.length + c.length : start + o.length;
   el.focus();
   el.setSelectionRange(caret, caret);
 
-  if (field.target === "__free__") {
-    writeFreeContent(cm, el.value);
-  } else {
-    writeTarget(cm, field.id, field.target, el.value);
-  }
+  writeTarget(cm, field.id, field.target, el.value);
 }
 
 function ensureAnchors(cm) {
@@ -667,8 +687,9 @@ function wrapInsert(inst, fnName, state, after) {
   const original = inst[fnName];
   if (typeof original !== "function" || original._pnpWrapped) return;
   const wrapped = function (open, close) {
-    if (state.formMode && state.activeField && state.activeField.el) {
-      insertIntoField(state.activeField, getCM(), open, close);
+    const f = state.activeField;
+    if (state.formMode && f && (f.el || f.freeCm)) {
+      insertIntoField(f, getCM(), open, close);
       return;
     }
     const r = original.apply(this, arguments);

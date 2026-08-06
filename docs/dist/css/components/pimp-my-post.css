@@ -1,8 +1,10 @@
 /* ==========================================================================
-   components/sceditor-highlight.css — habillage CodeMirror (theme "pnp")
-   pour la coloration BBCode de l'editeur source SCEditor.
+   components/pimp-my-post.css — habillage du module "Pimp My Post".
+   Deux volets : coloration CodeMirror (theme "pnp") + panneau formulaire assiste.
    S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
    car le module peut charger cette CSS avant/independamment du reste.
+   Memes roles de couleur pour BBCode et HTML : une balise reste moutarde
+   qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
    ========================================================================== */
 
 .CodeMirror.cm-s-pnp {
@@ -17,26 +19,26 @@
   padding: 4px 2px;
 }
 
-/* Balises ouvrantes/fermantes : [b] [/b] [url ... ] */
+/* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pnp .cm-tag {
-  color: var(--pnp-color-accent);
+  color: var(--pnp-color-accent, #d9a441);
   font-weight: 600;
 }
 
 /* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
 .cm-s-pnp .cm-attribute {
-  color: var(--pnp-color-accent-3);
+  color: var(--pnp-color-accent-3, #2f8f8a);
 }
 
 /* Le signe = lui-meme */
 .cm-s-pnp .cm-operator {
-  color: var(--pnp-color-text);
+  color: var(--pnp-color-text, #2b2118);
   opacity: 0.6;
 }
 
 /* Valeurs entre guillemets */
 .cm-s-pnp .cm-string {
-  color: var(--pnp-color-accent-2);
+  color: var(--pnp-color-accent-2, #c1502e);
 }
 
 /* Commentaires HTML <!-- ... --> : discret, atenue et italique */
@@ -48,13 +50,13 @@
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pnp .CodeMirror-cursor {
-  border-left-color: var(--pnp-color-accent-2);
+  border-left-color: var(--pnp-color-accent-2, #c1502e);
 }
-
+.cm-s-pnp .CodeMirror-selected {
   background: rgba(47, 143, 138, 0.18);
 }
 .cm-s-pnp .CodeMirror-gutters {
-  background: var(--pnp-color-bg);
+  background: var(--pnp-color-bg, #f5efe4);
   border-right: 1px solid rgba(43, 33, 24, 0.12);
 }
 
@@ -77,4 +79,52 @@
   opacity: 0.6;
   font-style: italic;
   margin: 0;
+}
+
+/* Groupe = un element cible (fieldset + legende = data-label) */
+.pnp-pmp-group {
+  border: 1px solid rgba(43, 33, 24, 0.15);
+  border-radius: var(--pnp-radius, 12px);
+  padding: 0.75rem 1rem 1rem;
+  margin: 0 0 1rem;
+}
+.pnp-pmp-group:last-child {
+  margin-bottom: 0;
+}
+.pnp-pmp-group legend {
+  font-weight: 600;
+  color: var(--pnp-color-accent-2, #c1502e);
+  padding: 0 0.4rem;
+}
+
+/* Champ = un couple label + input/select/textarea */
+.pnp-pmp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+}
+.pnp-pmp-field-label {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.pnp-pmp-input {
+  font: inherit;
+  color: var(--pnp-color-text, #2b2118);
+  background: #fff;
+  border: 1px solid rgba(43, 33, 24, 0.25);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  line-height: normal;
+}
+.pnp-pmp-input:focus {
+  outline: none;
+  border-color: var(--pnp-color-accent-3, #2f8f8a);
+  box-shadow: 0 0 0 2px rgba(47, 143, 138, 0.25);
+}
+textarea.pnp-pmp-input {
+  resize: vertical;
+  min-height: 5rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }

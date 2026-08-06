@@ -1,8 +1,10 @@
 /* ==========================================================================
    components/sceditor-highlight.css — habillage CodeMirror (theme "pnp")
-   pour la coloration BBCode de l'editeur source SCEditor.
+   pour la coloration BBCode + HTML de l'editeur source SCEditor.
    S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
    car le module peut charger cette CSS avant/independamment du reste.
+   Memes roles de couleur pour BBCode et HTML : une balise reste moutarde
+   qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
    ========================================================================== */
 
 .CodeMirror.cm-s-pnp {
@@ -17,13 +19,13 @@
   padding: 4px 2px;
 }
 
-/* Balises ouvrantes/fermantes : [b] [/b] [url ... ] */
+/* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pnp .cm-tag {
   color: var(--pnp-color-accent, #d9a441);
   font-weight: 600;
 }
 
-/* Nom/valeur d'attribut apres le = : [url=VALEUR] */
+/* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
 .cm-s-pnp .cm-attribute {
   color: var(--pnp-color-accent-3, #2f8f8a);
 }
@@ -37,6 +39,13 @@
 /* Valeurs entre guillemets */
 .cm-s-pnp .cm-string {
   color: var(--pnp-color-accent-2, #c1502e);
+}
+
+/* Commentaires HTML <!-- ... --> : discret, atenue et italique */
+.cm-s-pnp .cm-comment {
+  color: var(--pnp-color-text, #2b2118);
+  opacity: 0.45;
+  font-style: italic;
 }
 
 /* Curseur et selection accordes a la palette */

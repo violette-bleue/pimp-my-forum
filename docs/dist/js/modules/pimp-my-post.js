@@ -19,9 +19,11 @@
      "text"/"textarea"  -> textContent (input / textarea long) ; aussi en attribut sucre.
      "class--<groupe>"  -> groupe de classes exclusif/multi, valeurs definies en config staff.
      data-label / data-label-text -> en-tete de groupe / intitule du champ texte.
+     data-freezone[="Titre"]      -> emplacement (et libelle) de la zone de texte libre ;
+                                     a defaut, la zone libre ecrit avant la derniere fermeture.
 
    Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
-     labels  : { "href": "...", "img href": "...", ... }
+     labels  : { "href": "...", "img href": "...", "freezone": "...", ... }
      selects : { "data-size": ["sm", { value:"lg", label:"Grand" }], ... }
      classes : { layout: ["col1", { value:"col2", label:"Deux colonnes" }],   (exclusif)
                  couleur: { mode:"multi", values:["rouge","bleu"] } }          (multi)
@@ -54,7 +56,8 @@ const DEFAULT_LABELS = {
   alt: "Texte alternatif",
   target: "Cible",
   text: "Contenu",
-  textarea: "Contenu"
+  textarea: "Contenu",
+  freezone: "Ajout libre"
 };
 
 // Lecture defensive de la config staff : PimpMyPost.Config peut ne pas exister.
@@ -332,9 +335,8 @@ function buildForm(panel, cm, state) {
     const info = document.createElement("p");
     info.className = "pnp-pmp-empty";
     info.textContent =
-      "Aucun champ a remplir ici. Ajoute data-input=\"...\", text ou textarea sur un element.";
+      "Aucun champ balise ici. Tu peux ecrire librement ci-dessous, ou ajouter des data-input dans le code.";
     panel.appendChild(info);
-    return;
   }
 
   const selectAttrs = getSelectAttrs();
@@ -450,6 +452,93 @@ function buildForm(panel, cm, state) {
 
     panel.appendChild(group);
   });
+
+  // Zone de texte libre, toujours presente en fin de formulaire.
+  appendFreeTextarea(panel, cm, state);
+}
+
+// Champ de texte libre : ecrit dans un <p data-pnp-free> unique (cree a la 1ere saisie).
+function appendFreeTextarea(panel, cm, state) {
+  const group = document.createElement("fieldset");
+  group.className = "pnp-pmp-group pnp-pmp-free";
+
+  const legend = document.createElement("legend");
+  legend.textContent = resolveFreeLabel(cm);
+  group.appendChild(legend);
+
+  const ta = document.createElement("textarea");
+  ta.className = "pnp-pmp-input";
+  ta.rows = 4;
+  ta.value = readFreeContent(cm);
+
+  const handler = () => writeFreeContent(cm, ta.value);
+  ta.addEventListener("input", handler);
+  ta.addEventListener("change", handler);
+  ta.addEventListener("focus", () => {
+    state.activeField = { el: ta, id: "__free__", target: "__free__" };
+  });
+
+  group.appendChild(ta);
+  panel.appendChild(group);
+}
+
+// Libelle de la zone libre : data-freezone="Titre" (auteur) > config staff > dico.
+function resolveFreeLabel(cm) {
+  const code = cm.getValue();
+  const m = code.match(/\bdata-freezone\s*=\s*"([^"]*)"/);
+  if (m && m[1].trim()) return m[1].trim();
+  const staff = getStaffConfig().labels || {};
+  return staff.freezone || DEFAULT_LABELS.freezone;
+}
+
+// Lit le contenu actuel du <p data-pnp-free> s'il existe.
+function readFreeContent(cm) {
+  const code = cm.getValue();
+  const m = code.match(/<p\b[^>]*\bdata-pnp-free\b[^>]*>([\s\S]*?)<\/p>/);
+  return m ? m[1] : "";
+}
+
+// Ecrit le contenu de la zone libre. Cree le <p data-pnp-free> a la 1ere saisie non vide,
+// a l'emplacement voulu (data-freezone en priorite, sinon avant la derniere fermeture).
+function writeFreeContent(cm, value) {
+  let code = cm.getValue();
+  const existing = /<p\b[^>]*\bdata-pnp-free\b[^>]*>[\s\S]*?<\/p>/;
+
+  if (existing.test(code)) {
+    code = code.replace(existing, `<p data-pnp-free>${value}</p>`);
+  } else {
+    if (!value) return; // rien a ecrire, on ne cree pas de <p> vide
+    const p = `<p data-pnp-free>${value}</p>`;
+    code = insertFreeParagraph(code, p);
+  }
+  const cursor = cm.getCursor();
+  cm.setValue(code);
+  cm.setCursor(cursor);
+}
+
+// Insere le paragraphe libre : dans data-freezone si present, sinon avant la derniere
+// sequence de balises fermantes (heuristique de repli).
+function insertFreeParagraph(code, p) {
+  // 1. data-freezone : on insere juste avant la fermeture de l'element porteur.
+  const fz = code.match(/<([a-zA-Z][\w-]*)\b[^>]*\bdata-freezone\b[^>]*>/);
+  if (fz) {
+    const tagName = fz[1];
+    const openEnd = code.indexOf(fz[0]) + fz[0].length;
+    const closeRe = new RegExp(`</${tagName}>`, "g");
+    closeRe.lastIndex = openEnd;
+    const close = closeRe.exec(code);
+    if (close) {
+      return code.slice(0, close.index) + p + code.slice(close.index);
+    }
+  }
+  // 2. Repli : avant la derniere sequence de balises fermantes en fin de code.
+  const tail = code.match(/((?:\s*<\/[a-zA-Z][\w-]*>)+)\s*$/);
+  if (tail) {
+    const idx = code.lastIndexOf(tail[1]);
+    return code.slice(0, idx) + p + code.slice(idx);
+  }
+  // 3. Dernier repli : a la toute fin.
+  return code + p;
 }
 
 function insertIntoField(field, cm, open, close) {
@@ -467,7 +556,11 @@ function insertIntoField(field, cm, open, close) {
   el.focus();
   el.setSelectionRange(caret, caret);
 
-  writeTarget(cm, field.id, field.target, el.value);
+  if (field.target === "__free__") {
+    writeFreeContent(cm, el.value);
+  } else {
+    writeTarget(cm, field.id, field.target, el.value);
+  }
 }
 
 function ensureAnchors(cm) {
@@ -554,8 +647,11 @@ function writeClassGroup(cm, id, groupValues, chosen) {
   cm.setCursor(cursor);
 }
 
+// Retire les ancres data-pnp-id ET l'ancre data-pnp-free (le <p> et son contenu restent).
 function stripAnchors(cm) {
-  const code = cm.getValue().replace(/\s*data-pnp-id="\d+"/g, "");
+  let code = cm.getValue();
+  code = code.replace(/\s*data-pnp-id="\d+"/g, "");
+  code = code.replace(/(<p\b[^>]*?)\s*data-pnp-free\b([^>]*>)/g, "$1$2");
   if (code !== cm.getValue()) cm.setValue(code);
 }
 

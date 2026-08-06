@@ -11,9 +11,9 @@
 
    Convention inputs (declaree par l'auteur du template) :
      data-input="href target text"  -> cibles editables ; "text" = textContent (input)
-     data-input="text:area href"    -> "text:area" = textContent en textarea (contenu long)
+     data-input="textarea href"     -> "textarea" = textContent en textarea (contenu long)
      text        (attribut sucre)   -> equivaut a data-input="text"
-     text:area   (attribut sucre)   -> equivaut a data-input="text:area"
+     textarea    (attribut sucre)   -> equivaut a data-input="textarea"
      data-label="..."               -> en-tete humain du groupe
      data-label-text="..."          -> intitule du champ texte (defaut "Contenu")
    Le champ texte accepte du markup brut (BBCode ET HTML) : son contenu part tel quel
@@ -122,7 +122,9 @@ function setupEditor(container, inst) {
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
 
 // Selecteur des elements porteurs d'une cible editable (data-input ou attribut sucre).
-const TARGET_SELECTOR = "[data-input], [text], [text\\:area]";
+// NB : "textarea" est ici un ATTRIBUT (<div textarea>), pas la balise <textarea> ;
+// [textarea] cible bien les elements portant cet attribut, aucune collision.
+const TARGET_SELECTOR = "[data-input], [text], [textarea]";
 
 function setupForm(host, cm) {
   const panel = document.createElement("div");
@@ -155,18 +157,18 @@ function setupForm(host, cm) {
 }
 
 // Normalise les cibles editables d'un element.
-//   attribut sucre "text" -> ["text"] ; "text:area" -> ["text:area"]
-//   sinon la liste data-input (qui peut contenir "text" ou "text:area" + attributs).
+//   attribut sucre "text" -> ["text"] ; "textarea" -> ["textarea"]
+//   sinon la liste data-input (qui peut contenir "text" ou "textarea" + attributs).
 function parseTargets(el) {
-  if (el.hasAttribute("text:area")) return ["text:area"];
+  if (el.hasAttribute("textarea")) return ["textarea"];
   if (el.hasAttribute("text")) return ["text"];
   const raw = el.getAttribute("data-input") || "";
   return raw.split(/\s+/).filter(Boolean);
 }
 
-// Une cible designe-t-elle le textContent ? (text ou text:area)
+// Une cible designe-t-elle le textContent ? (text ou textarea)
 function isTextTarget(t) {
-  return t === "text" || t === "text:area";
+  return t === "text" || t === "textarea";
 }
 
 // Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
@@ -181,7 +183,7 @@ function buildForm(panel, cm) {
     const info = document.createElement("p");
     info.className = "pnp-pmp-empty";
     info.textContent =
-      "Aucun champ a remplir ici. Ajoute data-input=\"...\", text ou text:area sur un element.";
+      "Aucun champ a remplir ici. Ajoute data-input=\"...\", text ou textarea sur un element.";
     panel.appendChild(info);
     return;
   }
@@ -221,7 +223,7 @@ function buildForm(panel, cm) {
       row.appendChild(span);
 
       let input;
-      if (target === "text:area") {
+      if (target === "textarea") {
         input = document.createElement("textarea");
         input.rows = 4;
         input.value = initial;
@@ -259,8 +261,8 @@ function ensureAnchors(cm) {
   let code = cm.getValue();
   let counter = 0;
   code = code.replace(/<([a-zA-Z][\w-]*)((?:[^<>]*?))>/g, (full, tag, attrs) => {
-    // Declencheurs : data-input, ou attribut sucre text / text:area.
-    if (!/\b(data-input|text:area|text)\b/.test(attrs)) return full;
+    // Declencheurs : data-input, ou attribut sucre text / textarea.
+    if (!/\b(data-input|textarea|text)\b/.test(attrs)) return full;
     if (/\bdata-pnp-id\s*=/.test(attrs)) return full;
     counter++;
     return `<${tag}${attrs} data-pnp-id="${counter}">`;

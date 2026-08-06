@@ -2,7 +2,9 @@
    CM est monte HORS du container SCEditor (frere, apres lui) pour echapper a l'interception
    clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
    masque mais nourri via l'API de l'instance (ciblee par ID, marche depuis n'importe ou).
-   Sync bidirectionnel : frappe CM -> setSourceEditorValue ; toolbar FA (insert) -> relit vers CM.
+   Lecture/ecriture via inst.val() : renvoie du BBCode canonique propre (getSourceEditorValue
+   renvoyait une representation HTML intermediaire, d'ou des <div>/entites parasites).
+   Sync bidirectionnel : frappe CM -> val(x) ; toolbar FA (insert) -> relit val() vers CM.
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois). */
 
 const CM_VERSION = "5.65.16";
@@ -36,7 +38,7 @@ function setupEditor(container, inst) {
   const host = document.createElement("div");
   host.className = "pnp-cm-host";
   const shadow = document.createElement("textarea");
-  shadow.value = inst.getSourceEditorValue();
+  shadow.value = inst.val();
   host.appendChild(shadow);
   container.parentNode.insertBefore(host, container.nextSibling);
 
@@ -58,7 +60,7 @@ function setupEditor(container, inst) {
   cm.on("change", () => {
     if (syncing) return;
     syncing = true;
-    inst.setSourceEditorValue(cm.getValue());
+    inst.val(cm.getValue());
     if (inst.updateOriginal) inst.updateOriginal();
     syncing = false;
   });
@@ -67,7 +69,7 @@ function setupEditor(container, inst) {
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
-    const v = inst.getSourceEditorValue();
+    const v = inst.val();
     if (v !== cm.getValue()) {
       const pos = cm.getCursor();
       cm.setValue(v);
@@ -82,7 +84,7 @@ function setupEditor(container, inst) {
   const syncVisibility = () => {
     if (container.classList.contains("sourceMode")) {
       syncing = true;
-      cm.setValue(inst.getSourceEditorValue());
+      cm.setValue(inst.val());
       syncing = false;
       host.style.display = "";
       cm.refresh();

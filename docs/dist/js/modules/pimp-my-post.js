@@ -9,6 +9,7 @@
    Sync bidirectionnel : frappe CM -> val(x) ; toolbar FA (insert) -> relit val() vers CM.
    En mode formulaire, la toolbar est routee vers le dernier champ PMP actif (a la position
    du curseur) au lieu du contenu global.
+   Le dernier mode choisi (code/form) est memorise en localStorage et reapplique a l'ouverture.
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
 
    Convention inputs (declaree par l'auteur du template) :
@@ -35,6 +36,9 @@ const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
 const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/pimp-my-post.css";
 
+// Cle localStorage du dernier mode choisi ("form" | "code").
+const MODE_KEY = "pnp-pmp-mode";
+
 // Attributs rendus en menu deroulant par defaut ("" = option vide). Fusionnes avec config.selects.
 const SELECT_ATTRS = {
   target: ["", "_blank", "_self", "_parent", "_top"]
@@ -59,6 +63,22 @@ function getStaffConfig() {
     return (window.PimpMyPost && window.PimpMyPost.Config) || {};
   } catch (e) {
     return {};
+  }
+}
+
+// Memo du mode (localStorage, defensif : navigation privee stricte, storage bloque...).
+function loadMode() {
+  try {
+    return localStorage.getItem(MODE_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+function saveMode(mode) {
+  try {
+    localStorage.setItem(MODE_KEY, mode);
+  } catch (e) {
+    /* storage indisponible : on ignore, le module reste fonctionnel */
   }
 }
 
@@ -205,9 +225,12 @@ function setupForm(host, cm, state) {
   toggle.textContent = "Pimp My Post";
   host.parentNode.insertBefore(toggle, host);
 
-  toggle.addEventListener("click", () => {
-    state.formMode = !state.formMode;
-    if (state.formMode) {
+  // Applique un mode (form ou code) : bascule affichage + libelle du bouton. Utilise par le
+  // clic et par la restauration du memo a l'ouverture. persist=false pour la restauration
+  // initiale (inutile de reecrire ce qu'on vient de lire).
+  const applyMode = (showForm, persist) => {
+    state.formMode = showForm;
+    if (showForm) {
       buildForm(panel, cm, state);
       host.style.display = "none";
       panel.style.display = "";
@@ -220,7 +243,13 @@ function setupForm(host, cm, state) {
       cm.refresh();
       toggle.textContent = "Pimp My Post";
     }
-  });
+    if (persist) saveMode(showForm ? "form" : "code");
+  };
+
+  toggle.addEventListener("click", () => applyMode(!state.formMode, true));
+
+  // Restauration du dernier mode memorise (form ouvert meme si aucun champ, par choix).
+  if (loadMode() === "form") applyMode(true, false);
 }
 
 // Normalise les cibles editables -> liste de { target, label } (label null si absent).

@@ -19,6 +19,11 @@ const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
 const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/pimp-my-post.css";
 
+// Attributs rendus en menu deroulant, avec leurs valeurs proposees ("" = option vide).
+const SELECT_ATTRS = {
+  target: ["", "_blank", "_self", "_parent", "_top"]
+};
+
 export function init() {
   const $ = window.jQuery;
   if (!$ || !$.fn.sceditor) return;
@@ -110,9 +115,8 @@ function setupEditor(container, inst) {
   setupForm(host, cm);
 }
 
-/* ---- Volet INPUTS (Pimp My Post) ------------------------------------------
-   Squelette : detection, bascule, passerelle CM. Le parsing data-input et la
-   generation des champs arrivent a l'etape suivante. */
+/* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
+
 function setupForm(host, cm) {
   const panel = document.createElement("div");
   panel.className = "pnp-pmp-panel";
@@ -134,6 +138,7 @@ function setupForm(host, cm) {
       panel.style.display = "";
       toggle.textContent = "\u2190 Revenir au code";
     } else {
+      stripAnchors(cm); // retire les data-pnp-id avant de rendre la main au code
       host.style.display = "";
       panel.style.display = "none";
       cm.refresh();
@@ -142,12 +147,148 @@ function setupForm(host, cm) {
   });
 }
 
+// Normalise les cibles editables d'un element : fillable -> ["text"], sinon liste data-input.
+function parseTargets(el) {
+  if (el.hasAttribute("fillable")) return ["text"];
+  const raw = el.getAttribute("data-input") || "";
+  return raw.split(/\s+/).filter(Boolean);
+}
+
+// Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
 function buildForm(panel, cm) {
   panel.innerHTML = "";
-  const info = document.createElement("p");
-  info.className = "pnp-pmp-empty";
-  info.textContent = "(squelette) Les champs generes a partir des data-input apparaitront ici.";
-  panel.appendChild(info);
+  ensureAnchors(cm);
+
+  const doc = new DOMParser().parseFromString(cm.getValue(), "text/html");
+  const els = [...doc.querySelectorAll("[data-input], [fillable]")];
+
+  if (!els.length) {
+    const info = document.createElement("p");
+    info.className = "pnp-pmp-empty";
+    info.textContent =
+      "Aucun champ a remplir ici. Ajoute data-input=\"...\" ou fillable sur un element du code.";
+    panel.appendChild(info);
+    return;
+  }
+
+  els.forEach((el) => {
+    const id = el.getAttribute("data-pnp-id");
+    const targets = parseTargets(el);
+    if (!targets.length) return;
+
+    const group = document.createElement("fieldset");
+    group.className = "pnp-pmp-group";
+
+    const label = el.getAttribute("data-label");
+    if (label) {
+      const legend = document.createElement("legend");
+      legend.textContent = label;
+      group.appendChild(legend);
+    }
+
+    targets.forEach((target) => {
+      const isText = target === "text";
+      const fieldLabel = isText
+        ? el.getAttribute("data-label-text") || "Contenu"
+        : target;
+      const initial = isText ? el.textContent : el.getAttribute(target) || "";
+
+      const row = document.createElement("label");
+      row.className = "pnp-pmp-field";
+      const span = document.createElement("span");
+      span.className = "pnp-pmp-field-label";
+      span.textContent = fieldLabel;
+      row.appendChild(span);
+
+      let input;
+      if (!isText && SELECT_ATTRS[target]) {
+        input = document.createElement("select");
+        SELECT_ATTRS[target].forEach((opt) => {
+          const o = document.createElement("option");
+          o.value = opt;
+          o.textContent = opt === "" ? "(aucun)" : opt;
+          if (opt === initial) o.selected = true;
+          input.appendChild(o);
+        });
+      } else {
+        input = document.createElement("input");
+        input.type = "text";
+        input.value = initial;
+      }
+      input.className = "pnp-pmp-input";
+
+      const handler = () => writeTarget(cm, id, target, input.value);
+      input.addEventListener("input", handler);
+      input.addEventListener("change", handler);
+
+      row.appendChild(input);
+      group.appendChild(row);
+    });
+
+    panel.appendChild(group);
+  });
+}
+
+// Pose un data-pnp-id unique sur chaque element cible qui n'en a pas encore.
+// Reecriture ciblee dans le texte CM (pas de re-serialisation du HTML utilisateur).
+function ensureAnchors(cm) {
+  let code = cm.getValue();
+  let counter = 0;
+  // Pour chaque balise ouvrante portant data-input ou fillable, injecte l'ancre si absente.
+  code = code.replace(/<([a-zA-Z][\w-]*)((?:[^<>]*?))>/g, (full, tag, attrs) => {
+    if (!/\b(data-input|fillable)\b/.test(attrs)) return full;
+    if (/\bdata-pnp-id\s*=/.test(attrs)) return full;
+    counter++;
+    return `<${tag}${attrs} data-pnp-id="${counter}">`;
+  });
+  if (counter > 0) cm.setValue(code);
+}
+
+// Reecriture chirurgicale : localise la balise data-pnp-id="id" et met a jour la cible.
+function writeTarget(cm, id, target, value) {
+  let code = cm.getValue();
+  // Isole la balise ouvrante portant l'ancre.
+  const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pnp-id="${id}"[^<>]*?)>`);
+  const m = code.match(tagRe);
+  if (!m) return;
+
+  if (target === "text") {
+    // Remplace le textContent entre la balise ouvrante ancree et sa fermante correspondante.
+    const openTag = m[0];
+    const tagName = m[1];
+    const start = code.indexOf(openTag) + openTag.length;
+    const closeRe = new RegExp(`</${tagName}>`, "g");
+    closeRe.lastIndex = start;
+    const closeMatch = closeRe.exec(code);
+    if (!closeMatch) return;
+    code = code.slice(0, start) + escapeText(value) + code.slice(closeMatch.index);
+  } else {
+    // Remplace (ou insere) la valeur de l'attribut cible dans la balise ancree.
+    let attrs = m[2];
+    const attrRe = new RegExp(`(\\b${target}\\s*=\\s*")[^"]*(")`);
+    if (attrRe.test(attrs)) {
+      attrs = attrs.replace(attrRe, `$1${escapeAttr(value)}$2`);
+    } else {
+      attrs = ` ${target}="${escapeAttr(value)}"` + attrs;
+    }
+    code = code.replace(m[0], `<${m[1]}${attrs}>`);
+  }
+  const cursor = cm.getCursor();
+  cm.setValue(code);
+  cm.setCursor(cursor);
+}
+
+// Retire toutes les ancres data-pnp-id du code (avant retour a l'edition / soumission).
+function stripAnchors(cm) {
+  const code = cm.getValue().replace(/\s*data-pnp-id="\d+"/g, "");
+  if (code !== cm.getValue()) cm.setValue(code);
+}
+
+function escapeAttr(s) {
+  return String(s).replace(/"/g, "&quot;");
+}
+function escapeText(s) {
+  return String(s).replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // Enrobe une methode de l'instance : execute l'originale puis notre callback.

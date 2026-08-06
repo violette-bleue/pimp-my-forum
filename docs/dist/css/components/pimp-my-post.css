@@ -11,7 +11,7 @@
   background: var(--pnp-color-bg, #f5efe4);
   color: var(--pnp-color-text, #2b2118);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  font-size: 0.9rem;
+font-size: inherit;
   line-height: normal;
   border: 1px solid rgba(43, 33, 24, 0.15);
   border-radius: var(--pnp-radius, 12px);

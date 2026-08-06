@@ -1,6 +1,7 @@
-/* modules/sceditor-highlight.js — coloration syntaxique BBCode dans l'editeur source SCEditor.
-   Approche shadow-sync decouplee : CodeMirror tourne sur SON PROPRE textarea (libre cote clavier),
-   le textarea source natif de SCEditor est masque mais nourri via l'API de l'instance.
+/* modules/sceditor-highlight.js — coloration syntaxique BBCode pour l'editeur SCEditor.
+   CM est monte HORS du container SCEditor (frere, apres lui) pour echapper a l'interception
+   clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
+   masque mais nourri via l'API de l'instance (ciblee par ID, marche depuis n'importe ou).
    Sync bidirectionnel : frappe CM -> setSourceEditorValue ; toolbar FA (insert) -> relit vers CM.
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois). */
 
@@ -27,17 +28,21 @@ export function init() {
 }
 
 function setupEditor(container, inst) {
-  const sourceTextarea = container.querySelector("textarea");
-  if (!sourceTextarea || sourceTextarea._pnpCM) return;
+  if (container._pnpDone) return; // garde anti double-init sur le container lui-meme
+  container._pnpDone = true;
 
-  // 1. Notre propre textarea, insere juste apres le natif. CM montera dessus.
+  // 1. Wrapper HORS du container SCEditor (frere juste apres) : hors de portee de
+  //    l'interception clavier qui vit dans le sous-arbre du container.
+  const host = document.createElement("div");
+  host.className = "pnp-cm-host";
   const shadow = document.createElement("textarea");
-  shadow.className = "pnp-cm-shadow";
   shadow.value = inst.getSourceEditorValue();
-  sourceTextarea.parentNode.insertBefore(shadow, sourceTextarea.nextSibling);
+  host.appendChild(shadow);
+  container.parentNode.insertBefore(host, container.nextSibling);
 
-  // 2. On masque le textarea source natif (garde vivant, jamais retire).
-  sourceTextarea.style.display = "none";
+  // 2. Masque le textarea source natif du container (garde la toolbar visible/utilisable).
+  const sourceTextarea = container.querySelector("textarea");
+  if (sourceTextarea) sourceTextarea.style.display = "none";
 
   const cm = window.CodeMirror.fromTextArea(shadow, {
     mode: "pnp-bbcode",
@@ -45,11 +50,11 @@ function setupEditor(container, inst) {
     viewportMargin: Infinity,
     theme: "pnp"
   });
-  sourceTextarea._pnpCM = cm;
+  container._pnpCM = cm;
 
-  let syncing = false; // garde anti-boucle entre les deux sens
+  let syncing = false;
 
-  // 3. Sens CM -> SCEditor : chaque edition clavier pousse vers le champ POST.
+  // 3. CM -> champ POST : chaque edition clavier pousse via l'API (ciblee par ID).
   cm.on("change", () => {
     if (syncing) return;
     syncing = true;
@@ -58,7 +63,7 @@ function setupEditor(container, inst) {
     syncing = false;
   });
 
-  // 4. Sens SCEditor -> CM : la toolbar FA insere via ces methodes. On relit apres coup.
+  // 4. Toolbar FA -> CM : les boutons inserent via ces methodes. On relit apres coup.
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
@@ -73,17 +78,16 @@ function setupEditor(container, inst) {
   wrapInsert(inst, "sourceEditorInsertText", pullIntoCM);
   wrapInsert(inst, "insert", pullIntoCM);
 
-  // 5. Bascule source <-> WYSIWYG : suit la classe du container.
-  const wrapper = cm.getWrapperElement();
+  // 5. Bascule source <-> WYSIWYG : CM visible seulement en sourceMode.
   const syncVisibility = () => {
     if (container.classList.contains("sourceMode")) {
       syncing = true;
       cm.setValue(inst.getSourceEditorValue());
       syncing = false;
-      wrapper.style.display = "";
+      host.style.display = "";
       cm.refresh();
     } else {
-      wrapper.style.display = "none";
+      host.style.display = "none";
     }
   };
   syncVisibility();

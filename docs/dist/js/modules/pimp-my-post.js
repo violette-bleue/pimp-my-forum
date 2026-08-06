@@ -7,6 +7,8 @@
    clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
    masque mais nourri via inst.val() (BBCode canonique propre, ciblee par ID).
    Sync bidirectionnel : frappe CM -> val(x) ; toolbar FA (insert) -> relit val() vers CM.
+   En mode formulaire, la toolbar est routee vers le dernier champ PMP actif (a la position
+   du curseur) au lieu du contenu global.
    CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
 
    Convention inputs (declaree par l'auteur du template) :
@@ -50,6 +52,10 @@ function setupEditor(container, inst) {
   if (container._pnpDone) return; // garde anti double-init
   container._pnpDone = true;
 
+  // Etat partage entre les volets (mode courant + champ PMP actif pour le routage toolbar).
+  const state = { formMode: false, activeField: null };
+  container._pnpState = state;
+
   // 1. Wrapper HORS du container SCEditor (frere juste apres) : hors de portee de
   //    l'interception clavier qui vit dans le sous-arbre du container.
   const host = document.createElement("div");
@@ -82,7 +88,10 @@ function setupEditor(container, inst) {
     syncing = false;
   });
 
-  // 4. Toolbar FA -> CM : les boutons inserent via ces methodes. On relit apres coup.
+  // 4. Toolbar FA. Deux comportements selon le mode :
+  //    - mode code : insertion globale puis relecture vers CM (comportement historique) ;
+  //    - mode formulaire : on route l'insertion vers le champ PMP actif et on court-circuite
+  //      l'insertion globale (sinon le BBCode atterrit hors du champ, a la fin du contenu).
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
@@ -94,8 +103,8 @@ function setupEditor(container, inst) {
     }
     syncing = false;
   };
-  wrapInsert(inst, "sourceEditorInsertText", pullIntoCM);
-  wrapInsert(inst, "insert", pullIntoCM);
+  wrapInsert(inst, "sourceEditorInsertText", state, pullIntoCM);
+  wrapInsert(inst, "insert", state, pullIntoCM);
 
   // 5. Bascule source <-> WYSIWYG : CM visible seulement en sourceMode.
   const syncVisibility = () => {
@@ -116,7 +125,7 @@ function setupEditor(container, inst) {
   });
 
   // 6. Volet INPUTS : bouton bascule code <-> formulaire assiste.
-  setupForm(host, cm);
+  setupForm(host, cm, state);
 }
 
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
@@ -126,7 +135,7 @@ function setupEditor(container, inst) {
 // [textarea] cible bien les elements portant cet attribut, aucune collision.
 const TARGET_SELECTOR = "[data-input], [text], [textarea]";
 
-function setupForm(host, cm) {
+function setupForm(host, cm, state) {
   const panel = document.createElement("div");
   panel.className = "pnp-pmp-panel";
   panel.style.display = "none";
@@ -138,15 +147,15 @@ function setupForm(host, cm) {
   toggle.textContent = "Pimp My Post";
   host.parentNode.insertBefore(toggle, host);
 
-  let formMode = false;
   toggle.addEventListener("click", () => {
-    formMode = !formMode;
-    if (formMode) {
-      buildForm(panel, cm);
+    state.formMode = !state.formMode;
+    if (state.formMode) {
+      buildForm(panel, cm, state);
       host.style.display = "none";
       panel.style.display = "";
       toggle.textContent = "\u2190 Revenir au code";
     } else {
+      state.activeField = null;
       stripAnchors(cm); // retire les data-pnp-id avant de rendre la main au code
       host.style.display = "";
       panel.style.display = "none";
@@ -172,7 +181,7 @@ function isTextTarget(t) {
 }
 
 // Construit le formulaire : pose les ancres, parse, genere un groupe de champs par element.
-function buildForm(panel, cm) {
+function buildForm(panel, cm, state) {
   panel.innerHTML = "";
   ensureAnchors(cm);
 
@@ -247,12 +256,40 @@ function buildForm(panel, cm) {
       input.addEventListener("input", handler);
       input.addEventListener("change", handler);
 
+      // Routage toolbar : on retient le dernier champ texte actif (input/textarea, pas select).
+      if (input.tagName !== "SELECT") {
+        input.addEventListener("focus", () => {
+          state.activeField = { el: input, id, target };
+        });
+      }
+
       row.appendChild(input);
       group.appendChild(row);
     });
 
     panel.appendChild(group);
   });
+}
+
+// Insere du texte dans un champ (input/textarea) a la position du curseur, puis resync.
+// open/close encadrent la selection (ex. [b] ... [/b]) ; si pas de selection, curseur au milieu.
+function insertIntoField(field, cm, open, close) {
+  const el = field.el;
+  const start = el.selectionStart != null ? el.selectionStart : el.value.length;
+  const end = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+  const before = el.value.slice(0, start);
+  const selected = el.value.slice(start, end);
+  const after = el.value.slice(end);
+  const o = open || "";
+  const c = close || "";
+
+  el.value = before + o + selected + c + after;
+  // Repositionne le curseur : apres l'ouvrant si pas de selection, sinon apres le ferme.
+  const caret = selected ? start + o.length + selected.length + c.length : start + o.length;
+  el.focus();
+  el.setSelectionRange(caret, caret);
+
+  writeTarget(cm, field.id, field.target, el.value);
 }
 
 // Pose un data-pnp-id unique sur chaque element cible qui n'en a pas encore.
@@ -331,17 +368,31 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
-// Enrobe une methode de l'instance : execute l'originale puis notre callback.
-function wrapInsert(inst, fnName, after) {
+// Enrobe une methode d'insertion de l'instance SCEditor.
+//   - mode formulaire + champ actif : route l'insertion vers le champ, court-circuite le global ;
+//   - sinon : execute l'originale puis le callback (relecture vers CM).
+// Signatures SCEditor : insert(open, close, ...) ; sourceEditorInsertText(open, close).
+function wrapInsert(inst, fnName, state, after) {
   const original = inst[fnName];
   if (typeof original !== "function" || original._pnpWrapped) return;
-  const wrapped = function () {
+  const wrapped = function (open, close) {
+    if (state.formMode && state.activeField && state.activeField.el) {
+      insertIntoField(state.activeField, inst._pnpCM || getCM(inst), open, close);
+      return; // court-circuite l'insertion globale
+    }
     const r = original.apply(this, arguments);
     after();
     return r;
   };
   wrapped._pnpWrapped = true;
   inst[fnName] = wrapped;
+}
+
+// Recupere l'instance CM depuis le container SCEditor (pour insertIntoField cote wrapper).
+function getCM(inst) {
+  const orig = document.getElementById("text_editor_textarea");
+  const container = orig && orig.nextElementSibling;
+  return container ? container._pnpCM : null;
 }
 
 function loadCodeMirror(cb) {

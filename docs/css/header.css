@@ -12,7 +12,7 @@
   width  : auto;
 }
 
-.pmf-site-desc__title {
+.pmf-site-desc__title h1 {
   font-family    : var(--font-display);
   color          : transparent;
   font-size      : 190px;
@@ -22,7 +22,7 @@
   background-clip: text;
   width          : fit-content;
 } 
-div#pmf-site-title::before {
+div#pmf-site-title h1::before {
     content: 'PIMP MY FORUM';
     position: absolute;
     background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
@@ -31,7 +31,7 @@ div#pmf-site-title::before {
     mix-blend-mode: color;
     z-index: 2;
 }
-div#pmf-site-title::after {
+div#pmf-site-title h1::after {
     content: 'PIMP MY FORUM';
     position: absolute;
     z-index: 2;

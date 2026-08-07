@@ -1,5 +1,9 @@
 # pimp my forum
 
+lancement v1.0
+☐ systeme de j'aime
+☐ design
+☐ pm post / toolbar / navbar
 
 modules standalone : 
 ☐ pimp my design

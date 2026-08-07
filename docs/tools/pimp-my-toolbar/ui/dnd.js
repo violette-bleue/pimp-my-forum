@@ -5,26 +5,15 @@
    l'apercu est reconstruit depuis l'etat. L'etat reste la source de verite unique,
    donc l'apercu et le code genere ne peuvent pas diverger.
 
-   Deux mouvements :
-     - reordonner dans un groupe  -> recalcul des order du groupe
-     - vers la reserve            -> hidden = true
-     - depuis la reserve          -> hidden = false, atterrit dans le groupe cible
+   Trois mouvements, tous traites par la meme fonction (dropIntoGroup) :
+     - reordonner dans un groupe   -> recalcul des order du groupe
+     - vers la reserve             -> hidden = true
+     - depuis la reserve / un autre groupe -> hidden = false, group = cible, order recalcule
 
-   Le deplacement inter-groupes est possible cote interface (l'etat porte "group"), mais
-   il produirait un etat que le CSS seul ne sait pas traduire : on le refuse pour l'instant
-   et on ramene le bouton dans son groupe d'origine. */
-
-import { TOOLBAR_REFERENCE } from "../data/toolbar-reference.js";
+   Le deplacement inter-groupes est traduit en JS par le generateur (le CSS seul ne peut
+   pas deplacer un noeud vers un autre conteneur flex parent) ; voir generator.js. */
 
 const MIME = "text/pmt-command";
-
-// Groupe natif d'une commande (pour refuser un deplacement inter-groupes).
-const NATIVE_GROUP = {};
-TOOLBAR_REFERENCE.forEach((group, i) => {
-  group.forEach((b) => {
-    NATIVE_GROUP[b.command] = i;
-  });
-});
 
 /* Branche le drag & drop sur l'apercu et la reserve.
    onChange() est appele apres toute modification d'etat (l'appelant rerend). */
@@ -128,30 +117,18 @@ function buttonUnderX(group, clientX) {
   return null;
 }
 
-/* Applique un depot dans un groupe : calcule la nouvelle position et reecrit les order.
-   Refuse un changement de groupe (non traduisible en CSS seul pour l'instant). */
+/* Applique un depot dans un groupe (natif ou non) : calcule la nouvelle position et
+   reecrit les order. Un changement de groupe est accepte ; sa traduction (deplacement
+   physique du bouton, impossible en CSS seul) est du ressort du generateur. */
 function dropIntoGroup(state, command, targetGroup, groupEl, clientX) {
   const btn = state.buttons[command];
   if (!btn) return;
 
-  const fromReserve = btn.hidden;
-  const originGroup = NATIVE_GROUP[command];
-
-  // Deplacement inter-groupes refuse : on ramene la commande dans son groupe natif.
-  if (targetGroup !== originGroup) {
-    if (fromReserve) {
-      // Depuis la reserve, on la reaffiche a sa place d'origine plutot que de refuser.
-      btn.hidden = false;
-      btn.group = originGroup;
-      normalizeOrders(state, originGroup);
-    }
-    return;
-  }
-
+  const previousGroup = btn.group;
   btn.hidden = false;
   btn.group = targetGroup;
 
-  // Ordre courant des commandes visibles du groupe (hors celle qu'on deplace).
+  // Ordre courant des commandes visibles du groupe cible (hors celle qu'on deplace).
   const current = Object.entries(state.buttons)
     .filter(([c, b]) => b.group === targetGroup && !b.hidden && c !== command)
     .sort((a, b) => a[1].order - b[1].order)
@@ -173,6 +150,9 @@ function dropIntoGroup(state, command, targetGroup, groupEl, clientX) {
   current.forEach((c, i) => {
     state.buttons[c].order = i;
   });
+
+  // Le groupe quitte perd un membre : renumeroter pour combler le trou.
+  if (previousGroup !== targetGroup) normalizeOrders(state, previousGroup);
 }
 
 /* Renumerote proprement les order d'un groupe (0..n) sans changer l'ordre relatif. */

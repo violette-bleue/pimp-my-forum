@@ -81,3 +81,12 @@ export const ALL_COMMANDS = TOOLBAR_REFERENCE.reduce(
   (acc, group) => acc.concat(group.map((b) => b.command)),
   []
 );
+
+// Groupe natif de chaque commande (index dans TOOLBAR_REFERENCE). Sert de reference pour
+// detecter un deplacement inter-groupes (dnd.js) et le traduire en JS (generator.js).
+export const NATIVE_GROUP = {};
+TOOLBAR_REFERENCE.forEach((group, i) => {
+  group.forEach((b) => {
+    NATIVE_GROUP[b.command] = i;
+  });
+});

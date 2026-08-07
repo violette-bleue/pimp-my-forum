@@ -889,6 +889,57 @@ img.smiley {
   resize       : vertical;
 }
 
+.pmt-custom-js-label {
+  display: block;
+  width  : 100%;
+}
+
+.pmt-custom-js-label .pmt-code {
+  margin-top   : 6px;
+  margin-bottom: 0;
+}
+
+.pmt-custom-list {
+  display      : flex;
+  flex-direction: column;
+  gap          : 6px;
+  margin-bottom: 14px;
+}
+
+.pmt-custom-item {
+  display    : flex;
+  align-items: center;
+  gap        : 10px;
+  padding    : 6px 10px;
+  border     : 1px solid rgba(43, 33, 24, .15);
+  border-radius: var(--radius);
+}
+
+.pmt-custom-item-label {
+  font-weight: 600;
+}
+
+.pmt-custom-item-type {
+  font-size: .75rem;
+  opacity  : .6;
+  text-transform: uppercase;
+}
+
+.pmt-custom-item-remove {
+  margin-left  : auto;
+  background   : none;
+  border       : 1px solid rgba(43, 33, 24, .3);
+  border-radius: var(--radius);
+  padding      : 3px 10px;
+  font-size    : .8rem;
+  cursor       : pointer;
+}
+
+.pmt-custom-item-remove:hover {
+  border-color: var(--accent-2);
+  color       : var(--accent-2);
+}
+
 /* --- Zone d'apercu : simple cadre d'accueil, le rendu vient du CSS genere --- */
 .pmt-preview,
 .pmt-reserve {

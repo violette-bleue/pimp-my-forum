@@ -21,7 +21,7 @@
 */
 
 import { getPack } from "../data/packs.js";
-import { TOOLBAR_REFERENCE, ALL_COMMANDS } from "../data/toolbar-reference.js";
+import { TOOLBAR_REFERENCE, ALL_COMMANDS, NATIVE_GROUP } from "../data/toolbar-reference.js";
 
 // Valeurs par defaut des variables, utilisees quand l'etat ne definit rien.
 const DEFAULTS = {
@@ -94,7 +94,9 @@ function generateCss(state, applyPack) {
   }
 
   // 6. Ordre intra-groupe (diff : uniquement les groupes dont l'ordre differe du natif).
-  const orderBlock = orderCss(state);
+  // Les groupes touches par un deplacement inter-groupes sont geres par le JS genere
+  // (ci-dessous) : le CSS seul ne sait pas deplacer un bouton vers un autre groupe.
+  const orderBlock = orderCss(state, affectedGroups(state));
   if (orderBlock) blocks.push(orderBlock);
 
   // 7. Habillage optionnel (fonds, bordures, hover, disposition) : uniquement si defini
@@ -199,11 +201,29 @@ function iconContentBlock(state, pack) {
   return "/* Glyphes par commande */\n" + lines.join("\n");
 }
 
+// Groupes touches par un deplacement inter-groupes (comparaison au groupe natif).
+// Leur composition/ordre final est traduit en JS (reorgSnippet) plutot qu'en CSS.
+function affectedGroups(state) {
+  const affected = new Set();
+  ALL_COMMANDS.forEach((c) => {
+    const b = state.buttons[c];
+    if (!b || b.hidden) return;
+    if (b.group !== NATIVE_GROUP[c]) {
+      affected.add(NATIVE_GROUP[c]);
+      affected.add(b.group);
+    }
+  });
+  return affected;
+}
+
 // Ordre intra-groupe : pour chaque groupe dont l'ordre courant differe du natif, on pose
-// un order:N sur ses boutons. Les groupes sont deja en flex via le socle.
-function orderCss(state) {
+// un order:N sur ses boutons. Les groupes sont deja en flex via le socle. Les groupes
+// affectes par un deplacement inter-groupes sont ignores ici (geres en JS).
+function orderCss(state, affected) {
   const out = [];
   TOOLBAR_REFERENCE.forEach((group, groupIndex) => {
+    if (affected.has(groupIndex)) return;
+
     const inGroup = ALL_COMMANDS.filter(
       (c) => state.buttons[c] && state.buttons[c].group === groupIndex
     ).sort((a, b) => state.buttons[a].order - state.buttons[b].order);
@@ -264,30 +284,39 @@ function stylesCss(state) {
   return out.length ? "/* Habillage */\n" + out.join("\n\n") : "";
 }
 
-// --- JS (uniquement si boutons custom) ---
-function generateJs(state) {
-  if (!state.custom || !state.custom.length) return "";
+// --- JS (uniquement si necessaire : boutons custom et/ou deplacement inter-groupes) ---
 
+// Deplace physiquement les boutons des groupes affectes vers leur groupe/position cible.
+// Un appendChild sur un noeud deja present dans le DOM le deplace (pas de clone) ; en
+// egrenant chaque groupe affecte dans l'ordre cible, la sequence d'appendChild suffit
+// a la fois a le deplacer ET a le positionner correctement.
+function reorgSnippet(state, affected) {
+  const layout = {};
+  affected.forEach((groupIndex) => {
+    layout[groupIndex] = ALL_COMMANDS.filter(
+      (c) => state.buttons[c] && state.buttons[c].group === groupIndex && !state.buttons[c].hidden
+    ).sort((a, b) => state.buttons[a].order - state.buttons[b].order);
+  });
+
+  return `    // Reorganisation inter-groupes : deplace physiquement les boutons concernes
+    // (le CSS seul ne peut pas changer de conteneur flex parent).
+    var GROUP_LAYOUT = ${JSON.stringify(layout)};
+    var groups = toolbar.querySelectorAll('.sceditor-group');
+    Object.keys(GROUP_LAYOUT).forEach(function (idx) {
+      var group = groups[idx];
+      if (!group) return;
+      GROUP_LAYOUT[idx].forEach(function (cmd) {
+        var el = toolbar.querySelector('[data-sceditor-command="' + cmd + '"]');
+        if (el) group.appendChild(el);
+      });
+    });`;
+}
+
+// Cree le groupe de boutons custom et cable leurs actions.
+function customSnippet(state) {
   const items = JSON.stringify(state.custom, null, 2);
-
-  return `/* ===== Pimp My Toolbar — JS genere (boutons custom) ===== */
-(function () {
-  var CUSTOM = ${items};
-
-  function ready(cb) {
-    var tries = 0;
-    var t = setInterval(function () {
-      var tb = document.querySelector('.sceditor-toolbar');
-      var orig = document.getElementById('text_editor_textarea');
-      var inst = orig && window.jQuery && window.jQuery(orig).sceditor
-        ? window.jQuery(orig).sceditor('instance') : null;
-      if (tb && inst) { clearInterval(t); cb(tb, inst); }
-      else if (++tries > 40) { clearInterval(t); }
-    }, 300);
-  }
-
-  ready(function (toolbar, inst) {
-    if (toolbar.querySelector('.pmt-custom-group')) return; // anti double-injection
+  return `    if (toolbar.querySelector('.pmt-custom-group')) return; // anti double-injection
+    var CUSTOM = ${items};
     var group = document.createElement('div');
     group.className = 'sceditor-group pmt-custom-group';
 
@@ -309,9 +338,10 @@ function generateJs(state) {
       group.appendChild(a);
     });
 
-    toolbar.appendChild(group);
-  });
+    toolbar.appendChild(group);`;
+}
 
+const HANDLE_FN = `
   function handle(btn, inst) {
     var p = btn.payload || {};
     switch (btn.type) {
@@ -326,6 +356,35 @@ function generateJs(state) {
       default:
         if (p.open || p.close) inst.insert(p.open || '', p.close || '');
     }
+  }`;
+
+function generateJs(state) {
+  const affected = affectedGroups(state);
+  const hasReorg = affected.size > 0;
+  const hasCustom = !!(state.custom && state.custom.length);
+  if (!hasReorg && !hasCustom) return "";
+
+  const parts = [];
+  if (hasReorg) parts.push(reorgSnippet(state, affected));
+  if (hasCustom) parts.push(customSnippet(state));
+
+  return `/* ===== Pimp My Toolbar — JS genere ===== */
+(function () {
+  function ready(cb) {
+    var tries = 0;
+    var t = setInterval(function () {
+      var tb = document.querySelector('.sceditor-toolbar');
+      var orig = document.getElementById('text_editor_textarea');
+      var inst = orig && window.jQuery && window.jQuery(orig).sceditor
+        ? window.jQuery(orig).sceditor('instance') : null;
+      if (tb && inst) { clearInterval(t); cb(tb, inst); }
+      else if (++tries > 40) { clearInterval(t); }
+    }, 300);
   }
+
+  ready(function (toolbar, inst) {
+${parts.join("\n\n")}
+  });
+${hasCustom ? HANDLE_FN : ""}
 })();`;
 }

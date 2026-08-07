@@ -50,8 +50,31 @@ function buildButton(command, label) {
   return a;
 }
 
+// Construit un bouton custom a l'identique de ce que produit le JS genere (memes classes,
+// meme variable --pmt-glyph), pour que l'apercu reflete fidelement le rendu reel. La police
+// et la taille du glyphe viennent de la regle generale .sceditor-button::before (heritee) ;
+// seul le content (--pmt-glyph) est propre au bouton custom.
+function buildCustomButton(custom) {
+  const a = document.createElement("a");
+  a.className = "sceditor-button pmt-custom pmt-custom-" + custom.id;
+  a.setAttribute("data-sceditor-command", "pmt_" + custom.id);
+  a.setAttribute("unselectable", "on");
+  a.setAttribute("title", custom.label || "");
+  a.setAttribute("href", "javascript:void(0)");
+  a.style.setProperty("--pmt-glyph", "'" + (custom.icon || "") + "'");
+
+  const d = document.createElement("div");
+  d.setAttribute("unselectable", "on");
+  d.textContent = custom.label || "";
+  a.appendChild(d);
+
+  return a;
+}
+
 // Rend la toolbar simulee dans un conteneur, depuis l'etat.
-// Les boutons masques ne sont pas rendus ici : ils vont dans la reserve.
+// Les boutons masques ne sont pas rendus ici : ils vont dans la reserve. Les boutons
+// custom (state.custom) sont ajoutes dans leur propre groupe en fin de toolbar, exactement
+// comme le fait le JS genere sur le vrai forum.
 export function renderPreview(host, state) {
   host.innerHTML = "";
 
@@ -76,6 +99,15 @@ export function renderPreview(host, state) {
     // Un groupe vide reste present (zone de depot valide pour le drag & drop).
     toolbar.appendChild(group);
   });
+
+  if (state.custom && state.custom.length) {
+    const customGroup = document.createElement("div");
+    customGroup.className = "sceditor-group pmt-custom-group";
+    state.custom.forEach((custom) => {
+      customGroup.appendChild(buildCustomButton(custom));
+    });
+    toolbar.appendChild(customGroup);
+  }
 
   container.appendChild(toolbar);
   host.appendChild(container);

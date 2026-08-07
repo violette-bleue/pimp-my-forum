@@ -19,9 +19,12 @@
   padding      : 4px 2px;
 }
 
-.CodeMirror-wrap pre.CodeMirror-line>span>span,
-.CodeMirror-wrap pre.CodeMirror-line-like>span>span {
-  font-family: var(--font-mono, monospace);
+.CodeMirror-wrap pre.CodeMirror-line>span>span, .CodeMirror-wrap pre.CodeMirror-line-like>span>span {
+    font-family: var(--font-mono, monospace);
+    background: var(--color-bg-dark);
+    display: inline-flex;
+    border-radius: 4px;
+    padding: 0 1px;
 }
 
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */

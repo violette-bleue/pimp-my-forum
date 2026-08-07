@@ -17,6 +17,16 @@
 import { getPack } from "../data/packs.js";
 import { TOOLBAR_REFERENCE, ALL_COMMANDS } from "../data/toolbar-reference.js";
 
+// Valeurs de socle appliquees avec le pack d'icones. Sans elles, remplacer le sprite natif
+// par une police laisse des boutons sans dimension ni couleur (le natif dimensionnait via
+// l'image de fond). Ces valeurs sont surchargeables par state.styles, genere apres.
+const BASE = {
+  buttonSize: "32px",
+  iconSize: "18px",
+  iconColor: "currentColor",
+  radius: "6px"
+};
+
 // Selecteur d'un bouton par sa commande.
 function sel(command) {
   return `.sceditor-button[data-sceditor-command="${command}"]`;
@@ -48,7 +58,7 @@ function generateCss(state, applyPack) {
 
   blocks.push("/* ===== Pimp My Toolbar — CSS genere ===== */");
 
-  // 2. Bloc pack d'icones (tout-ou-rien) : reset du div natif + setup ::before + un content par commande.
+  // 2. Bloc pack d'icones (tout-ou-rien) : socle + reset du natif + un content par commande.
   if (applyPack) {
     blocks.push(iconResetBlock(pack));
     blocks.push(iconContentBlock(state, pack));
@@ -67,23 +77,41 @@ function generateCss(state, applyPack) {
   const orderBlock = orderCss(state);
   if (orderBlock) blocks.push(orderBlock);
 
-  // 5. Styles d'apparence (diff : uniquement les proprietes definies).
+  // 5. Styles d'apparence (diff : uniquement les proprietes definies). Genere en dernier
+  //    pour surcharger le socle a specificite egale.
   const styleBlock = stylesCss(state);
   if (styleBlock) blocks.push(styleBlock);
 
   return blocks.filter(Boolean).join("\n\n") + "\n";
 }
 
-// Reset commun : masque le libelle natif, prepare ::before avec la police du pack,
-// gere les etats natifs (:hover, .disabled, .active). Inspire d'un CSS eprouve en reel.
+// Socle + reset : masque le libelle natif, neutralise le sprite, redimensionne et centre
+// le bouton, prepare ::before avec la police du pack. Gere les etats natifs (.disabled).
 function iconResetBlock(pack) {
-  return `/* Icones : reset natif + police du pack */
+  return `/* Socle : dimensions, centrage, neutralisation du sprite natif */
+.sceditor-toolbar .sceditor-button {
+  background-image: none !important;
+  width: ${BASE.buttonSize} !important;
+  height: ${BASE.buttonSize} !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: ${BASE.radius} !important;
+  text-indent: 0 !important;
+  overflow: hidden !important;
+}
 .sceditor-toolbar .sceditor-button div { display: none !important; }
+
+/* Icones : police du pack */
 .sceditor-toolbar .sceditor-button::before {
   font-family: '${pack.font.family}' !important;
+  font-size: ${BASE.iconSize} !important;
+  color: ${BASE.iconColor} !important;
   line-height: 1 !important;
   font-style: normal !important;
   font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
   -webkit-font-smoothing: antialiased !important;
 }
 .sceditor-toolbar .sceditor-button.disabled::before { opacity: .35 !important; }
@@ -95,7 +123,7 @@ function iconContentBlock(state, pack) {
   const lines = ALL_COMMANDS.map((command) => {
     const override = state.buttons[command] && state.buttons[command].icon;
     const glyph = override || pack.icons[command];
-    if (!glyph) return null; // securite : commande sans glyphe (ne devrait pas arriver, mapping exhaustif)
+    if (!glyph) return null; // securite : commande sans glyphe (mapping exhaustif attendu)
     return `${sel(command)}::before { content: '${glyph}' !important; }`;
   }).filter(Boolean);
   return "/* Glyphes par commande */\n" + lines.join("\n");
@@ -106,20 +134,15 @@ function iconContentBlock(state, pack) {
 function orderCss(state) {
   const out = [];
   TOOLBAR_REFERENCE.forEach((group, groupIndex) => {
-    // commandes de ce groupe dans l'etat, triees par order courant
     const inGroup = ALL_COMMANDS.filter(
       (c) => state.buttons[c] && state.buttons[c].group === groupIndex
     ).sort((a, b) => state.buttons[a].order - state.buttons[b].order);
 
-    // ordre natif de reference
     const native = group.map((b) => b.command);
-
-    // differe-t-il de l'ordre natif ?
     const differs = inGroup.length !== native.length || inGroup.some((c, i) => c !== native[i]);
     if (!differs || inGroup.length === 0) return;
 
-    // Le groupe natif n'a pas d'index CSS ciblable directement : on cible via le 1er bouton.
-    // Astuce : on stylise le parent .sceditor-group par :has() du bouton connu.
+    // Le groupe n'a pas d'identifiant propre : on le cible via un bouton connu qu'il contient.
     const anchor = native[0];
     out.push(`.sceditor-group:has(${sel(anchor)}) { display: flex !important; }`);
     inGroup.forEach((c, i) => {
@@ -166,9 +189,11 @@ function stylesCss(state) {
     out.push(`.sceditor-toolbar .sceditor-button::before {\n  ${beforeDecl.join("\n  ")}\n}`);
 
   if (bt.hoverBg || bt.hoverColor) {
-    const hv = [];
-    if (bt.hoverBg) hv.push(`background: ${bt.hoverBg} !important;`);
-    out.push(`.sceditor-toolbar .sceditor-button:hover {\n  ${hv.join("\n  ")}\n}`);
+    if (bt.hoverBg) {
+      out.push(
+        `.sceditor-toolbar .sceditor-button:hover { background: ${bt.hoverBg} !important; }`
+      );
+    }
     if (bt.hoverColor) {
       out.push(
         `.sceditor-toolbar .sceditor-button:hover::before { color: ${bt.hoverColor} !important; }`
@@ -186,8 +211,6 @@ function generateJs(state) {
   const pack = getPack(state.iconPack);
   const items = JSON.stringify(state.custom, null, 2);
 
-  // Script autonome : attend SCEditor, cree un groupe "custom", injecte les boutons.
-  // Chaque bouton cable son action selon son type (insert | action ...).
   return `/* ===== Pimp My Toolbar — JS genere (boutons custom) ===== */
 (function () {
   var CUSTOM = ${items};
@@ -216,7 +239,6 @@ function generateJs(state) {
       a.setAttribute('data-sceditor-command', 'pmt_' + btn.id);
       a.setAttribute('title', btn.label || '');
       a.setAttribute('unselectable', 'on');
-      // glyphe via ::before pilote par une variable inline (le CSS gere le rendu)
       a.style.setProperty('--pmt-glyph', "'" + (btn.icon || '') + "'");
       var d = document.createElement('div');
       d.textContent = btn.label || '';

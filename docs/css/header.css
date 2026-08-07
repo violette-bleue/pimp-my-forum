@@ -25,9 +25,9 @@
 div#pmf-site-title::before {
     content: 'PIMP MY FORUM';
     position: absolute;
-    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/03.svg);
+    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
     background-clip: text;
-    background-size: 110px;
+    background-size: 290px;
     mix-blend-mode: color;
     z-index: 2;
 }

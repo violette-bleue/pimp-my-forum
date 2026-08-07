@@ -9,6 +9,15 @@
     font-style: normal;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Nichol Demo';
+    src: url('../font/NicholDemoRegular.woff2') format('woff2'),
+        url('../font/NicholDemoRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 :root {
   /* Couleurs */
   --color-bg: #a9a0b0;          

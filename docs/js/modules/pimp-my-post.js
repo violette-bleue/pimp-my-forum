@@ -861,7 +861,7 @@ function loadCodeMirror(cb) {
     return cb();
   }
   injectCss(CM_BASE + "/codemirror.min.css");
-  injectCss(pmf_CSS);
+  injectCss(PMF_CSS);
   injectScript(CM_BASE + "/codemirror.min.js", () => {
     injectScript(CM_BASE + "/addon/mode/simple.min.js", () => {
       defineBBCodeMode();

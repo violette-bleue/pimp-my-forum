@@ -10,11 +10,19 @@
    En reproduisant la vraie structure, le CSS s'applique a l'apercu exactement comme
    il s'appliquera sur le forum -> l'apercu est le vrai rendu, pas une approximation.
 
+   IMPORTANT — scope : le CSS genere est SCOPE a la zone d'apercu avant injection.
+   Sans ca, une regle de masquage (display:none sur une commande) s'appliquerait aussi
+   a la copie du bouton presente dans la reserve, la rendant invisible. Le scope garantit
+   que seule la toolbar simulee est affectee, jamais la reserve ni le reste de la page.
+
    L'apercu se reconstruit depuis l'etat a chaque changement : c'est une VUE, jamais
    une source de verite. L'etat reste le pivot. */
 
 import { TOOLBAR_REFERENCE } from "../data/toolbar-reference.js";
 import { buttonsInGroup } from "../core/state.js";
+
+// Conteneur de l'apercu : sert de racine au scope du CSS genere.
+export const PREVIEW_SCOPE = "#pmt-preview";
 
 // Libelles natifs (title FA) indexes par commande, pour les tooltips de l'apercu.
 const LABELS = {};
@@ -25,8 +33,6 @@ TOOLBAR_REFERENCE.forEach((group) => {
 });
 
 // Construit un bouton a l'identique du DOM SCEditor natif.
-// hiddenPreview : dans l'apercu, un bouton masque n'est pas retire du DOM mais marque,
-// pour rester manipulable (le CSS genere, lui, le mettra en display:none sur le forum).
 function buildButton(command, label) {
   const a = document.createElement("a");
   a.className = "sceditor-button sceditor-button-" + command;
@@ -34,6 +40,7 @@ function buildButton(command, label) {
   a.setAttribute("unselectable", "on");
   a.setAttribute("title", label || command);
   a.setAttribute("draggable", "true"); // pour le drag & drop (branche par l'UI)
+  a.setAttribute("href", "javascript:void(0)");
 
   const d = document.createElement("div");
   d.setAttribute("unselectable", "on");
@@ -44,7 +51,7 @@ function buildButton(command, label) {
 }
 
 // Rend la toolbar simulee dans un conteneur, depuis l'etat.
-// Les boutons masques ne sont PAS rendus ici : ils vont dans la reserve (voir renderReserve).
+// Les boutons masques ne sont pas rendus ici : ils vont dans la reserve.
 export function renderPreview(host, state) {
   host.innerHTML = "";
 
@@ -75,31 +82,52 @@ export function renderPreview(host, state) {
   return toolbar;
 }
 
-// Rend la reserve : les boutons masques, reglissables vers la toolbar.
-// Meme structure de bouton (donc meme rendu d'icone que dans la toolbar).
+// Rend la reserve : les boutons masques, recuperables.
+// Classe racine volontairement DIFFERENTE de .sceditor-toolbar : la reserve ne doit pas
+// heriter du CSS genere (sinon un bouton masque y serait invisible). Son rendu est pilote
+// par le CSS de l'outil (tool.css), qui reprend les memes principes d'icone.
 export function renderReserve(host, state) {
   host.innerHTML = "";
 
   const zone = document.createElement("div");
-  zone.className = "sceditor-toolbar pmt-reserve-zone"; // meme classe = memes styles d'icones
+  zone.className = "pmt-reserve-zone";
   zone.dataset.pmtReserve = "1";
 
-  const group = document.createElement("div");
-  group.className = "sceditor-group";
+  const hidden = Object.entries(state.buttons).filter(([, b]) => b.hidden);
 
-  Object.entries(state.buttons)
-    .filter(([, b]) => b.hidden)
-    .forEach(([command]) => {
-      group.appendChild(buildButton(command, LABELS[command]));
+  if (!hidden.length) {
+    const empty = document.createElement("p");
+    empty.className = "pmt-reserve-empty";
+    empty.textContent = "Aucun bouton masque pour l'instant.";
+    zone.appendChild(empty);
+  } else {
+    hidden.forEach(([command]) => {
+      zone.appendChild(buildButton(command, LABELS[command]));
     });
+  }
 
-  zone.appendChild(group);
   host.appendChild(zone);
   return zone;
 }
 
-// Injecte (ou met a jour) le CSS genere dans la page, pour que l'apercu se restyle en direct.
-// Le CSS est porte par une balise <style> dediee, remplacee a chaque mise a jour.
+// Scope un CSS genere a la zone d'apercu : chaque selecteur est prefixe par PREVIEW_SCOPE.
+// Les at-rules (@import, @media...) et les commentaires sont laisses tels quels.
+function scopeCss(css, scope) {
+  return css.replace(
+    /(^|\})\s*([^@{}][^{}]*)\{/g,
+    (match, brace, selectors) => {
+      const scoped = selectors
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .map((s) => `${scope} ${s}`)
+        .join(", ");
+      return `${brace}\n${scoped} {`;
+    }
+  );
+}
+
+// Injecte (ou met a jour) le CSS genere, SCOPE a l'apercu, pour un restyle en direct.
 export function applyGeneratedCss(css) {
   let tag = document.getElementById("pmt-generated-style");
   if (!tag) {
@@ -107,5 +135,11 @@ export function applyGeneratedCss(css) {
     tag.id = "pmt-generated-style";
     document.head.appendChild(tag);
   }
-  tag.textContent = css;
+  // L'@import doit rester en tete et non scope : on l'extrait avant de scoper le reste.
+  const imports = [];
+  const body = css.replace(/@import[^;]+;/g, (m) => {
+    imports.push(m);
+    return "";
+  });
+  tag.textContent = imports.join("\n") + "\n" + scopeCss(body, PREVIEW_SCOPE);
 }

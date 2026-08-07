@@ -232,6 +232,7 @@ function stylesCss(state) {
   if (tb.radius) tbDecl.push(`border-radius: ${tb.radius} !important;`);
   if (tb.direction) tbDecl.push(`flex-direction: ${tb.direction} !important;`);
   if (tb.maxWidth) tbDecl.push(`max-width: ${tb.maxWidth} !important;`);
+  if (tb.gap) tbDecl.push(`gap: ${tb.gap} !important;`);
   if (tb.align) {
     // En flex, l'axe qui porte l'alignement horizontal depend du sens : justify-content
     // en ligne (axe principal horizontal), align-items en colonne (axe secondaire).
@@ -250,6 +251,7 @@ function stylesCss(state) {
   if (gr.border) grDecl.push(`border: ${gr.border} !important;`);
   if (gr.radius) grDecl.push(`border-radius: ${gr.radius} !important;`);
   if (gr.padding) grDecl.push(`padding: ${gr.padding} !important;`);
+  if (gr.width) grDecl.push(`width: ${gr.width} !important;`);
   if (grDecl.length) out.push(`.sceditor-toolbar .sceditor-group {\n  ${grDecl.join("\n  ")}\n}`);
 
   const bt = s.button || {};

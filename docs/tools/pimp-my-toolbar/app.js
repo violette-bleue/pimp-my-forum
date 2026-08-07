@@ -192,6 +192,16 @@ export function mount(root) {
     refresh();
   });
 
+  bindOptionalRange(ui.toolbarGapEnable, ui.toolbarGapRange, ui.toolbarGapNum, (v) => {
+    setStyle(state, "toolbar", "gap", v && v + "px");
+    refresh();
+  });
+
+  bindOptionalRange(ui.groupWidthEnable, ui.groupWidthRange, ui.groupWidthNum, (v) => {
+    setStyle(state, "group", "width", v && v + "px");
+    refresh();
+  });
+
   // Arrondi : container et groupes sont facultatifs (habillage, rien par defaut) ; les
   // icones ont deja un defaut (6px, via la variable --pmt-radius), donc toujours actif.
   bindOptionalRange(ui.toolbarRadiusEnable, ui.toolbarRadiusRange, ui.toolbarRadiusNum, (v) => {
@@ -314,6 +324,14 @@ function buildLayout(root) {
           </span>
           <span class="pmt-inline-group">
             <label class="pmt-check">
+              <input type="checkbox" id="pmt-toolbar-gap-enable">
+              Gap
+            </label>
+            <input type="range" id="pmt-toolbar-gap-range" min="0" max="40" step="1" value="8" disabled>
+            <input type="number" id="pmt-toolbar-gap" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+          </span>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
               <input type="checkbox" id="pmt-toolbar-bg-enable">
               Couleur de fond
             </label>
@@ -350,6 +368,14 @@ function buildLayout(root) {
             <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
             <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
           </label>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-group-width-enable">
+              Largeur fixe
+            </label>
+            <input type="range" id="pmt-group-width-range" min="40" max="400" step="10" value="120" disabled>
+            <input type="number" id="pmt-group-width" class="pmt-num" min="40" max="400" step="10" value="120" disabled> px
+          </span>
           <span class="pmt-inline-group pmt-advanced-only" hidden>
             <label class="pmt-check">
               <input type="checkbox" id="pmt-group-bg-enable">
@@ -478,6 +504,12 @@ function buildLayout(root) {
     maxWidthEnable: root.querySelector("#pmt-maxwidth-enable"),
     maxWidthRange: root.querySelector("#pmt-maxwidth-range"),
     maxWidthInput: root.querySelector("#pmt-maxwidth"),
+    toolbarGapEnable: root.querySelector("#pmt-toolbar-gap-enable"),
+    toolbarGapRange: root.querySelector("#pmt-toolbar-gap-range"),
+    toolbarGapNum: root.querySelector("#pmt-toolbar-gap"),
+    groupWidthEnable: root.querySelector("#pmt-group-width-enable"),
+    groupWidthRange: root.querySelector("#pmt-group-width-range"),
+    groupWidthNum: root.querySelector("#pmt-group-width"),
     alignButtons: [...root.querySelectorAll(".pmt-align-btn")],
     toolbarBgEnable: root.querySelector("#pmt-toolbar-bg-enable"),
     toolbarBgInput: root.querySelector("#pmt-toolbar-bg"),

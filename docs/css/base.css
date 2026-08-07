@@ -22,3 +22,6 @@ h1 {
     color: var(--color-accent-3);
     font-weight: normal;
 }
+input[type="range"] {
+    color: var(--color-accent);
+}

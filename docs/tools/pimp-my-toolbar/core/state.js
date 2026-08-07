@@ -14,9 +14,9 @@
        { id, label, icon, type:"insert"|"action"|..., payload }
      ],
      styles: { toolbar:{}, group:{}, button:{}, icon:{} }
-     // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth,
+     // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth, gap,
      //            align:"left"|"center"|"right", wrap:"wrap"|"nowrap" }
-     // group:   { bg, border, radius, padding, gap }
+     // group:   { bg, border, radius, padding, gap, width }
      // button:  { size, color, hoverColor, hoverBg, radius, bg, border, padding }
      // icon:    { size }
    }

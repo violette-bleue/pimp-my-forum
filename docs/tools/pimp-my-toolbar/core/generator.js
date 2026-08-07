@@ -22,6 +22,11 @@ function sel(command) {
   return `.sceditor-button[data-sceditor-command="${command}"]`;
 }
 
+// Renvoie les commandes dont l'etat verifie un predicat (helper de diff).
+function commandsWhere(state, pred) {
+  return ALL_COMMANDS.filter((c) => state.buttons[c] && pred(state.buttons[c]));
+}
+
 // Genere le CSS + le JS a partir de l'etat.
 // options : { applyPack:true }  -> inclure le bloc pack d'icones (sinon icones natives gardees)
 export function generate(state, options = {}) {
@@ -81,7 +86,8 @@ function iconResetBlock(pack) {
   font-weight: normal !important;
   -webkit-font-smoothing: antialiased !important;
 }
-.sceditor-toolbar .sceditor-button.disabled::before { opacity: .35 !important; }`;
+.sceditor-toolbar .sceditor-button.disabled::before { opacity: .35 !important; }
+.sceditor-toolbar .pmt-custom::before { content: var(--pmt-glyph, '') !important; }`;
 }
 
 // Un content par commande (glyphe du pack, sauf override d'icone dans l'etat).

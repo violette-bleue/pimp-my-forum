@@ -19,6 +19,7 @@
 import { createInitialState, setHidden, setPack } from "./core/state.js";
 import { generate } from "./core/generator.js";
 import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js";
+import { bindDnd } from "./ui/dnd.js";
 import { PACKS } from "./data/packs.js";
 
 export function mount(root) {
@@ -27,17 +28,26 @@ export function mount(root) {
   const state = createInitialState();
   const ui = buildLayout(root);
 
-  // Rafraichit apercu + reserve depuis l'etat, et applique le CSS courant a l'apercu.
+  // Rafraichit apercu + reserve depuis l'etat, applique le CSS courant, rebranche les
+  // interactions. Le DOM etant reconstruit a chaque passage, les ecouteurs doivent l'etre
+  // aussi : c'est le prix de "l'apercu est une vue pure de l'etat", et il est modique.
   function refresh() {
     renderPreview(ui.preview, state);
     renderReserve(ui.reserve, state);
-    // L'apercu se restyle en direct avec le CSS qui serait genere (hors blocs non visuels).
     applyGeneratedCss(generate(state, { applyPack: ui.applyPack.checked }).css);
-    bindButtonClicks();
+
+    bindDnd({
+      previewHost: ui.preview,
+      reserveHost: ui.reserve,
+      state,
+      onChange: refresh
+    });
+    bindClickShortcut();
   }
 
-  // Interaction minimale en attendant le drag & drop : clic sur un bouton = masquer/reafficher.
-  function bindButtonClicks() {
+  // Raccourci d'appoint : un clic fait la meme chose qu'un glisser vers/depuis la reserve.
+  // Pratique au clavier/tactile, et sans conflit avec le drag (qui n'emet pas de click).
+  function bindClickShortcut() {
     ui.preview.querySelectorAll(".sceditor-button").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.preventDefault();
@@ -97,13 +107,14 @@ function buildLayout(root) {
 
       <section class="pmt-panel">
         <h2>Ta barre d'outils</h2>
-        <p class="pmt-hint">Clique un bouton pour le mettre en reserve.</p>
+        <p class="pmt-hint">Glisse un bouton pour le deplacer dans son groupe,
+           ou vers la reserve pour le masquer. Un clic fait pareil, en plus rapide.</p>
         <div id="pmt-preview" class="pmt-preview"></div>
       </section>
 
       <section class="pmt-panel">
         <h2>Reserve (boutons masques)</h2>
-        <p class="pmt-hint">Clique un bouton pour le remettre dans la barre.</p>
+        <p class="pmt-hint">Glisse un bouton d'ici vers la barre pour le remettre.</p>
         <div id="pmt-reserve" class="pmt-reserve"></div>
       </section>
 

@@ -8,55 +8,55 @@
    ========================================================================== */
 
 .CodeMirror.cm-s-pnp {
-  background: var(--pnp-color-bg, #f5efe4);
-  color: var(--pnp-color-text, #2b2118);
+  background: var(--color-bg, #f5efe4);
+  color: var(--color-text, #2b2118);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 font-size: inherit;
   line-height: normal;
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--pnp-radius, 12px);
+  border-radius: var(--radius, 12px);
   height: auto;
   padding: 4px 2px;
 }
 
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pnp .cm-tag {
-  color: var(--pnp-color-accent, #d9a441);
+  color: var(--color-accent, #d9a441);
   font-weight: 600;
 }
 
 /* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
 .cm-s-pnp .cm-attribute {
-  color: var(--pnp-color-accent-3, #2f8f8a);
+  color: var(--color-accent-3, #2f8f8a);
 }
 
 /* Le signe = lui-meme */
 .cm-s-pnp .cm-operator {
-  color: var(--pnp-color-text, #2b2118);
+  color: var(--color-text, #2b2118);
   opacity: 0.6;
 }
 
 /* Valeurs entre guillemets */
 .cm-s-pnp .cm-string {
-  color: var(--pnp-color-accent-2, #c1502e);
+  color: var(--color-accent-2, #c1502e);
 }
 
 /* Commentaires HTML <!-- ... --> : discret, atenue et italique */
 .cm-s-pnp .cm-comment {
-  color: var(--pnp-color-text, #2b2118);
+  color: var(--color-text, #2b2118);
   opacity: 0.45;
   font-style: italic;
 }
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pnp .CodeMirror-cursor {
-  border-left-color: var(--pnp-color-accent-2, #c1502e);
+  border-left-color: var(--color-accent-2, #c1502e);
 }
 .cm-s-pnp .CodeMirror-selected {
   background: rgba(47, 143, 138, 0.18);
 }
 .cm-s-pnp .CodeMirror-gutters {
-  background: var(--pnp-color-bg, #f5efe4);
+  background: var(--color-bg, #f5efe4);
   border-right: 1px solid rgba(43, 33, 24, 0.12);
 }
 
@@ -68,11 +68,11 @@ font-size: inherit;
 }
 
 .pnp-pmp-panel {
-  background: var(--pnp-color-bg, #f5efe4);
+  background: var(--color-bg, #f5efe4);
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--pnp-radius, 12px);
-  padding: var(--pnp-gap, 1rem);
-  color: var(--pnp-color-text, #2b2118);
+  border-radius: var(--radius, 12px);
+  padding: var(--gap, 1rem);
+  color: var(--color-text, #2b2118);
 }
 
 .pnp-pmp-empty {
@@ -84,7 +84,7 @@ font-size: inherit;
 /* Groupe = un element cible (fieldset + legende = data-label) */
 .pnp-pmp-group {
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--pnp-radius, 12px);
+  border-radius: var(--radius, 12px);
   padding: 0.75rem 1rem 1rem;
   margin: 0 0 1rem;
 }
@@ -93,7 +93,7 @@ font-size: inherit;
 }
 .pnp-pmp-group legend {
   font-weight: 600;
-  color: var(--pnp-color-accent-2, #c1502e);
+  color: var(--color-accent-2, #c1502e);
   padding: 0 0.4rem;
 }
 
@@ -111,7 +111,7 @@ font-size: inherit;
 
 .pnp-pmp-input {
   font: inherit;
-  color: var(--pnp-color-text, #2b2118);
+  color: var(--color-text, #2b2118);
   background: #fff;
   border: 1px solid rgba(43, 33, 24, 0.25);
   border-radius: 8px;
@@ -120,7 +120,7 @@ font-size: inherit;
 }
 .pnp-pmp-input:focus {
   outline: none;
-  border-color: var(--pnp-color-accent-3, #2f8f8a);
+  border-color: var(--color-accent-3, #2f8f8a);
   box-shadow: 0 0 0 2px rgba(47, 143, 138, 0.25);
 }
 textarea.pnp-pmp-input {

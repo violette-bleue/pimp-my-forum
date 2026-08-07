@@ -3,9 +3,9 @@
    ========================================================================== */
 
 body.pnp-body {
-  background: var(--pnp-color-bg);
-  color: var(--pnp-color-text);
-  font-family: var(--pnp-font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
 }
 
 /* Zones "boîte noire" FA (navbar JS ModernBB, LINKS pré-formatés, etc.) :

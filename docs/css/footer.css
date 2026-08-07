@@ -3,8 +3,8 @@
    ========================================================================== */
 
 .pnp-footer {
-  background: var(--pnp-color-text);
-  color: var(--pnp-color-bg);
+  background: var(--color-text);
+  color: var(--color-bg);
 }
 
 .pnp-stats {

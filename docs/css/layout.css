@@ -9,8 +9,8 @@
 .pnp-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--pnp-gap);
-  max-width: var(--pnp-content-max-width);
+  gap: var(--gap);
+  max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -21,12 +21,12 @@
 
 @media (min-width: 900px) {
   .pnp-content-grid:has(.pnp-sidebar--left:not(:empty)):has(.pnp-sidebar--right:not(:empty)) {
-    grid-template-columns: var(--pnp-sidebar-width) minmax(0, 1fr) var(--pnp-sidebar-width);
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--sidebar-width);
   }
   .pnp-content-grid:has(.pnp-sidebar--left:not(:empty)):not(:has(.pnp-sidebar--right:not(:empty))) {
-    grid-template-columns: var(--pnp-sidebar-width) minmax(0, 1fr);
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   }
   .pnp-content-grid:not(:has(.pnp-sidebar--left:not(:empty))):has(.pnp-sidebar--right:not(:empty)) {
-    grid-template-columns: minmax(0, 1fr) var(--pnp-sidebar-width);
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
   }
 }

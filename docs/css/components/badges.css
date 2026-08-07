@@ -13,8 +13,8 @@
 }
 
 .pnp-badge--flash {
-  background: var(--pnp-color-accent-2);
-  color: var(--pnp-color-bg);
+  background: var(--color-accent-2);
+  color: var(--color-bg);
 }
 
 .pnp-badge--dim {

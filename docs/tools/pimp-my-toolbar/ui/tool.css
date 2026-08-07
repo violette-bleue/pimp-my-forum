@@ -706,26 +706,6 @@ img.smiley {
 
 
 /*PMT*/
-.pmt {
-  --pmt-bg      : var(--pnp-color-bg, #f5efe4);
-  --pmt-text    : var(--pnp-color-text, #2b2118);
-  --pmt-accent  : var(--pnp-color-accent, #d9a441);
-  --pmt-accent-2: var(--pnp-color-accent-2, #c1502e);
-  --pmt-accent-3: var(--pnp-color-accent-3, #2f8f8a);
-  --pmt-radius  : var(--pnp-radius, 10px);
-
-  max-width  : 980px;
-  margin     : 0 auto;
-  padding    : 24px 16px 60px;
-  color      : var(--pmt-text);
-  font-family: system-ui, sans-serif;
-  line-height: 1.5;
-}
-
-.pmt-head h1 {
-  margin   : 0 0 4px;
-  font-size: 1.8rem;
-}
 
 .pmt-sub {
   margin : 0 0 24px;
@@ -733,9 +713,9 @@ img.smiley {
 }
 
 .pmt-panel {
-  background   : var(--pmt-bg);
+  background   : var(--bg);
   border       : 1px solid rgba(43, 33, 24, .15);
-  border-radius: var(--pmt-radius);
+  border-radius: var(--radius);
   padding      : 16px;
   margin-bottom: 18px;
 }
@@ -770,10 +750,10 @@ img.smiley {
 }
 
 .pmt-btn {
-  background   : var(--pmt-accent-2);
+  background   : var(--accent-2);
   color        : #fff;
   border       : none;
-  border-radius: var(--pmt-radius);
+  border-radius: var(--radius);
   padding      : 10px 18px;
   font-size    : .95rem;
   cursor       : pointer;
@@ -781,8 +761,8 @@ img.smiley {
 }
 
 .pmt-btn:hover {
-  background: var(--pmt-accent);
-  color     : var(--pmt-text);
+  background: var(--accent);
+  color     : var(--text);
 }
 
 .pmt-code {
@@ -792,9 +772,9 @@ img.smiley {
   font-size    : 12px;
   line-height  : 1.5;
   background   : #2b2118;
-  color        : var(--pmt-accent);
+  color        : var(--accent);
   border       : none;
-  border-radius: var(--pmt-radius);
+  border-radius: var(--radius);
   padding      : 12px;
   margin-bottom: 18px;
   resize       : vertical;
@@ -804,14 +784,14 @@ img.smiley {
 .pmt-preview,
 .pmt-reserve {
   border       : 1px dashed rgba(43, 33, 24, .3);
-  border-radius: var(--pmt-radius);
+  border-radius: var(--radius);
   padding      : 10px;
   min-height   : 54px;
   background   : #fff;
 }
 
 .pmt-reserve {
-  border-color: var(--pmt-accent-2);
+  border-color: var(--accent-2);
 }
 
 /* Couleur d'icone par defaut dans l'apercu : sans ca, le CSS du forum hote peut
@@ -823,14 +803,14 @@ img.smiley {
 }
 
 .pmt-preview .sceditor-button::before {
-  color: var(--pmt-text);
+  color: var(--text);
 }
 
 /* Sans pack applique : on laisse le libelle natif visible pour que l'apercu reste
    lisible (sur le vrai forum, ce sont les icones sprite natives qui s'affichent). */
 .pmt-preview .sceditor-button div {
   font-size  : 11px;
-  color      : var(--pmt-text);
+  color      : var(--text);
   padding    : 2px 6px;
   white-space: nowrap;
 }
@@ -848,30 +828,8 @@ img.smiley {
   opacity  : .55;
 }
 
-.pmt-reserve-zone .sceditor-button {
-  display         : inline-flex !important;
-  align-items     : center;
-  background      : rgba(193, 80, 46, .1);
-  border          : 1px solid rgba(193, 80, 46, .35);
-  border-radius   : 999px;
-  padding         : 3px 12px;
-  cursor          : pointer;
-  text-decoration : none;
-  width           : auto !important;
-  height          : auto !important;
-  background-image: none !important;
-}
-
 .pmt-reserve-zone .sceditor-button:hover {
   background: rgba(193, 80, 46, .22);
-}
-
-/* Dans la reserve, on montre le LIBELLE (pas l'icone) : plus lisible pour choisir. */
-.pmt-reserve-zone .sceditor-button div {
-  display    : block !important;
-  font-size  : 12px;
-  color      : var(--pmt-text);
-  text-indent: 0;
 }
 
 .pmt-reserve-zone .sceditor-button::before {

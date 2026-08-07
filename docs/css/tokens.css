@@ -11,19 +11,19 @@
 }
 body.pnp-body {
   /* Couleurs */
-  --pnp-color-bg: #a9a0b0;          
-  --pnp-color-text: #ffffff;        
-  --pnp-color-accent: #c6a3ff;      
-  --pnp-color-accent-2: #eed91b;    
-  --pnp-color-accent-3: #ff89c1;    
+  --color-bg: #a9a0b0;          
+  --color-text: #ffffff;        
+  --color-accent: #c6a3ff;      
+  --color-accent-2: #eed91b;    
+  --color-accent-3: #ff89c1;    
 
   /* Typo */
-  --pnp-font-display: "Porao Grottesche", sans-serif;
-  --pnp-font-body: "Roboto", sans-serif;
+  --font-display: "Porao Grottesche", sans-serif;
+  --font-body: "Roboto", sans-serif;
 
   /* Layout */
-  --pnp-radius: 0px;
-  --pnp-gap: 5px;
-  --pnp-sidebar-width: 220px;
-  --pnp-content-max-width: 1200px;
+  --radius: 0px;
+  --gap: 5px;
+  --sidebar-width: 220px;
+  --content-max-width: 1200px;
 } 

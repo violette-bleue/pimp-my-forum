@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .pnp-header {
-  background: var(--pnp-color-bg);
+  background: var(--color-bg);
 }
 
 .pnp-logo img {
@@ -13,11 +13,11 @@
 }
 
 .pnp-site-desc__title {
-  font-family: var(--pnp-font-display);
-  color: var(--pnp-color-accent-2);
+  font-family: var(--font-display);
+  color: var(--color-accent-2);
 }
 
 .pnp-site-desc__tagline {
-  color: var(--pnp-color-text);
+  color: var(--color-text);
   opacity: 0.8;
 }

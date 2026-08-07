@@ -42,7 +42,7 @@
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
-const PMF_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/css/components/pimp-my-post.css";
+const PMF_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/components/pimp-my-post.css";
 
 // Cle localStorage du dernier mode choisi ("form" | "code").
 const MODE_KEY = "pmf-pmp-mode";

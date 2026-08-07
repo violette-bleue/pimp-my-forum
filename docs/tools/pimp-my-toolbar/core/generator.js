@@ -339,9 +339,10 @@ function reorgSnippet(state, affected) {
     });`;
 }
 
-// Cree le groupe de boutons custom et cable leurs actions.
-function customSnippet(state) {
-  const items = JSON.stringify(state.custom, null, 2);
+// Cree le groupe de boutons custom et cable leurs actions. N'emet que les boutons
+// visibles (diff comme pour les boutons natifs), tries par order.
+function customSnippet(visibleCustom) {
+  const items = JSON.stringify(visibleCustom, null, 2);
   return `    if (toolbar.querySelector('.pmt-custom-group')) return; // anti double-injection
     var CUSTOM = ${items};
     var group = document.createElement('div');
@@ -390,12 +391,15 @@ const HANDLE_FN = `
 function generateJs(state) {
   const affected = affectedGroups(state);
   const hasReorg = affected.size > 0;
-  const hasCustom = !!(state.custom && state.custom.length);
+  const visibleCustom = (state.custom || [])
+    .filter((c) => !c.hidden)
+    .sort((a, b) => a.order - b.order);
+  const hasCustom = visibleCustom.length > 0;
   if (!hasReorg && !hasCustom) return "";
 
   const parts = [];
   if (hasReorg) parts.push(reorgSnippet(state, affected));
-  if (hasCustom) parts.push(customSnippet(state));
+  if (hasCustom) parts.push(customSnippet(visibleCustom));
 
   return `/* ===== Pimp My Toolbar — JS genere ===== */
 (function () {

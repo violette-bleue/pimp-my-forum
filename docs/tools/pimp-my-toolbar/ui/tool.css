@@ -867,16 +867,6 @@ img.smiley {
   color     : var(--color-text);
 }
 
-.pmt-custom-js-label {
-  display: block;
-  width  : 100%;
-}
-
-.pmt-custom-js-label .pmf-tool-code {
-  margin-top   : 6px;
-  margin-bottom: 0;
-}
-
 .pmt-custom-list {
   display      : flex;
   flex-direction: column;

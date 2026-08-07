@@ -61,6 +61,7 @@ function buildCustomButton(custom) {
   a.setAttribute("data-sceditor-command", "pmt_" + custom.id);
   a.setAttribute("unselectable", "on");
   a.setAttribute("title", custom.label || "");
+  a.setAttribute("draggable", "true"); // pour le drag & drop (branche par l'UI)
   a.setAttribute("href", "javascript:void(0)");
   if (isImage) a.style.setProperty("--pmt-icon-url", "url('" + (custom.icon || "") + "')");
   else a.style.setProperty("--pmt-glyph", "'" + (custom.icon || "") + "'");
@@ -105,9 +106,16 @@ export function renderPreview(host, state) {
   if (state.custom && state.custom.length) {
     const customGroup = document.createElement("div");
     customGroup.className = "sceditor-group pmt-custom-group";
-    state.custom.forEach((custom) => {
-      customGroup.appendChild(buildCustomButton(custom));
-    });
+    customGroup.dataset.pmtGroup = "custom"; // ancre pour le drag & drop (sentinelle non numerique)
+
+    state.custom
+      .filter((c) => !c.hidden)
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .forEach((custom) => {
+        customGroup.appendChild(buildCustomButton(custom));
+      });
+
+    // Groupe present meme vide : zone de depot valide pour reprendre un bouton masque.
     toolbar.appendChild(customGroup);
   }
 
@@ -128,8 +136,9 @@ export function renderReserve(host, state) {
   zone.dataset.pmtReserve = "1";
 
   const hidden = Object.entries(state.buttons).filter(([, b]) => b.hidden);
+  const hiddenCustom = (state.custom || []).filter((c) => c.hidden);
 
-  if (!hidden.length) {
+  if (!hidden.length && !hiddenCustom.length) {
     const empty = document.createElement("p");
     empty.className = "pmt-reserve-empty";
     empty.textContent = "Aucun bouton masque pour l'instant.";
@@ -137,6 +146,9 @@ export function renderReserve(host, state) {
   } else {
     hidden.forEach(([command]) => {
       zone.appendChild(buildButton(command, LABELS[command]));
+    });
+    hiddenCustom.forEach((custom) => {
+      zone.appendChild(buildCustomButton(custom));
     });
   }
 

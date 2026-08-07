@@ -23,7 +23,7 @@
      </script>
 */
 
-import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom } from "./core/state.js";
+import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom, setCustomHidden } from "./core/state.js";
 import { generate } from "./core/generator.js";
 import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js";
 import { bindDnd } from "./ui/dnd.js";
@@ -111,7 +111,13 @@ export function mount(root) {
     renderPreview(ui.preview, state);
     renderReserve(ui.reserve, state);
     renderCustomList();
-    applyGeneratedCss(generate(state, { applyPack: ui.applyPack.checked }).css);
+
+    // Un seul generate() : alimente a la fois l'apercu live et les zones de code, qui
+    // restent donc toujours a jour sans action explicite.
+    const out = generate(state, { applyPack: ui.applyPack.checked });
+    applyGeneratedCss(out.css);
+    ui.cssOut.value = out.css;
+    ui.jsOut.value = out.js || "/* Aucun bouton personnalise : pas de JS necessaire. */";
 
     bindDnd({
       previewHost: ui.preview,
@@ -135,7 +141,7 @@ export function mount(root) {
       return;
     }
 
-    state.custom.forEach((btn) => {
+    [...state.custom].sort((a, b) => a.order - b.order).forEach((btn) => {
       const row = document.createElement("div");
       row.className = "pmt-custom-item";
 
@@ -145,7 +151,7 @@ export function mount(root) {
 
       const type = document.createElement("span");
       type.className = "pmt-custom-item-type";
-      type.textContent = btn.type === "action" ? "JS" : "BBCode";
+      type.textContent = btn.hidden ? "Masque" : "Visible";
 
       const del = document.createElement("button");
       del.type = "button";
@@ -163,19 +169,24 @@ export function mount(root) {
 
   // Raccourci d'appoint : un clic fait la meme chose qu'un glisser vers/depuis la reserve.
   // Pratique au clavier/tactile, et sans conflit avec le drag (qui n'emet pas de click).
+  // Les boutons custom (prefixe "pmt_") passent par setCustomHidden plutot que setHidden.
   function bindClickShortcut() {
+    const toggle = (el, hidden) => {
+      const command = el.getAttribute("data-sceditor-command");
+      if (command.indexOf("pmt_") === 0) setCustomHidden(state, command.slice(4), hidden);
+      else setHidden(state, command, hidden);
+      refresh();
+    };
     ui.preview.querySelectorAll(".sceditor-button").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.preventDefault();
-        setHidden(state, el.getAttribute("data-sceditor-command"), true);
-        refresh();
+        toggle(el, true);
       });
     });
     ui.reserve.querySelectorAll(".sceditor-button").forEach((el) => {
       el.addEventListener("click", (e) => {
         e.preventDefault();
-        setHidden(state, el.getAttribute("data-sceditor-command"), false);
-        refresh();
+        toggle(el, false);
       });
     });
   }
@@ -366,13 +377,8 @@ export function mount(root) {
     });
   });
 
-  // Boutons personnalises : bascule des champs selon le type, ajout a l'etat.
-  ui.customType.addEventListener("change", () => {
-    const isInsert = ui.customType.value === "insert";
-    ui.customInsertFields.hidden = !isInsert;
-    ui.customActionFields.hidden = isInsert;
-  });
-
+  // Boutons personnalises : ajout a l'etat. Simple pour l'instant : encadrement
+  // avant/apres uniquement (pas de choix de type, l'action JS viendra plus tard).
   ui.customAdd.addEventListener("click", () => {
     const label = ui.customLabel.value.trim();
     if (!label) return; // libelle obligatoire, sinon rien d'identifiable dans la toolbar
@@ -388,28 +394,23 @@ export function mount(root) {
       iconType = "image";
     }
 
-    const type = ui.customType.value;
-    const payload = type === "action"
-      ? { js: ui.customJs.value }
-      : { open: ui.customOpen.value, close: ui.customClose.value };
+    const payload = { open: ui.customOpen.value, close: ui.customClose.value };
 
-    addCustom(state, { label, icon, iconType, type, payload });
+    addCustom(state, { label, icon, iconType, payload });
 
     ui.customLabel.value = "";
     ui.customIconGlyph.value = "";
     ui.customIconUrl.value = "";
     ui.customOpen.value = "";
     ui.customClose.value = "";
-    ui.customJs.value = "";
     refresh();
   });
 
-  // Generation explicite (bouton) : remplit les deux zones de code.
+  // Le code est deja tenu a jour en live par refresh() ; le bouton se contente d'afficher
+  // ou masquer le panneau (evite de noyer un nouvel utilisateur sous du code d'entree).
   ui.generateBtn.addEventListener("click", () => {
-    const out = generate(state, { applyPack: ui.applyPack.checked });
-    ui.cssOut.value = out.css;
-    ui.jsOut.value = out.js || "/* Aucun bouton personnalise : pas de JS necessaire. */";
-    ui.output.hidden = false;
+    ui.output.hidden = !ui.output.hidden;
+    ui.generateBtn.textContent = ui.output.hidden ? "Afficher le code" : "Masquer le code";
   });
 
   refresh();
@@ -623,20 +624,14 @@ function buildLayout(root) {
 
       <section class="pmt-panel">
         <h2>Boutons personnalises</h2>
-        <p class="pmf-tool-hint">Un bouton qui n'existe pas nativement : insertion BBCode
-           (encadre la selection) ou action JS avancee.</p>
+        <p class="pmf-tool-hint">Un bouton qui n'existe pas nativement : encadre la
+           selection avec le texte "avant" et "apres" donnes.</p>
 
         <div id="pmt-custom-list" class="pmt-custom-list"></div>
 
         <div class="pmf-tool-row">
           <label>Libelle
             <input type="text" id="pmt-custom-label" placeholder="Spoiler">
-          </label>
-          <label>Type
-            <select id="pmt-custom-type">
-              <option value="insert">Insertion BBCode</option>
-              <option value="action">Action JS avancee</option>
-            </select>
           </label>
         </div>
         <div class="pmf-tool-field">
@@ -645,7 +640,7 @@ function buildLayout(root) {
           <input type="text" id="pmt-custom-icon-glyph" class="pmf-tool-text" placeholder="nom du glyphe (ex: add_circle)" hidden>
           <input type="text" id="pmt-custom-icon-url" class="pmf-tool-text" placeholder="https://.../icone.svg" hidden>
         </div>
-        <div class="pmf-tool-row" id="pmt-custom-insert-fields">
+        <div class="pmf-tool-row">
           <label>Avant (ouverture)
             <input type="text" id="pmt-custom-open" placeholder="[spoiler]">
           </label>
@@ -653,16 +648,11 @@ function buildLayout(root) {
             <input type="text" id="pmt-custom-close" placeholder="[/spoiler]">
           </label>
         </div>
-        <div class="pmf-tool-row" id="pmt-custom-action-fields" hidden>
-          <label class="pmt-custom-js-label">JS (recoit l'instance SCEditor via <code>inst</code>)
-            <textarea id="pmt-custom-js" class="pmf-tool-code" rows="4" placeholder="inst.insert('[hr]');"></textarea>
-          </label>
-        </div>
         <button type="button" id="pmt-custom-add" class="pmt-btn">Ajouter le bouton</button>
       </section>
 
       <section class="pmt-panel">
-        <button id="pmt-generate" class="pmt-btn">Generer le code</button>
+        <button id="pmt-generate" class="pmt-btn">Afficher le code</button>
       </section>
 
       <section class="pmt-panel" id="pmt-output" hidden>
@@ -746,12 +736,8 @@ function buildLayout(root) {
     customIconGrid: root.querySelector("#pmt-custom-icon-grid"),
     customIconGlyph: root.querySelector("#pmt-custom-icon-glyph"),
     customIconUrl: root.querySelector("#pmt-custom-icon-url"),
-    customType: root.querySelector("#pmt-custom-type"),
-    customInsertFields: root.querySelector("#pmt-custom-insert-fields"),
     customOpen: root.querySelector("#pmt-custom-open"),
     customClose: root.querySelector("#pmt-custom-close"),
-    customActionFields: root.querySelector("#pmt-custom-action-fields"),
-    customJs: root.querySelector("#pmt-custom-js"),
     customAdd: root.querySelector("#pmt-custom-add"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),

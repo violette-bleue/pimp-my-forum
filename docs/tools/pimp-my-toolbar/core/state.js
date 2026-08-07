@@ -10,9 +10,10 @@
        ...                            // les 40 commandes
      },
      iconPack: "material",
-     custom: [                        // boutons custom (groupe dedie), types extensibles
-       { id, label, icon, iconType:"glyph"|"image", type:"insert"|"action"|..., payload }
+     custom: [                        // boutons custom (groupe dedie), reordonnables,
+       { id, label, icon, iconType:"glyph"|"image", type:"insert", payload, hidden, order }
        // icon = nom de glyphe (pack actif) si iconType "glyph" (defaut), URL sinon
+       // hidden/order : comme les boutons natifs, gerent reserve + reordonnancement
      ],
      styles: { toolbar:{}, group:{}, button:{}, icon:{} }
      // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth, gap,
@@ -93,13 +94,22 @@ export function setStyle(state, category, key, value) {
 // Ajoute un bouton custom (id genere si absent).
 export function addCustom(state, custom) {
   const id = custom.id || "c" + (state.custom.length + 1);
-  state.custom.push(Object.assign({ id, type: "insert", payload: {} }, custom));
+  state.custom.push(Object.assign(
+    { id, type: "insert", payload: {}, hidden: false, order: state.custom.length },
+    custom
+  ));
   return id;
 }
 
 // Retire un bouton custom par id.
 export function removeCustom(state, id) {
   state.custom = state.custom.filter((c) => c.id !== id);
+}
+
+// Masque / reaffiche un bouton custom (glisser vers/hors la reserve, ou clic raccourci).
+export function setCustomHidden(state, id, hidden) {
+  const c = state.custom.find((cc) => cc.id === id);
+  if (c) c.hidden = hidden;
 }
 
 // Renvoie les boutons d'un groupe donne, tries par order (helper de lecture pour l'apercu).

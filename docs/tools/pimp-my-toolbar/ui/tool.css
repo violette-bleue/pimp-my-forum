@@ -21,6 +21,19 @@
     background: unset !important;
     border: none !important;
 }
+#postingbox {
+  overflow: unset!important;
+}
+#message-box .sceditor-container {
+    border-color: rgb(0 0 0 / .1) !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    box-shadow: none !important;
+    margin: 0;
+    width: auto !important;
+    position: sticky;
+    top: 40px;
+}
 .sceditor-button div,
 div.sceditor-grip {
   background-image : url(https://illipro.net/rs3/18/frm/SCEditor/src/themes/famfamfam.png);

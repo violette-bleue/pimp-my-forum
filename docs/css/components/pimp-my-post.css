@@ -50,6 +50,13 @@ span:has(.cm-comment) {
   opacity: 0.6;
 }
 
+/* Le container */
+.CodeMirror-scroll {
+    margin-bottom: -50px;
+    margin-right: -50px;
+    overflow-y: auto !important;
+}
+
 /* Valeurs entre guillemets */
 .cm-s-pmf .cm-string {
   color: var(--color-accent-2);
@@ -64,9 +71,9 @@ span:has(.cm-comment) {
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pmf .CodeMirror-cursor {
-  border-left-color: var(--color-accent-2);
+    border-left: 3px solid var(--color-accent-2);
+    border-radius: 10px;
 }
-
 .cm-s-pmf .CodeMirror-selected {
   background: rgba(47, 143, 138, 0.18);
 }

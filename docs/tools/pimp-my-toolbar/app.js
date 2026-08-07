@@ -9,11 +9,18 @@
    Aucune divergence possible entre ce que l'utilisateur voit et le code produit.
 
    Utilisation depuis la page HTML (ForumActif ou autre) :
-     <div id="pmt-app"></div>
-     <script type="module">
-       import { mount } from "<base>/tools/pimp-my-toolbar/app.js";
-       mount(document.getElementById("pmt-app"));
-     </script>
+
+     - Auto-montage (le plus simple, un seul tag, pas de JS inline — utile dans un topic
+       ou l'inline passe mal) : le module cherche #pmt-app tout seul au chargement.
+         <div id="pmt-app"></div>
+         <script type="module" src="<base>/tools/pimp-my-toolbar/app.js"></script>
+
+     - Montage manuel (plusieurs instances, id different...) :
+         <div id="mon-id"></div>
+         <script type="module">
+           import { mount } from "<base>/tools/pimp-my-toolbar/app.js";
+           mount(document.getElementById("mon-id"));
+         </script>
 */
 
 import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom } from "./core/state.js";
@@ -293,6 +300,11 @@ export function mount(root) {
     refresh();
   });
 
+  ui.stickyToggle.addEventListener("change", () => {
+    setStyle(state, "toolbar", "sticky", ui.stickyToggle.checked ? true : null); // off = defaut
+    refresh();
+  });
+
   bindOptionalRange(ui.maxWidthEnable, ui.maxWidthRange, ui.maxWidthInput, (v) => {
     setStyle(state, "toolbar", "maxWidth", v && v + "px");
     refresh();
@@ -444,6 +456,10 @@ function buildLayout(root) {
           <label class="pmf-tool-check">
             <input type="checkbox" id="pmt-wrap" checked>
             Retour a la ligne
+          </label>
+          <label class="pmf-tool-check">
+            <input type="checkbox" id="pmt-sticky">
+            Editeur collant au scroll
           </label>
           <div class="pmt-align-group" role="group" aria-label="Alignement">
             <button type="button" class="pmt-align-btn active" data-align="left" title="Aligner a gauche" aria-pressed="true">
@@ -685,6 +701,7 @@ function buildLayout(root) {
     colorInput: root.querySelector("#pmt-color"),
     toolbarDirection: root.querySelector("#pmt-toolbar-direction"),
     wrapToggle: root.querySelector("#pmt-wrap"),
+    stickyToggle: root.querySelector("#pmt-sticky"),
     maxWidthEnable: root.querySelector("#pmt-maxwidth-enable"),
     maxWidthRange: root.querySelector("#pmt-maxwidth-range"),
     maxWidthInput: root.querySelector("#pmt-maxwidth"),
@@ -742,3 +759,10 @@ function buildLayout(root) {
     jsOut: root.querySelector("#pmt-js")
   };
 }
+
+// Auto-montage : les <script type="module"> sont differes jusqu'a la fin du parsing HTML
+// (comme defer), donc #pmt-app est deja dans le DOM si present, quel que soit l'endroit
+// ou ce tag a ete injecte. Sur les pages sans #pmt-app (integration en slot global,
+// script charge partout), autoRoot vaut null et on ne fait simplement rien.
+const autoRoot = document.getElementById("pmt-app");
+if (autoRoot) mount(autoRoot);

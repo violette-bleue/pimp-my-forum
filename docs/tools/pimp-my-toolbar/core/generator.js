@@ -104,6 +104,10 @@ function generateCss(state, applyPack) {
   const styleBlock = stylesCss(state);
   if (styleBlock) blocks.push(styleBlock);
 
+  // 8. Editeur collant au scroll (facultatif). Hors du sous-arbre .sceditor-* : cible le
+  // posting box FA lui-meme, donc a part du reste du socle.
+  if (state.styles.toolbar && state.styles.toolbar.sticky) blocks.push(stickyBlock());
+
   return blocks.filter(Boolean).join("\n\n") + "\n";
 }
 
@@ -292,6 +296,19 @@ function stylesCss(state) {
   if (btDecl.length) out.push(`.sceditor-toolbar .sceditor-button {\n  ${btDecl.join("\n  ")}\n}`);
 
   return out.length ? "/* Habillage */\n" + out.join("\n\n") : "";
+}
+
+// Editeur collant : la position:sticky exige qu'aucun ancetre n'ait d'overflow different
+// de visible, d'ou le reset sur #postingbox (sinon le sticky est silencieusement ignore).
+function stickyBlock() {
+  return `/* Editeur collant au scroll */
+#postingbox {
+  overflow: unset !important;
+}
+#message-box .sceditor-container {
+  position: sticky !important;
+  top: 40px !important;
+}`;
 }
 
 // --- JS (uniquement si necessaire : boutons custom et/ou deplacement inter-groupes) ---

@@ -5,7 +5,7 @@ modules standalone :
 ☐ pimp my design
 ☑ pimp my post
     ✿ label@cible
-☐ pimp my toolbar
+☑ pimp my toolbar
 ☐ pimp my dices
 ☐ pimp my tooltips
 ☐ pimp my rapports

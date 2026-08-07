@@ -1,0 +1,81 @@
+<!-- pimp-my-forum/tools/pimp-my-post/index.html
+     Page de documentation a coller telle quelle sur une page FA (contenu, pas un
+     document HTML complet). Provisoire : sert de reference d'installation/config en
+     attendant le configurateur visuel (etat -> snippet genere), sur le meme modele que
+     pimp-my-toolbar. Le module runtime lui-meme ne bouge pas : docs/js/modules/pimp-my-post.js -->
+
+<style>
+  .pmp-doc-code {
+    display: block;
+    overflow-x: auto;
+    background: #2b2118;
+    color: var(--color-accent);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin: 8px 0 18px;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    line-height: 1.5;
+    white-space: pre;
+  }
+  .pmp-doc-section {
+    margin-bottom: 28px;
+  }
+</style>
+
+<h1>Pimp My Post</h1>
+<p class="pmf-tool-sub">Editeur de post ameliore : coloration BBCode/HTML + formulaire assiste
+   a partir de tes propres templates. Deux etapes pour l'installer, une troisieme
+   facultative pour le configurer.</p>
+
+<div class="pmp-doc-section">
+  <h2>1. Charger le module</h2>
+  <p>Administration &gt; Modules &gt; HTML &amp; JAVASCRIPT &gt; Gestion des codes Javascript
+     (placement : toutes les pages). Colle :</p>
+  <code class="pmp-doc-code">&lt;script type="module"&gt;
+  import { init } from "https://cdn.jsdelivr.net/gh/violette-bleue/pimp-my-forum@main/docs/js/modules/pimp-my-post.js";
+  init();
+&lt;/script&gt;</code>
+  <p>Le module charge lui-meme ce dont il a besoin (CodeMirror, son propre CSS) — rien
+     d'autre a ajouter pour une installation minimale.</p>
+</div>
+
+<div class="pmp-doc-section">
+  <h2>2. Ecrire tes templates</h2>
+  <p>Un champ assiste se declare avec <code>data-input</code> sur la balise a remplir :</p>
+  <code class="pmp-doc-code">&lt;!-- mode simple : cibles separees par des espaces --&gt;
+&lt;a data-input="href target text" href="" target=""&gt;texte&lt;/a&gt;
+
+&lt;!-- mode groupes : label@cible, label optionnel --&gt;
+&lt;a data-input="(Lien@href) (Cible@target) (@text)" href="" target=""&gt;texte&lt;/a&gt;</code>
+  <p>Sucres disponibles sur la meme balise :</p>
+  <ul>
+    <li><span class="pmf-badge">text</span> / <span class="pmf-badge">textarea</span> — cible le textContent</li>
+    <li><span class="pmf-badge">class--groupe</span> — groupe de classes exclusif ou multi (valeurs en config, voir plus bas)</li>
+    <li><span class="pmf-badge">data-label</span> — en-tete du groupe de champs</li>
+    <li><span class="pmf-badge">data-label-text</span> — intitule du champ texte</li>
+    <li><span class="pmf-badge">data-freezone="Titre"</span> — emplacement et libelle de la zone libre</li>
+  </ul>
+</div>
+
+<div class="pmp-doc-section">
+  <h2>3. Configurer les libelles (facultatif)</h2>
+  <p>Sans configuration, le module affiche le nom brut des attributs. Pour des libelles
+     lisibles, colle un second bloc <strong>avant</strong> le script d'installation :</p>
+  <code class="pmp-doc-code">&lt;script&gt;
+  window.PimpMyPost = { Config: {
+    labels:  { href: "Lien", "img href": "Lien direct vers l'image" },
+    selects: { "data-size": ["sm", { value: "lg", label: "Grand" }] },
+    classes: {
+      layout:  ["col1", { value: "col2", label: "Deux colonnes" }],       // exclusif
+      couleur: { mode: "multi", values: ["rouge", "bleu"] }                // multi
+    }
+  } };
+&lt;/script&gt;</code>
+  <p>Chaque valeur de liste accepte une string (<code>"val"</code> — le libelle affiche
+     sera "val") ou un objet <code>{ value, label }</code>. Le <code>value</code> part dans
+     le code genere, le <code>label</code> est purement d'affichage.</p>
+</div>
+
+<p class="pmf-tool-hint">Cette page est provisoire : un configurateur visuel (a la maniere
+   de Pimp My Toolbar) viendra la remplacer pour composer ces reglages sans toucher au JS.</p>

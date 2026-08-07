@@ -193,8 +193,8 @@ function setupEditor(container, inst) {
     }
     syncing = false;
   };
-  wrapInsert(inst, "sourceEditorInsertText", state, pullIntoCM);
-  wrapInsert(inst, "insert", state, pullIntoCM);
+  wrapInsert(inst, "sourceEditorInsertText", state, container, pullIntoCM);
+  wrapInsert(inst, "insert", state, container, pullIntoCM);
 
   // 5. Bascule source <-> WYSIWYG : CM visible seulement en sourceMode.
   const syncVisibility = () => {
@@ -832,7 +832,7 @@ function escapeAttr(s) {
   return String(s).replace(/"/g, "&quot;");
 }
 
-function wrapInsert(inst, fnName, state, after) {
+function wrapInsert(inst, fnName, state, container, after) {
   const original = inst[fnName];
   if (typeof original !== "function" || original._pmfWrapped) return;
   const wrapped = function (open, close) {
@@ -841,12 +841,34 @@ function wrapInsert(inst, fnName, state, after) {
       insertIntoField(f, getCM(), open, close);
       return;
     }
+    // Mode source (CM visible) : encadrer la selection reelle de CM, pas celle du
+    // textarea natif de SCEditor (obsolete/invisible, cause de l'insertion en fin de
+    // contenu). La resync CM -> champ POST est deja geree par cm.on("change").
+    const cm = container._pmfCM;
+    if (cm && container.classList.contains("sourceMode")) {
+      insertIntoCM(cm, open, close);
+      return;
+    }
     const r = original.apply(this, arguments);
     after();
     return r;
   };
   wrapped._pmfWrapped = true;
   inst[fnName] = wrapped;
+}
+
+// Insere en encadrant la selection courante de CM (ou au curseur si rien n'est
+// selectionne), meme logique que insertIntoField pour un champ PMP libre.
+function insertIntoCM(cm, open, close) {
+  const o = open || "";
+  const c = close || "";
+  const sel = cm.getSelection();
+  cm.replaceSelection(o + sel + c);
+  if (!sel) {
+    const pos = cm.getCursor();
+    cm.setCursor({ line: pos.line, ch: pos.ch - c.length });
+  }
+  cm.focus();
 }
 
 function getCM() {

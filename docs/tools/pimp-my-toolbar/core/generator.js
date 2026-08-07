@@ -1,4 +1,4 @@
-/* pimp-my-toolbar/core/generator.js
+/*  pimp-my-toolbar/core/generator.js
    Le GENERATEUR serialise l'etat en code pret a coller : { css, js }.
 
    Principe :
@@ -61,7 +61,7 @@ function generateCss(state, applyPack) {
     blocks.push(`@import url('${pack.font.import}');`);
   }
 
-  blocks.push("/* ===== ✮⋆˙ ૮ ˶ᵔ ᵕ ᵔ˶ ა Pimp My Toolbar — CSS généré sur https://pimpmyforum.forumactif.com/ ✮⋆˙ ===== */");
+  blocks.push("/* ===== 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა Pimp My Toolbar 🌈 CSS généré sur https://pimpmyforum.forumactif.com/ ===== */");
 
   // 2. Variables : le seul endroit a modifier pour ajuster l'ensemble.
   blocks.push(varsBlock(state, pack, applyPack));

@@ -1,20 +1,18 @@
 # pimp my forum
-☑☐
-core :
-☐ design vitrine
-☐ design generator
-☐ regle/concept
-☐ contact ? zéro engagement de réponse mais ouverte aux propositions en fonction de ce que mes capacités et ma disponibilité me permettent d'envisager
-☐ forum façon reddit entraide free ouvert
 
 
 modules standalone : 
+☐ pimp my design
 ☑ pimp my post
     ✿ label@cible
+☐ pimp my toolbar
 ☐ pimp my dices
 ☐ pimp my tooltips
-☐ scripts génériques utiles 
+☐ pimp my rapports
 
 tuto :
 ☐ fonticon
 ☐ github pour ton css
+
+
+🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა Pimp My 🌈 code généré sur https://pimpmyforum.forumactif.com/

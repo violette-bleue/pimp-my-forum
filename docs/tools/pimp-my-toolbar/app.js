@@ -72,6 +72,13 @@ export function mount(root) {
   const state = createInitialState();
   const ui = buildLayout(root);
 
+  // Bascule Simple/Avance : affiche ou masque les reglages avances (pur affichage, aucun
+  // impact sur l'etat — une valeur avancee deja definie reste active meme masquee).
+  const advancedEls = [...root.querySelectorAll(".pmt-advanced-only")];
+  ui.advancedMode.addEventListener("change", () => {
+    advancedEls.forEach((el) => { el.hidden = !ui.advancedMode.checked; });
+  });
+
   // Rafraichit apercu + reserve depuis l'etat, applique le CSS courant, rebranche les
   // interactions. Le DOM etant reconstruit a chaque passage, les ecouteurs doivent l'etre
   // aussi : c'est le prix de "l'apercu est une vue pure de l'etat", et il est modique.
@@ -264,13 +271,17 @@ function buildLayout(root) {
         </div>
       </section>
 
-      <section class="pmt-panel">
+      <section class="pmt-panel" id="pmt-settings">
         <h2>Reglages</h2>
         <p class="pmt-hint">Les valeurs par defaut collent a la toolbar native.</p>
+        <label class="pmt-check pmt-mode-switch">
+          <input type="checkbox" id="pmt-advanced-mode">
+          Mode avance
+        </label>
 
-        <h3>Container</h3>
+        <h3 class="pmt-advanced-only" hidden>Container</h3>
         <div class="pmt-row">
-          <label>Disposition
+          <label class="pmt-advanced-only" hidden>Disposition
             <select id="pmt-toolbar-direction">
               <option value="row">Ligne</option>
               <option value="column">Colonne</option>
@@ -292,68 +303,86 @@ function buildLayout(root) {
             </button>
           </div>
         </div>
-        <div class="pmt-row">
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-maxwidth-enable">
-            Largeur max
-          </label>
-          <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
-          <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-toolbar-bg-enable">
-            Couleur de fond
-          </label>
-          <input type="color" id="pmt-toolbar-bg" value="#f5efe4" disabled>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-toolbar-radius-enable">
-            Arrondi
-          </label>
-          <input type="range" id="pmt-toolbar-radius-range" min="0" max="40" step="1" value="8" disabled>
-          <input type="number" id="pmt-toolbar-radius" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-toolbar-padding-enable">
-            Padding
-          </label>
-          <input type="range" id="pmt-toolbar-padding-range" min="0" max="40" step="1" value="8" disabled>
-          <input type="number" id="pmt-toolbar-padding" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-toolbar-border-enable">
-            Bordure
-          </label>
-          <input type="text" id="pmt-toolbar-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+        <div class="pmt-row pmt-advanced-only" hidden>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-maxwidth-enable">
+              Largeur max
+            </label>
+            <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
+            <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
+          </span>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-toolbar-bg-enable">
+              Couleur de fond
+            </label>
+            <input type="color" id="pmt-toolbar-bg" value="#f5efe4" disabled>
+          </span>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-toolbar-radius-enable">
+              Arrondi
+            </label>
+            <input type="range" id="pmt-toolbar-radius-range" min="0" max="40" step="1" value="8" disabled>
+            <input type="number" id="pmt-toolbar-radius" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+          </span>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-toolbar-padding-enable">
+              Padding
+            </label>
+            <input type="range" id="pmt-toolbar-padding-range" min="0" max="40" step="1" value="8" disabled>
+            <input type="number" id="pmt-toolbar-padding" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+          </span>
+          <span class="pmt-inline-group">
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-toolbar-border-enable">
+              Bordure
+            </label>
+            <input type="text" id="pmt-toolbar-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+          </span>
         </div>
 
-        <h3>Groupes</h3>
+        <h3 class="pmt-advanced-only" hidden>Groupes</h3>
         <div class="pmt-row">
           <label>Espacement
             <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
             <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
           </label>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-group-bg-enable">
-            Couleur de fond
-          </label>
-          <input type="color" id="pmt-group-bg" value="#f5efe4" disabled>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-group-radius-enable">
-            Arrondi
-          </label>
-          <input type="range" id="pmt-group-radius-range" min="0" max="40" step="1" value="6" disabled>
-          <input type="number" id="pmt-group-radius" class="pmt-num" min="0" max="40" step="1" value="6" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-group-padding-enable">
-            Padding
-          </label>
-          <input type="range" id="pmt-group-padding-range" min="0" max="20" step="1" value="4" disabled>
-          <input type="number" id="pmt-group-padding" class="pmt-num" min="0" max="20" step="1" value="4" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-group-border-enable">
-            Bordure
-          </label>
-          <input type="text" id="pmt-group-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-group-bg-enable">
+              Couleur de fond
+            </label>
+            <input type="color" id="pmt-group-bg" value="#f5efe4" disabled>
+          </span>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-group-radius-enable">
+              Arrondi
+            </label>
+            <input type="range" id="pmt-group-radius-range" min="0" max="40" step="1" value="6" disabled>
+            <input type="number" id="pmt-group-radius" class="pmt-num" min="0" max="40" step="1" value="6" disabled> px
+          </span>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-group-padding-enable">
+              Padding
+            </label>
+            <input type="range" id="pmt-group-padding-range" min="0" max="20" step="1" value="4" disabled>
+            <input type="number" id="pmt-group-padding" class="pmt-num" min="0" max="20" step="1" value="4" disabled> px
+          </span>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-group-border-enable">
+              Bordure
+            </label>
+            <input type="text" id="pmt-group-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+          </span>
         </div>
 
-        <h3>Icones</h3>
+        <h3 class="pmt-advanced-only" hidden>Icones</h3>
         <div class="pmt-row">
           <label>Taille
             <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
@@ -364,26 +393,32 @@ function buildLayout(root) {
             Couleur
           </label>
           <input type="color" id="pmt-color" value="#2b2118" disabled>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-icon-bg-enable">
-            Couleur de fond
-          </label>
-          <input type="color" id="pmt-icon-bg" value="#f5efe4" disabled>
-          <label>Arrondi
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-icon-bg-enable">
+              Couleur de fond
+            </label>
+            <input type="color" id="pmt-icon-bg" value="#f5efe4" disabled>
+          </span>
+          <label class="pmt-advanced-only" hidden>Arrondi
             <input type="range" id="pmt-icon-radius" min="0" max="24" step="1" value="6">
             <input type="number" id="pmt-icon-radius-num" class="pmt-num" min="0" max="24" step="1" value="6"> px
           </label>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-icon-padding-enable">
-            Padding
-          </label>
-          <input type="range" id="pmt-icon-padding-range" min="0" max="16" step="1" value="4" disabled>
-          <input type="number" id="pmt-icon-padding" class="pmt-num" min="0" max="16" step="1" value="4" disabled> px
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-icon-border-enable">
-            Bordure
-          </label>
-          <input type="text" id="pmt-icon-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-icon-padding-enable">
+              Padding
+            </label>
+            <input type="range" id="pmt-icon-padding-range" min="0" max="16" step="1" value="4" disabled>
+            <input type="number" id="pmt-icon-padding" class="pmt-num" min="0" max="16" step="1" value="4" disabled> px
+          </span>
+          <span class="pmt-inline-group pmt-advanced-only" hidden>
+            <label class="pmt-check">
+              <input type="checkbox" id="pmt-icon-border-enable">
+              Bordure
+            </label>
+            <input type="text" id="pmt-icon-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+          </span>
         </div>
       </section>
 
@@ -431,6 +466,7 @@ function buildLayout(root) {
     reserve: root.querySelector("#pmt-reserve"),
     packSelect,
     applyPack: root.querySelector("#pmt-apply-pack"),
+    advancedMode: root.querySelector("#pmt-advanced-mode"),
     gapRange: root.querySelector("#pmt-gap"),
     gapNum: root.querySelector("#pmt-gap-num"),
     iconSizeRange: root.querySelector("#pmt-icon-size"),

@@ -129,14 +129,18 @@ function varsBlock(state, pack, applyPack) {
 }`;
 }
 
-// Disposition de la toolbar elle-meme : flex + retour a la ligne, pour qu'elle s'adapte
-// a l'espace disponible plutot que de deborder. Toujours emis (independant du pack).
+// Disposition de la toolbar et des groupes : flex + retour a la ligne, plus reset du
+// fond/bordure natifs FA (regles parasites qui autrement passent devant l'habillage
+// choisi par l'utilisateur). Toujours emis (independant du pack : la disposition n'a
+// rien a voir avec le choix des icones).
 function toolbarLayoutBlock() {
-  return `/* Disposition : la toolbar passe a la ligne plutot que de deborder */
-.sceditor-toolbar {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  box-sizing: border-box !important;
+  return `/* Disposition + reset des regles natives parasites (fond, bordure) */
+.sceditor-toolbar,
+.sceditor-group {
+  background: unset !important;
+  border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }`;
 }
 

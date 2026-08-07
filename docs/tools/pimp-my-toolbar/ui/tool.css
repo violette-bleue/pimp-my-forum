@@ -1,6 +1,13 @@
 /* pimp-my-toolbar/ui/tool.css
-   Habillage de l'interface de l'outil (pas du rendu de la toolbar simulee, qui est
-   pilote par le CSS genere). Volontairement sobre : base fonctionnelle a retravailler.
+   Habillage de l'interface de l'outil.
+
+   Deux rendus distincts, volontairement :
+     - la TOOLBAR SIMULEE (#pmt-preview) est stylee par le CSS GENERE (scope a cette zone),
+       pour etre le reflet exact de ce que l'utilisateur obtiendra sur son forum ;
+     - la RESERVE (.pmt-reserve-zone) est stylee ici, en pastilles de texte lisibles.
+       Elle n'herite pas du CSS genere (sinon les boutons masques y seraient invisibles,
+       puisque le masquage est justement un display:none sur la commande).
+
    Utilise les tokens Puzzle & Pixel s'ils sont presents, avec repli autonome. */
 
 .pmt {
@@ -19,15 +26,8 @@
   line-height: 1.5;
 }
 
-.pmt-head h1 {
-  margin: 0 0 4px;
-  font-size: 1.8rem;
-}
-
-.pmt-sub {
-  margin: 0 0 24px;
-  opacity: .75;
-}
+.pmt-head h1 { margin: 0 0 4px; font-size: 1.8rem; }
+.pmt-sub { margin: 0 0 24px; opacity: .75; }
 
 .pmt-panel {
   background: var(--pmt-bg);
@@ -37,34 +37,12 @@
   margin-bottom: 18px;
 }
 
-.pmt-panel h2 {
-  margin: 0 0 6px;
-  font-size: 1.05rem;
-}
+.pmt-panel h2 { margin: 0 0 6px; font-size: 1.05rem; }
+.pmt-hint { margin: 0 0 12px; font-size: .85rem; opacity: .7; }
 
-.pmt-hint {
-  margin: 0 0 12px;
-  font-size: .85rem;
-  opacity: .7;
-}
-
-.pmt-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  align-items: center;
-}
-
-.pmt-row label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .9rem;
-}
-
-.pmt-check {
-  cursor: pointer;
-}
+.pmt-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.pmt-row label { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+.pmt-check { cursor: pointer; }
 
 .pmt-btn {
   background: var(--pmt-accent-2);
@@ -76,11 +54,7 @@
   cursor: pointer;
   line-height: normal;
 }
-
-.pmt-btn:hover {
-  background: var(--pmt-accent);
-  color: var(--pmt-text);
-}
+.pmt-btn:hover { background: var(--pmt-accent); color: var(--pmt-text); }
 
 .pmt-code {
   width: 100%;
@@ -97,8 +71,7 @@
   resize: vertical;
 }
 
-/* Zones d'accueil de la toolbar simulee et de la reserve.
-   Le rendu des boutons eux-memes vient du CSS genere (fidelite au forum). */
+/* --- Zone d'apercu : simple cadre d'accueil, le rendu vient du CSS genere --- */
 .pmt-preview,
 .pmt-reserve {
   border: 1px dashed rgba(43, 33, 24, .3);
@@ -107,14 +80,61 @@
   min-height: 54px;
   background: #fff;
 }
+.pmt-reserve { border-color: var(--pmt-accent-2); }
 
-.pmt-reserve {
-  border-color: var(--pmt-accent-2);
+/* Couleur d'icone par defaut dans l'apercu : sans ca, le CSS du forum hote peut
+   rendre les glyphes blancs (donc invisibles sur fond blanc). Le CSS genere par
+   l'utilisateur, s'il definit une couleur, prendra le dessus (il est plus specifique
+   une fois scope, et porte !important). */
+.pmt-preview .sceditor-button { cursor: pointer; }
+.pmt-preview .sceditor-button::before { color: var(--pmt-text); }
+
+/* Sans pack applique : on laisse le libelle natif visible pour que l'apercu reste
+   lisible (sur le vrai forum, ce sont les icones sprite natives qui s'affichent). */
+.pmt-preview .sceditor-button div {
+  font-size: 11px;
+  color: var(--pmt-text);
+  padding: 2px 6px;
+  white-space: nowrap;
 }
 
-/* Filet de securite : si aucun pack n'est applique, les libelles natifs doivent
-   rester lisibles dans l'apercu (sinon les boutons seraient vides). */
-.pmt-preview .sceditor-button,
-.pmt-reserve .sceditor-button {
+/* --- Reserve : pastilles de texte, rendu autonome --- */
+.pmt-reserve-zone {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pmt-reserve-empty {
+  margin: 0;
+  font-size: .85rem;
+  opacity: .55;
+}
+
+.pmt-reserve-zone .sceditor-button {
+  display: inline-flex !important;
+  align-items: center;
+  background: rgba(193, 80, 46, .1);
+  border: 1px solid rgba(193, 80, 46, .35);
+  border-radius: 999px;
+  padding: 3px 12px;
   cursor: pointer;
+  text-decoration: none;
+  width: auto !important;
+  height: auto !important;
+  background-image: none !important;
 }
+
+.pmt-reserve-zone .sceditor-button:hover {
+  background: rgba(193, 80, 46, .22);
+}
+
+/* Dans la reserve, on montre le LIBELLE (pas l'icone) : plus lisible pour choisir. */
+.pmt-reserve-zone .sceditor-button div {
+  display: block !important;
+  font-size: 12px;
+  color: var(--pmt-text);
+  text-indent: 0;
+}
+
+.pmt-reserve-zone .sceditor-button::before { content: none !important; }

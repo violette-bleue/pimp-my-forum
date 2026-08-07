@@ -18,11 +18,28 @@
   font-size      : 190px;
   display        : flex;
   line-height    : normal;
-  background     : linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent-2) 140%);
+  background     : linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent) 140%);
   background-clip: text;
   width          : fit-content;
 } 
-
+div#pmf-site-title::before {
+    content: 'PIMP MY FORUM';
+    position: absolute;
+    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/03.svg);
+    background-clip: text;
+    background-size: 110px;
+    mix-blend-mode: color;
+    z-index: 2;
+}
+div#pmf-site-title::after {
+    content: 'PIMP MY FORUM';
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent-2) 140%);
+    background-clip: text;
+    mix-blend-mode: hard-light;
+    padding: 0px 0px 0px 0px;
+}
 .pmf-site-desc__tagline {
   color  : var(--color-text);
   opacity: 0.8;

@@ -8,19 +8,22 @@
 
 .pmf-logo img {
   display: block;
-  height: 48px;
-  width: auto;
+  height : 48px;
+  width  : auto;
 }
 
 .pmf-site-desc__title {
-    font-family: var(--pmp-font-display);
-    color: var(--pmp-color-accent-2);
-    font-size: 190px;
-    display: flex;
-    line-height: normal;
+  font-family    : var(--font-display);
+  color          : transparent;
+  font-size      : 190px;
+  display        : flex;
+  line-height    : normal;
+  background     : linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent-2) 140%);
+  background-clip: text;
+  width          : fit-content;
 }
 
 .pmf-site-desc__tagline {
-  color: var(--pmp-color-text);
+  color  : var(--color-text);
   opacity: 0.8;
 }

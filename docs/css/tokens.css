@@ -5,9 +5,9 @@
     font-family: 'Porao Grottesche';
     src        : url('../font/PoraoGrottescheRegular.woff2') format('woff2'),
         url('../font/PoraoGrottescheRegular.woff') format('woff');
-    font-weight   : normal;
-    font-style    : normal;
-    font-display  : swap;
+    font-weight : normal;
+    font-style  : normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -21,13 +21,19 @@
 
 :root {
     /* Couleurs */
-    --color-bg: #a9a0b0;
+    --color-bg     : #a9a0b0;
     --color-bg-soft: #c2bac8;
+    --color-pannel : #e0dcf5;
 
     --color-text    : #ffffff;
+    --color-muted : #cecece;
     --color-accent  : #c6a3ff;
     --color-accent-2: #eed91b;
     --color-accent-3: #ff89c1;
+
+    --color-accent  : #d5d8ff;
+    --color-accent-2: #fbc9bd;
+    --color-accent-3: #f6bce6;
 
     /* Typo */
     --font-display: "Porao Grottesche", sans-serif;

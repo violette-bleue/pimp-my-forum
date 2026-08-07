@@ -26,6 +26,18 @@ import { PACKS } from "./data/packs.js";
 // ecart, pour rester coherent avec le defaut natif (32px bouton / 18px icone).
 const BUTTON_PADDING = 14;
 
+// Synchronise un slider et son champ nombre associe (l'un pilote l'autre), et notifie
+// onChange(valeur) quel que soit le controle actionne.
+function syncRangeNumber(rangeEl, numEl, onChange) {
+  const apply = (value) => {
+    rangeEl.value = value;
+    numEl.value = value;
+    onChange(value);
+  };
+  rangeEl.addEventListener("input", () => apply(rangeEl.value));
+  numEl.addEventListener("input", () => apply(numEl.value));
+}
+
 export function mount(root) {
   if (!root) return;
 
@@ -77,16 +89,15 @@ export function mount(root) {
   ui.applyPack.addEventListener("change", refresh);
 
   // Reglages : gap, taille des icones (la taille des boutons suit pour ne pas clipper
-  // le glyphe), couleur facultative.
-  ui.gapRange.addEventListener("input", () => {
-    ui.gapVal.textContent = ui.gapRange.value + "px";
-    setStyle(state, "group", "gap", ui.gapRange.value + "px");
+  // le glyphe), couleur facultative. Slider + champ nombre restent synchronises (l'un
+  // ou l'autre pilote la meme valeur).
+  syncRangeNumber(ui.gapRange, ui.gapNum, (v) => {
+    setStyle(state, "group", "gap", v + "px");
     refresh();
   });
 
-  ui.iconSizeRange.addEventListener("input", () => {
-    const size = parseInt(ui.iconSizeRange.value, 10);
-    ui.iconSizeVal.textContent = size + "px";
+  syncRangeNumber(ui.iconSizeRange, ui.iconSizeNum, (v) => {
+    const size = parseInt(v, 10);
     setStyle(state, "icon", "size", size + "px");
     setStyle(state, "button", "size", size + BUTTON_PADDING + "px");
     refresh();
@@ -113,15 +124,29 @@ export function mount(root) {
   });
 
   ui.maxWidthEnable.addEventListener("change", () => {
-    ui.maxWidthInput.disabled = !ui.maxWidthEnable.checked;
-    setStyle(state, "toolbar", "maxWidth", ui.maxWidthEnable.checked ? ui.maxWidthInput.value + "px" : null);
+    const on = ui.maxWidthEnable.checked;
+    ui.maxWidthRange.disabled = !on;
+    ui.maxWidthInput.disabled = !on;
+    setStyle(state, "toolbar", "maxWidth", on ? ui.maxWidthInput.value + "px" : null);
     refresh();
   });
 
-  ui.maxWidthInput.addEventListener("input", () => {
+  syncRangeNumber(ui.maxWidthRange, ui.maxWidthInput, (v) => {
     if (!ui.maxWidthEnable.checked) return;
-    setStyle(state, "toolbar", "maxWidth", ui.maxWidthInput.value + "px");
+    setStyle(state, "toolbar", "maxWidth", v + "px");
     refresh();
+  });
+
+  ui.alignButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const v = btn.dataset.align;
+      ui.alignButtons.forEach((b) => {
+        b.classList.toggle("active", b === btn);
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      setStyle(state, "toolbar", "align", v === "left" ? null : v); // "left" = defaut, rien a ecrire
+      refresh();
+    });
   });
 
   // Generation explicite (bouton) : remplit les deux zones de code.
@@ -164,11 +189,11 @@ function buildLayout(root) {
         <div class="pmt-row">
           <label>Espacement
             <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
-            <span id="pmt-gap-val" class="pmt-range-val">5px</span>
+            <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
           </label>
           <label>Taille des icones
             <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
-            <span id="pmt-icon-size-val" class="pmt-range-val">18px</span>
+            <input type="number" id="pmt-icon-size-num" class="pmt-num" min="12" max="32" step="1" value="18"> px
           </label>
           <label class="pmt-check">
             <input type="checkbox" id="pmt-color-enable">
@@ -187,7 +212,19 @@ function buildLayout(root) {
             <input type="checkbox" id="pmt-maxwidth-enable">
             Largeur max
           </label>
-          <input type="number" id="pmt-maxwidth" min="100" max="1200" step="10" value="400" disabled> px
+          <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
+          <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
+          <div class="pmt-align-group" role="group" aria-label="Alignement">
+            <button type="button" class="pmt-align-btn active" data-align="left" title="Aligner a gauche" aria-pressed="true">
+              <span style="height:60%"></span><span style="height:40%"></span><span style="height:25%"></span>
+            </button>
+            <button type="button" class="pmt-align-btn" data-align="center" title="Centrer" aria-pressed="false">
+              <span style="height:40%"></span><span style="height:60%"></span><span style="height:25%"></span>
+            </button>
+            <button type="button" class="pmt-align-btn" data-align="right" title="Aligner a droite" aria-pressed="false">
+              <span style="height:25%"></span><span style="height:40%"></span><span style="height:60%"></span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -244,6 +281,7 @@ function buildLayout(root) {
     toolbarDirection: root.querySelector("#pmt-toolbar-direction"),
     maxWidthEnable: root.querySelector("#pmt-maxwidth-enable"),
     maxWidthInput: root.querySelector("#pmt-maxwidth"),
+    alignButtons: [...root.querySelectorAll(".pmt-align-btn")],
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

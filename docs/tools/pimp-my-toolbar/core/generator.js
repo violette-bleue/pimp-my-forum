@@ -32,6 +32,14 @@ const DEFAULTS = {
   radius: "6px"
 };
 
+// Alignement des groupes dans la toolbar (justify-content) : flex-start/flex-end plutot
+// que left/right, pour un support flex plus large.
+const ALIGN_TO_JUSTIFY = {
+  left: "flex-start",
+  center: "center",
+  right: "flex-end"
+};
+
 // Selecteur d'un bouton par sa commande.
 function sel(command) {
   return `.sceditor-button[data-sceditor-command="${command}"]`;
@@ -138,6 +146,7 @@ function iconResetBlock() {
   return `/* Socle : dimensions, centrage, neutralisation du sprite natif */
 .sceditor-toolbar .sceditor-group {
   display: inline-flex !important;
+  flex-wrap: wrap !important;
   align-items: center !important;
   gap: var(--pmt-gap) !important;
 }
@@ -216,6 +225,12 @@ function stylesCss(state) {
   if (tb.radius) tbDecl.push(`border-radius: ${tb.radius} !important;`);
   if (tb.direction) tbDecl.push(`flex-direction: ${tb.direction} !important;`);
   if (tb.maxWidth) tbDecl.push(`max-width: ${tb.maxWidth} !important;`);
+  if (tb.align) {
+    // En flex, l'axe qui porte l'alignement horizontal depend du sens : justify-content
+    // en ligne (axe principal horizontal), align-items en colonne (axe secondaire).
+    const prop = tb.direction === "column" ? "align-items" : "justify-content";
+    tbDecl.push(`${prop}: ${ALIGN_TO_JUSTIFY[tb.align]} !important;`);
+  }
   if (tbDecl.length) out.push(`.sceditor-toolbar {\n  ${tbDecl.join("\n  ")}\n}`);
 
   const gr = s.group || {};

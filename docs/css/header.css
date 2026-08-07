@@ -35,12 +35,16 @@ div#pmf-site-title::after {
     content: 'PIMP MY FORUM';
     position: absolute;
     z-index: 2;
-    background: linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent-2) 140%);
+    background: linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
     background-clip: text;
     mix-blend-mode: hard-light;
     padding: 0px 0px 0px 0px;
 }
 .pmf-site-desc__tagline {
-  color  : var(--color-text);
-  opacity: 0.8;
+    color: var(--color-text);
+    opacity: 0.8;
+    font-family: var(--font-mono);
+    font-size: 30px;
+    line-height: normal;
+    letter-spacing: 10px;
 }

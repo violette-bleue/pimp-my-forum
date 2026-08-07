@@ -21,7 +21,7 @@
   background     : linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent-2) 140%);
   background-clip: text;
   width          : fit-content;
-}
+} 
 
 .pmf-site-desc__tagline {
   color  : var(--color-text);

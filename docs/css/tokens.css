@@ -25,11 +25,12 @@
     --color-bg-soft: #c2bac8;
     --color-pannel : #e0dcf5;
 
-    --color-text    : #ffffff;
-    --color-muted : #cecece;
-    --color-accent  : #c6a3ff;
-    --color-accent-2: #eed91b;
-    --color-accent-3: #ff89c1;
+    --color-text : #ffffff;
+    --color-muted: #cecece;
+
+    --flash-accent  : #c6a3ff;
+    --flash-accent-2: #eed91b;
+    --flash-accent-3: #ff89c1;
 
     --color-accent  : #d5d8ff;
     --color-accent-2: #fbc9bd;

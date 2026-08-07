@@ -18,7 +18,7 @@
   font-size      : 190px;
   display        : flex;
   line-height    : normal;
-  background     : linear-gradient(263deg, var(--color-accent) 40%, var(--color-accent-3) 73%, var(--color-accent) 140%);
+  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
   background-clip: text;
   width          : fit-content;
 } 

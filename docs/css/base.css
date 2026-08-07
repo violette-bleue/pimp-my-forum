@@ -13,3 +13,12 @@ body {
 .pmp-fa-raw {
   all: revert;
 }
+#wrap {
+    background-color: var(--color-bg-soft);
+}
+h1 {
+    font-family: 'Nichol Demo';
+    font-size: 60px;
+    color: var(--color-accent-3);
+    font-weight: normal;
+}

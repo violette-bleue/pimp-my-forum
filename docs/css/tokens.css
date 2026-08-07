@@ -33,6 +33,7 @@
     --font-display: "Porao Grottesche", sans-serif;
     --font-title  : "Nichol Demo", sans-serif;
     --font-body   : "Krub", sans-serif;
+    --font-mono   : "Jersey 10 Charted", monospace;
 
     /* Layout */
     --radius           : 0px;

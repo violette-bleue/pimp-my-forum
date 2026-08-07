@@ -38,6 +38,19 @@ function syncRangeNumber(rangeEl, numEl, onChange) {
   numEl.addEventListener("input", () => apply(numEl.value));
 }
 
+// Associe une checkbox d'activation a un input color : decoche => valeur null (pas de
+// style genere), coche => valeur du color picker. onChange(valeur) est notifie des deux.
+function bindColorToggle(enableEl, colorEl, onChange) {
+  enableEl.addEventListener("change", () => {
+    colorEl.disabled = !enableEl.checked;
+    onChange(enableEl.checked ? colorEl.value : null);
+  });
+  colorEl.addEventListener("input", () => {
+    if (!enableEl.checked) return;
+    onChange(colorEl.value);
+  });
+}
+
 export function mount(root) {
   if (!root) return;
 
@@ -103,23 +116,36 @@ export function mount(root) {
     refresh();
   });
 
-  ui.colorEnable.addEventListener("change", () => {
-    ui.colorInput.disabled = !ui.colorEnable.checked;
-    setStyle(state, "button", "color", ui.colorEnable.checked ? ui.colorInput.value : null);
+  bindColorToggle(ui.colorEnable, ui.colorInput, (v) => {
+    setStyle(state, "button", "color", v);
     refresh();
   });
 
-  ui.colorInput.addEventListener("input", () => {
-    if (!ui.colorEnable.checked) return;
-    setStyle(state, "button", "color", ui.colorInput.value);
+  bindColorToggle(ui.toolbarBgEnable, ui.toolbarBgInput, (v) => {
+    setStyle(state, "toolbar", "bg", v);
     refresh();
   });
 
-  // Disposition de la toolbar : sens (ligne/colonne) et largeur max facultative. Le repli
-  // multi-lignes (flex-wrap) est lui toujours actif, genere sans reglage associe.
+  bindColorToggle(ui.groupBgEnable, ui.groupBgInput, (v) => {
+    setStyle(state, "group", "bg", v);
+    refresh();
+  });
+
+  bindColorToggle(ui.iconBgEnable, ui.iconBgInput, (v) => {
+    setStyle(state, "button", "bg", v);
+    refresh();
+  });
+
+  // Disposition de la toolbar : sens (ligne/colonne), retour a la ligne, largeur max
+  // facultative. Le wrap est actif par defaut (socle) ; decocher ecrit l'exception nowrap.
   ui.toolbarDirection.addEventListener("change", () => {
     const v = ui.toolbarDirection.value;
     setStyle(state, "toolbar", "direction", v === "row" ? null : v); // "row" = defaut, rien a ecrire
+    refresh();
+  });
+
+  ui.wrapToggle.addEventListener("change", () => {
+    setStyle(state, "toolbar", "wrap", ui.wrapToggle.checked ? null : "nowrap"); // wrap = defaut
     refresh();
   });
 
@@ -184,23 +210,9 @@ function buildLayout(root) {
 
       <section class="pmt-panel">
         <h2>Reglages</h2>
-        <p class="pmt-hint">Espacement et taille des boutons. Les valeurs par defaut
-           collent a la toolbar native.</p>
-        <div class="pmt-row">
-          <label>Espacement
-            <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
-            <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
-          </label>
-          <label>Taille des icones
-            <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
-            <input type="number" id="pmt-icon-size-num" class="pmt-num" min="12" max="32" step="1" value="18"> px
-          </label>
-          <label class="pmt-check">
-            <input type="checkbox" id="pmt-color-enable">
-            Couleur des icones
-          </label>
-          <input type="color" id="pmt-color" value="#2b2118" disabled>
-        </div>
+        <p class="pmt-hint">Les valeurs par defaut collent a la toolbar native.</p>
+
+        <h3>Container</h3>
         <div class="pmt-row">
           <label>Disposition
             <select id="pmt-toolbar-direction">
@@ -209,11 +221,9 @@ function buildLayout(root) {
             </select>
           </label>
           <label class="pmt-check">
-            <input type="checkbox" id="pmt-maxwidth-enable">
-            Largeur max
+            <input type="checkbox" id="pmt-wrap" checked>
+            Retour a la ligne
           </label>
-          <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
-          <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
           <div class="pmt-align-group" role="group" aria-label="Alignement">
             <button type="button" class="pmt-align-btn active" data-align="left" title="Aligner a gauche" aria-pressed="true">
               <span style="height:60%"></span><span style="height:40%"></span><span style="height:25%"></span>
@@ -225,6 +235,50 @@ function buildLayout(root) {
               <span style="height:25%"></span><span style="height:40%"></span><span style="height:60%"></span>
             </button>
           </div>
+        </div>
+        <div class="pmt-row">
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-maxwidth-enable">
+            Largeur max
+          </label>
+          <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
+          <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-toolbar-bg-enable">
+            Couleur de fond
+          </label>
+          <input type="color" id="pmt-toolbar-bg" value="#f5efe4" disabled>
+        </div>
+
+        <h3>Groupes</h3>
+        <div class="pmt-row">
+          <label>Espacement
+            <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
+            <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
+          </label>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-group-bg-enable">
+            Couleur de fond
+          </label>
+          <input type="color" id="pmt-group-bg" value="#f5efe4" disabled>
+        </div>
+
+        <h3>Icones</h3>
+        <div class="pmt-row">
+          <label>Taille
+            <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
+            <input type="number" id="pmt-icon-size-num" class="pmt-num" min="12" max="32" step="1" value="18"> px
+          </label>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-color-enable">
+            Couleur
+          </label>
+          <input type="color" id="pmt-color" value="#2b2118" disabled>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-icon-bg-enable">
+            Couleur de fond
+          </label>
+          <input type="color" id="pmt-icon-bg" value="#f5efe4" disabled>
         </div>
       </section>
 
@@ -279,10 +333,17 @@ function buildLayout(root) {
     colorEnable: root.querySelector("#pmt-color-enable"),
     colorInput: root.querySelector("#pmt-color"),
     toolbarDirection: root.querySelector("#pmt-toolbar-direction"),
+    wrapToggle: root.querySelector("#pmt-wrap"),
     maxWidthEnable: root.querySelector("#pmt-maxwidth-enable"),
     maxWidthRange: root.querySelector("#pmt-maxwidth-range"),
     maxWidthInput: root.querySelector("#pmt-maxwidth"),
     alignButtons: [...root.querySelectorAll(".pmt-align-btn")],
+    toolbarBgEnable: root.querySelector("#pmt-toolbar-bg-enable"),
+    toolbarBgInput: root.querySelector("#pmt-toolbar-bg"),
+    groupBgEnable: root.querySelector("#pmt-group-bg-enable"),
+    groupBgInput: root.querySelector("#pmt-group-bg"),
+    iconBgEnable: root.querySelector("#pmt-icon-bg-enable"),
+    iconBgInput: root.querySelector("#pmt-icon-bg"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

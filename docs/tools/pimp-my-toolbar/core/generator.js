@@ -231,6 +231,10 @@ function stylesCss(state) {
     const prop = tb.direction === "column" ? "align-items" : "justify-content";
     tbDecl.push(`${prop}: ${ALIGN_TO_JUSTIFY[tb.align]} !important;`);
   }
+  // Le socle pose deja flex-wrap:wrap par defaut ; ici on ne pose que l'exception (nowrap),
+  // qui l'emporte grace a l'ordre des regles (meme selecteur, meme poids, la derniere gagne).
+  if (tb.wrap === "nowrap") tbDecl.push("flex-wrap: nowrap !important;");
+  if (tb.border) tbDecl.push(`border: ${tb.border} !important;`);
   if (tbDecl.length) out.push(`.sceditor-toolbar {\n  ${tbDecl.join("\n  ")}\n}`);
 
   const gr = s.group || {};
@@ -238,7 +242,15 @@ function stylesCss(state) {
   if (gr.bg) grDecl.push(`background: ${gr.bg} !important;`);
   if (gr.border) grDecl.push(`border: ${gr.border} !important;`);
   if (gr.radius) grDecl.push(`border-radius: ${gr.radius} !important;`);
+  if (gr.padding) grDecl.push(`padding: ${gr.padding} !important;`);
   if (grDecl.length) out.push(`.sceditor-toolbar .sceditor-group {\n  ${grDecl.join("\n  ")}\n}`);
+
+  const bt = s.button || {};
+  const btDecl = [];
+  if (bt.bg) btDecl.push(`background: ${bt.bg} !important;`);
+  if (bt.border) btDecl.push(`border: ${bt.border} !important;`);
+  if (bt.padding) btDecl.push(`padding: ${bt.padding} !important;`);
+  if (btDecl.length) out.push(`.sceditor-toolbar .sceditor-button {\n  ${btDecl.join("\n  ")}\n}`);
 
   return out.length ? "/* Habillage */\n" + out.join("\n\n") : "";
 }

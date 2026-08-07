@@ -14,7 +14,11 @@
        { id, label, icon, type:"insert"|"action"|..., payload }
      ],
      styles: { toolbar:{}, group:{}, button:{}, icon:{} }
-     // toolbar: { bg, padding, radius, direction:"row"|"column", maxWidth, align:"left"|"center"|"right" }
+     // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth,
+     //            align:"left"|"center"|"right", wrap:"wrap"|"nowrap" }
+     // group:   { bg, border, radius, padding, gap }
+     // button:  { size, color, hoverColor, hoverBg, radius, bg, border, padding }
+     // icon:    { size }
    }
 
    L'etat initial reflete la toolbar NATIVE (rien de masque, ordre/groupe natifs,

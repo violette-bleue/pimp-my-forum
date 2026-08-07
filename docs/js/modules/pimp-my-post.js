@@ -215,7 +215,7 @@ function setupEditor(container, inst) {
   });
 
   // 6. Volet INPUTS : bouton bascule code <-> formulaire assiste.
-  setupForm(host, cm, state);
+  setupForm(host, cm, state, container);
 }
 
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
@@ -224,17 +224,19 @@ const TARGET_SELECTOR = "[data-input], [text], [textarea]";
 // Balise custom de la zone de texte libre (voir entete). Un tiret = custom element valide.
 const FREE_TAG = "pmp-freezone";
 
-function setupForm(host, cm, state) {
+function setupForm(host, cm, state, container) {
   const panel = document.createElement("div");
   panel.className = "pmf-pmp-panel";
   panel.style.display = "none";
   host.parentNode.insertBefore(panel, host.nextSibling);
 
+  // A l'interieur de .sceditor-container (pas de contrainte clavier ici, contrairement a
+  // CM : un bouton n'intercepte pas la frappe). Flux normal, en dernier enfant.
   const toggle = document.createElement("button");
   toggle.type = "button";
   toggle.className = "pmf-pmp-toggle button2";
   toggle.textContent = "Pimp My Post";
-  host.parentNode.insertBefore(toggle, host);
+  container.appendChild(toggle);
 
   // Applique un mode (form ou code) : bascule affichage + libelle du bouton. Utilise par le
   // clic et par la restauration du memo a l'ouverture. persist=false pour la restauration

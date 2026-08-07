@@ -53,16 +53,16 @@ function bindOptionalRange(enableEl, rangeEl, numEl, onChange) {
   });
 }
 
-// Associe une checkbox d'activation a un input color : decoche => valeur null (pas de
-// style genere), coche => valeur du color picker. onChange(valeur) est notifie des deux.
-function bindColorToggle(enableEl, colorEl, onChange) {
+// Associe une checkbox d'activation a un input (color ou texte) : decoche => valeur null
+// (pas de style genere), coche => valeur courante de l'input. onChange(valeur) notifie.
+function bindToggleInput(enableEl, inputEl, onChange) {
   enableEl.addEventListener("change", () => {
-    colorEl.disabled = !enableEl.checked;
-    onChange(enableEl.checked ? colorEl.value : null);
+    inputEl.disabled = !enableEl.checked;
+    onChange(enableEl.checked ? inputEl.value : null);
   });
-  colorEl.addEventListener("input", () => {
+  inputEl.addEventListener("input", () => {
     if (!enableEl.checked) return;
-    onChange(colorEl.value);
+    onChange(inputEl.value);
   });
 }
 
@@ -131,23 +131,39 @@ export function mount(root) {
     refresh();
   });
 
-  bindColorToggle(ui.colorEnable, ui.colorInput, (v) => {
+  bindToggleInput(ui.colorEnable, ui.colorInput, (v) => {
     setStyle(state, "button", "color", v);
     refresh();
   });
 
-  bindColorToggle(ui.toolbarBgEnable, ui.toolbarBgInput, (v) => {
+  bindToggleInput(ui.toolbarBgEnable, ui.toolbarBgInput, (v) => {
     setStyle(state, "toolbar", "bg", v);
     refresh();
   });
 
-  bindColorToggle(ui.groupBgEnable, ui.groupBgInput, (v) => {
+  bindToggleInput(ui.groupBgEnable, ui.groupBgInput, (v) => {
     setStyle(state, "group", "bg", v);
     refresh();
   });
 
-  bindColorToggle(ui.iconBgEnable, ui.iconBgInput, (v) => {
+  bindToggleInput(ui.iconBgEnable, ui.iconBgInput, (v) => {
     setStyle(state, "button", "bg", v);
+    refresh();
+  });
+
+  // Bordure : valeur composite (ex. "1px solid #2b2118"), texte libre comme group.border.
+  bindToggleInput(ui.toolbarBorderEnable, ui.toolbarBorderInput, (v) => {
+    setStyle(state, "toolbar", "border", v);
+    refresh();
+  });
+
+  bindToggleInput(ui.groupBorderEnable, ui.groupBorderInput, (v) => {
+    setStyle(state, "group", "border", v);
+    refresh();
+  });
+
+  bindToggleInput(ui.iconBorderEnable, ui.iconBorderInput, (v) => {
+    setStyle(state, "button", "border", v);
     refresh();
   });
 
@@ -183,6 +199,23 @@ export function mount(root) {
 
   syncRangeNumber(ui.iconRadiusRange, ui.iconRadiusNum, (v) => {
     setStyle(state, "button", "radius", v + "px");
+    refresh();
+  });
+
+  // Padding : facultatif sur les 3 niveaux (box-sizing:border-box pose au socle evite
+  // qu'il ne fasse deborder la taille fixe des boutons ou la largeur max du container).
+  bindOptionalRange(ui.toolbarPaddingEnable, ui.toolbarPaddingRange, ui.toolbarPaddingNum, (v) => {
+    setStyle(state, "toolbar", "padding", v && v + "px");
+    refresh();
+  });
+
+  bindOptionalRange(ui.groupPaddingEnable, ui.groupPaddingRange, ui.groupPaddingNum, (v) => {
+    setStyle(state, "group", "padding", v && v + "px");
+    refresh();
+  });
+
+  bindOptionalRange(ui.iconPaddingEnable, ui.iconPaddingRange, ui.iconPaddingNum, (v) => {
+    setStyle(state, "button", "padding", v && v + "px");
     refresh();
   });
 
@@ -277,6 +310,17 @@ function buildLayout(root) {
           </label>
           <input type="range" id="pmt-toolbar-radius-range" min="0" max="40" step="1" value="8" disabled>
           <input type="number" id="pmt-toolbar-radius" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-toolbar-padding-enable">
+            Padding
+          </label>
+          <input type="range" id="pmt-toolbar-padding-range" min="0" max="40" step="1" value="8" disabled>
+          <input type="number" id="pmt-toolbar-padding" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-toolbar-border-enable">
+            Bordure
+          </label>
+          <input type="text" id="pmt-toolbar-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
         </div>
 
         <h3>Groupes</h3>
@@ -296,6 +340,17 @@ function buildLayout(root) {
           </label>
           <input type="range" id="pmt-group-radius-range" min="0" max="40" step="1" value="6" disabled>
           <input type="number" id="pmt-group-radius" class="pmt-num" min="0" max="40" step="1" value="6" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-group-padding-enable">
+            Padding
+          </label>
+          <input type="range" id="pmt-group-padding-range" min="0" max="20" step="1" value="4" disabled>
+          <input type="number" id="pmt-group-padding" class="pmt-num" min="0" max="20" step="1" value="4" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-group-border-enable">
+            Bordure
+          </label>
+          <input type="text" id="pmt-group-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
         </div>
 
         <h3>Icones</h3>
@@ -318,6 +373,17 @@ function buildLayout(root) {
             <input type="range" id="pmt-icon-radius" min="0" max="24" step="1" value="6">
             <input type="number" id="pmt-icon-radius-num" class="pmt-num" min="0" max="24" step="1" value="6"> px
           </label>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-icon-padding-enable">
+            Padding
+          </label>
+          <input type="range" id="pmt-icon-padding-range" min="0" max="16" step="1" value="4" disabled>
+          <input type="number" id="pmt-icon-padding" class="pmt-num" min="0" max="16" step="1" value="4" disabled> px
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-icon-border-enable">
+            Bordure
+          </label>
+          <input type="text" id="pmt-icon-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
         </div>
       </section>
 
@@ -391,6 +457,21 @@ function buildLayout(root) {
     groupRadiusNum: root.querySelector("#pmt-group-radius"),
     iconRadiusRange: root.querySelector("#pmt-icon-radius"),
     iconRadiusNum: root.querySelector("#pmt-icon-radius-num"),
+    toolbarPaddingEnable: root.querySelector("#pmt-toolbar-padding-enable"),
+    toolbarPaddingRange: root.querySelector("#pmt-toolbar-padding-range"),
+    toolbarPaddingNum: root.querySelector("#pmt-toolbar-padding"),
+    groupPaddingEnable: root.querySelector("#pmt-group-padding-enable"),
+    groupPaddingRange: root.querySelector("#pmt-group-padding-range"),
+    groupPaddingNum: root.querySelector("#pmt-group-padding"),
+    iconPaddingEnable: root.querySelector("#pmt-icon-padding-enable"),
+    iconPaddingRange: root.querySelector("#pmt-icon-padding-range"),
+    iconPaddingNum: root.querySelector("#pmt-icon-padding"),
+    toolbarBorderEnable: root.querySelector("#pmt-toolbar-border-enable"),
+    toolbarBorderInput: root.querySelector("#pmt-toolbar-border"),
+    groupBorderEnable: root.querySelector("#pmt-group-border-enable"),
+    groupBorderInput: root.querySelector("#pmt-group-border"),
+    iconBorderEnable: root.querySelector("#pmt-icon-border-enable"),
+    iconBorderInput: root.querySelector("#pmt-icon-border"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

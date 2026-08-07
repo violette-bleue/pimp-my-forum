@@ -136,6 +136,7 @@ function toolbarLayoutBlock() {
 .sceditor-toolbar {
   display: flex !important;
   flex-wrap: wrap !important;
+  box-sizing: border-box !important;
 }`;
 }
 
@@ -149,6 +150,7 @@ function iconResetBlock() {
   flex-wrap: wrap !important;
   align-items: center !important;
   gap: var(--pmt-gap) !important;
+  box-sizing: border-box !important;
 }
 .sceditor-toolbar .sceditor-button {
   background-image: none !important;
@@ -160,6 +162,7 @@ function iconResetBlock() {
   border-radius: var(--pmt-radius) !important;
   text-indent: 0 !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 .sceditor-toolbar .sceditor-button div { display: none !important; }
 

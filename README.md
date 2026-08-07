@@ -3,6 +3,7 @@
 
 modules standalone : 
 ☐ pimp my design
+☐ pimp my navbar
 ☑ pimp my post
     ✿ label@cible
 ☑ pimp my toolbar

@@ -40,3 +40,11 @@ if (document.querySelector('[data-pmf-slot="postrow"]')) {
 if (document.getElementById("text_editor_textarea")) {
   import("./modules/pimp-my-post.js").then((m) => m.init());
 }
+
+// Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
+// FA bloque les <script> dans le contenu des messages/pages ; #pmt-app seul (une simple
+// div) passe, et c'est ce point d'entree central qui se charge du montage.
+const pmtApp = document.getElementById("pmt-app");
+if (pmtApp) {
+  import("../tools/pimp-my-toolbar/app.js").then((m) => m.mount(pmtApp));
+}

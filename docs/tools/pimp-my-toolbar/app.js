@@ -8,19 +8,19 @@
    L'etat est la source de verite unique : l'apercu le lit, le generateur le serialise.
    Aucune divergence possible entre ce que l'utilisateur voit et le code produit.
 
-   Utilisation depuis la page HTML (ForumActif ou autre) :
+   Integration sur une page/un topic FA : FA bloque les <script> dans le contenu des
+   messages, donc pas de tag a coller ici. Seul un point de montage est necessaire :
+     <div id="pmt-app"></div>
+   Le montage est pris en charge par le point d'entree central du site (docs/js/init.js),
+   charge globalement (Modules > HTML & JAVASCRIPT), qui detecte #pmt-app et importe ce
+   module a la demande. Voir init.js pour le detail.
 
-     - Auto-montage (le plus simple, un seul tag, pas de JS inline — utile dans un topic
-       ou l'inline passe mal) : le module cherche #pmt-app tout seul au chargement.
-         <div id="pmt-app"></div>
-         <script type="module" src="<base>/tools/pimp-my-toolbar/app.js"></script>
-
-     - Montage manuel (plusieurs instances, id different...) :
-         <div id="mon-id"></div>
-         <script type="module">
-           import { mount } from "<base>/tools/pimp-my-toolbar/app.js";
-           mount(document.getElementById("mon-id"));
-         </script>
+   Montage manuel (autre contexte : plusieurs instances, id different...) :
+     <div id="mon-id"></div>
+     <script type="module">
+       import { mount } from "<base>/tools/pimp-my-toolbar/app.js";
+       mount(document.getElementById("mon-id"));
+     </script>
 */
 
 import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom } from "./core/state.js";
@@ -759,10 +759,3 @@ function buildLayout(root) {
     jsOut: root.querySelector("#pmt-js")
   };
 }
-
-// Auto-montage : les <script type="module"> sont differes jusqu'a la fin du parsing HTML
-// (comme defer), donc #pmt-app est deja dans le DOM si present, quel que soit l'endroit
-// ou ce tag a ete injecte. Sur les pages sans #pmt-app (integration en slot global,
-// script charge partout), autoRoot vaut null et on ne fait simplement rien.
-const autoRoot = document.getElementById("pmt-app");
-if (autoRoot) mount(autoRoot);

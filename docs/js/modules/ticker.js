@@ -25,7 +25,7 @@ export function init(tickerCfg) {
   }
 
   // Applique le spacing admin en variable CSS (cf. ticker.css)
-  document.documentElement.style.setProperty("--pnp-ticker-spacing", tickerCfg.spacing + "px");
+  document.documentElement.style.setProperty("--ticker-spacing", tickerCfg.spacing + "px");
 
   $("#fa_ticker_content").css("display", "block");
 

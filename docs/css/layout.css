@@ -2,11 +2,11 @@
    layout.css — #wrap + grille de contenu (remplace les wrappers conteneur_*_IE)
    ========================================================================== */
 
-#wrap.pnp-wrap {
+#wrap.pmf-wrap {
   width: 100%;
 }
 
-.pnp-content-grid {
+.pmf-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--gap);
@@ -15,18 +15,18 @@
   padding: 0 1rem;
 }
 
-.pnp-sidebar:empty {
+.pmf-sidebar:empty {
   display: none;
 }
 
 @media (min-width: 900px) {
-  .pnp-content-grid:has(.pnp-sidebar--left:not(:empty)):has(.pnp-sidebar--right:not(:empty)) {
+  .pmf-content-grid:has(.pmf-sidebar--left:not(:empty)):has(.pmf-sidebar--right:not(:empty)) {
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--sidebar-width);
   }
-  .pnp-content-grid:has(.pnp-sidebar--left:not(:empty)):not(:has(.pnp-sidebar--right:not(:empty))) {
+  .pmf-content-grid:has(.pmf-sidebar--left:not(:empty)):not(:has(.pmf-sidebar--right:not(:empty))) {
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   }
-  .pnp-content-grid:not(:has(.pnp-sidebar--left:not(:empty))):has(.pnp-sidebar--right:not(:empty)) {
+  .pmf-content-grid:not(:has(.pmf-sidebar--left:not(:empty))):has(.pmf-sidebar--right:not(:empty)) {
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
   }
 }

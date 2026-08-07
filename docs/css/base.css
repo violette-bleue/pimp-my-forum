@@ -2,14 +2,14 @@
    base.css — reset léger + styles de base
    ========================================================================== */
 
-body.pnp-body {
-  background: var(--color-bg);
-  color: var(--color-text);
+body {
+  background : var(--color-bg);
+  color      : var(--color-text);
   font-family: var(--font-body);
 }
 
 /* Zones "boîte noire" FA (navbar JS ModernBB, LINKS pré-formatés, etc.) :
    wrapper stylé sans restructurer l'intérieur. */
-.pnp-fa-raw {
+.pmp-fa-raw {
   all: revert;
 }

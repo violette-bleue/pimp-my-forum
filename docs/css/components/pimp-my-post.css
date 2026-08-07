@@ -7,123 +7,123 @@
    qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
    ========================================================================== */
 
-.CodeMirror.cm-s-pnp {
-  background: var(--color-bg, #f5efe4);
-  color: var(--color-text, #2b2118);
+.CodeMirror.cm-s-pmf {
+  background: var(--pnp-color-bg, #f5efe4);
+  color: var(--pnp-color-text, #2b2118);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 font-size: inherit;
   line-height: normal;
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--radius, 12px);
+  border-radius: var(--pnp-radius, 12px);
   height: auto;
   padding: 4px 2px;
 }
 
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
-.cm-s-pnp .cm-tag {
-  color: var(--color-accent, #d9a441);
+.cm-s-pmf .cm-tag {
+  color: var(--pnp-color-accent, #d9a441);
   font-weight: 600;
 }
 
 /* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
-.cm-s-pnp .cm-attribute {
-  color: var(--color-accent-3, #2f8f8a);
+.cm-s-pmf .cm-attribute {
+  color: var(--pnp-color-accent-3, #2f8f8a);
 }
 
 /* Le signe = lui-meme */
-.cm-s-pnp .cm-operator {
-  color: var(--color-text, #2b2118);
+.cm-s-pmf .cm-operator {
+  color: var(--pnp-color-text, #2b2118);
   opacity: 0.6;
 }
 
 /* Valeurs entre guillemets */
-.cm-s-pnp .cm-string {
-  color: var(--color-accent-2, #c1502e);
+.cm-s-pmf .cm-string {
+  color: var(--pnp-color-accent-2, #c1502e);
 }
 
 /* Commentaires HTML <!-- ... --> : discret, atenue et italique */
-.cm-s-pnp .cm-comment {
-  color: var(--color-text, #2b2118);
+.cm-s-pmf .cm-comment {
+  color: var(--pnp-color-text, #2b2118);
   opacity: 0.45;
   font-style: italic;
 }
 
 /* Curseur et selection accordes a la palette */
-.cm-s-pnp .CodeMirror-cursor {
-  border-left-color: var(--color-accent-2, #c1502e);
+.cm-s-pmf .CodeMirror-cursor {
+  border-left-color: var(--pnp-color-accent-2, #c1502e);
 }
-.cm-s-pnp .CodeMirror-selected {
+.cm-s-pmf .CodeMirror-selected {
   background: rgba(47, 143, 138, 0.18);
 }
-.cm-s-pnp .CodeMirror-gutters {
-  background: var(--color-bg, #f5efe4);
+.cm-s-pmf .CodeMirror-gutters {
+  background: var(--pnp-color-bg, #f5efe4);
   border-right: 1px solid rgba(43, 33, 24, 0.12);
 }
 
 /* ---- Volet INPUTS : bouton bascule + panneau formulaire ------------------- */
-.pnp-pmp-toggle {
+.pmf-pmp-toggle {
   display: inline-block;
   margin: 6px 0;
   line-height: normal;
 }
 
-.pnp-pmp-panel {
-  background: var(--color-bg, #f5efe4);
+.pmf-pmp-panel {
+  background: var(--pnp-color-bg, #f5efe4);
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--radius, 12px);
-  padding: var(--gap, 1rem);
-  color: var(--color-text, #2b2118);
+  border-radius: var(--pnp-radius, 12px);
+  padding: var(--pnp-gap, 1rem);
+  color: var(--pnp-color-text, #2b2118);
 }
 
-.pnp-pmp-empty {
+.pmf-pmp-empty {
   opacity: 0.6;
   font-style: italic;
   margin: 0;
 }
 
 /* Groupe = un element cible (fieldset + legende = data-label) */
-.pnp-pmp-group {
+.pmf-pmp-group {
   border: 1px solid rgba(43, 33, 24, 0.15);
-  border-radius: var(--radius, 12px);
+  border-radius: var(--pnp-radius, 12px);
   padding: 0.75rem 1rem 1rem;
   margin: 0 0 1rem;
 }
-.pnp-pmp-group:last-child {
+.pmf-pmp-group:last-child {
   margin-bottom: 0;
 }
-.pnp-pmp-group legend {
+.pmf-pmp-group legend {
   font-weight: 600;
-  color: var(--color-accent-2, #c1502e);
+  color: var(--pnp-color-accent-2, #c1502e);
   padding: 0 0.4rem;
 }
 
 /* Champ = un couple label + input/select/textarea */
-.pnp-pmp-field {
+.pmf-pmp-field {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin: 0.5rem 0;
 }
-.pnp-pmp-field-label {
+.pmf-pmp-field-label {
   font-size: 0.85rem;
   opacity: 0.85;
 }
 
-.pnp-pmp-input {
+.pmf-pmp-input {
   font: inherit;
-  color: var(--color-text, #2b2118);
+  color: var(--pnp-color-text, #2b2118);
   background: #fff;
   border: 1px solid rgba(43, 33, 24, 0.25);
   border-radius: 8px;
   padding: 0.4rem 0.6rem;
   line-height: normal;
 }
-.pnp-pmp-input:focus {
+.pmf-pmp-input:focus {
   outline: none;
-  border-color: var(--color-accent-3, #2f8f8a);
+  border-color: var(--pnp-color-accent-3, #2f8f8a);
   box-shadow: 0 0 0 2px rgba(47, 143, 138, 0.25);
 }
-textarea.pnp-pmp-input {
+textarea.pmf-pmp-input {
   resize: vertical;
   min-height: 5rem;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;

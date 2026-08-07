@@ -2,7 +2,7 @@
    components/buttons.css
    ========================================================================== */
 
-.pnp-btn {
+.pmf-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
@@ -16,11 +16,11 @@
   cursor: pointer;
 }
 
-.pnp-btn--accent {
+.pmf-btn--accent {
   background: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.pnp-btn--outline {
+.pmf-btn--outline {
   background: transparent;
 }

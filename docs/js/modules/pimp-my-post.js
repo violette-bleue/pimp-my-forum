@@ -42,10 +42,10 @@
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
-const PNP_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/dist/css/components/pimp-my-post.css";
+const PMF_CSS = "https://violette-bleue.github.io/puzzle-n-pixel/css/components/pimp-my-post.css";
 
 // Cle localStorage du dernier mode choisi ("form" | "code").
-const MODE_KEY = "pnp-pmp-mode";
+const MODE_KEY = "pmf-pmp-mode";
 
 // Attributs rendus en menu deroulant par defaut ("" = option vide). Fusionnes avec config.selects.
 const SELECT_ATTRS = {
@@ -141,17 +141,17 @@ export function init() {
 }
 
 function setupEditor(container, inst) {
-  if (container._pnpDone) return; // garde anti double-init
-  container._pnpDone = true;
+  if (container._pmfDone) return; // garde anti double-init
+  container._pmfDone = true;
 
   // Etat partage entre les volets (mode courant + champ PMP actif pour le routage toolbar).
   const state = { formMode: false, activeField: null };
-  container._pnpState = state;
+  container._pmfState = state;
 
   // 1. Wrapper HORS du container SCEditor (frere juste apres) : hors de portee de
   //    l'interception clavier qui vit dans le sous-arbre du container.
   const host = document.createElement("div");
-  host.className = "pnp-cm-host";
+  host.className = "pmf-cm-host";
   const shadow = document.createElement("textarea");
   shadow.value = inst.val();
   host.appendChild(shadow);
@@ -162,12 +162,12 @@ function setupEditor(container, inst) {
   if (sourceTextarea) sourceTextarea.style.display = "none";
 
   const cm = window.CodeMirror.fromTextArea(shadow, {
-    mode: "pnp-bbcode",
+    mode: "pmf-bbcode",
     lineWrapping: true,
     viewportMargin: Infinity,
-    theme: "pnp"
+    theme: "pmf"
   });
-  container._pnpCM = cm;
+  container._pmfCM = cm;
 
   let syncing = false;
 
@@ -226,13 +226,13 @@ const FREE_TAG = "pmp-freezone";
 
 function setupForm(host, cm, state) {
   const panel = document.createElement("div");
-  panel.className = "pnp-pmp-panel";
+  panel.className = "pmf-pmp-panel";
   panel.style.display = "none";
   host.parentNode.insertBefore(panel, host.nextSibling);
 
   const toggle = document.createElement("button");
   toggle.type = "button";
-  toggle.className = "pnp-pmp-toggle button2";
+  toggle.className = "pmf-pmp-toggle button2";
   toggle.textContent = "Pimp My Post";
   host.parentNode.insertBefore(toggle, host);
 
@@ -341,7 +341,7 @@ function buildForm(panel, cm, state) {
 
   if (!els.length) {
     const info = document.createElement("p");
-    info.className = "pnp-pmp-empty";
+    info.className = "pmf-pmp-empty";
     info.textContent =
       "Aucun champ balise ici. Tu peux ecrire librement ci-dessous, ou ajouter des data-input dans le code.";
     panel.appendChild(info);
@@ -350,13 +350,13 @@ function buildForm(panel, cm, state) {
   const selectAttrs = getSelectAttrs();
 
   els.forEach((el) => {
-    const id = el.getAttribute("data-pnp-id");
+    const id = el.getAttribute("data-pmf-id");
     const tagName = el.tagName.toLowerCase();
     const targets = parseTargets(el);
     if (!targets.length) return;
 
     const group = document.createElement("fieldset");
-    group.className = "pnp-pmp-group";
+    group.className = "pmf-pmp-group";
 
     const groupLabel = el.getAttribute("data-label");
     if (groupLabel) {
@@ -368,9 +368,9 @@ function buildForm(panel, cm, state) {
     targets.forEach(({ target, label }) => {
       const fieldLabel = resolveLabel(target, label, tagName, el);
       const row = document.createElement("label");
-      row.className = "pnp-pmp-field";
+      row.className = "pmf-pmp-field";
       const span = document.createElement("span");
-      span.className = "pnp-pmp-field-label";
+      span.className = "pmf-pmp-field-label";
       span.textContent = fieldLabel;
       row.appendChild(span);
 
@@ -388,10 +388,10 @@ function buildForm(panel, cm, state) {
 
         if (cfg.mode === "multi") {
           const box = document.createElement("span");
-          box.className = "pnp-pmp-checks";
+          box.className = "pmf-pmp-checks";
           cfg.values.forEach(({ value, label: optLabel }) => {
             const lbl = document.createElement("label");
-            lbl.className = "pnp-pmp-check";
+            lbl.className = "pmf-pmp-check";
             const cb = document.createElement("input");
             cb.type = "checkbox";
             cb.value = value;
@@ -407,7 +407,7 @@ function buildForm(panel, cm, state) {
           row.appendChild(box);
         } else {
           const sel = document.createElement("select");
-          sel.className = "pnp-pmp-input";
+          sel.className = "pmf-pmp-input";
           addOption(sel, "", "(aucun)", present.length === 0);
           cfg.values.forEach(({ value, label: optLabel }) => {
             addOption(sel, value, optLabel, present.indexOf(value) !== -1);
@@ -442,7 +442,7 @@ function buildForm(panel, cm, state) {
         input.type = "text";
         input.value = initial;
       }
-      input.className = "pnp-pmp-input";
+      input.className = "pmf-pmp-input";
 
       const handler = () => writeTarget(cm, id, target, input.value);
       input.addEventListener("input", handler);
@@ -470,7 +470,7 @@ function buildForm(panel, cm, state) {
 // Detecte les data-input tapes et pose un bouton "promouvoir" sur leur ligne.
 function appendFreeEditor(panel, cm, state) {
   const group = document.createElement("fieldset");
-  group.className = "pnp-pmp-group pnp-pmp-free";
+  group.className = "pmf-pmp-group pmf-pmp-free";
 
   const legend = document.createElement("legend");
   legend.textContent = resolveFreeLabel(cm);
@@ -482,10 +482,10 @@ function appendFreeEditor(panel, cm, state) {
   panel.appendChild(group);
 
   const freeCm = window.CodeMirror.fromTextArea(ta, {
-    mode: "pnp-bbcode",
+    mode: "pmf-bbcode",
     lineWrapping: true,
     viewportMargin: Infinity,
-    theme: "pnp"
+    theme: "pmf"
   });
   freeCm.setSize(null, 110);
   setTimeout(() => freeCm.refresh(), 0);
@@ -507,19 +507,19 @@ function appendFreeEditor(panel, cm, state) {
 // Scanne le mini-CM et pose un line-widget "promouvoir" sur chaque ligne portant un data-input.
 function refreshPromoteWidgets(freeCm, panel, cm, state) {
   // Nettoie les widgets precedents.
-  (freeCm._pnpWidgets || []).forEach((w) => w.clear());
-  freeCm._pnpWidgets = [];
+  (freeCm._pmfWidgets || []).forEach((w) => w.clear());
+  freeCm._pmfWidgets = [];
 
   const found = scanFreeInputs(freeCm.getValue());
   found.forEach(({ line, tagName, preview }) => {
     const bar = document.createElement("div");
-    bar.className = "pnp-pmp-promote";
+    bar.className = "pmf-pmp-promote";
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "pnp-pmp-promote-btn button2";
+    btn.className = "pmf-pmp-promote-btn button2";
     btn.textContent = "\u2295 Ajouter ce champ";
     const hint = document.createElement("span");
-    hint.className = "pnp-pmp-promote-hint";
+    hint.className = "pmf-pmp-promote-hint";
     hint.textContent = preview;
     bar.appendChild(btn);
     bar.appendChild(hint);
@@ -527,7 +527,7 @@ function refreshPromoteWidgets(freeCm, panel, cm, state) {
     btn.addEventListener("click", () => promoteElement(freeCm, panel, cm, state, line, tagName));
 
     const widget = freeCm.addLineWidget(line, bar, { above: true });
-    freeCm._pnpWidgets.push(widget);
+    freeCm._pmfWidgets.push(widget);
   });
 }
 
@@ -743,9 +743,9 @@ function ensureAnchors(cm) {
   let counter = 0;
   code = code.replace(/<([a-zA-Z][\w-]*)((?:[^<>]*?))>/g, (full, tag, attrs) => {
     if (!/\b(data-input|textarea|text)\b/.test(attrs)) return full;
-    if (/\bdata-pnp-id\s*=/.test(attrs)) return full;
+    if (/\bdata-pmf-id\s*=/.test(attrs)) return full;
     counter++;
-    return `<${tag}${attrs} data-pnp-id="${counter}">`;
+    return `<${tag}${attrs} data-pmf-id="${counter}">`;
   });
   if (counter > 0) cm.setValue(code);
 }
@@ -763,7 +763,7 @@ function readRawText(cm, id, tagName) {
 }
 
 function matchAnchoredTag(code, id) {
-  const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pnp-id="${id}"[^<>]*?)>`);
+  const tagRe = new RegExp(`<([a-zA-Z][\\w-]*)([^<>]*?\\bdata-pmf-id="${id}"[^<>]*?)>`);
   return code.match(tagRe);
 }
 
@@ -822,9 +822,9 @@ function writeClassGroup(cm, id, groupValues, chosen) {
   cm.setCursor(cursor);
 }
 
-// Retire les ancres data-pnp-id (le <pmp-freezone> reste tel quel : il est son propre marqueur).
+// Retire les ancres data-pmf-id (le <pmp-freezone> reste tel quel : il est son propre marqueur).
 function stripAnchors(cm) {
-  const code = cm.getValue().replace(/\s*data-pnp-id="\d+"/g, "");
+  const code = cm.getValue().replace(/\s*data-pmf-id="\d+"/g, "");
   if (code !== cm.getValue()) cm.setValue(code);
 }
 
@@ -834,7 +834,7 @@ function escapeAttr(s) {
 
 function wrapInsert(inst, fnName, state, after) {
   const original = inst[fnName];
-  if (typeof original !== "function" || original._pnpWrapped) return;
+  if (typeof original !== "function" || original._pmfWrapped) return;
   const wrapped = function (open, close) {
     const f = state.activeField;
     if (state.formMode && f && (f.el || f.freeCm)) {
@@ -845,14 +845,14 @@ function wrapInsert(inst, fnName, state, after) {
     after();
     return r;
   };
-  wrapped._pnpWrapped = true;
+  wrapped._pmfWrapped = true;
   inst[fnName] = wrapped;
 }
 
 function getCM() {
   const orig = document.getElementById("text_editor_textarea");
   const container = orig && orig.nextElementSibling;
-  return container ? container._pnpCM : null;
+  return container ? container._pmfCM : null;
 }
 
 function loadCodeMirror(cb) {
@@ -861,7 +861,7 @@ function loadCodeMirror(cb) {
     return cb();
   }
   injectCss(CM_BASE + "/codemirror.min.css");
-  injectCss(PNP_CSS);
+  injectCss(pmf_CSS);
   injectScript(CM_BASE + "/codemirror.min.js", () => {
     injectScript(CM_BASE + "/addon/mode/simple.min.js", () => {
       defineBBCodeMode();
@@ -872,8 +872,8 @@ function loadCodeMirror(cb) {
 
 function defineBBCodeMode() {
   const CM = window.CodeMirror;
-  if (CM._pnpBBCodeDefined) return;
-  CM.defineSimpleMode("pnp-bbcode", {
+  if (CM._pmfBBCodeDefined) return;
+  CM.defineSimpleMode("pmf-bbcode", {
     start: [
       { regex: /<!--/, token: "comment", next: "comment" },
       { regex: /\[\/[a-zA-Z0-9*]+\]/, token: "tag" },
@@ -897,7 +897,7 @@ function defineBBCodeMode() {
       { regex: /.*/, token: "comment" }
     ]
   });
-  CM._pnpBBCodeDefined = true;
+  CM._pmfBBCodeDefined = true;
 }
 
 function injectScript(src, onload) {

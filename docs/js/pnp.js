@@ -1,11 +1,11 @@
 /* ==========================================================================
-   pnp.js — point d'entrée (chargé en <script type="module">)
+   pmf.js — point d'entrée (chargé en <script type="module">)
    Ne charge (import() dynamique) que les modules nécessaires, selon
-   window.pnpConfig exposé en inline dans overall_header, ou la présence
-   d'un data-pnp-slot précis dans le DOM de la page.
+   window.pmfConfig exposé en inline dans overall_header, ou la présence
+   d'un data-pmf-slot précis dans le DOM de la page.
    ========================================================================== */
 
-const cfg = window.pnpConfig || {};
+const cfg = window.pmfConfig || {};
 
 // Toujours actif : gestion du menu burger mobile
 import("./modules/burger-menu.js").then((m) => m.init());
@@ -26,12 +26,12 @@ if (cfg.popups && (cfg.popups.pm || cfg.popups.report)) {
 }
 
 // Conditionnel : repli/dépli des catégories (index_box, viewforum si catégories présentes)
-if (document.querySelector('[data-pnp-slot="categories"]')) {
+if (document.querySelector('[data-pmf-slot="categories"]')) {
   import("./modules/collapsible-categories.js").then((m) => m.init());
 }
 
 // Conditionnel : menu post + highlight.js (viewtopic_body uniquement)
-if (document.querySelector('[data-pnp-slot="postrow"]')) {
+if (document.querySelector('[data-pmf-slot="postrow"]')) {
   import("./modules/viewtopic-post-menu.js").then((m) => m.init());
 }
 

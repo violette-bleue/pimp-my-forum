@@ -9,7 +9,7 @@
     font-style: normal;
     font-display: swap;
 }
-body.pnp-body {
+:root {
   /* Couleurs */
   --color-bg: #a9a0b0;          
   --color-text: #ffffff;        

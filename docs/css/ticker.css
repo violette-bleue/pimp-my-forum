@@ -2,11 +2,11 @@
    ticker.css
    ========================================================================== */
 
-.pnp-ticker {
+.pmf-ticker {
   margin-top: 4px;
 }
 
-.pnp-ticker--legacy {
+.pmf-ticker--legacy {
   /* switch_ticker (ancien mode, non-jcarousel) */
 }
 

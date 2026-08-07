@@ -2,22 +2,25 @@
    header.css
    ========================================================================== */
 
-.pnp-header {
+.pmf-header {
   background: var(--color-bg);
 }
 
-.pnp-logo img {
+.pmf-logo img {
   display: block;
   height: 48px;
   width: auto;
 }
 
-.pnp-site-desc__title {
-  font-family: var(--font-display);
-  color: var(--color-accent-2);
+.pmf-site-desc__title {
+    font-family: var(--pmp-font-display);
+    color: var(--pmp-color-accent-2);
+    font-size: 190px;
+    display: flex;
+    line-height: normal;
 }
 
-.pnp-site-desc__tagline {
-  color: var(--color-text);
+.pmf-site-desc__tagline {
+  color: var(--pmp-color-text);
   opacity: 0.8;
 }

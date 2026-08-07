@@ -2,7 +2,7 @@
    components/badges.css
    ========================================================================== */
 
-.pnp-badge {
+.pmf-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
@@ -12,11 +12,11 @@
   font-size: 0.85em;
 }
 
-.pnp-badge--flash {
+.pmf-badge--flash {
   background: var(--color-accent-2);
   color: var(--color-bg);
 }
 
-.pnp-badge--dim {
+.pmf-badge--dim {
   opacity: 0.6;
 }

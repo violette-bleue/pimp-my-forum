@@ -5,25 +5,25 @@ export function init() {
     document.querySelectorAll("pre, code").forEach((block) => window.hljs.highlightBlock(block));
   }
 
-  document.querySelectorAll(".pnp-post").forEach((post) => {
-    const avatarBox = post.querySelector(".pnp-post__avatar");
+  document.querySelectorAll(".pmf-post").forEach((post) => {
+    const avatarBox = post.querySelector(".pmf-post__avatar");
     if (avatarBox && !avatarBox.innerHTML.trim().length) {
-      const rank = post.querySelector(".pnp-post__rank");
-      const dt = post.querySelector(".pnp-post__profile > dl > dt");
-      const head = post.querySelector(".pnp-post__head");
+      const rank = post.querySelector(".pmf-post__rank");
+      const dt = post.querySelector(".pmf-post__profile > dl > dt");
+      const head = post.querySelector(".pmf-post__head");
       if (rank) rank.style.borderBottom = "none";
       if (dt && head) dt.style.minHeight = head.offsetHeight + "px";
     }
   });
 
-  const menus = document.querySelectorAll(".pnp-post__menu-btn");
+  const menus = document.querySelectorAll(".pmf-post__menu-btn");
   menus.forEach((btn) => {
     btn.addEventListener("click", () => {
       if (btn.classList.contains("pnp-is-expanded")) {
         btn.innerHTML = "+";
         btn.classList.remove("pnp-is-expanded");
       } else {
-        document.querySelectorAll(".pnp-post__menu-btn.pnp-is-expanded").forEach((m) => {
+        document.querySelectorAll(".pmf-post__menu-btn.pmf-is-expanded").forEach((m) => {
           m.innerHTML = "+";
           m.classList.remove("pnp-is-expanded");
         });
@@ -34,8 +34,8 @@ export function init() {
   });
 
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".pnp-post__menu-wrap")) {
-      document.querySelectorAll(".pnp-post__menu-btn.pnp-is-expanded").forEach((m) => {
+    if (!e.target.closest(".pmf-post__menu-wrap")) {
+      document.querySelectorAll(".pmf-post__menu-btn.pmf-is-expanded").forEach((m) => {
         m.innerHTML = "+";
         m.classList.remove("pnp-is-expanded");
       });

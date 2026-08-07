@@ -9,706 +9,856 @@
        puisque le masquage est justement un display:none sur la commande).
 
    Utilise les tokens Puzzle & Pixel s'ils sont presents, avec repli autonome. */
-   
+
 /*TOOLBAR NATIVE FA */
 
-.sceditor-button div,div.sceditor-grip {
-    background-image: url(famfamfam.png);
-    background-repeat: no-repeat;
-    height: 16px;
-    width: 16px
+.sceditor-button div,
+div.sceditor-grip {
+  background-image : url(https://illipro.net/rs3/18/frm/SCEditor/src/themes/famfamfam.png);
+  background-repeat: no-repeat;
+  height           : 16px;
+  width            : 16px
 }
 
-.sceditor-button-youtube div {
-    background-position: 0 0
+.sceditor-button-flash div {
+  background-position: 0 -628px;
 }
 
-.sceditor-button-link div {
-    background-position: 0 -16px
+.sceditor-button-servimg div {
+  background-position: 0 -644px;
 }
 
-.sceditor-button-unlink div {
-    background-position: 0 -32px
+.sceditor-button-dailymotion div {
+  background-position: 0 -660px;
 }
 
-.sceditor-button-underline div {
-    background-position: 0 -48px
+.sceditor-button-faspoiler div {
+  background-position: 0 -676px;
 }
 
-.sceditor-button-time div {
-    background-position: 0 -64px
+.sceditor-button-fahide div {
+  background-position: 0 -692px;
 }
 
-.sceditor-button-table div {
-    background-position: 0 -80px
+.sceditor-button-fascroll div {
+  background-position: 0 -708px;
 }
 
-.sceditor-button-superscript div {
-    background-position: 0 -96px
+.sceditor-button-faupdown div {
+  background-position: 0 -724px;
 }
 
-.sceditor-button-subscript div {
-    background-position: 0 -112px
+.sceditor-button-farand div {
+  background-position: 0 -756px;
 }
 
-.sceditor-button-strike div {
-    background-position: 0 -128px
+.sceditor-button-faroll div {
+  background-position: 0 -772px;
 }
 
-.sceditor-button-source div {
-    background-position: 0 -144px
-}
-
-.sceditor-button-size div {
-    background-position: 0 -160px
-}
-
-.sceditor-button-rtl div {
-    background-position: 0 -176px
-}
-
-.sceditor-button-right div {
-    background-position: 0 -192px
-}
-
-.sceditor-button-removeformat div {
-    background-position: 0 -208px
-}
-
-.sceditor-button-quote div {
-    background-position: 0 -224px
-}
-
-.sceditor-button-print div {
-    background-position: 0 -240px
-}
-
-.sceditor-button-pastetext div {
-    background-position: 0 -256px
-}
-
-.sceditor-button-paste div {
-    background-position: 0 -272px
-}
-
-.sceditor-button-orderedlist div {
-    background-position: 0 -288px
-}
-
-.sceditor-button-maximize div {
-    background-position: 0 -304px
-}
-
-.sceditor-button-ltr div {
-    background-position: 0 -320px
-}
-
-.sceditor-button-left div {
-    background-position: 0 -336px
-}
-
-.sceditor-button-justify div {
-    background-position: 0 -352px
-}
-
-.sceditor-button-italic div {
-    background-position: 0 -368px
-}
-
-.sceditor-button-image div {
-    background-position: 0 -384px
-}
-
-.sceditor-button-horizontalrule div {
-    background-position: 0 -400px
-}
-
-.sceditor-button-format div {
-    background-position: 0 -416px
-}
-
-.sceditor-button-font div {
-    background-position: 0 -432px
+.sceditor-button-more div {
+  background-position: 0 -788px;
 }
 
 .sceditor-button-emoticon div {
-    background-position: 0 -448px
+  background-position: 0 -804px;
+}
+
+.sceditor-button-embed div {
+  background-image: url("https://2img.net/i//fa/icon_embed.png")
+}
+
+.sceditor-button-headers div {
+  background-position: 0 -820px;
+}
+
+.sceditor-button-twemojifa div {
+  background: url("https://2img.net/i/fa/icon_twemoji.png") !important;
+}
+
+.sceditor-twemojifa {
+  width     : 220px;
+  height    : 250px;
+  overflow-y: auto;
+}
+
+.sceditor-twemojifa img {
+  cursor : pointer;
+  padding: 3px;
+}
+
+.sceditor-twemojifa img:hover {
+  opacity: .7;
+}
+
+.sceditor-button-mention div {
+  background: url("https://2img.net/i//fa/icon_at.png") !important;
+}
+
+.sceditor-button-youtube div {
+  background-position: 0 0
+}
+
+.sceditor-button-link div {
+  background-position: 0 -16px
+}
+
+.sceditor-button-unlink div {
+  background-position: 0 -32px
+}
+
+.sceditor-button-underline div {
+  background-position: 0 -48px
+}
+
+.sceditor-button-time div {
+  background-position: 0 -64px
+}
+
+.sceditor-button-table div {
+  background-position: 0 -80px
+}
+
+.sceditor-button-superscript div {
+  background-position: 0 -96px
+}
+
+.sceditor-button-subscript div {
+  background-position: 0 -112px
+}
+
+.sceditor-button-strike div {
+  background-position: 0 -128px
+}
+
+.sceditor-button-source div {
+  background-position: 0 -144px
+}
+
+.sceditor-button-size div {
+  background-position: 0 -160px
+}
+
+.sceditor-button-rtl div {
+  background-position: 0 -176px
+}
+
+.sceditor-button-right div {
+  background-position: 0 -192px
+}
+
+.sceditor-button-removeformat div {
+  background-position: 0 -208px
+}
+
+.sceditor-button-quote div {
+  background-position: 0 -224px
+}
+
+.sceditor-button-print div {
+  background-position: 0 -240px
+}
+
+.sceditor-button-pastetext div {
+  background-position: 0 -256px
+}
+
+.sceditor-button-paste div {
+  background-position: 0 -272px
+}
+
+.sceditor-button-orderedlist div {
+  background-position: 0 -288px
+}
+
+.sceditor-button-maximize div {
+  background-position: 0 -304px
+}
+
+.sceditor-button-ltr div {
+  background-position: 0 -320px
+}
+
+.sceditor-button-left div {
+  background-position: 0 -336px
+}
+
+.sceditor-button-justify div {
+  background-position: 0 -352px
+}
+
+.sceditor-button-italic div {
+  background-position: 0 -368px
+}
+
+.sceditor-button-image div {
+  background-position: 0 -384px
+}
+
+.sceditor-button-horizontalrule div {
+  background-position: 0 -400px
+}
+
+.sceditor-button-format div {
+  background-position: 0 -416px
+}
+
+.sceditor-button-font div {
+  background-position: 0 -432px
+}
+
+.sceditor-button-emoticon div {
+  background-position: 0 -448px
 }
 
 .sceditor-button-email div {
-    background-position: 0 -464px
+  background-position: 0 -464px
 }
 
 .sceditor-button-date div {
-    background-position: 0 -480px
+  background-position: 0 -480px
 }
 
 .sceditor-button-cut div {
-    background-position: 0 -496px
+  background-position: 0 -496px
 }
 
 .sceditor-button-copy div {
-    background-position: 0 -512px
+  background-position: 0 -512px
 }
 
 .sceditor-button-color div {
-    background-position: 0 -528px
+  background-position: 0 -528px
 }
 
 .sceditor-button-code div {
-    background-position: 0 -544px
+  background-position: 0 -544px
 }
 
 .sceditor-button-center div {
-    background-position: 0 -560px
+  background-position: 0 -560px
 }
 
 .sceditor-button-bulletlist div {
-    background-position: 0 -576px
+  background-position: 0 -576px
 }
 
 .sceditor-button-bold div {
-    background-position: 0 -592px
+  background-position: 0 -592px
 }
 
 div.sceditor-grip {
-    background-position: 0 -608px;
-    bottom: 0;
-    cursor: se-resize;
-    cursor: se-resize;
-    height: 10px;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    width: 10px;
-    z-index: 3
+  background-position: 0 -608px;
+  bottom             : 0;
+  cursor             : se-resize;
+  cursor             : se-resize;
+  height             : 10px;
+  overflow           : hidden;
+  position           : absolute;
+  right              : 0;
+  width              : 10px;
+  z-index            : 3
 }
 
 .rtl div.sceditor-grip {
-    background-position: 0 -618px;
-    height: 10px;
-    left: 0;
-    right: auto;
-    width: 10px
+  background-position: 0 -618px;
+  height             : 10px;
+  left               : 0;
+  right              : auto;
+  width              : 10px
 }
 
 .sceditor-container {
-    -moz-background-clip: padding;
-    -moz-border-radius: 4px;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 4px;
-    background: #fff;
-    background-clip: padding-box;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    color: #222;
-    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
-    position: relative
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 4px;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 4px;
+  background             : #fff;
+  background-clip        : padding-box;
+  border                 : 1px solid #d9d9d9;
+  border-radius          : 4px;
+  color                  : #222;
+  font-family            : Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size              : 13px;
+  font-weight            : 700;
+  line-height            : 1;
+  position               : relative
 }
 
-.sceditor-container,.sceditor-container div,div.sceditor-dropdown,div.sceditor-dropdown div {
-    margin: 0;
-    padding: 0;
-    z-index: 3
+.sceditor-container,
+.sceditor-container div,
+div.sceditor-dropdown,
+div.sceditor-dropdown div {
+  margin : 0;
+  padding: 0;
+  z-index: 3
 }
 
-.sceditor-container iframe,.sceditor-container textarea {
-    background: #fff;
-    border: 0;
-    color: #111;
-    font-family: Verdana,Arial,Helvetica,sans-serif;
-    font-size: 13px;
-    margin: 5px;
-    outline: 0;
-    padding: 0;
-    resize: none
+.sceditor-container iframe,
+.sceditor-container textarea {
+  background : #fff;
+  border     : 0;
+  color      : #111;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size  : 13px;
+  margin     : 5px;
+  outline    : 0;
+  padding    : 0;
+  resize     : none
 }
 
 div.sceditor-resize-cover {
-    background: #000;
-    height: 100%;
-    left: 0;
-    opacity: .3;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 10
+  background: #000;
+  height    : 100%;
+  left      : 0;
+  opacity   : .3;
+  position  : absolute;
+  top       : 0;
+  width     : 100%;
+  z-index   : 10
 }
 
-.ie6 div.sceditor-resize-cover,.ie7 div.sceditor-resize-cover,.ie8 div.sceditor-resize-cover {
-    background: #efefef
+.ie6 div.sceditor-resize-cover,
+.ie7 div.sceditor-resize-cover,
+.ie8 div.sceditor-resize-cover {
+  background: #efefef
 }
 
 .sceditor-container.ie6 {
-    overflow: hidden
+  overflow: hidden
 }
 
 .sceditor-maximize {
-    -moz-background-clip: padding;
-    -moz-border-radius: 0;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 0;
-    background-clip: padding-box;
-    border-radius: 0;
-    height: 100%!important;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%!important;
-    z-index: 2000
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 0;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 0;
+  background-clip        : padding-box;
+  border-radius          : 0;
+  height                 : 100% !important;
+  left                   : 0;
+  position               : fixed;
+  top                    : 0;
+  width                  : 100% !important;
+  z-index                : 2000
 }
 
-body.sceditor-maximize,html.sceditor-maximize {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    padding: 0;
-    width: 100%
+body.sceditor-maximize,
+html.sceditor-maximize {
+  height  : 100%;
+  margin  : 0;
+  overflow: hidden;
+  padding : 0;
+  width   : 100%
 }
 
 .ie6.sceditor-maximize {
-    position: absolute
+  position: absolute
 }
 
 .sceditor-maximize div.sceditor-grip {
-    display: none
+  display: none
 }
 
 .sceditor-maximize div.sceditor-toolbar {
-    -moz-background-clip: padding;
-    -moz-border-radius: 0;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 0;
-    background-clip: padding-box;
-    border-radius: 0
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 0;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 0;
+  background-clip        : padding-box;
+  border-radius          : 0
 }
 
 div.sceditor-dropdown {
-    -moz-background-clip: padding;
-    -moz-border-radius: 2px;
-    -moz-box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 2px;
-    -webkit-box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-    background: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-    color: #333;
-    line-height: 1;
-    padding: 10px;
-    position: absolute;
-    z-index: 4000
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 2px;
+  -moz-box-shadow        : 1px 2px 4px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 2px;
+  -webkit-box-shadow     : 1px 2px 4px rgba(0, 0, 0, 0.2);
+  background             : #fff;
+  background-clip        : padding-box;
+  border                 : 1px solid #ccc;
+  border-radius          : 2px;
+  box-shadow             : 1px 2px 4px rgba(0, 0, 0, 0.2);
+  color                  : #333;
+  line-height            : 1;
+  padding                : 10px;
+  position               : absolute;
+  z-index                : 4000
 }
 
-div.sceditor-dropdown a,div.sceditor-dropdown a:link {
-    color: #333
+div.sceditor-dropdown a,
+div.sceditor-dropdown a:link {
+  color: #333
 }
 
 div.sceditor-dropdown form {
-    margin: 0
+  margin: 0
 }
 
 div.sceditor-dropdown label {
-    color: #3c3c3c;
-    display: block;
-    font-weight: 700;
-    padding: 4px 0
+  color      : #3c3c3c;
+  display    : block;
+  font-weight: 700;
+  padding    : 4px 0
 }
 
-div.sceditor-dropdown input,div.sceditor-dropdown textarea {
-    -moz-background-clip: padding;
-    -moz-border-radius: 1px;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 1px;
-    background-clip: padding-box;
-    border: 1px solid #ccc;
-    border-radius: 1px;
-    border-top-color: #888;
-    font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
-    margin: 0 0 .75em;
-    outline: 0;
-    padding: 4px
+div.sceditor-dropdown input,
+div.sceditor-dropdown textarea {
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 1px;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 1px;
+  background-clip        : padding-box;
+  border                 : 1px solid #ccc;
+  border-radius          : 1px;
+  border-top-color       : #888;
+  font-family            : Arial, "Helvetica Neue", Helvetica, sans-serif;
+  margin                 : 0 0 .75em;
+  outline                : 0;
+  padding                : 4px
 }
 
 div.sceditor-dropdown textarea {
-    padding: 6px
+  padding: 6px
 }
 
-div.sceditor-dropdown input:focus,div.sceditor-dropdown textarea:focus {
-    -moz-box-shadow: inset 0 1px 5px rgba(0,0,0,0.1);
-    -webkit-box-shadow: inset 0 1px 5px rgba(0,0,0,0.1);
-    border-color: #666 #aaa #aaa;
-    box-shadow: inset 0 1px 5px rgba(0,0,0,0.1)
+div.sceditor-dropdown input:focus,
+div.sceditor-dropdown textarea:focus {
+  -moz-box-shadow   : inset 0 1px 5px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
+  border-color      : #666 #aaa #aaa;
+  box-shadow        : inset 0 1px 5px rgba(0, 0, 0, 0.1)
 }
 
 div.sceditor-dropdown .button {
-    -moz-background-clip: padding;
-    -moz-border-radius: 2px;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 2px;
-    background: #ececec;
-    background-clip: padding-box;
-    border: solid 1px #ccc;
-    border-radius: 2px;
-    color: #444;
-    cursor: pointer;
-    cursor: pointer;
-    font-weight: 700;
-    margin: .3em 0 0;
-    padding: 6px 12px
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 2px;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 2px;
+  background             : #ececec;
+  background-clip        : padding-box;
+  border                 : solid 1px #ccc;
+  border-radius          : 2px;
+  color                  : #444;
+  cursor                 : pointer;
+  cursor                 : pointer;
+  font-weight            : 700;
+  margin                 : .3em 0 0;
+  padding                : 6px 12px
 }
 
 div.sceditor-dropdown .button:hover {
-    -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-    background: #f3f3f3;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.15)
+  -moz-box-shadow   : 0 1px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+  background        : #f3f3f3;
+  box-shadow        : 0 1px 1px rgba(0, 0, 0, 0.15)
 }
 
-div.sceditor-font-picker,div.sceditor-fontsize-picker,div.sceditor-format {
-    padding: 6px 0
+div.sceditor-font-picker,
+div.sceditor-fontsize-picker,
+div.sceditor-format {
+  padding: 6px 0
 }
 
-div.sceditor-color-picker,div.sceditor-emoticons,div.sceditor-more-emoticons {
-    padding: 0
+div.sceditor-color-picker,
+div.sceditor-emoticons,
+div.sceditor-more-emoticons {
+  padding: 0
 }
 
 .sceditor-pastetext textarea {
-    border: 1px solid #bbb;
-    width: 20em
+  border: 1px solid #bbb;
+  width : 20em
 }
 
-.sceditor-emoticons img,.sceditor-more-emoticons img {
-    cursor: pointer;
-    cursor: pointer;
-    margin: 7px;
-    padding: 0
+.sceditor-emoticons img,
+.sceditor-more-emoticons img {
+  cursor : pointer;
+  cursor : pointer;
+  margin : 7px;
+  padding: 0
 }
 
 .sceditor-more {
-    border-top: 1px solid #bbb;
-    cursor: pointer;
-    cursor: pointer;
-    display: block;
-    font-weight: 700;
-    padding: 6px 0;
-    text-align: center
+  border-top : 1px solid #bbb;
+  cursor     : pointer;
+  cursor     : pointer;
+  display    : block;
+  font-weight: 700;
+  padding    : 6px 0;
+  text-align : center
 }
 
 .sceditor-dropdown a:hover {
-    background: #eee
+  background: #eee
 }
 
-.sceditor-font-option,.sceditor-fontsize-option,.sceditor-format a {
-    color: #222;
-    cursor: pointer;
-    cursor: pointer;
-    display: block;
-    padding: 7px 10px;
-    text-decoration: none
+.sceditor-font-option,
+.sceditor-fontsize-option,
+.sceditor-format a {
+  color          : #222;
+  cursor         : pointer;
+  cursor         : pointer;
+  display        : block;
+  padding        : 7px 10px;
+  text-decoration: none
 }
 
 .sceditor-fontsize-option {
-    padding: 7px 13px
+  padding: 7px 13px
 }
 
 .sceditor-color-column {
-    float: left
+  float: left
 }
 
 .sceditor-color-option {
-    border: 1px solid #fff;
-    display: block;
-    height: 10px;
-    overflow: hidden;
-    width: 10px
+  border  : 1px solid #fff;
+  display : block;
+  height  : 10px;
+  overflow: hidden;
+  width   : 10px
 }
 
 .sceditor-color-option:hover {
-    border: 1px solid #333
+  border: 1px solid #333
 }
 
 div.sceditor-toolbar {
-    -moz-background-clip: padding;
-    -moz-border-radius: 3px 3px 0 0;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 3px 3px 0 0;
-    -webkit-user-select: none;
-    background: #f7f7f7;
-    background-clip: padding-box;
-    border-bottom: 1px solid silver;
-    border-radius: 3px 3px 0 0;
-    line-height: 0;
-    overflow: hidden;
-    padding: 3px 5px 2px;
-    user-select: none
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 3px 3px 0 0;
+  -moz-user-select       : none;
+  -ms-user-select        : none;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 3px 3px 0 0;
+  -webkit-user-select    : none;
+  background             : #f7f7f7;
+  background-clip        : padding-box;
+  border-bottom          : 1px solid silver;
+  border-radius          : 3px 3px 0 0;
+  line-height            : 0;
+  overflow               : hidden;
+  padding                : 3px 5px 2px;
+  user-select            : none
 }
 
 div.sceditor-group {
-    -moz-background-clip: padding;
-    -moz-border-radius: 3px;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 3px;
-    background: #ddd;
-    background-clip: padding-box;
-    border-bottom: 1px solid #aaa;
-    border-radius: 3px;
-    display: inline-block;
-    margin: 1px 5px 1px 0;
-    padding: 1px
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 3px;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 3px;
+  background             : #ddd;
+  background-clip        : padding-box;
+  border-bottom          : 1px solid #aaa;
+  border-radius          : 3px;
+  display                : inline-block;
+  margin                 : 1px 5px 1px 0;
+  padding                : 1px
 }
 
-.ie6 div.sceditor-group,.ie7 div.sceditor-group {
-    display: inline;
-    zoom:1}
+.ie6 div.sceditor-group,
+.ie7 div.sceditor-group {
+  display: inline;
+  zoom   : 1
+}
 
 .sceditor-button {
-    -moz-background-clip: padding;
-    -moz-border-radius: 3px;
-    -webkit-background-clip: padding-box;
-    -webkit-border-radius: 3px;
-    background-clip: padding-box;
-    border-radius: 3px;
-    cursor: pointer;
-    cursor: pointer;
-    float: left;
-    height: 20px;
-    padding: 3px 5px;
-    text-indent: -9999px;
-    width: 16px
+  -moz-background-clip   : padding;
+  -moz-border-radius     : 3px;
+  -webkit-background-clip: padding-box;
+  -webkit-border-radius  : 3px;
+  background-clip        : padding-box;
+  border-radius          : 3px;
+  cursor                 : pointer;
+  cursor                 : pointer;
+  float                  : left;
+  height                 : 20px;
+  padding                : 3px 5px;
+  text-indent            : -9999px;
+  width                  : 16px
 }
 
 .ie .sceditor-button {
-    text-indent: 0
+  text-indent: 0
 }
 
-.ie6 .sceditor-button,.ie7 .sceditor-button {
-    display: inline;
-    float: none!important;
-    zoom:1}
+.ie6 .sceditor-button,
+.ie7 .sceditor-button {
+  display: inline;
+  float  : none !important;
+  zoom   : 1
+}
 
 .ie6 .sceditor-button {
-    padding: 0
+  padding: 0
 }
 
 .ie6 .sceditor-button div {
-    margin: 5px
+  margin: 5px
 }
 
 .ie7 .sceditor-button div {
-    margin: 5px 0
+  margin: 5px 0
 }
 
-.sceditor-button.active,.sceditor-button:active,.sceditor-button:hover {
-    -moz-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2);
-    -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2);
-    background: #fff;
-    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2)
+.sceditor-button.active,
+.sceditor-button:active,
+.sceditor-button:hover {
+  -moz-box-shadow   : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  background        : #fff;
+  box-shadow        : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)
 }
 
 .sceditor-button:active {
-    -moz-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2),inset 0 0 8px rgba(0,0,0,0.3);
-    -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2),inset 0 0 8px rgba(0,0,0,0.3);
-    background: #fff;
-    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2),inset 0 0 8px rgba(0,0,0,0.3)
+  -moz-box-shadow   : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.3);
+  background        : #fff;
+  box-shadow        : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2), inset 0 0 8px rgba(0, 0, 0, 0.3)
 }
 
 .sceditor-button.disabled:hover {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    background: inherit;
-    box-shadow: none;
-    cursor: default;
-    cursor: default
+  -moz-box-shadow   : none;
+  -webkit-box-shadow: none;
+  background        : inherit;
+  box-shadow        : none;
+  cursor            : default;
+  cursor            : default
 }
 
-.sceditor-button,.sceditor-button div {
-    display: block
+.sceditor-button,
+.sceditor-button div {
+  display: block
 }
 
 .sceditor-button div {
-    color: transparent;
-    font-size: 0;
-    line-height: 0;
-    margin: 2px 0;
-    overflow: hidden;
-    padding: 0
+  color      : transparent;
+  font-size  : 0;
+  line-height: 0;
+  margin     : 2px 0;
+  overflow   : hidden;
+  padding    : 0
 }
 
 .sceditor-button.disabled div {
-    filter: alpha(opacity=30);
-    opacity: .3
+  filter : alpha(opacity=30);
+  opacity: .3
 }
 
-.sceditor-button.text,.sceditor-button.text div,.sceditor-button.text-icon,.sceditor-button.text-icon div,.text .sceditor-button,.text .sceditor-button div,.text-icon .sceditor-button,.text-icon .sceditor-button div {
-    color: inherit;
-    font-size: 1em;
-    line-height: 16px;
-    overflow: visible;
-    text-indent: 0;
-    width: auto
+.sceditor-button.text,
+.sceditor-button.text div,
+.sceditor-button.text-icon,
+.sceditor-button.text-icon div,
+.text .sceditor-button,
+.text .sceditor-button div,
+.text-icon .sceditor-button,
+.text-icon .sceditor-button div {
+  color      : inherit;
+  font-size  : 1em;
+  line-height: 16px;
+  overflow   : visible;
+  text-indent: 0;
+  width      : auto
 }
 
-.sceditor-button.text div,.text .sceditor-button div {
-    background: 0;
-    padding: 0 2px
+.sceditor-button.text div,
+.text .sceditor-button div {
+  background: 0;
+  padding   : 0 2px
 }
 
-.sceditor-button.text-icon div,.text-icon .sceditor-button div {
-    padding: 0 2px 0 20px
+.sceditor-button.text-icon div,
+.text-icon .sceditor-button div {
+  padding: 0 2px 0 20px
 }
 
 .rtl .sceditor-button {
-    float: right
+  float: right
 }
 
 .hover {
-    -moz-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2);
-    -webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2);
-    background: #fff;
-    box-shadow: inset 1px 1px 0 rgba(0,0,0,0.3),inset -1px 0 rgba(0,0,0,0.3),inset 0 -1px 0 rgba(0,0,0,0.2)
+  -moz-box-shadow   : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  background        : #fff;
+  box-shadow        : inset 1px 1px 0 rgba(0, 0, 0, 0.3), inset -1px 0 rgba(0, 0, 0, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.2)
 }
 
 div.sceditor-emoticons div div {
-    text-align: center
+  text-align: center
 }
 
 img.smiley {
-    background-repeat: no-repeat;
-    divsceditor-gripsceditor-buttondivbackground-image: url(famfamfam.png);
-    height: 15px;
-    width: 15px
+  background-repeat                                 : no-repeat;
+  divsceditor-gripsceditor-buttondivbackground-image: url(famfamfam.png);
+  height                                            : 15px;
+  width                                             : 15px
 }
 
 .sceditor-dropdown.sceditor-header-picker {
-    padding: 6px 0
+  padding: 6px 0
 }
 
-.sceditor-dropdown.sceditor-header-picker div > * {
-    padding: 7px 10px
+.sceditor-dropdown.sceditor-header-picker div>* {
+  padding: 7px 10px
 }
 
 
 /*PMT*/
 .pmt {
-  --pmt-bg: var(--pnp-color-bg, #f5efe4);
-  --pmt-text: var(--pnp-color-text, #2b2118);
-  --pmt-accent: var(--pnp-color-accent, #d9a441);
+  --pmt-bg      : var(--pnp-color-bg, #f5efe4);
+  --pmt-text    : var(--pnp-color-text, #2b2118);
+  --pmt-accent  : var(--pnp-color-accent, #d9a441);
   --pmt-accent-2: var(--pnp-color-accent-2, #c1502e);
   --pmt-accent-3: var(--pnp-color-accent-3, #2f8f8a);
-  --pmt-radius: var(--pnp-radius, 10px);
+  --pmt-radius  : var(--pnp-radius, 10px);
 
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 24px 16px 60px;
-  color: var(--pmt-text);
+  max-width  : 980px;
+  margin     : 0 auto;
+  padding    : 24px 16px 60px;
+  color      : var(--pmt-text);
   font-family: system-ui, sans-serif;
   line-height: 1.5;
 }
 
-.pmt-head h1 { margin: 0 0 4px; font-size: 1.8rem; }
-.pmt-sub { margin: 0 0 24px; opacity: .75; }
+.pmt-head h1 {
+  margin   : 0 0 4px;
+  font-size: 1.8rem;
+}
+
+.pmt-sub {
+  margin : 0 0 24px;
+  opacity: .75;
+}
 
 .pmt-panel {
-  background: var(--pmt-bg);
-  border: 1px solid rgba(43, 33, 24, .15);
+  background   : var(--pmt-bg);
+  border       : 1px solid rgba(43, 33, 24, .15);
   border-radius: var(--pmt-radius);
-  padding: 16px;
+  padding      : 16px;
   margin-bottom: 18px;
 }
 
-.pmt-panel h2 { margin: 0 0 6px; font-size: 1.05rem; }
-.pmt-hint { margin: 0 0 12px; font-size: .85rem; opacity: .7; }
+.pmt-panel h2 {
+  margin   : 0 0 6px;
+  font-size: 1.05rem;
+}
 
-.pmt-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
-.pmt-row label { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
-.pmt-check { cursor: pointer; }
+.pmt-hint {
+  margin   : 0 0 12px;
+  font-size: .85rem;
+  opacity  : .7;
+}
+
+.pmt-row {
+  display    : flex;
+  flex-wrap  : wrap;
+  gap        : 18px;
+  align-items: center;
+}
+
+.pmt-row label {
+  display    : flex;
+  align-items: center;
+  gap        : 8px;
+  font-size  : .9rem;
+}
+
+.pmt-check {
+  cursor: pointer;
+}
 
 .pmt-btn {
-  background: var(--pmt-accent-2);
-  color: #fff;
-  border: none;
+  background   : var(--pmt-accent-2);
+  color        : #fff;
+  border       : none;
   border-radius: var(--pmt-radius);
-  padding: 10px 18px;
-  font-size: .95rem;
-  cursor: pointer;
-  line-height: normal;
+  padding      : 10px 18px;
+  font-size    : .95rem;
+  cursor       : pointer;
+  line-height  : normal;
 }
-.pmt-btn:hover { background: var(--pmt-accent); color: var(--pmt-text); }
+
+.pmt-btn:hover {
+  background: var(--pmt-accent);
+  color     : var(--pmt-text);
+}
 
 .pmt-code {
-  width: 100%;
-  box-sizing: border-box;
-  font-family: monospace;
-  font-size: 12px;
-  line-height: 1.5;
-  background: #2b2118;
-  color: var(--pmt-accent);
-  border: none;
+  width        : 100%;
+  box-sizing   : border-box;
+  font-family  : monospace;
+  font-size    : 12px;
+  line-height  : 1.5;
+  background   : #2b2118;
+  color        : var(--pmt-accent);
+  border       : none;
   border-radius: var(--pmt-radius);
-  padding: 12px;
+  padding      : 12px;
   margin-bottom: 18px;
-  resize: vertical;
+  resize       : vertical;
 }
 
 /* --- Zone d'apercu : simple cadre d'accueil, le rendu vient du CSS genere --- */
 .pmt-preview,
 .pmt-reserve {
-  border: 1px dashed rgba(43, 33, 24, .3);
+  border       : 1px dashed rgba(43, 33, 24, .3);
   border-radius: var(--pmt-radius);
-  padding: 10px;
-  min-height: 54px;
-  background: #fff;
+  padding      : 10px;
+  min-height   : 54px;
+  background   : #fff;
 }
-.pmt-reserve { border-color: var(--pmt-accent-2); }
+
+.pmt-reserve {
+  border-color: var(--pmt-accent-2);
+}
 
 /* Couleur d'icone par defaut dans l'apercu : sans ca, le CSS du forum hote peut
    rendre les glyphes blancs (donc invisibles sur fond blanc). Le CSS genere par
    l'utilisateur, s'il definit une couleur, prendra le dessus (il est plus specifique
    une fois scope, et porte !important). */
-.pmt-preview .sceditor-button { cursor: pointer; }
-.pmt-preview .sceditor-button::before { color: var(--pmt-text); }
+.pmt-preview .sceditor-button {
+  cursor: pointer;
+}
+
+.pmt-preview .sceditor-button::before {
+  color: var(--pmt-text);
+}
 
 /* Sans pack applique : on laisse le libelle natif visible pour que l'apercu reste
    lisible (sur le vrai forum, ce sont les icones sprite natives qui s'affichent). */
 .pmt-preview .sceditor-button div {
-  font-size: 11px;
-  color: var(--pmt-text);
-  padding: 2px 6px;
+  font-size  : 11px;
+  color      : var(--pmt-text);
+  padding    : 2px 6px;
   white-space: nowrap;
 }
 
 /* --- Reserve : pastilles de texte, rendu autonome --- */
 .pmt-reserve-zone {
-  display: flex;
+  display  : flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap      : 8px;
 }
 
 .pmt-reserve-empty {
-  margin: 0;
+  margin   : 0;
   font-size: .85rem;
-  opacity: .55;
+  opacity  : .55;
 }
 
 .pmt-reserve-zone .sceditor-button {
-  display: inline-flex !important;
-  align-items: center;
-  background: rgba(193, 80, 46, .1);
-  border: 1px solid rgba(193, 80, 46, .35);
-  border-radius: 999px;
-  padding: 3px 12px;
-  cursor: pointer;
-  text-decoration: none;
-  width: auto !important;
-  height: auto !important;
+  display         : inline-flex !important;
+  align-items     : center;
+  background      : rgba(193, 80, 46, .1);
+  border          : 1px solid rgba(193, 80, 46, .35);
+  border-radius   : 999px;
+  padding         : 3px 12px;
+  cursor          : pointer;
+  text-decoration : none;
+  width           : auto !important;
+  height          : auto !important;
   background-image: none !important;
 }
 
@@ -718,12 +868,12 @@ img.smiley {
 
 /* Dans la reserve, on montre le LIBELLE (pas l'icone) : plus lisible pour choisir. */
 .pmt-reserve-zone .sceditor-button div {
-  display: block !important;
-  font-size: 12px;
-  color: var(--pmt-text);
+  display    : block !important;
+  font-size  : 12px;
+  color      : var(--pmt-text);
   text-indent: 0;
 }
 
-.pmt-reserve-zone .sceditor-button::before { content: none !important; }
-
-
+.pmt-reserve-zone .sceditor-button::before {
+  content: none !important;
+}

@@ -11,7 +11,8 @@
      },
      iconPack: "material",
      custom: [                        // boutons custom (groupe dedie), types extensibles
-       { id, label, icon, type:"insert"|"action"|..., payload }
+       { id, label, icon, iconType:"glyph"|"image", type:"insert"|"action"|..., payload }
+       // icon = nom de glyphe (pack actif) si iconType "glyph" (defaut), URL sinon
      ],
      styles: { toolbar:{}, group:{}, button:{}, icon:{} }
      // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth, gap,

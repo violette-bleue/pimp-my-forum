@@ -56,12 +56,14 @@ function buildButton(command, label) {
 // seul le content (--pmt-glyph) est propre au bouton custom.
 function buildCustomButton(custom) {
   const a = document.createElement("a");
-  a.className = "sceditor-button pmt-custom pmt-custom-" + custom.id;
+  const isImage = custom.iconType === "image";
+  a.className = "sceditor-button pmt-custom pmt-custom-" + custom.id + (isImage ? " pmt-custom-image" : "");
   a.setAttribute("data-sceditor-command", "pmt_" + custom.id);
   a.setAttribute("unselectable", "on");
   a.setAttribute("title", custom.label || "");
   a.setAttribute("href", "javascript:void(0)");
-  a.style.setProperty("--pmt-glyph", "'" + (custom.icon || "") + "'");
+  if (isImage) a.style.setProperty("--pmt-icon-url", "url('" + (custom.icon || "") + "')");
+  else a.style.setProperty("--pmt-glyph", "'" + (custom.icon || "") + "'");
 
   const d = document.createElement("div");
   d.setAttribute("unselectable", "on");

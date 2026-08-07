@@ -26,7 +26,10 @@
     border-radius: 4px;
     padding: 0 1px;
 }
-
+span:has(.cm-comment) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pmf .cm-tag {
   color      : var(--color-accent);

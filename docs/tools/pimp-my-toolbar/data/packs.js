@@ -6,7 +6,10 @@
      {
        id, name,
        font: { import: "<url @import de la police>", family: "<font-family>" },
-       icons: { <command>: "<glyphe>", ... }   // exhaustif : les 40 commandes
+       icons: { <command>: "<glyphe>", ... },  // exhaustif : les 40 commandes
+       commonIcons: ["<glyphe>", ...]          // selection courante pour le dropdown
+                                                // des boutons personnalises (pas exhaustif :
+                                                // le champ libre reste le repli complet)
      }
 
    Decliner un pack = copier cette structure, changer font + les valeurs de icons.
@@ -73,7 +76,21 @@ export const PACKS = {
       time: "schedule",
       pastetext: "content_paste",
       source: "terminal"
-    }
+    },
+    // Selection courante pour le dropdown des boutons personnalises (non exhaustif).
+    commonIcons: [
+      "star", "favorite", "warning", "info", "help", "campaign", "push_pin",
+      "bookmark", "flag", "thumb_up", "thumb_down", "celebration", "mood",
+      "block", "report", "verified", "new_releases", "local_fire_department",
+      "emoji_events", "military_tech", "diamond", "auto_awesome", "bolt",
+      "priority_high", "forum", "chat_bubble", "group", "person", "public",
+      "language", "translate", "schedule", "event", "notifications",
+      "volume_up", "mic", "videocam", "photo_camera", "movie", "music_note",
+      "palette", "brush", "extension", "build", "settings", "tune",
+      "search", "add_circle", "check_circle", "cancel", "arrow_forward",
+      "expand_more", "open_in_new", "download", "share", "edit", "delete",
+      "content_copy", "refresh", "timer", "key", "shield", "gavel"
+    ]
   }
 };
 

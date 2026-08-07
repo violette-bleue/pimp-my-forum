@@ -20,7 +20,12 @@ import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCust
 import { generate } from "./core/generator.js";
 import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js";
 import { bindDnd } from "./ui/dnd.js";
-import { PACKS } from "./data/packs.js";
+import { PACKS, getPack } from "./data/packs.js";
+
+// Valeurs sentinelles du select d'icone des boutons custom (distinctes des noms de
+// glyphe reels, qui ne contiennent jamais d'espace).
+const ICON_GLYPH_OTHER = "__glyph__";
+const ICON_IMAGE_URL = "__image__";
 
 // Marge bouton/icone (px) : le bouton suit la taille d'icone choisie en gardant cet
 // ecart, pour rester coherent avec le defaut natif (32px bouton / 18px icone).
@@ -158,8 +163,39 @@ export function mount(root) {
   // Choix du pack.
   ui.packSelect.addEventListener("change", () => {
     setPack(state, ui.packSelect.value);
+    populateCustomIconSelect();
     refresh();
   });
+
+  // Options du select d'icone des boutons custom : selection courante du pack actif,
+  // plus les deux reglages sentinelles (glyphe libre / image perso).
+  function populateCustomIconSelect() {
+    const previous = ui.customIconSelect.value;
+    ui.customIconSelect.innerHTML = "";
+
+    (getPack(state.iconPack).commonIcons || []).forEach((name) => {
+      const o = document.createElement("option");
+      o.value = name;
+      o.textContent = name;
+      ui.customIconSelect.appendChild(o);
+    });
+
+    const glyphOpt = document.createElement("option");
+    glyphOpt.value = ICON_GLYPH_OTHER;
+    glyphOpt.textContent = "Autre glyphe (nom libre)...";
+    ui.customIconSelect.appendChild(glyphOpt);
+
+    const imageOpt = document.createElement("option");
+    imageOpt.value = ICON_IMAGE_URL;
+    imageOpt.textContent = "Image personnalisee (URL)...";
+    ui.customIconSelect.appendChild(imageOpt);
+
+    // Restaure la selection precedente si elle existe toujours dans la nouvelle liste.
+    if ([...ui.customIconSelect.options].some((o) => o.value === previous)) {
+      ui.customIconSelect.value = previous;
+    }
+  }
+  populateCustomIconSelect();
 
   ui.applyPack.addEventListener("change", refresh);
 
@@ -295,19 +331,37 @@ export function mount(root) {
     ui.customActionFields.hidden = isInsert;
   });
 
+  // Icone : selection courante du pack actif, ou repli glyphe libre / URL d'image.
+  ui.customIconSelect.addEventListener("change", () => {
+    const v = ui.customIconSelect.value;
+    ui.customIconGlyph.hidden = v !== ICON_GLYPH_OTHER;
+    ui.customIconUrl.hidden = v !== ICON_IMAGE_URL;
+  });
+
   ui.customAdd.addEventListener("click", () => {
     const label = ui.customLabel.value.trim();
     if (!label) return; // libelle obligatoire, sinon rien d'identifiable dans la toolbar
+
+    const iconChoice = ui.customIconSelect.value;
+    let icon = iconChoice;
+    let iconType = "glyph";
+    if (iconChoice === ICON_GLYPH_OTHER) {
+      icon = ui.customIconGlyph.value.trim();
+    } else if (iconChoice === ICON_IMAGE_URL) {
+      icon = ui.customIconUrl.value.trim();
+      iconType = "image";
+    }
 
     const type = ui.customType.value;
     const payload = type === "action"
       ? { js: ui.customJs.value }
       : { open: ui.customOpen.value, close: ui.customClose.value };
 
-    addCustom(state, { label, icon: ui.customIcon.value.trim(), type, payload });
+    addCustom(state, { label, icon, iconType, type, payload });
 
     ui.customLabel.value = "";
-    ui.customIcon.value = "";
+    ui.customIconGlyph.value = "";
+    ui.customIconUrl.value = "";
     ui.customOpen.value = "";
     ui.customClose.value = "";
     ui.customJs.value = "";
@@ -539,8 +593,10 @@ function buildLayout(root) {
             <input type="text" id="pmt-custom-label" placeholder="Spoiler">
           </label>
           <label>Icone
-            <input type="text" id="pmt-custom-icon" placeholder="visibility_off">
+            <select id="pmt-custom-icon-select"></select>
           </label>
+          <input type="text" id="pmt-custom-icon-glyph" class="pmt-text" placeholder="nom du glyphe (ex: add_circle)" hidden>
+          <input type="text" id="pmt-custom-icon-url" class="pmt-text" placeholder="https://.../icone.svg" hidden>
           <label>Type
             <select id="pmt-custom-type">
               <option value="insert">Insertion BBCode</option>
@@ -645,7 +701,9 @@ function buildLayout(root) {
     iconBorderInput: root.querySelector("#pmt-icon-border"),
     customList: root.querySelector("#pmt-custom-list"),
     customLabel: root.querySelector("#pmt-custom-label"),
-    customIcon: root.querySelector("#pmt-custom-icon"),
+    customIconSelect: root.querySelector("#pmt-custom-icon-select"),
+    customIconGlyph: root.querySelector("#pmt-custom-icon-glyph"),
+    customIconUrl: root.querySelector("#pmt-custom-icon-url"),
     customType: root.querySelector("#pmt-custom-type"),
     customInsertFields: root.querySelector("#pmt-custom-insert-fields"),
     customOpen: root.querySelector("#pmt-custom-open"),

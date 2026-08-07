@@ -1,5 +1,6 @@
 /* pnp.css — point d'entrée, agrège les partiels dans l'ordre de cascade voulu */
 @import url("tokens.css");
+@import url("reset.css");
 @import url("base.css");
 @import url("layout.css");
 @import url("header.css");

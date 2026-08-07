@@ -187,7 +187,17 @@ function iconResetBlock() {
 .sceditor-toolbar .sceditor-button.disabled::before { opacity: .35 !important; }
 .sceditor-toolbar .sceditor-button:hover { background: var(--pmt-btn-bg-hover, transparent) !important; }
 .sceditor-toolbar .sceditor-button:hover::before { color: var(--pmt-icon-color-hover, var(--pmt-icon-color)) !important; }
-.sceditor-toolbar .pmt-custom::before { content: var(--pmt-glyph, '') !important; }`;
+.sceditor-toolbar .pmt-custom::before { content: var(--pmt-glyph, '') !important; }
+.sceditor-toolbar .pmt-custom-image::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: var(--pmt-icon-size) !important;
+  height: var(--pmt-icon-size) !important;
+  background-image: var(--pmt-icon-url) !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}`;
 }
 
 // Un content par commande (glyphe du pack, sauf override d'icone dans l'etat).
@@ -322,11 +332,13 @@ function customSnippet(state) {
 
     CUSTOM.forEach(function (btn) {
       var a = document.createElement('a');
-      a.className = 'sceditor-button pmt-custom pmt-custom-' + btn.id;
+      var isImage = btn.iconType === 'image';
+      a.className = 'sceditor-button pmt-custom pmt-custom-' + btn.id + (isImage ? ' pmt-custom-image' : '');
       a.setAttribute('data-sceditor-command', 'pmt_' + btn.id);
       a.setAttribute('title', btn.label || '');
       a.setAttribute('unselectable', 'on');
-      a.style.setProperty('--pmt-glyph', "'" + (btn.icon || '') + "'");
+      if (isImage) a.style.setProperty('--pmt-icon-url', "url('" + (btn.icon || '') + "')");
+      else a.style.setProperty('--pmt-glyph', "'" + (btn.icon || '') + "'");
       var d = document.createElement('div');
       d.textContent = btn.label || '';
       a.appendChild(d);

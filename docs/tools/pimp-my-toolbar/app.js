@@ -16,11 +16,15 @@
      </script>
 */
 
-import { createInitialState, setHidden, setPack } from "./core/state.js";
+import { createInitialState, setHidden, setPack, setStyle } from "./core/state.js";
 import { generate } from "./core/generator.js";
 import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js";
 import { bindDnd } from "./ui/dnd.js";
 import { PACKS } from "./data/packs.js";
+
+// Marge bouton/icone (px) : le bouton suit la taille d'icone choisie en gardant cet
+// ecart, pour rester coherent avec le defaut natif (32px bouton / 18px icone).
+const BUTTON_PADDING = 14;
 
 export function mount(root) {
   if (!root) return;
@@ -72,6 +76,34 @@ export function mount(root) {
 
   ui.applyPack.addEventListener("change", refresh);
 
+  // Reglages : gap, taille des icones (la taille des boutons suit pour ne pas clipper
+  // le glyphe), couleur facultative.
+  ui.gapRange.addEventListener("input", () => {
+    ui.gapVal.textContent = ui.gapRange.value + "px";
+    setStyle(state, "group", "gap", ui.gapRange.value + "px");
+    refresh();
+  });
+
+  ui.iconSizeRange.addEventListener("input", () => {
+    const size = parseInt(ui.iconSizeRange.value, 10);
+    ui.iconSizeVal.textContent = size + "px";
+    setStyle(state, "icon", "size", size + "px");
+    setStyle(state, "button", "size", size + BUTTON_PADDING + "px");
+    refresh();
+  });
+
+  ui.colorEnable.addEventListener("change", () => {
+    ui.colorInput.disabled = !ui.colorEnable.checked;
+    setStyle(state, "button", "color", ui.colorEnable.checked ? ui.colorInput.value : null);
+    refresh();
+  });
+
+  ui.colorInput.addEventListener("input", () => {
+    if (!ui.colorEnable.checked) return;
+    setStyle(state, "button", "color", ui.colorInput.value);
+    refresh();
+  });
+
   // Generation explicite (bouton) : remplit les deux zones de code.
   ui.generateBtn.addEventListener("click", () => {
     const out = generate(state, { applyPack: ui.applyPack.checked });
@@ -102,6 +134,27 @@ function buildLayout(root) {
             <input type="checkbox" id="pmt-apply-pack" checked>
             Appliquer le pack (sinon icones natives conservees)
           </label>
+        </div>
+      </section>
+
+      <section class="pmt-panel">
+        <h2>Reglages</h2>
+        <p class="pmt-hint">Espacement et taille des boutons. Les valeurs par defaut
+           collent a la toolbar native.</p>
+        <div class="pmt-row">
+          <label>Espacement
+            <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
+            <span id="pmt-gap-val" class="pmt-range-val">5px</span>
+          </label>
+          <label>Taille des icones
+            <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
+            <span id="pmt-icon-size-val" class="pmt-range-val">18px</span>
+          </label>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-color-enable">
+            Couleur des icones
+          </label>
+          <input type="color" id="pmt-color" value="#2b2118" disabled>
         </div>
       </section>
 
@@ -149,6 +202,12 @@ function buildLayout(root) {
     reserve: root.querySelector("#pmt-reserve"),
     packSelect,
     applyPack: root.querySelector("#pmt-apply-pack"),
+    gapRange: root.querySelector("#pmt-gap"),
+    gapVal: root.querySelector("#pmt-gap-val"),
+    iconSizeRange: root.querySelector("#pmt-icon-size"),
+    iconSizeVal: root.querySelector("#pmt-icon-size-val"),
+    colorEnable: root.querySelector("#pmt-color-enable"),
+    colorInput: root.querySelector("#pmt-color"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

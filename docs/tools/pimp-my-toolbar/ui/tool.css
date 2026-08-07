@@ -749,10 +749,17 @@ img.smiley {
   cursor: pointer;
 }
 
-.pmt-range-val {
+.pmt-num {
+  width: 52px;
   font-variant-numeric: tabular-nums;
-  opacity: .7;
-  font-size: .85rem;
+  border: 1px solid rgba(43, 33, 24, .3);
+  border-radius: var(--radius);
+  padding: 2px 4px;
+}
+
+.pmt-num:disabled {
+  cursor: not-allowed;
+  opacity: .4;
 }
 
 #pmt-color {

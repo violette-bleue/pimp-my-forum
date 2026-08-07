@@ -19,16 +19,16 @@ export function init() {
   const menus = document.querySelectorAll(".pmf-post__menu-btn");
   menus.forEach((btn) => {
     btn.addEventListener("click", () => {
-      if (btn.classList.contains("pnp-is-expanded")) {
+      if (btn.classList.contains("pmf-is-expanded")) {
         btn.innerHTML = "+";
-        btn.classList.remove("pnp-is-expanded");
+        btn.classList.remove("pmf-is-expanded");
       } else {
         document.querySelectorAll(".pmf-post__menu-btn.pmf-is-expanded").forEach((m) => {
           m.innerHTML = "+";
-          m.classList.remove("pnp-is-expanded");
+          m.classList.remove("pmf-is-expanded");
         });
         btn.innerHTML = "-";
-        btn.classList.add("pnp-is-expanded");
+        btn.classList.add("pmf-is-expanded");
       }
     });
   });
@@ -37,7 +37,7 @@ export function init() {
     if (!e.target.closest(".pmf-post__menu-wrap")) {
       document.querySelectorAll(".pmf-post__menu-btn.pmf-is-expanded").forEach((m) => {
         m.innerHTML = "+";
-        m.classList.remove("pnp-is-expanded");
+        m.classList.remove("pmf-is-expanded");
       });
     }
   });

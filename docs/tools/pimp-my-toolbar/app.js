@@ -38,6 +38,21 @@ function syncRangeNumber(rangeEl, numEl, onChange) {
   numEl.addEventListener("input", () => apply(numEl.value));
 }
 
+// Slider + nombre facultatifs, actives par une checkbox : decoche => pas de style (valeur
+// null) ; coche => valeur courante, synchronisee entre slider et champ nombre.
+function bindOptionalRange(enableEl, rangeEl, numEl, onChange) {
+  enableEl.addEventListener("change", () => {
+    const on = enableEl.checked;
+    rangeEl.disabled = !on;
+    numEl.disabled = !on;
+    onChange(on ? numEl.value : null);
+  });
+  syncRangeNumber(rangeEl, numEl, (v) => {
+    if (!enableEl.checked) return;
+    onChange(v);
+  });
+}
+
 // Associe une checkbox d'activation a un input color : decoche => valeur null (pas de
 // style genere), coche => valeur du color picker. onChange(valeur) est notifie des deux.
 function bindColorToggle(enableEl, colorEl, onChange) {
@@ -149,17 +164,25 @@ export function mount(root) {
     refresh();
   });
 
-  ui.maxWidthEnable.addEventListener("change", () => {
-    const on = ui.maxWidthEnable.checked;
-    ui.maxWidthRange.disabled = !on;
-    ui.maxWidthInput.disabled = !on;
-    setStyle(state, "toolbar", "maxWidth", on ? ui.maxWidthInput.value + "px" : null);
+  bindOptionalRange(ui.maxWidthEnable, ui.maxWidthRange, ui.maxWidthInput, (v) => {
+    setStyle(state, "toolbar", "maxWidth", v && v + "px");
     refresh();
   });
 
-  syncRangeNumber(ui.maxWidthRange, ui.maxWidthInput, (v) => {
-    if (!ui.maxWidthEnable.checked) return;
-    setStyle(state, "toolbar", "maxWidth", v + "px");
+  // Arrondi : container et groupes sont facultatifs (habillage, rien par defaut) ; les
+  // icones ont deja un defaut (6px, via la variable --pmt-radius), donc toujours actif.
+  bindOptionalRange(ui.toolbarRadiusEnable, ui.toolbarRadiusRange, ui.toolbarRadiusNum, (v) => {
+    setStyle(state, "toolbar", "radius", v && v + "px");
+    refresh();
+  });
+
+  bindOptionalRange(ui.groupRadiusEnable, ui.groupRadiusRange, ui.groupRadiusNum, (v) => {
+    setStyle(state, "group", "radius", v && v + "px");
+    refresh();
+  });
+
+  syncRangeNumber(ui.iconRadiusRange, ui.iconRadiusNum, (v) => {
+    setStyle(state, "button", "radius", v + "px");
     refresh();
   });
 
@@ -248,6 +271,12 @@ function buildLayout(root) {
             Couleur de fond
           </label>
           <input type="color" id="pmt-toolbar-bg" value="#f5efe4" disabled>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-toolbar-radius-enable">
+            Arrondi
+          </label>
+          <input type="range" id="pmt-toolbar-radius-range" min="0" max="40" step="1" value="8" disabled>
+          <input type="number" id="pmt-toolbar-radius" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
         </div>
 
         <h3>Groupes</h3>
@@ -261,6 +290,12 @@ function buildLayout(root) {
             Couleur de fond
           </label>
           <input type="color" id="pmt-group-bg" value="#f5efe4" disabled>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-group-radius-enable">
+            Arrondi
+          </label>
+          <input type="range" id="pmt-group-radius-range" min="0" max="40" step="1" value="6" disabled>
+          <input type="number" id="pmt-group-radius" class="pmt-num" min="0" max="40" step="1" value="6" disabled> px
         </div>
 
         <h3>Icones</h3>
@@ -279,6 +314,10 @@ function buildLayout(root) {
             Couleur de fond
           </label>
           <input type="color" id="pmt-icon-bg" value="#f5efe4" disabled>
+          <label>Arrondi
+            <input type="range" id="pmt-icon-radius" min="0" max="24" step="1" value="6">
+            <input type="number" id="pmt-icon-radius-num" class="pmt-num" min="0" max="24" step="1" value="6"> px
+          </label>
         </div>
       </section>
 
@@ -344,6 +383,14 @@ function buildLayout(root) {
     groupBgInput: root.querySelector("#pmt-group-bg"),
     iconBgEnable: root.querySelector("#pmt-icon-bg-enable"),
     iconBgInput: root.querySelector("#pmt-icon-bg"),
+    toolbarRadiusEnable: root.querySelector("#pmt-toolbar-radius-enable"),
+    toolbarRadiusRange: root.querySelector("#pmt-toolbar-radius-range"),
+    toolbarRadiusNum: root.querySelector("#pmt-toolbar-radius"),
+    groupRadiusEnable: root.querySelector("#pmt-group-radius-enable"),
+    groupRadiusRange: root.querySelector("#pmt-group-radius-range"),
+    groupRadiusNum: root.querySelector("#pmt-group-radius"),
+    iconRadiusRange: root.querySelector("#pmt-icon-radius"),
+    iconRadiusNum: root.querySelector("#pmt-icon-radius-num"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

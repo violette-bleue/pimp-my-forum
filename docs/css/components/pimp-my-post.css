@@ -30,6 +30,9 @@ span:has(.cm-comment) {
     flex-wrap: nowrap;
     flex-direction: column;
 }
+.pmp-fa-raw {
+  all: revert;
+}
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pmf .cm-tag {
   color      : var(--color-accent);

@@ -1,0 +1,101 @@
+/* pimp-my-forum/tools/tools.css
+   Chrome commun aux outils/generateurs (docs/tools/<nom>/) : chaque outil compose un
+   etat via des reglages, produit un CSS/JS a coller. Ce fichier couvre les pieces d'UI
+   qui se repetent d'un generateur a l'autre (ligne de reglages, hint, champ nombre/texte
+   compact, bloc de code genere...). Prefixe pmf-tool- pour les distinguer :
+     - des classes globales du site (pmf-panel, pmf-btn... docs/css/components/) —
+       un outil les reutilise TELLES QUELLES quand l'equivalent existe deja ;
+     - des classes propres a un outil precis (docs/tools/<nom>/ui/*.css), qui restent
+       dans leur dossier tant qu'elles ne servent qu'a un seul generateur.
+
+   Utilise directement les tokens du site (--color-*, --radius) : ces pages sont
+   autonomes DU forum vitrine, les tokens sont donc toujours presents. */
+
+.pmf-tool-sub {
+  margin : 0 0 24px;
+  opacity: .75;
+}
+
+.pmf-tool-hint {
+  margin   : 0 0 12px;
+  font-size: .85rem;
+  opacity  : .7;
+}
+
+.pmf-tool-row {
+  display    : flex;
+  flex-wrap  : wrap;
+  gap        : 18px;
+  align-items: center;
+}
+
+.pmf-tool-row label {
+  display    : flex;
+  align-items: center;
+  gap        : 8px;
+  font-size  : .9rem;
+}
+
+.pmf-tool-check {
+  cursor: pointer;
+}
+
+.pmf-tool-mode-switch {
+  margin-bottom: 4px;
+  font-weight  : 600;
+}
+
+.pmf-tool-inline-group {
+  display    : inline-flex;
+  align-items: center;
+  gap        : 8px;
+}
+
+.pmf-tool-field {
+  display       : flex;
+  flex-direction: column;
+  gap           : 6px;
+  margin-bottom : 18px;
+}
+
+.pmf-tool-field-label {
+  font-size: .9rem;
+}
+
+.pmf-tool-num {
+  width               : 52px;
+  font-variant-numeric: tabular-nums;
+  border-radius       : var(--radius);
+  padding             : 2px 4px;
+}
+
+.pmf-tool-num:disabled {
+  cursor : not-allowed;
+  opacity: .4;
+}
+
+.pmf-tool-text {
+  width        : 160px;
+  border-radius: var(--radius);
+  padding      : 3px 6px;
+}
+
+.pmf-tool-text:disabled {
+  cursor : not-allowed;
+  opacity: .4;
+}
+
+.pmf-tool-code {
+  width        : 100%;
+  box-sizing   : border-box;
+  font-family  : monospace;
+  font-size    : 12px;
+  line-height  : 1.5;
+  background   : #2b2118;
+  color        : var(--color-accent);
+  border       : none;
+  border-radius: var(--radius);
+  padding      : 12px;
+  margin-bottom: 18px;
+  resize       : vertical;
+}

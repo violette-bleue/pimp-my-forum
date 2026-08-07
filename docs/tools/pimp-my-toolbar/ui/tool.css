@@ -8,7 +8,11 @@
        Elle n'herite pas du CSS genere (sinon les boutons masques y seraient invisibles,
        puisque le masquage est justement un display:none sur la commande).
 
-   Utilise les tokens Puzzle & Pixel s'ils sont presents, avec repli autonome. */
+   Utilise directement les tokens du site (--color-*, --radius, definis dans
+   docs/css/tokens.css) : l'outil est une page autonome DU forum vitrine, ces variables
+   sont donc toujours presentes, pas besoin de repli local. */
+
+@import url("../../tools.css");
 
 /*TOOLBAR NATIVE FA */
 .sceditor-toolbar, .sceditor-group {
@@ -712,14 +716,8 @@ img.smiley {
 
 /*PMT*/
 
-.pmt-sub {
-  margin : 0 0 24px;
-  opacity: .75;
-}
-
 .pmt-panel {
-  background   : var(--bg);
-  border       : 1px solid rgba(43, 33, 24, .15);
+  background   : var(--color-bg);
   border-radius: var(--radius);
   padding      : 16px;
   margin-bottom: 18px;
@@ -738,75 +736,59 @@ img.smiley {
   opacity  : .6;
 }
 
-.pmt-mode-switch {
-  margin-bottom: 4px;
-  font-weight: 600;
-}
-
-.pmt-inline-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .pmt-panel h3:first-of-type {
   margin-top: 4px;
 }
 
-.pmt-hint {
-  margin   : 0 0 12px;
-  font-size: .85rem;
-  opacity  : .7;
+.pmt-icon-grid {
+  display              : grid;
+  grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+  gap                  : 4px;
+  max-height           : 168px;
+  overflow-y           : auto;
+  border-radius        : var(--radius);
+  padding              : 6px;
 }
 
-.pmt-row {
-  display    : flex;
-  flex-wrap  : wrap;
-  gap        : 18px;
-  align-items: center;
-}
-
-.pmt-row label {
-  display    : flex;
-  align-items: center;
-  gap        : 8px;
-  font-size  : .9rem;
-}
-
-.pmt-check {
-  cursor: pointer;
-}
-
-.pmt-num {
-  width: 52px;
-  font-variant-numeric: tabular-nums;
-  border: 1px solid rgba(43, 33, 24, .3);
+.pmt-icon-pick {
+  width        : 38px;
+  height       : 38px;
+  display      : flex;
+  align-items  : center;
+  justify-content: center;
+  border       : 1px solid transparent;
   border-radius: var(--radius);
-  padding: 2px 4px;
+  background   : #fff;
+  color        : var(--color-text);
+  cursor       : pointer;
+  overflow     : hidden;
+  padding      : 0;
+  font-family  : var(--pmt-picker-font, inherit);
+  font-size    : 20px;
+  line-height  : 1;
 }
 
-.pmt-num:disabled {
-  cursor: not-allowed;
-  opacity: .4;
+.pmt-icon-pick:hover {
+  border-color: var(--color-accent-2);
 }
 
-.pmt-text {
-  width: 160px;
-  border: 1px solid rgba(43, 33, 24, .3);
-  border-radius: var(--radius);
-  padding: 3px 6px;
+.pmt-icon-pick.active {
+  border-color: var(--color-accent-2);
+  background  : rgba(193, 80, 46, .15);
 }
 
-.pmt-text:disabled {
-  cursor: not-allowed;
-  opacity: .4;
+.pmt-icon-pick-special {
+  font-family: inherit;
+  font-size  : 8px;
+  text-align : center;
+  line-height: 1.2;
+  padding    : 2px;
 }
 
 #pmt-color {
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid rgba(43, 33, 24, .3);
   border-radius: var(--radius);
   cursor: pointer;
 }
@@ -830,7 +812,6 @@ img.smiley {
   justify-content: center;
   gap: 2px;
   padding: 4px;
-  border: 1px solid rgba(43, 33, 24, .3);
   border-radius: var(--radius);
   background: #fff;
   cursor: pointer;
@@ -839,27 +820,27 @@ img.smiley {
 .pmt-align-btn span {
   width: 3px;
   min-height: 2px;
-  background: var(--text);
+  background: var(--color-text);
   border-radius: 1px;
   opacity: .6;
 }
 
 .pmt-align-btn:hover {
-  border-color: var(--accent-2);
+  border-color: var(--color-accent-2);
 }
 
 .pmt-align-btn.active {
-  border-color: var(--accent-2);
+  border-color: var(--color-accent-2);
   background: rgba(193, 80, 46, .12);
 }
 
 .pmt-align-btn.active span {
   opacity: 1;
-  background: var(--accent-2);
+  background: var(--color-accent-2);
 }
 
 .pmt-btn {
-  background   : var(--accent-2);
+  background   : var(--color-accent-2);
   color        : #fff;
   border       : none;
   border-radius: var(--radius);
@@ -870,23 +851,8 @@ img.smiley {
 }
 
 .pmt-btn:hover {
-  background: var(--accent);
-  color     : var(--text);
-}
-
-.pmt-code {
-  width        : 100%;
-  box-sizing   : border-box;
-  font-family  : monospace;
-  font-size    : 12px;
-  line-height  : 1.5;
-  background   : #2b2118;
-  color        : var(--accent);
-  border       : none;
-  border-radius: var(--radius);
-  padding      : 12px;
-  margin-bottom: 18px;
-  resize       : vertical;
+  background: var(--color-accent);
+  color     : var(--color-text);
 }
 
 .pmt-custom-js-label {
@@ -894,7 +860,7 @@ img.smiley {
   width  : 100%;
 }
 
-.pmt-custom-js-label .pmt-code {
+.pmt-custom-js-label .pmf-tool-code {
   margin-top   : 6px;
   margin-bottom: 0;
 }
@@ -911,7 +877,6 @@ img.smiley {
   align-items: center;
   gap        : 10px;
   padding    : 6px 10px;
-  border     : 1px solid rgba(43, 33, 24, .15);
   border-radius: var(--radius);
 }
 
@@ -928,7 +893,6 @@ img.smiley {
 .pmt-custom-item-remove {
   margin-left  : auto;
   background   : none;
-  border       : 1px solid rgba(43, 33, 24, .3);
   border-radius: var(--radius);
   padding      : 3px 10px;
   font-size    : .8rem;
@@ -936,14 +900,13 @@ img.smiley {
 }
 
 .pmt-custom-item-remove:hover {
-  border-color: var(--accent-2);
-  color       : var(--accent-2);
+  border-color: var(--color-accent-2);
+  color       : var(--color-accent-2);
 }
 
 /* --- Zone d'apercu : simple cadre d'accueil, le rendu vient du CSS genere --- */
 .pmt-preview,
 .pmt-reserve {
-  border       : 1px dashed rgba(43, 33, 24, .3);
   border-radius: var(--radius);
   padding      : 10px;
   min-height   : 54px;
@@ -951,7 +914,7 @@ img.smiley {
 }
 
 .pmt-reserve {
-  border-color: var(--accent-2);
+  border-color: var(--color-accent-2);
 }
 
 /* Couleur d'icone par defaut dans l'apercu : sans ca, le CSS du forum hote peut
@@ -963,14 +926,14 @@ img.smiley {
 }
 
 .pmt-preview .sceditor-button::before {
-  color: var(--text);
+  color: var(--color-text);
 }
 
 /* Sans pack applique : on laisse le libelle natif visible pour que l'apercu reste
    lisible (sur le vrai forum, ce sont les icones sprite natives qui s'affichent). */
 .pmt-preview .sceditor-button div {
   font-size  : 11px;
-  color      : var(--text);
+  color      : var(--color-text);
   padding    : 2px 6px;
   white-space: nowrap;
 }

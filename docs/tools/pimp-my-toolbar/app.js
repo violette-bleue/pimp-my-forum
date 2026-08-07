@@ -22,10 +22,23 @@ import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js
 import { bindDnd } from "./ui/dnd.js";
 import { PACKS, getPack } from "./data/packs.js";
 
-// Valeurs sentinelles du select d'icone des boutons custom (distinctes des noms de
+// Valeurs sentinelles de la grille d'icones des boutons custom (distinctes des noms de
 // glyphe reels, qui ne contiennent jamais d'espace).
 const ICON_GLYPH_OTHER = "__glyph__";
 const ICON_IMAGE_URL = "__image__";
+
+// Charge la police d'un pack pour le picker d'icones, independamment de "Appliquer le
+// pack" (qui ne concerne que le CSS EXPORTE) : le picker doit toujours pouvoir afficher
+// les vrais glyphes, meme si l'utilisateur garde les icones natives sur sa toolbar.
+const loadedPickerFonts = new Set();
+function loadPickerFont(pack) {
+  if (!pack.font || !pack.font.import || loadedPickerFonts.has(pack.id)) return;
+  loadedPickerFonts.add(pack.id);
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = pack.font.import;
+  document.head.appendChild(link);
+}
 
 // Marge bouton/icone (px) : le bouton suit la taille d'icone choisie en gardant cet
 // ecart, pour rester coherent avec le defaut natif (32px bouton / 18px icone).
@@ -163,39 +176,56 @@ export function mount(root) {
   // Choix du pack.
   ui.packSelect.addEventListener("change", () => {
     setPack(state, ui.packSelect.value);
-    populateCustomIconSelect();
+    populateCustomIconGrid();
     refresh();
   });
 
-  // Options du select d'icone des boutons custom : selection courante du pack actif,
-  // plus les deux reglages sentinelles (glyphe libre / image perso).
-  function populateCustomIconSelect() {
-    const previous = ui.customIconSelect.value;
-    ui.customIconSelect.innerHTML = "";
+  // Grille d'icones des boutons custom : chaque bouton affiche le VRAI glyphe (police du
+  // pack chargee independamment de "Appliquer le pack", pour que le picker fonctionne
+  // meme si l'utilisateur garde les icones natives sur la toolbar). Plus deux entrees
+  // sentinelles (glyphe libre / image perso), rendues en texte plutot qu'en glyphe.
+  function populateCustomIconGrid() {
+    const pack = getPack(state.iconPack);
+    ui.customIconGrid.style.setProperty("--pmt-picker-font", `'${pack.font.family}'`);
+    loadPickerFont(pack);
 
-    (getPack(state.iconPack).commonIcons || []).forEach((name) => {
-      const o = document.createElement("option");
-      o.value = name;
-      o.textContent = name;
-      ui.customIconSelect.appendChild(o);
+    const previousActive = ui.customIconGrid.querySelector(".active");
+    const previousValue = previousActive ? previousActive.dataset.icon : null;
+    ui.customIconGrid.innerHTML = "";
+
+    const items = (pack.commonIcons || []).map((name) => ({ value: name, label: name, glyph: true }));
+    items.push({ value: ICON_GLYPH_OTHER, label: "Autre...", glyph: false });
+    items.push({ value: ICON_IMAGE_URL, label: "Image...", glyph: false });
+
+    items.forEach((item) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pmt-icon-pick" + (item.glyph ? "" : " pmt-icon-pick-special");
+      btn.dataset.icon = item.value;
+      btn.title = item.label;
+      btn.textContent = item.glyph ? item.value : item.label;
+      btn.setAttribute("role", "option");
+      btn.addEventListener("click", () => selectIconPick(btn));
+      ui.customIconGrid.appendChild(btn);
     });
 
-    const glyphOpt = document.createElement("option");
-    glyphOpt.value = ICON_GLYPH_OTHER;
-    glyphOpt.textContent = "Autre glyphe (nom libre)...";
-    ui.customIconSelect.appendChild(glyphOpt);
-
-    const imageOpt = document.createElement("option");
-    imageOpt.value = ICON_IMAGE_URL;
-    imageOpt.textContent = "Image personnalisee (URL)...";
-    ui.customIconSelect.appendChild(imageOpt);
-
-    // Restaure la selection precedente si elle existe toujours dans la nouvelle liste.
-    if ([...ui.customIconSelect.options].some((o) => o.value === previous)) {
-      ui.customIconSelect.value = previous;
-    }
+    const toReselect = (previousValue &&
+      [...ui.customIconGrid.children].find((b) => b.dataset.icon === previousValue)
+    ) || ui.customIconGrid.firstElementChild;
+    if (toReselect) selectIconPick(toReselect);
   }
-  populateCustomIconSelect();
+
+  function selectIconPick(btn) {
+    [...ui.customIconGrid.children].forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-selected", String(b === btn));
+    });
+    const v = btn.dataset.icon;
+    ui.customIconGlyph.hidden = v !== ICON_GLYPH_OTHER;
+    ui.customIconUrl.hidden = v !== ICON_IMAGE_URL;
+  }
+
+  populateCustomIconGrid();
 
   ui.applyPack.addEventListener("change", refresh);
 
@@ -331,18 +361,12 @@ export function mount(root) {
     ui.customActionFields.hidden = isInsert;
   });
 
-  // Icone : selection courante du pack actif, ou repli glyphe libre / URL d'image.
-  ui.customIconSelect.addEventListener("change", () => {
-    const v = ui.customIconSelect.value;
-    ui.customIconGlyph.hidden = v !== ICON_GLYPH_OTHER;
-    ui.customIconUrl.hidden = v !== ICON_IMAGE_URL;
-  });
-
   ui.customAdd.addEventListener("click", () => {
     const label = ui.customLabel.value.trim();
     if (!label) return; // libelle obligatoire, sinon rien d'identifiable dans la toolbar
 
-    const iconChoice = ui.customIconSelect.value;
+    const activePick = ui.customIconGrid.querySelector(".active");
+    const iconChoice = activePick ? activePick.dataset.icon : "";
     let icon = iconChoice;
     let iconType = "glyph";
     if (iconChoice === ICON_GLYPH_OTHER) {
@@ -386,15 +410,15 @@ function buildLayout(root) {
     <div class="pmt">
       <header class="pmt-head">
         <h1>Pimp My Toolbar</h1>
-        <p class="pmt-sub">Compose ta barre d'outils, recupere le code pret a coller.</p>
+        <p class="pmf-tool-sub">Compose ta barre d'outils, recupere le code pret a coller.</p>
       </header>
 
       <section class="pmt-panel">
-        <div class="pmt-row">
+        <div class="pmf-tool-row">
           <label>Pack d'icones
             <select id="pmt-pack"></select>
           </label>
-          <label class="pmt-check">
+          <label class="pmf-tool-check">
             <input type="checkbox" id="pmt-apply-pack" checked>
             Appliquer le pack (sinon icones natives conservees)
           </label>
@@ -403,21 +427,21 @@ function buildLayout(root) {
 
       <section class="pmt-panel" id="pmt-settings">
         <h2>Reglages</h2>
-        <p class="pmt-hint">Les valeurs par defaut collent a la toolbar native.</p>
-        <label class="pmt-check pmt-mode-switch">
+        <p class="pmf-tool-hint">Les valeurs par defaut collent a la toolbar native.</p>
+        <label class="pmf-tool-check pmf-tool-mode-switch">
           <input type="checkbox" id="pmt-advanced-mode">
           Mode avance
         </label>
 
         <h3 class="pmt-advanced-only" hidden>Container</h3>
-        <div class="pmt-row">
+        <div class="pmf-tool-row">
           <label class="pmt-advanced-only" hidden>Disposition
             <select id="pmt-toolbar-direction">
               <option value="row">Ligne</option>
               <option value="column">Colonne</option>
             </select>
           </label>
-          <label class="pmt-check">
+          <label class="pmf-tool-check">
             <input type="checkbox" id="pmt-wrap" checked>
             Retour a la ligne
           </label>
@@ -433,114 +457,114 @@ function buildLayout(root) {
             </button>
           </div>
         </div>
-        <div class="pmt-row pmt-advanced-only" hidden>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+        <div class="pmf-tool-row pmt-advanced-only" hidden>
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-maxwidth-enable">
               Largeur max
             </label>
             <input type="range" id="pmt-maxwidth-range" min="100" max="1200" step="10" value="400" disabled>
-            <input type="number" id="pmt-maxwidth" class="pmt-num" min="100" max="1200" step="10" value="400" disabled> px
+            <input type="number" id="pmt-maxwidth" class="pmf-tool-num" min="100" max="1200" step="10" value="400" disabled> px
           </span>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-toolbar-gap-enable">
               Gap
             </label>
             <input type="range" id="pmt-toolbar-gap-range" min="0" max="40" step="1" value="8" disabled>
-            <input type="number" id="pmt-toolbar-gap" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+            <input type="number" id="pmt-toolbar-gap" class="pmf-tool-num" min="0" max="40" step="1" value="8" disabled> px
           </span>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-toolbar-bg-enable">
               Couleur de fond
             </label>
             <input type="color" id="pmt-toolbar-bg" value="#f5efe4" disabled>
           </span>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-toolbar-radius-enable">
               Arrondi
             </label>
             <input type="range" id="pmt-toolbar-radius-range" min="0" max="40" step="1" value="8" disabled>
-            <input type="number" id="pmt-toolbar-radius" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+            <input type="number" id="pmt-toolbar-radius" class="pmf-tool-num" min="0" max="40" step="1" value="8" disabled> px
           </span>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-toolbar-padding-enable">
               Padding
             </label>
             <input type="range" id="pmt-toolbar-padding-range" min="0" max="40" step="1" value="8" disabled>
-            <input type="number" id="pmt-toolbar-padding" class="pmt-num" min="0" max="40" step="1" value="8" disabled> px
+            <input type="number" id="pmt-toolbar-padding" class="pmf-tool-num" min="0" max="40" step="1" value="8" disabled> px
           </span>
-          <span class="pmt-inline-group">
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group">
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-toolbar-border-enable">
               Bordure
             </label>
-            <input type="text" id="pmt-toolbar-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+            <input type="text" id="pmt-toolbar-border" class="pmf-tool-text" placeholder="1px solid #2b2118" disabled>
           </span>
         </div>
 
         <h3 class="pmt-advanced-only" hidden>Groupes</h3>
-        <div class="pmt-row">
+        <div class="pmf-tool-row">
           <label>Espacement
             <input type="range" id="pmt-gap" min="0" max="20" step="1" value="5">
-            <input type="number" id="pmt-gap-num" class="pmt-num" min="0" max="20" step="1" value="5"> px
+            <input type="number" id="pmt-gap-num" class="pmf-tool-num" min="0" max="20" step="1" value="5"> px
           </label>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-group-width-enable">
               Largeur fixe
             </label>
             <input type="range" id="pmt-group-width-range" min="40" max="400" step="10" value="120" disabled>
-            <input type="number" id="pmt-group-width" class="pmt-num" min="40" max="400" step="10" value="120" disabled> px
+            <input type="number" id="pmt-group-width" class="pmf-tool-num" min="40" max="400" step="10" value="120" disabled> px
           </span>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-group-bg-enable">
               Couleur de fond
             </label>
             <input type="color" id="pmt-group-bg" value="#f5efe4" disabled>
           </span>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-group-radius-enable">
               Arrondi
             </label>
             <input type="range" id="pmt-group-radius-range" min="0" max="40" step="1" value="6" disabled>
-            <input type="number" id="pmt-group-radius" class="pmt-num" min="0" max="40" step="1" value="6" disabled> px
+            <input type="number" id="pmt-group-radius" class="pmf-tool-num" min="0" max="40" step="1" value="6" disabled> px
           </span>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-group-padding-enable">
               Padding
             </label>
             <input type="range" id="pmt-group-padding-range" min="0" max="20" step="1" value="4" disabled>
-            <input type="number" id="pmt-group-padding" class="pmt-num" min="0" max="20" step="1" value="4" disabled> px
+            <input type="number" id="pmt-group-padding" class="pmf-tool-num" min="0" max="20" step="1" value="4" disabled> px
           </span>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-group-border-enable">
               Bordure
             </label>
-            <input type="text" id="pmt-group-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+            <input type="text" id="pmt-group-border" class="pmf-tool-text" placeholder="1px solid #2b2118" disabled>
           </span>
         </div>
 
         <h3 class="pmt-advanced-only" hidden>Icones</h3>
-        <div class="pmt-row">
+        <div class="pmf-tool-row">
           <label>Taille
             <input type="range" id="pmt-icon-size" min="12" max="32" step="1" value="18">
-            <input type="number" id="pmt-icon-size-num" class="pmt-num" min="12" max="32" step="1" value="18"> px
+            <input type="number" id="pmt-icon-size-num" class="pmf-tool-num" min="12" max="32" step="1" value="18"> px
           </label>
-          <label class="pmt-check">
+          <label class="pmf-tool-check">
             <input type="checkbox" id="pmt-color-enable">
             Couleur
           </label>
           <input type="color" id="pmt-color" value="#2b2118" disabled>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-icon-bg-enable">
               Couleur de fond
             </label>
@@ -548,55 +572,50 @@ function buildLayout(root) {
           </span>
           <label class="pmt-advanced-only" hidden>Arrondi
             <input type="range" id="pmt-icon-radius" min="0" max="24" step="1" value="6">
-            <input type="number" id="pmt-icon-radius-num" class="pmt-num" min="0" max="24" step="1" value="6"> px
+            <input type="number" id="pmt-icon-radius-num" class="pmf-tool-num" min="0" max="24" step="1" value="6"> px
           </label>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-icon-padding-enable">
               Padding
             </label>
             <input type="range" id="pmt-icon-padding-range" min="0" max="16" step="1" value="4" disabled>
-            <input type="number" id="pmt-icon-padding" class="pmt-num" min="0" max="16" step="1" value="4" disabled> px
+            <input type="number" id="pmt-icon-padding" class="pmf-tool-num" min="0" max="16" step="1" value="4" disabled> px
           </span>
-          <span class="pmt-inline-group pmt-advanced-only" hidden>
-            <label class="pmt-check">
+          <span class="pmf-tool-inline-group pmt-advanced-only" hidden>
+            <label class="pmf-tool-check">
               <input type="checkbox" id="pmt-icon-border-enable">
               Bordure
             </label>
-            <input type="text" id="pmt-icon-border" class="pmt-text" placeholder="1px solid #2b2118" disabled>
+            <input type="text" id="pmt-icon-border" class="pmf-tool-text" placeholder="1px solid #2b2118" disabled>
           </span>
         </div>
       </section>
 
       <section class="pmt-panel">
         <h2>Ta barre d'outils</h2>
-        <p class="pmt-hint">Glisse un bouton pour le deplacer dans son groupe,
+        <p class="pmf-tool-hint">Glisse un bouton pour le deplacer dans son groupe,
            ou vers la reserve pour le masquer. Un clic fait pareil, en plus rapide.</p>
         <div id="pmt-preview" class="pmt-preview"></div>
       </section>
 
       <section class="pmt-panel">
         <h2>Reserve (boutons masques)</h2>
-        <p class="pmt-hint">Glisse un bouton d'ici vers la barre pour le remettre.</p>
+        <p class="pmf-tool-hint">Glisse un bouton d'ici vers la barre pour le remettre.</p>
         <div id="pmt-reserve" class="pmt-reserve"></div>
       </section>
 
       <section class="pmt-panel">
         <h2>Boutons personnalises</h2>
-        <p class="pmt-hint">Un bouton qui n'existe pas nativement : insertion BBCode
+        <p class="pmf-tool-hint">Un bouton qui n'existe pas nativement : insertion BBCode
            (encadre la selection) ou action JS avancee.</p>
 
         <div id="pmt-custom-list" class="pmt-custom-list"></div>
 
-        <div class="pmt-row">
+        <div class="pmf-tool-row">
           <label>Libelle
             <input type="text" id="pmt-custom-label" placeholder="Spoiler">
           </label>
-          <label>Icone
-            <select id="pmt-custom-icon-select"></select>
-          </label>
-          <input type="text" id="pmt-custom-icon-glyph" class="pmt-text" placeholder="nom du glyphe (ex: add_circle)" hidden>
-          <input type="text" id="pmt-custom-icon-url" class="pmt-text" placeholder="https://.../icone.svg" hidden>
           <label>Type
             <select id="pmt-custom-type">
               <option value="insert">Insertion BBCode</option>
@@ -604,7 +623,13 @@ function buildLayout(root) {
             </select>
           </label>
         </div>
-        <div class="pmt-row" id="pmt-custom-insert-fields">
+        <div class="pmf-tool-field">
+          <span class="pmf-tool-field-label">Icone</span>
+          <div id="pmt-custom-icon-grid" class="pmt-icon-grid" role="listbox" aria-label="Icone"></div>
+          <input type="text" id="pmt-custom-icon-glyph" class="pmf-tool-text" placeholder="nom du glyphe (ex: add_circle)" hidden>
+          <input type="text" id="pmt-custom-icon-url" class="pmf-tool-text" placeholder="https://.../icone.svg" hidden>
+        </div>
+        <div class="pmf-tool-row" id="pmt-custom-insert-fields">
           <label>Avant (ouverture)
             <input type="text" id="pmt-custom-open" placeholder="[spoiler]">
           </label>
@@ -612,9 +637,9 @@ function buildLayout(root) {
             <input type="text" id="pmt-custom-close" placeholder="[/spoiler]">
           </label>
         </div>
-        <div class="pmt-row" id="pmt-custom-action-fields" hidden>
+        <div class="pmf-tool-row" id="pmt-custom-action-fields" hidden>
           <label class="pmt-custom-js-label">JS (recoit l'instance SCEditor via <code>inst</code>)
-            <textarea id="pmt-custom-js" class="pmt-code" rows="4" placeholder="inst.insert('[hr]');"></textarea>
+            <textarea id="pmt-custom-js" class="pmf-tool-code" rows="4" placeholder="inst.insert('[hr]');"></textarea>
           </label>
         </div>
         <button type="button" id="pmt-custom-add" class="pmt-btn">Ajouter le bouton</button>
@@ -626,14 +651,14 @@ function buildLayout(root) {
 
       <section class="pmt-panel" id="pmt-output" hidden>
         <h2>CSS a coller</h2>
-        <p class="pmt-hint">Administration &gt; Affichage &gt; Images et Couleurs &gt; CSS principal.
+        <p class="pmf-tool-hint">Administration &gt; Affichage &gt; Images et Couleurs &gt; CSS principal.
            Colle ce bloc en haut de ta feuille (il commence par un @import).</p>
-        <textarea id="pmt-css" class="pmt-code" rows="14" readonly></textarea>
+        <textarea id="pmt-css" class="pmf-tool-code" rows="14" readonly></textarea>
 
         <h2>JS a coller</h2>
-        <p class="pmt-hint">Modules &gt; HTML &amp; JAVASCRIPT &gt; Gestion des codes Javascript
+        <p class="pmf-tool-hint">Modules &gt; HTML &amp; JAVASCRIPT &gt; Gestion des codes Javascript
            (placement : toutes les pages). Uniquement si tu as des boutons personnalises.</p>
-        <textarea id="pmt-js" class="pmt-code" rows="12" readonly></textarea>
+        <textarea id="pmt-js" class="pmf-tool-code" rows="12" readonly></textarea>
       </section>
     </div>
   `;
@@ -701,7 +726,7 @@ function buildLayout(root) {
     iconBorderInput: root.querySelector("#pmt-icon-border"),
     customList: root.querySelector("#pmt-custom-list"),
     customLabel: root.querySelector("#pmt-custom-label"),
-    customIconSelect: root.querySelector("#pmt-custom-icon-select"),
+    customIconGrid: root.querySelector("#pmt-custom-icon-grid"),
     customIconGlyph: root.querySelector("#pmt-custom-icon-glyph"),
     customIconUrl: root.querySelector("#pmt-custom-icon-url"),
     customType: root.querySelector("#pmt-custom-type"),

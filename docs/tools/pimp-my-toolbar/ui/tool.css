@@ -15,16 +15,16 @@
 @import url("../../tools.css");
 
 /*TOOLBAR NATIVE FA */
-.sceditor-toolbar, .sceditor-group {
+#pmt-preview .sceditor-toolbar, .sceditor-group {
     display: flex !important;
     flex-wrap: wrap !important;
     background: unset !important;
     border: none !important;
 }
-#postingbox {
+#pmt-preview #postingbox {
   overflow: unset!important;
 }
-#message-box .sceditor-container {
+#pmt-preview #message-box .sceditor-container {
     border-color: rgb(0 0 0 / .1) !important;
     border-style: solid !important;
     border-width: 1px !important;
@@ -34,242 +34,242 @@
     position: sticky;
     top: 40px;
 }
-.sceditor-button div,
-div.sceditor-grip {
+#pmt-preview .sceditor-button div,
+#pmt-preview div.sceditor-grip {
   background-image : url(https://illipro.net/rs3/18/frm/SCEditor/src/themes/famfamfam.png);
   background-repeat: no-repeat;
   height           : 16px;
   width            : 16px
 }
 
-.sceditor-button-flash div {
+#pmt-preview .sceditor-button-flash div {
   background-position: 0 -628px;
 }
  
-.sceditor-button-servimg div {
+#pmt-preview .sceditor-button-servimg div {
   background-position: 0 -644px;
 }
 
-.sceditor-button-dailymotion div {
+#pmt-preview .sceditor-button-dailymotion div {
   background-position: 0 -660px;
 }
 
-.sceditor-button-faspoiler div {
+#pmt-preview .sceditor-button-faspoiler div {
   background-position: 0 -676px;
 }
 
-.sceditor-button-fahide div {
+#pmt-preview .sceditor-button-fahide div {
   background-position: 0 -692px;
 }
 
-.sceditor-button-fascroll div {
+#pmt-preview .sceditor-button-fascroll div {
   background-position: 0 -708px;
 }
 
-.sceditor-button-faupdown div {
+#pmt-preview .sceditor-button-faupdown div {
   background-position: 0 -724px;
 }
 
-.sceditor-button-farand div {
+#pmt-preview .sceditor-button-farand div {
   background-position: 0 -756px;
 }
 
-.sceditor-button-faroll div {
+#pmt-preview .sceditor-button-faroll div {
   background-position: 0 -772px;
 }
 
-.sceditor-button-more div {
+#pmt-preview .sceditor-button-more div {
   background-position: 0 -788px;
 }
 
-.sceditor-button-emoticon div {
+#pmt-preview .sceditor-button-emoticon div {
   background-position: 0 -804px;
 }
 
-.sceditor-button-embed div {
+#pmt-preview .sceditor-button-embed div {
   background-image: url("https://2img.net/i//fa/icon_embed.png")
 }
 
-.sceditor-button-headers div {
+#pmt-preview .sceditor-button-headers div {
   background-position: 0 -820px;
 }
 
-.sceditor-button-twemojifa div {
+#pmt-preview .sceditor-button-twemojifa div {
   background: url("https://2img.net/i/fa/icon_twemoji.png") !important;
 }
 
-.sceditor-twemojifa {
+#pmt-preview .sceditor-twemojifa {
   width     : 220px;
   height    : 250px;
   overflow-y: auto;
 }
 
-.sceditor-twemojifa img {
+#pmt-preview .sceditor-twemojifa img {
   cursor : pointer;
   padding: 3px;
 }
 
-.sceditor-twemojifa img:hover {
+#pmt-preview .sceditor-twemojifa img:hover {
   opacity: .7;
 }
 
-.sceditor-button-mention div {
+#pmt-preview .sceditor-button-mention div {
   background: url("https://2img.net/i//fa/icon_at.png") !important;
 }
 
-.sceditor-button-youtube div {
+#pmt-preview .sceditor-button-youtube div {
   background-position: 0 0
 }
 
-.sceditor-button-link div {
+#pmt-preview .sceditor-button-link div {
   background-position: 0 -16px
 }
 
-.sceditor-button-unlink div {
+#pmt-preview .sceditor-button-unlink div {
   background-position: 0 -32px
 }
 
-.sceditor-button-underline div {
+#pmt-preview .sceditor-button-underline div {
   background-position: 0 -48px
 }
 
-.sceditor-button-time div {
+#pmt-preview .sceditor-button-time div {
   background-position: 0 -64px
 }
 
-.sceditor-button-table div {
+#pmt-preview .sceditor-button-table div {
   background-position: 0 -80px
 }
 
-.sceditor-button-superscript div {
+#pmt-preview .sceditor-button-superscript div {
   background-position: 0 -96px
 }
 
-.sceditor-button-subscript div {
+#pmt-preview .sceditor-button-subscript div {
   background-position: 0 -112px
 }
 
-.sceditor-button-strike div {
+#pmt-preview .sceditor-button-strike div {
   background-position: 0 -128px
 }
 
-.sceditor-button-source div {
+#pmt-preview .sceditor-button-source div {
   background-position: 0 -144px
 }
 
-.sceditor-button-size div {
+#pmt-preview .sceditor-button-size div {
   background-position: 0 -160px
 }
 
-.sceditor-button-rtl div {
+#pmt-preview .sceditor-button-rtl div {
   background-position: 0 -176px
 }
 
-.sceditor-button-right div {
+#pmt-preview .sceditor-button-right div {
   background-position: 0 -192px
 }
 
-.sceditor-button-removeformat div {
+#pmt-preview .sceditor-button-removeformat div {
   background-position: 0 -208px
 }
 
-.sceditor-button-quote div {
+#pmt-preview .sceditor-button-quote div {
   background-position: 0 -224px
 }
 
-.sceditor-button-print div {
+#pmt-preview .sceditor-button-print div {
   background-position: 0 -240px
 }
 
-.sceditor-button-pastetext div {
+#pmt-preview .sceditor-button-pastetext div {
   background-position: 0 -256px
 }
 
-.sceditor-button-paste div {
+#pmt-preview .sceditor-button-paste div {
   background-position: 0 -272px
 }
 
-.sceditor-button-orderedlist div {
+#pmt-preview .sceditor-button-orderedlist div {
   background-position: 0 -288px
 }
 
-.sceditor-button-maximize div {
+#pmt-preview .sceditor-button-maximize div {
   background-position: 0 -304px
 }
 
-.sceditor-button-ltr div {
+#pmt-preview .sceditor-button-ltr div {
   background-position: 0 -320px
 }
 
-.sceditor-button-left div {
+#pmt-preview .sceditor-button-left div {
   background-position: 0 -336px
 }
 
-.sceditor-button-justify div {
+#pmt-preview .sceditor-button-justify div {
   background-position: 0 -352px
 }
 
-.sceditor-button-italic div {
+#pmt-preview .sceditor-button-italic div {
   background-position: 0 -368px
 }
 
-.sceditor-button-image div {
+#pmt-preview .sceditor-button-image div {
   background-position: 0 -384px
 }
 
-.sceditor-button-horizontalrule div {
+#pmt-preview .sceditor-button-horizontalrule div {
   background-position: 0 -400px
 }
 
-.sceditor-button-format div {
+#pmt-preview .sceditor-button-format div {
   background-position: 0 -416px
 }
 
-.sceditor-button-font div {
+#pmt-preview .sceditor-button-font div {
   background-position: 0 -432px
 }
 
-.sceditor-button-emoticon div {
+#pmt-preview .sceditor-button-emoticon div {
   background-position: 0 -448px
 }
 
-.sceditor-button-email div {
+#pmt-preview .sceditor-button-email div {
   background-position: 0 -464px
 }
 
-.sceditor-button-date div {
+#pmt-preview .sceditor-button-date div {
   background-position: 0 -480px
 }
 
-.sceditor-button-cut div {
+#pmt-preview .sceditor-button-cut div {
   background-position: 0 -496px
 }
 
-.sceditor-button-copy div {
+#pmt-preview .sceditor-button-copy div {
   background-position: 0 -512px
 }
 
-.sceditor-button-color div {
+#pmt-preview .sceditor-button-color div {
   background-position: 0 -528px
 }
 
-.sceditor-button-code div {
+#pmt-preview .sceditor-button-code div {
   background-position: 0 -544px
 }
 
-.sceditor-button-center div {
+#pmt-preview .sceditor-button-center div {
   background-position: 0 -560px
 }
 
-.sceditor-button-bulletlist div {
+#pmt-preview .sceditor-button-bulletlist div {
   background-position: 0 -576px
 }
 
-.sceditor-button-bold div {
+#pmt-preview .sceditor-button-bold div {
   background-position: 0 -592px
 }
 
-div.sceditor-grip {
+#pmt-preview div.sceditor-grip {
   background-position: 0 -608px;
   bottom             : 0;
   cursor             : se-resize;
@@ -282,7 +282,7 @@ div.sceditor-grip {
   z-index            : 3
 }
 
-.rtl div.sceditor-grip {
+#pmt-preview .rtl div.sceditor-grip {
   background-position: 0 -618px;
   height             : 10px;
   left               : 0;
@@ -290,7 +290,7 @@ div.sceditor-grip {
   width              : 10px
 }
 
-.sceditor-container {
+#pmt-preview .sceditor-container {
   -moz-background-clip   : padding;
   -moz-border-radius     : 4px;
   -webkit-background-clip: padding-box;
@@ -307,10 +307,10 @@ div.sceditor-grip {
   position               : relative
 }
 
-.sceditor-container,
-.sceditor-container div,
-div.sceditor-dropdown,
-div.sceditor-dropdown div {
+#pmt-preview .sceditor-container,
+#pmt-preview .sceditor-container div,
+#pmt-preview div.sceditor-dropdown,
+#pmt-preview div.sceditor-dropdown div {
   margin : 0;
   padding: 0;
   z-index: 3

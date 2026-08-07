@@ -73,6 +73,17 @@ export function setPack(state, packId) {
   state.iconPack = packId;
 }
 
+// Ecrit (ou efface, si value est vide/null) un reglage de style.
+// category: "toolbar" | "group" | "button" | "icon" — voir forme de l'etat plus haut.
+export function setStyle(state, category, key, value) {
+  if (!state.styles[category]) state.styles[category] = {};
+  if (value === null || value === undefined || value === "") {
+    delete state.styles[category][key];
+  } else {
+    state.styles[category][key] = value;
+  }
+}
+
 // Ajoute un bouton custom (id genere si absent).
 export function addCustom(state, custom) {
   const id = custom.id || "c" + (state.custom.length + 1);

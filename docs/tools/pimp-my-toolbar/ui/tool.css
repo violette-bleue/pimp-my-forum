@@ -1,0 +1,120 @@
+/* pimp-my-toolbar/ui/tool.css
+   Habillage de l'interface de l'outil (pas du rendu de la toolbar simulee, qui est
+   pilote par le CSS genere). Volontairement sobre : base fonctionnelle a retravailler.
+   Utilise les tokens Puzzle & Pixel s'ils sont presents, avec repli autonome. */
+
+.pmt {
+  --pmt-bg: var(--pnp-color-bg, #f5efe4);
+  --pmt-text: var(--pnp-color-text, #2b2118);
+  --pmt-accent: var(--pnp-color-accent, #d9a441);
+  --pmt-accent-2: var(--pnp-color-accent-2, #c1502e);
+  --pmt-accent-3: var(--pnp-color-accent-3, #2f8f8a);
+  --pmt-radius: var(--pnp-radius, 10px);
+
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+  color: var(--pmt-text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.pmt-head h1 {
+  margin: 0 0 4px;
+  font-size: 1.8rem;
+}
+
+.pmt-sub {
+  margin: 0 0 24px;
+  opacity: .75;
+}
+
+.pmt-panel {
+  background: var(--pmt-bg);
+  border: 1px solid rgba(43, 33, 24, .15);
+  border-radius: var(--pmt-radius);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.pmt-panel h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.pmt-hint {
+  margin: 0 0 12px;
+  font-size: .85rem;
+  opacity: .7;
+}
+
+.pmt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+}
+
+.pmt-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .9rem;
+}
+
+.pmt-check {
+  cursor: pointer;
+}
+
+.pmt-btn {
+  background: var(--pmt-accent-2);
+  color: #fff;
+  border: none;
+  border-radius: var(--pmt-radius);
+  padding: 10px 18px;
+  font-size: .95rem;
+  cursor: pointer;
+  line-height: normal;
+}
+
+.pmt-btn:hover {
+  background: var(--pmt-accent);
+  color: var(--pmt-text);
+}
+
+.pmt-code {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  background: #2b2118;
+  color: var(--pmt-accent);
+  border: none;
+  border-radius: var(--pmt-radius);
+  padding: 12px;
+  margin-bottom: 18px;
+  resize: vertical;
+}
+
+/* Zones d'accueil de la toolbar simulee et de la reserve.
+   Le rendu des boutons eux-memes vient du CSS genere (fidelite au forum). */
+.pmt-preview,
+.pmt-reserve {
+  border: 1px dashed rgba(43, 33, 24, .3);
+  border-radius: var(--pmt-radius);
+  padding: 10px;
+  min-height: 54px;
+  background: #fff;
+}
+
+.pmt-reserve {
+  border-color: var(--pmt-accent-2);
+}
+
+/* Filet de securite : si aucun pack n'est applique, les libelles natifs doivent
+   rester lisibles dans l'apercu (sinon les boutons seraient vides). */
+.pmt-preview .sceditor-button,
+.pmt-reserve .sceditor-button {
+  cursor: pointer;
+}

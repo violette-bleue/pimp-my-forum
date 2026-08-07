@@ -3,8 +3,8 @@
    ========================================================================== */
 @font-face {
     font-family: 'Porao Grottesche';
-    src        : url('https://github.com/violette-bleue/pimp-my-forum/blob/bf55596599e478b2597a0188493058a1be054e6f/docs/dist/font/PoraoGrottescheRegular.woff2') format('woff2'),
-        url('https://github.com/violette-bleue/pimp-my-forum/blob/bf55596599e478b2597a0188493058a1be054e6f/docs/dist/font/PoraoGrottescheRegular.woff') format('woff');
+    src        : url('../font/PoraoGrottescheRegular.woff2') format('woff2'),
+        url('../font/PoraoGrottescheRegular.woff') format('woff');
     font-weight   : normal;
     font-style    : normal;
     font-display  : swap;
@@ -33,7 +33,7 @@
     /* Typo */
     --font-display: "Porao Grottesche", sans-serif;
     --font-title  : "Nichol Demo", sans-serif;
-    --font-body   : "Roboto", sans-serif;
+    --font-body   : "Krub", sans-serif;
 
     /* Layout */
     --radius           : 0px;

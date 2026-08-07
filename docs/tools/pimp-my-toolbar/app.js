@@ -104,6 +104,26 @@ export function mount(root) {
     refresh();
   });
 
+  // Disposition de la toolbar : sens (ligne/colonne) et largeur max facultative. Le repli
+  // multi-lignes (flex-wrap) est lui toujours actif, genere sans reglage associe.
+  ui.toolbarDirection.addEventListener("change", () => {
+    const v = ui.toolbarDirection.value;
+    setStyle(state, "toolbar", "direction", v === "row" ? null : v); // "row" = defaut, rien a ecrire
+    refresh();
+  });
+
+  ui.maxWidthEnable.addEventListener("change", () => {
+    ui.maxWidthInput.disabled = !ui.maxWidthEnable.checked;
+    setStyle(state, "toolbar", "maxWidth", ui.maxWidthEnable.checked ? ui.maxWidthInput.value + "px" : null);
+    refresh();
+  });
+
+  ui.maxWidthInput.addEventListener("input", () => {
+    if (!ui.maxWidthEnable.checked) return;
+    setStyle(state, "toolbar", "maxWidth", ui.maxWidthInput.value + "px");
+    refresh();
+  });
+
   // Generation explicite (bouton) : remplit les deux zones de code.
   ui.generateBtn.addEventListener("click", () => {
     const out = generate(state, { applyPack: ui.applyPack.checked });
@@ -155,6 +175,19 @@ function buildLayout(root) {
             Couleur des icones
           </label>
           <input type="color" id="pmt-color" value="#2b2118" disabled>
+        </div>
+        <div class="pmt-row">
+          <label>Disposition
+            <select id="pmt-toolbar-direction">
+              <option value="row">Ligne</option>
+              <option value="column">Colonne</option>
+            </select>
+          </label>
+          <label class="pmt-check">
+            <input type="checkbox" id="pmt-maxwidth-enable">
+            Largeur max
+          </label>
+          <input type="number" id="pmt-maxwidth" min="100" max="1200" step="10" value="400" disabled> px
         </div>
       </section>
 
@@ -208,6 +241,9 @@ function buildLayout(root) {
     iconSizeVal: root.querySelector("#pmt-icon-size-val"),
     colorEnable: root.querySelector("#pmt-color-enable"),
     colorInput: root.querySelector("#pmt-color"),
+    toolbarDirection: root.querySelector("#pmt-toolbar-direction"),
+    maxWidthEnable: root.querySelector("#pmt-maxwidth-enable"),
+    maxWidthInput: root.querySelector("#pmt-maxwidth"),
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),

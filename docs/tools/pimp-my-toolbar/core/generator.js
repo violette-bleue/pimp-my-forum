@@ -66,13 +66,17 @@ function generateCss(state, applyPack) {
   // 2. Variables : le seul endroit a modifier pour ajuster l'ensemble.
   blocks.push(varsBlock(state, pack, applyPack));
 
-  // 3. Socle + icones du pack (tout-ou-rien).
+  // 3. Disposition de la toolbar (flex + retour a la ligne) : toujours applique,
+  // independant du pack d'icones (c'est un sujet de mise en page, pas d'icone).
+  blocks.push(toolbarLayoutBlock());
+
+  // 4. Socle + icones du pack (tout-ou-rien).
   if (applyPack) {
     blocks.push(iconResetBlock());
     blocks.push(iconContentBlock(state, pack));
   }
 
-  // 4. Masquage (diff : uniquement les boutons hidden).
+  // 5. Masquage (diff : uniquement les boutons hidden).
   const hidden = commandsWhere(state, (b) => b.hidden);
   if (hidden.length) {
     blocks.push(
@@ -81,11 +85,12 @@ function generateCss(state, applyPack) {
     );
   }
 
-  // 5. Ordre intra-groupe (diff : uniquement les groupes dont l'ordre differe du natif).
+  // 6. Ordre intra-groupe (diff : uniquement les groupes dont l'ordre differe du natif).
   const orderBlock = orderCss(state);
   if (orderBlock) blocks.push(orderBlock);
 
-  // 6. Habillage optionnel (fonds, bordures, hover) : uniquement si defini dans l'etat.
+  // 7. Habillage optionnel (fonds, bordures, hover, disposition) : uniquement si defini
+  // dans l'etat.
   const styleBlock = stylesCss(state);
   if (styleBlock) blocks.push(styleBlock);
 
@@ -113,6 +118,16 @@ function varsBlock(state, pack, applyPack) {
   return `/* Reglages — modifie ces valeurs pour tout repercuter */
 .sceditor-toolbar {
   ${lines.join("\n  ")}
+}`;
+}
+
+// Disposition de la toolbar elle-meme : flex + retour a la ligne, pour qu'elle s'adapte
+// a l'espace disponible plutot que de deborder. Toujours emis (independant du pack).
+function toolbarLayoutBlock() {
+  return `/* Disposition : la toolbar passe a la ligne plutot que de deborder */
+.sceditor-toolbar {
+  display: flex !important;
+  flex-wrap: wrap !important;
 }`;
 }
 
@@ -188,8 +203,8 @@ function orderCss(state) {
   return out.length ? "/* Ordre intra-groupe */\n" + out.join("\n") : "";
 }
 
-// Habillage optionnel : fonds, bordures, espacements de la toolbar et des groupes.
-// Taille, gap, couleurs d'icone passent par les variables, pas ici.
+// Habillage optionnel : fonds, bordures, espacements, disposition de la toolbar et des
+// groupes. Taille, gap, couleurs d'icone passent par les variables, pas ici.
 function stylesCss(state) {
   const s = state.styles || {};
   const out = [];
@@ -199,6 +214,8 @@ function stylesCss(state) {
   if (tb.bg) tbDecl.push(`background: ${tb.bg} !important;`);
   if (tb.padding) tbDecl.push(`padding: ${tb.padding} !important;`);
   if (tb.radius) tbDecl.push(`border-radius: ${tb.radius} !important;`);
+  if (tb.direction) tbDecl.push(`flex-direction: ${tb.direction} !important;`);
+  if (tb.maxWidth) tbDecl.push(`max-width: ${tb.maxWidth} !important;`);
   if (tbDecl.length) out.push(`.sceditor-toolbar {\n  ${tbDecl.join("\n  ")}\n}`);
 
   const gr = s.group || {};

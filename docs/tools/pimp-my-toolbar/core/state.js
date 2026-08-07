@@ -14,6 +14,7 @@
        { id, label, icon, type:"insert"|"action"|..., payload }
      ],
      styles: { toolbar:{}, group:{}, button:{}, icon:{} }
+     // toolbar: { bg, padding, radius, direction:"row"|"column", maxWidth }
    }
 
    L'etat initial reflete la toolbar NATIVE (rien de masque, ordre/groupe natifs,

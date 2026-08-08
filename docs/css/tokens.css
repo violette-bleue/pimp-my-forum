@@ -32,6 +32,7 @@
     --flash-accent  : #c6a3ff;
     --flash-accent-2: #eed91b;
     --flash-accent-3: #ff89c1;
+    --flash-gradient: var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%;
 
     --color-accent  : #d5d8ff;
     --color-accent-2: #fbc9bd;

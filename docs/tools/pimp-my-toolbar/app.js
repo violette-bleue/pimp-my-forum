@@ -25,6 +25,7 @@
 
 import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom, setCustomHidden } from "./core/state.js";
 import { generate } from "./core/generator.js";
+import { parseImport } from "./core/parser.js";
 import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js";
 import { bindDnd } from "./ui/dnd.js";
 import { PACKS, getPack } from "./data/packs.js";
@@ -413,6 +414,26 @@ export function mount(root) {
     ui.generateBtn.textContent = ui.output.hidden ? "Afficher le code" : "Masquer le code";
   });
 
+  // Import : remplace le contenu de l'etat courant (meme objet, `state` reste const) par
+  // celui reconstruit depuis le CSS/JS colles. L'apercu et le code se remettent a jour
+  // via refresh() ; les controles (curseurs, cases) eux ne se resynchronisent pas tout
+  // seuls tant qu'on n'y touche pas — limitation connue, annoncee a l'utilisateur.
+  ui.importBtn.addEventListener("click", () => {
+    const parsed = parseImport(ui.importCss.value, ui.importJs.value);
+    state.buttons = parsed.buttons;
+    state.iconPack = parsed.iconPack;
+    state.custom = parsed.custom;
+    state.styles = parsed.styles;
+
+    populateCustomIconGrid();
+    refresh();
+
+    ui.importStatus.hidden = false;
+    ui.importStatus.textContent = "Config importee : l'apercu et le code ci-dessus la "
+      + "refletent. Les curseurs/cases du panneau Reglages gardent leur position par "
+      + "defaut jusqu'a ce que tu les retouches (ca n'affecte pas le resultat, juste leur affichage).";
+  });
+
   refresh();
   return { state, refresh };
 }
@@ -666,6 +687,19 @@ function buildLayout(root) {
            (placement : toutes les pages). Uniquement si tu as des boutons personnalises.</p>
         <textarea id="pmt-js" class="pmf-tool-code" rows="12" readonly></textarea>
       </section>
+
+      <section class="pmt-panel">
+        <h2>Reprendre une config existante</h2>
+        <p class="pmf-tool-hint">Colle ici le CSS et le JS deja installes sur ton forum
+           pour reprendre l'edition la ou tu l'avais laissee. Ne relit que ce que cet
+           outil a lui-meme genere — un CSS retouche a la main a la main risque de ne
+           pas tout reconnaitre. Un bouton personnalise masque au moment de l'export
+           n'est pas recuperable (il n'apparait dans aucun des deux blocs).</p>
+        <textarea id="pmt-import-css" class="pmf-tool-code" rows="8" placeholder="CSS deja installe..."></textarea>
+        <textarea id="pmt-import-js" class="pmf-tool-code" rows="6" placeholder="JS deja installe (facultatif)..."></textarea>
+        <button type="button" id="pmt-import-btn" class="pmt-btn">Importer</button>
+        <p id="pmt-import-status" class="pmf-tool-hint" hidden></p>
+      </section>
     </div>
   `;
 
@@ -742,6 +776,10 @@ function buildLayout(root) {
     generateBtn: root.querySelector("#pmt-generate"),
     output: root.querySelector("#pmt-output"),
     cssOut: root.querySelector("#pmt-css"),
-    jsOut: root.querySelector("#pmt-js")
+    jsOut: root.querySelector("#pmt-js"),
+    importCss: root.querySelector("#pmt-import-css"),
+    importJs: root.querySelector("#pmt-import-js"),
+    importBtn: root.querySelector("#pmt-import-btn"),
+    importStatus: root.querySelector("#pmt-import-status")
   };
 }

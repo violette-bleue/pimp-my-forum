@@ -1,6 +1,11 @@
 /* ==========================================================================
-   layout.css — #wrap + grille de contenu (remplace les wrappers conteneur_*_IE)
+   layout.css — fondations de mise en page (remplace reset.css, disparu avec
+   le CSS de base FA) + #wrap et grille de contenu (remplace conteneur_*_IE)
    ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 #wrap.pmf-wrap {
   width: 100%;
@@ -9,10 +14,19 @@
 .pmf-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: var(--gap);
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 1rem;
+}
+
+.pmf-main {
+  min-width: 0;
+}
+
+.pmf-sidebar {
+  min-width: 0;
 }
 
 .pmf-sidebar:empty {

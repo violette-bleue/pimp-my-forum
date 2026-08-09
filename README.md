@@ -16,12 +16,13 @@ modules standalone :
 ☑ pimp my post
     ✿ label@cible
 ☑ pimp my toolbar
+☐ pimp my smilies
 ☐ pimp my dices
 ☐ pimp my tooltips
 ☐ pimp my rapports
 
 tuto :
 ☐ fonticon
-☐ github pour ton css
+☐ github pour host son css
 
 

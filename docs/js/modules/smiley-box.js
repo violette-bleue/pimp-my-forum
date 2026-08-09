@@ -2,13 +2,14 @@
    recreer : le frame /smilies?mode=smilies_frame est same-origin, donc son contentDocument
    est accessible depuis la page. Deux limites natives corrigees ici :
      - tout CSS injecte dans le <head> du frame disparait des qu'on change de categorie de
-       smileys, car le <select> declenche une vraie navigation qui recharge tout le document ;
+       smileys, car le <select> natif declenche une vraie navigation qui recharge le document ;
      - impossible de cibler ce contenu depuis la feuille de style principale (le frame reste
        un document distinct malgre le same-origin).
-   Fix : on neutralise la navigation du <select> pour ne remplacer que le <body> du frame (le
-   <head>, et donc notre <link> injecte, n'est jamais touche), et on pose une delegation de
-   clic une seule fois sur ce body (stable a travers les remplacements de son contenu) plutot
-   que de rejouer le smileList/script natif FA (qui, lui, ne survit pas au remplacement).
+   Fix : le <select>/<form> natifs sont remplaces par une barre d'onglets construite a partir
+   de leurs <option> (memes categories, mais navigation maison) ; seule la grille .smiley-element
+   est fetchee et remplacee au clic, les onglets et le <head> (donc notre <link> injecte) restent
+   des noeuds stables jamais reconstruits. La delegation de clic sur les smileys, posee une
+   seule fois sur le body, survit donc naturellement au remplacement de la grille.
    L'insertion reutilise le point d'entree natif : le frame appelle parent.insertIntoEditor(code)
    -> ici directement window.insertIntoEditor, puisqu'on est deja au niveau de la page top. */
 
@@ -36,21 +37,35 @@ export function init() {
 
 function setup(doc, iframe) {
   injectCss(doc, SMILEY_CSS);
-  neutralizeInlineSubmit(doc);
-  bindOnce(doc, iframe);
+  buildTabs(doc, iframe);
 }
 
-// Le <select categ> declenche forms['smilies_categ'].submit() en inline onchange : un submit()
-// programmatique ne leve pas d'evenement 'submit' interceptable, donc on neutralise le handler
-// inline lui-meme (reassigner .onchange ecrase l'attribut inline).
-function neutralizeInlineSubmit(doc) {
-  const select = doc.querySelector('select[name="categ"]');
-  if (select) select.onchange = null;
-}
-
-function bindOnce(doc, iframe) {
+// Construit la barre d'onglets a partir des <option> du <select> natif, puis le remplace.
+// Ne s'execute qu'une fois par document de frame (garde _pmfBound) : les rechargements
+// suivants passent par selectTab(), qui ne touche que la grille.
+function buildTabs(doc, iframe) {
   if (doc.body._pmfBound) return;
+
+  const header = doc.getElementById("smilies_header");
+  const select = doc.querySelector('select[name="categ"]');
+  const grid = doc.querySelector(".smiley-element");
+  if (!header || !select || !grid) return;
+
   doc.body._pmfBound = true;
+
+  const tabs = doc.createElement("div");
+  tabs.id = "pmf-smiley-tabs";
+
+  [...select.options].forEach((opt, i) => {
+    const btn = doc.createElement("button");
+    btn.type = "button";
+    btn.className = "pmf-smiley-tab" + (i === 0 ? " is-active" : "");
+    btn.textContent = opt.textContent;
+    btn.addEventListener("click", () => selectTab(doc, iframe, btn, opt.value, grid));
+    tabs.appendChild(btn);
+  });
+
+  header.replaceWith(tabs);
 
   doc.body.addEventListener("click", (e) => {
     const img = e.target.closest('img[id^="smiley_"]');
@@ -61,24 +76,21 @@ function bindOnce(doc, iframe) {
       /* editeur pas pret : on ignore, comme le fait le script natif FA */
     }
   });
-
-  doc.body.addEventListener("change", (e) => {
-    const select = e.target.closest('select[name="categ"]');
-    if (select) loadCategory(doc, iframe, select.value);
-  });
 }
 
-// Remplace uniquement le <body> du frame par la categorie demandee (fetch + swap), pour ne
-// jamais toucher au <head> (et donc a notre <link> injecte). Repli sur une navigation native
-// si le fetch echoue : perd le style le temps du reload, mais reste fonctionnel.
-function loadCategory(doc, iframe, categ) {
+// Fetch la categorie demandee et ne remplace que le contenu de la grille : les onglets et
+// le <head> du frame ne sont jamais reconstruits. Repli sur une navigation native si le
+// fetch echoue (perd les onglets le temps du reload, mais reste fonctionnel).
+function selectTab(doc, iframe, btn, categ, grid) {
+  [...btn.parentNode.children].forEach((b) => b.classList.toggle("is-active", b === btn));
+
   const url = "/smilies?mode=smilies_frame" + (categ ? "&categ=" + encodeURIComponent(categ) : "");
   fetch(url, { credentials: "same-origin" })
     .then((r) => r.text())
     .then((html) => {
       const parsed = new DOMParser().parseFromString(html, "text/html");
-      doc.body.innerHTML = parsed.body.innerHTML;
-      neutralizeInlineSubmit(doc); // le nouveau <select> reimporte le meme onchange inline
+      const newGrid = parsed.querySelector(".smiley-element");
+      if (newGrid) grid.innerHTML = newGrid.innerHTML;
     })
     .catch(() => {
       iframe.contentWindow.location.href = url;

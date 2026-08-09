@@ -6,6 +6,11 @@
        chaque contexte ne matche que ses propres regles).
    ========================================================================== */
 
+/* homogénéisation des smileys partout peu importe la taille d'origine */
+img[src*="/smiles/"] {
+    max-width: 20px;
+}
+/**/
 #smiley-box {
   background: var(--color-pannel);
   color: var(--color-bg-dark);
@@ -40,18 +45,27 @@
   font-family: var(--font-body);
 }
 
-#smilies_header {
+#pmf-smiley-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
   margin-bottom: 0.5em !important;
 }
 
-#smilies_header select {
-  width: 100%;
-  padding: 0.3em;
+.pmf-smiley-tab {
   font-family: var(--font-body);
+  font-size: 0.75rem;
+  padding: 0.25em 0.6em;
   border: 2px solid var(--color-bg-dark);
   border-radius: var(--radius);
   background: #fff;
   color: var(--color-bg-dark);
+  cursor: pointer;
+}
+
+.pmf-smiley-tab.is-active {
+  background: var(--color-bg-dark);
+  color: var(--color-text);
 }
 
 .smiley-element {

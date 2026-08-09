@@ -64,6 +64,12 @@ function buildTabs(doc, iframe) {
 
   doc.body._pmfBound = true;
   grid.id = "pmf-smiley-grid";
+  // Le lot initial d'<img> porte encore le click jQuery natif du script FA (bind() au chargement
+  // de la frame, avant notre passage) : sans ca, il se declenche EN PLUS de notre delegation sur
+  // doc.body -> double insertion au premier clic. Reassigner innerHTML recree des noeuds neufs,
+  // donc sans ces listeners (les lots suivants viennent de fetch(), jamais de ce script -> non
+  // concernes).
+  grid.innerHTML = grid.innerHTML;
 
   // Etat par document de frame (un vrai rechargement de l'iframe -> nouveau doc -> etat neuf).
   const state = { cache: new Map(), token: 0 };

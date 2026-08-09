@@ -1,4 +1,9 @@
-# pimp my forum
+# 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა Pimp my by misenasha 🌈
+
+
+https://pimpmyforum.forumactif.com/
+https://discord.gg/5ezzxn9pq 
+
 
 lancement v1.0
 ☐ systeme de j'aime
@@ -20,4 +25,3 @@ tuto :
 ☐ github pour ton css
 
 
-🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა Pimp My 🌈 code généré sur https://pimpmyforum.forumactif.com/

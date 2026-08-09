@@ -10,6 +10,10 @@ const cfg = window.pmfConfig || {};
 // Toujours actif : gestion du menu burger mobile
 import("./modules/burger-menu.js").then((m) => m.init());
 
+// Toujours actif : integre recherche/menu utilisateur/notifications de
+// #fa_toolbar dans la navbar plutot que de les laisser dans la barre FA.
+import("./modules/fa-toolbar-merge.js").then((m) => m.init());
+
 // Conditionnel : ticker "new" (jcarousel), seulement si activé côté admin FA
 if (cfg.ticker && cfg.ticker.enabled) {
   import("./modules/ticker.js").then((m) => m.init(cfg.ticker));
@@ -23,11 +27,6 @@ if (cfg.login && cfg.login.enabled) {
 // Conditionnel : popups natifs PM / signalement
 if (cfg.popups && (cfg.popups.pm || cfg.popups.report)) {
   import("./modules/native-popups.js").then((m) => m.init(cfg.popups));
-}
-
-// Conditionnel : repli/dépli des catégories (index_box, viewforum si catégories présentes)
-if (document.querySelector('[data-pmf-slot="categories"]')) {
-  import("./modules/collapsible-categories.js").then((m) => m.init());
 }
 
 // Conditionnel : menu post + highlight.js (viewtopic_body uniquement)

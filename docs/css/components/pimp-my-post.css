@@ -82,6 +82,13 @@ span:has(.cm-comment) {
   background: var(--color-bg);
 }
 
+/* Apercu inline d'un code smiley reconnu (voir setupSmileyPreview dans pimp-my-post.js) */
+.pmf-cm-smiley {
+  max-width : 20px;
+  max-height: 20px;
+  vertical-align: middle;
+}
+
 /* ---- Volet INPUTS : bouton bascule + panneau formulaire ------------------- */
 .pmf-pmp-toggle {
   display    : inline-block;

@@ -168,6 +168,7 @@ function setupEditor(container, inst) {
     theme: "pmf"
   });
   container._pmfCM = cm;
+  setupSmileyPreview(cm);
 
   let syncing = false;
 
@@ -216,6 +217,89 @@ function setupEditor(container, inst) {
 
   // 6. Volet INPUTS : bouton bascule code <-> formulaire assiste.
   setupForm(host, cm, state, container);
+}
+
+/* ---- Apercu smileys dans CM ------------------------------------------------
+   Remplace visuellement chaque code :xxx: connu par son image (cm.markText avec
+   replacedWith) sans toucher au texte source : cm.getValue() renvoie toujours le
+   code brut, donc aucun impact sur la sync CM<->POST ni sur le volet INPUTS.
+   Le dictionnaire code -> image est construit une seule fois par page (fusion de
+   toutes les categories de /smilies?mode=smilies_frame, memes pages que le picker
+   #smiley-box cf. modules/smiley-box.js), les categories etant decouvertes via le
+   <select> plutot que codees en dur (configurable cote admin FA). */
+
+let smileyDictPromise = null;
+
+function getSmileyDict() {
+  if (!smileyDictPromise) smileyDictPromise = loadSmileyDict();
+  return smileyDictPromise;
+}
+
+function loadSmileyDict() {
+  const dict = {};
+  const collect = (doc) => {
+    doc.querySelectorAll(".smiley-element img[alt]").forEach((img) => {
+      dict[img.getAttribute("alt")] = img.getAttribute("src");
+    });
+  };
+  const fetchPage = (categ) => {
+    const url = "/smilies?mode=smilies_frame" + (categ ? "&categ=" + encodeURIComponent(categ) : "");
+    return fetch(url, { credentials: "same-origin" })
+      .then((r) => r.text())
+      .then((html) => new DOMParser().parseFromString(html, "text/html"))
+      .catch(() => null);
+  };
+
+  return fetchPage("").then((doc) => {
+    if (!doc) return dict;
+    collect(doc);
+    const categs = [...doc.querySelectorAll('select[name="categ"] option')]
+      .map((o) => o.value)
+      .filter(Boolean);
+    return Promise.all(categs.map((c) => fetchPage(c).then((d) => d && collect(d)))).then(() => dict);
+  });
+}
+
+function setupSmileyPreview(cm) {
+  getSmileyDict().then((dict) => {
+    if (!Object.keys(dict).length) return;
+    rescanSmilies(cm, dict);
+    let debounce = null;
+    cm.on("change", () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => rescanSmilies(cm, dict), 250);
+    });
+  });
+}
+
+// Efface les marqueurs precedents et rescanne tout le texte : plus simple et plus
+// sur que d'essayer de ne mettre a jour que ce qui a change, et suffisamment rapide
+// pour la taille d'un post typique (debounce 250ms de toute facon).
+function rescanSmilies(cm, dict) {
+  (cm._pmfSmileyMarks || []).forEach((m) => m.clear());
+
+  const text = cm.getValue();
+  const re = /:[\w-]+:/g;
+  const marks = [];
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const src = dict[m[0]];
+    if (!src) continue;
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = m[0];
+    img.title = m[0];
+    img.className = "pmf-cm-smiley";
+    marks.push(
+      cm.markText(cm.posFromIndex(m.index), cm.posFromIndex(m.index + m[0].length), {
+        replacedWith: img,
+        atomic: true,
+        inclusiveLeft: false,
+        inclusiveRight: false
+      })
+    );
+  }
+  cm._pmfSmileyMarks = marks;
 }
 
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */

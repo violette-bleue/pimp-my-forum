@@ -26,6 +26,12 @@
   background: var(--color-accent);
 }
 
+/* Le contenu utile (recherche/menu/notifs) est deplace dans la navbar par
+   fa-toolbar-merge.js — la coquille FA restante n'a plus lieu d'etre visible. */
+[id*="fa_toolbar"] {
+  display: none;
+}
+
 .pmf-header__bar-top .wrap {
   max-width: var(--content-max-width);
   margin: 0 auto;

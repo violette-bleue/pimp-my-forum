@@ -7,6 +7,17 @@ body {
   color      : var(--color-text);
   font-family: var(--font-body);
 }
+
+a {
+  font-weight: unset;
+  font-style: normal;
+  color: unset;
+  text-decoration: unset;
+}
+
+li {
+  list-style: none;
+}
 body::before {
     content: '';
     background: linear-gradient(57deg, var(--flash-gradient));

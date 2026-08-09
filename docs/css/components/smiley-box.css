@@ -6,10 +6,7 @@
        chaque contexte ne matche que ses propres regles).
    ========================================================================== */
 
-/* homogénéisation des smileys partout peu importe la taille d'origine */
-img[src*="/smiles/"] {
-    max-width: 20px;
-}
+
 /**/
 #smiley-box {
   background: var(--color-pannel);

@@ -6,8 +6,24 @@
   background: var(--color-bg);
 }
 
-.pmf-header__bar-top {
-  background: var(--color-bg-dark);
+[class*="pmf-header__bar-horizontal"] {
+  max-height: 50px;
+}
+
+[class*="pmf-header__bar-vertical"] {
+  max-width: 50px;
+}
+
+[class*="pmf-header__bar"] {
+  position: sticky;
+  top: 50px;
+  height: 0;
+  width: 0;
+}
+
+[class*="pmf-header__bar"] > .wrap {
+  width: fit-content;
+  background: var(--color-accent);
 }
 
 .pmf-header__bar-top .wrap {

@@ -6,7 +6,7 @@
 const IDS = ["fa_search", "fa_menu", "fa_notifications", "notif_list"];
 
 export function init() {
-  const target = document.querySelector(".pmf-header__bar-top .wrap");
+  const target = document.querySelector("#headerbar .wrap");
   if (!target) return;
 
   IDS.forEach((id) => {

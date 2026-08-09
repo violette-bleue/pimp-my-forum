@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "git: wip commit & push",
+      "type": "shell",
+      "command": "git add -A; if ($?) { git commit -m wip; if ($?) { git push } }",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -6,10 +6,105 @@
   background: var(--color-bg);
 }
 
+.pmf-header__bar-top {
+  background: var(--color-bg-dark);
+}
+
+.pmf-header__bar-top .wrap {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
 .pmf-logo img {
   display: block;
   height : 48px;
   width  : auto;
+}
+
+/* Nav principale : liste à puces FA transformée en barre horizontale.
+   Les <img> d'icônes natives FA sont masquées en attendant leur passage
+   au pack icon-mask (pas encore mappées, cf. icon.css). */
+.pmf-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  list-style: none;
+  margin: 0;
+  margin-left: auto;
+  padding: 0;
+}
+
+.pmf-nav img {
+  display: none;
+}
+
+.pmf-nav .mainmenu {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4em 0.6em;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.pmf-nav .mainmenu:hover {
+  color: var(--flash-accent);
+}
+
+/* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
+.menu-btn {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  padding: 0.5em;
+  margin-left: auto;
+}
+
+.navicon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+.navicon::before,
+.navicon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+}
+
+.navicon::before { top: -7px; }
+.navicon::after { top: 7px; }
+
+@media (max-width: 700px) {
+  .menu-icon {
+    display: inline-flex;
+  }
+  .pmf-nav {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    margin-left: 0;
+  }
+  .menu-btn:checked ~ .pmf-nav {
+    display: flex;
+  }
 }
 
 .pmf-site-desc__title h1 {

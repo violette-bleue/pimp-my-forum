@@ -1,6 +1,5 @@
 /* ==========================================================================
-   layout.css — fondations de mise en page (remplace reset.css, disparu avec
-   le CSS de base FA) + #wrap et grille de contenu (remplace conteneur_*_IE)
+   layout.css — fondations de mise en page 
    ========================================================================== */
 
 *, *::before, *::after {
@@ -31,6 +30,20 @@
 
 .pmf-sidebar:empty {
   display: none;
+}
+
+.pmf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-align: center;
 }
 
 @media (min-width: 900px) {

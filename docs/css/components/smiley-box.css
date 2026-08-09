@@ -20,7 +20,9 @@ img[src*="/smiles/"] {
   font-size: 0.85rem;
   line-height: 1.6;
 }
-
+.pmf-smiley-tab--default {
+    display: none;
+}
 #smiley-box a {
   color: var(--color-bg-dark);
   font-weight: 600;
@@ -32,6 +34,9 @@ img[src*="/smiles/"] {
 
 #smiley-box #smileyContainer iframe {
   width: 100%;
+  /* la hauteur est reprise en main par ResizeObserver (smiley-box.js) : le max-height n'est
+     qu'un garde-fou si une categorie a un jour un tres grand nombre de smileys. */
+  max-height: 420px;
   border: 2px solid var(--color-bg-dark);
   border-radius: var(--radius);
   background: var(--color-bg-soft);
@@ -89,4 +94,16 @@ img[src*="/smiles/"] {
   transform: scale(1.3);
   position: relative;
   z-index: 1;
+}
+
+.smiley-element.is-loading {
+  opacity: 0.35;
+  min-height: 40px;
+  transition: opacity 0.15s ease;
+}
+
+.pmf-smiley-empty {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.75;
 }

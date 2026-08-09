@@ -47,9 +47,7 @@ img[src*="/smiles/"] {
     width: 10px;
     background: linear-gradient(270deg, var(--color-accent), var(--flash-accent));
 }
-#wrap {
-    background-color: var(--color-bg-soft);
-}
+
 h1 {
     font-family: 'Nichol Demo';
     font-size: 60px;

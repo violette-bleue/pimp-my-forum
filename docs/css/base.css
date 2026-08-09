@@ -6,6 +6,7 @@ body {
   background : var(--color-bg);
   color      : var(--color-text);
   font-family: var(--font-body);
+  overflow-x: hidden;
 }
 
 a {
@@ -17,6 +18,12 @@ a {
 
 li {
   list-style: none;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 body::before {
     content: '';

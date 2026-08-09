@@ -40,6 +40,11 @@ if (document.getElementById("text_editor_textarea")) {
   import("./modules/pimp-my-post.js").then((m) => m.init());
 }
 
+// Conditionnel : reprise en main du picker de smileys (#smiley-box, frame /smilies).
+if (document.getElementById("smiley-box")) {
+  import("./modules/smiley-box.js").then((m) => m.init());
+}
+
 // Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
 // FA bloque les <script> dans le contenu des messages/pages ; #pmt-app seul (une simple
 // div) passe, et c'est ce point d'entree central qui se charge du montage.

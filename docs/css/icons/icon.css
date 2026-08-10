@@ -144,3 +144,21 @@
 
 [icon="home"]      { background-image: var(--icon-home); }
 [icon-mask="home"] { -webkit-mask-image: var(--icon-home); mask-image: var(--icon-home); }
+
+/* --- Navbar (voir header.css) — cles ajoutees pour couvrir les liens fixes ModernBB
+   non deja presents ci-dessus (home/search/user/message existaient deja). --- */
+
+[icon="calendar"]      { background-image: var(--icon-calendar); }
+[icon-mask="calendar"] { -webkit-mask-image: var(--icon-calendar); mask-image: var(--icon-calendar); }
+
+[icon="faq"]      { background-image: var(--icon-faq); }
+[icon-mask="faq"] { -webkit-mask-image: var(--icon-faq); mask-image: var(--icon-faq); }
+
+[icon="users"]      { background-image: var(--icon-users); }
+[icon-mask="users"] { -webkit-mask-image: var(--icon-users); mask-image: var(--icon-users); }
+
+[icon="groups"]      { background-image: var(--icon-groups); }
+[icon-mask="groups"] { -webkit-mask-image: var(--icon-groups); mask-image: var(--icon-groups); }
+
+[icon="logout"]      { background-image: var(--icon-logout); }
+[icon-mask="logout"] { -webkit-mask-image: var(--icon-logout); mask-image: var(--icon-logout); }

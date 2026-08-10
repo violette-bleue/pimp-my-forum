@@ -48,8 +48,9 @@
 }
 
 /* Nav principale : liste à puces FA transformée en barre horizontale.
-   Les <img> d'icônes natives FA sont masquées en attendant leur passage
-   au pack icon-mask (pas encore mappées, cf. icon.css). */
+   Les <img> d'icônes natives FA (src cassé vers 2img.net) sont masquées ; l'icône
+   affichée est un ::before sur le lien, peint via les variables --icon-* du pack actif
+   (voir icons/tabler.css + dictionnaire dans icon.css). */
 .pmf-nav {
   display: flex;
   flex-wrap: wrap;
@@ -78,6 +79,42 @@
 .pmf-nav .mainmenu:hover {
   color: var(--flash-accent);
 }
+
+/* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
+   .mainmenu / .mainmenu:hover automatiquement). */
+.pmf-nav .mainmenu::before {
+  content: "";
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: 0.4em;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Liens fixes ModernBB : identifiables par href (stable, contrairement aux id
+   i_icon_mini_* qui dépendent de l'ordre d'affichage des liens dans l'ACP). */
+.pmf-nav a[href="/"]::before             { -webkit-mask-image: var(--icon-home);     mask-image: var(--icon-home); }
+.pmf-nav a[href="/calendar"]::before     { -webkit-mask-image: var(--icon-calendar); mask-image: var(--icon-calendar); }
+.pmf-nav a[href="/faq"]::before          { -webkit-mask-image: var(--icon-faq);      mask-image: var(--icon-faq); }
+.pmf-nav a[href^="/search"]::before      { -webkit-mask-image: var(--icon-search);   mask-image: var(--icon-search); }
+.pmf-nav a[href="/memberlist"]::before   { -webkit-mask-image: var(--icon-users);    mask-image: var(--icon-users); }
+.pmf-nav a[href="/groups"]::before       { -webkit-mask-image: var(--icon-groups);   mask-image: var(--icon-groups); }
+.pmf-nav a[href^="/profile"]::before     { -webkit-mask-image: var(--icon-user);     mask-image: var(--icon-user); }
+.pmf-nav a[href^="/privmsg"]::before     { -webkit-mask-image: var(--icon-message);  mask-image: var(--icon-message); }
+.pmf-nav a#logout::before                { -webkit-mask-image: var(--icon-logout);   mask-image: var(--icon-logout); }
+
+/* Liens perso (ACP > liens de navigation) : href fixe à "#", donc pas d'identifiant
+   fiable côté lien — on détourne le champ "image" (jamais résolu comme vraie image,
+   FA ne le valide pas) pour y écrire "icon:<clé>". Une ligne à ajouter par lien perso
+   utilisé, sur ce modèle (clé = n'importe quelle entrée du dictionnaire icon.css) :
+   .pmf-nav .mainmenu:has(img[src="icon:flame"])::before { -webkit-mask-image: var(--icon-flame); mask-image: var(--icon-flame); } */
 
 /* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
 .menu-btn {

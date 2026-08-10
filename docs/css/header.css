@@ -2,72 +2,80 @@
    header.css
    ========================================================================== */
 
-.pmf-header {
-}
+.pmf-header {}
 
 [class*="pmf-header__bar-horizontal"] .wrap {
   max-height: 50px;
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
-    max-width: 50px;
+  max-width: 50px;
 }
 
 [class*="pmf-header__bar"] {
   position: sticky;
-  top: 50px;
-  height: 0;
-  width: 0;
+  top     : 50px;
+  height  : 0;
+  width   : 0;
 }
 
-[class*="pmf-header__bar"] > .wrap {
-  width: fit-content;
+[class*="pmf-header__bar"]>.wrap {
+  width     : fit-content;
   background: var(--color-accent);
-  
-    overflow: hidden;
+
+  overflow: hidden;
 }
 
 .pmf-header-img {
-    width: 928px;
-    height: 1232px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: -1;
+  width   : 470px;
+  height  : 100%;
+  position: fixed;
+  top     : 0;
+
+    right: 10%;  z-index : -1;
 }
 
 .pmf-header-img img {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top     : 0;
+  right   : 0;
 }
 
 .pmf-header-img::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: linear-gradient(45deg, var(--flash-gradient));
-    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
-    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
-    animation: infinite 200ms movingGradient;
+  content           : '';
+  display           : block;
+  width             : 100%;
+  height            : 100%;
+  position          : absolute;
+  background        : linear-gradient(45deg, var(--flash-gradient));
+  -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
+  mask-image        : url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
+  mask-size         : contain;
+  mask-repeat       : no-repeat;
+  animation         : infinite 200ms movingGradient;
 }
+
 @keyframes movingGradient {
-  0% {background: linear-gradient(0deg, var(--flash-gradient))}
-  100% {background: linear-gradient(360deg, var(--flash-gradient))}
+  0% {
+    background: linear-gradient(0deg, var(--flash-gradient))
+  }
+
+  100% {
+    background: linear-gradient(360deg, var(--flash-gradient))
+  }
 }
+
 [id*="fa_toolbar"] {
   display: none;
 }
 
 .pmf-header__bar-top .wrap {
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  display: flex;
+  max-width  : var(--content-max-width);
+  margin     : 0 auto;
+  padding    : 0.5rem 1rem;
+  display    : flex;
   align-items: center;
-  gap: var(--gap);
+  gap        : var(--gap);
 }
 
 .pmf-logo img {
@@ -81,14 +89,14 @@
    affichée est un ::before sur le lien, peint via les variables --icon-* du pack actif
    (voir icons/tabler.css + dictionnaire dans icon.css). */
 .pmf-nav {
-  display: flex;
-  flex-wrap: wrap;
+  display    : flex;
+  flex-wrap  : wrap;
   align-items: center;
-  gap: var(--gap);
-  list-style: none;
-  margin: 0;
+  gap        : var(--gap);
+  list-style : none;
+  margin     : 0;
   margin-left: auto;
-  padding: 0;
+  padding    : 0;
 }
 
 .pmf-nav img {
@@ -96,12 +104,12 @@
 }
 
 .pmf-nav .mainmenu {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4em 0.6em;
-  color: var(--color-text);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
+  display        : inline-flex;
+  align-items    : center;
+  padding        : 0.4em 0.6em;
+  color          : var(--color-text);
+  font-family    : var(--font-body);
+  font-size      : 0.9rem;
   text-decoration: none;
 }
 
@@ -112,32 +120,67 @@
 /* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
    .mainmenu / .mainmenu:hover automatiquement). */
 .pmf-nav .mainmenu::before {
-  content: "";
-  display: inline-block;
-  width: 1.1em;
-  height: 1.1em;
-  margin-right: 0.4em;
-  flex-shrink: 0;
-  background-color: currentColor;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  content              : "";
+  display              : inline-block;
+  width                : 1.1em;
+  height               : 1.1em;
+  margin-right         : 0.4em;
+  flex-shrink          : 0;
+  background-color     : currentColor;
+  -webkit-mask-size    : contain;
+  mask-size            : contain;
+  -webkit-mask-repeat  : no-repeat;
+  mask-repeat          : no-repeat;
   -webkit-mask-position: center;
-  mask-position: center;
+  mask-position        : center;
 }
 
 /* Liens fixes ModernBB : identifiables par href (stable, contrairement aux id
    i_icon_mini_* qui dépendent de l'ordre d'affichage des liens dans l'ACP). */
-.pmf-nav a[href="/"]::before             { -webkit-mask-image: var(--icon-home);     mask-image: var(--icon-home); }
-.pmf-nav a[href="/calendar"]::before     { -webkit-mask-image: var(--icon-calendar); mask-image: var(--icon-calendar); }
-.pmf-nav a[href="/faq"]::before          { -webkit-mask-image: var(--icon-faq);      mask-image: var(--icon-faq); }
-.pmf-nav a[href^="/search"]::before      { -webkit-mask-image: var(--icon-search);   mask-image: var(--icon-search); }
-.pmf-nav a[href="/memberlist"]::before   { -webkit-mask-image: var(--icon-users);    mask-image: var(--icon-users); }
-.pmf-nav a[href="/groups"]::before       { -webkit-mask-image: var(--icon-groups);   mask-image: var(--icon-groups); }
-.pmf-nav a[href^="/profile"]::before     { -webkit-mask-image: var(--icon-user);     mask-image: var(--icon-user); }
-.pmf-nav a[href^="/privmsg"]::before     { -webkit-mask-image: var(--icon-message);  mask-image: var(--icon-message); }
-.pmf-nav a#logout::before                { -webkit-mask-image: var(--icon-logout);   mask-image: var(--icon-logout); }
+.pmf-nav a[href="/"]::before {
+  -webkit-mask-image: var(--icon-home);
+  mask-image        : var(--icon-home);
+}
+
+.pmf-nav a[href="/calendar"]::before {
+  -webkit-mask-image: var(--icon-calendar);
+  mask-image        : var(--icon-calendar);
+}
+
+.pmf-nav a[href="/faq"]::before {
+  -webkit-mask-image: var(--icon-faq);
+  mask-image        : var(--icon-faq);
+}
+
+.pmf-nav a[href^="/search"]::before {
+  -webkit-mask-image: var(--icon-search);
+  mask-image        : var(--icon-search);
+}
+
+.pmf-nav a[href="/memberlist"]::before {
+  -webkit-mask-image: var(--icon-users);
+  mask-image        : var(--icon-users);
+}
+
+.pmf-nav a[href="/groups"]::before {
+  -webkit-mask-image: var(--icon-groups);
+  mask-image        : var(--icon-groups);
+}
+
+.pmf-nav a[href^="/profile"]::before {
+  -webkit-mask-image: var(--icon-user);
+  mask-image        : var(--icon-user);
+}
+
+.pmf-nav a[href^="/privmsg"]::before {
+  -webkit-mask-image: var(--icon-message);
+  mask-image        : var(--icon-message);
+}
+
+.pmf-nav a#logout::before {
+  -webkit-mask-image: var(--icon-logout);
+  mask-image        : var(--icon-logout);
+}
 
 /* Liens perso (ACP > liens de navigation) : href fixe à "#", donc pas d'identifiant
    fiable côté lien — on détourne le champ "image" (jamais résolu comme vraie image,
@@ -147,50 +190,57 @@
 
 /* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
 .menu-btn {
-  position: absolute;
-  opacity: 0;
+  position      : absolute;
+  opacity       : 0;
   pointer-events: none;
 }
 
 .menu-icon {
-  display: none;
-  cursor: pointer;
-  padding: 0.5em;
+  display    : none;
+  cursor     : pointer;
+  padding    : 0.5em;
   margin-left: auto;
 }
 
 .navicon {
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 2px;
+  position  : relative;
+  display   : block;
+  width     : 22px;
+  height    : 2px;
   background: var(--color-text);
 }
 
 .navicon::before,
 .navicon::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 22px;
-  height: 2px;
+  content   : "";
+  position  : absolute;
+  left      : 0;
+  width     : 22px;
+  height    : 2px;
   background: var(--color-text);
 }
 
-.navicon::before { top: -7px; }
-.navicon::after { top: 7px; }
+.navicon::before {
+  top: -7px;
+}
+
+.navicon::after {
+  top: 7px;
+}
 
 @media (max-width: 700px) {
   .menu-icon {
     display: inline-flex;
   }
+
   .pmf-nav {
-    display: none;
-    width: 100%;
+    display       : none;
+    width         : 100%;
     flex-direction: column;
-    margin-left: 0;
+    margin-left   : 0;
   }
-  .menu-btn:checked ~ .pmf-nav {
+
+  .menu-btn:checked~.pmf-nav {
     display: flex;
   }
 }
@@ -204,30 +254,33 @@
   background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
   background-clip: text;
   width          : fit-content;
-} 
+}
+
 div#pmf-site-title h1::before {
-    content: 'PIMP MY FORUM';
-    position: absolute;
-    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
-    background-clip: text;
-    background-size: 290px;
-    mix-blend-mode: color;
-    z-index: 2;
+  content        : 'PIMP MY FORUM';
+  position       : absolute;
+  background     : url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
+  background-clip: text;
+  background-size: 290px;
+  mix-blend-mode : color;
+  z-index        : 2;
 }
+
 div#pmf-site-title h1::after {
-    content: 'PIMP MY FORUM';
-    position: absolute;
-    z-index: 2;
-    background: linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
-    background-clip: text;
-    mix-blend-mode: hard-light;
-    padding: 0px 0px 0px 0px;
+  content        : 'PIMP MY FORUM';
+  position       : absolute;
+  z-index        : 2;
+  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
+  background-clip: text;
+  mix-blend-mode : hard-light;
+  padding        : 0px 0px 0px 0px;
 }
+
 .pmf-site-desc__tagline {
-    color: var(--color-text);
-    opacity: 0.8;
-    font-family: var(--font-mono);
-    font-size: 30px;
-    line-height: normal;
-    letter-spacing: 10px;
+  color         : var(--color-text);
+  opacity       : 0.8;
+  font-family   : var(--font-mono);
+  font-size     : 30px;
+  line-height   : normal;
+  letter-spacing: 10px;
 }

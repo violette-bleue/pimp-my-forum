@@ -8,7 +8,7 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
 }
-
+ 
 a {
   font-weight: unset;
   font-style: normal;

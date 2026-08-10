@@ -35,12 +35,31 @@
   right  : 10%;
   z-index: -1;
 }
-
+.pmf-header-img:before {
+    content: '';
+    display: block;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(281deg, var(--color-accent), var(--color-accent-2));
+    background: linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
+    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
+    background-size: 100%;
+    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    z-index: 1;
+    mix-blend-mode: hard-light;
+    filter: opacity(50%) saturate(100%) contrast(160%);
+}
 .pmf-header-img img {
   position: absolute;
   top     : 0;
   right   : 0;
-  width   : 100%;
+  width   : 100%;    filter: saturate(250%) contrast(130%);
+
 }
 
 @property --pmf-gradient-angle {

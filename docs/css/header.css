@@ -8,7 +8,6 @@
 
 [class*="pmf-header__bar-horizontal"] .wrap {
   max-height: 50px;
-    overflow: hidden;
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
@@ -25,6 +24,8 @@
 [class*="pmf-header__bar"] > .wrap {
   width: fit-content;
   background: var(--color-accent);
+  
+    overflow: hidden;
 }
 
 /**/

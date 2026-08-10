@@ -32,13 +32,15 @@
   position: fixed;
   top     : 0;
 
-    right: 10%;  z-index : -1;
+  right  : 10%;
+  z-index: -1;
 }
 
 .pmf-header-img img {
   position: absolute;
   top     : 0;
   right   : 0;
+  width   : 100%;
 }
 
 .pmf-header-img::after {
@@ -55,13 +57,23 @@
   animation         : infinite 200ms movingGradient;
 }
 
+#pmf-site-desc {
+  display       : flex;
+  align-items   : center;
+  flex-direction: column;
+}
+
 @keyframes movingGradient {
   0% {
-    background: linear-gradient(0deg, var(--flash-gradient))
+    background: linear-gradient(0deg, var(--flash-gradient));
+  }
+
+  50% {
+    background: linear-gradient(180deg, var(--flash-gradient));
   }
 
   100% {
-    background: linear-gradient(360deg, var(--flash-gradient))
+    background: linear-gradient(180deg, var(--flash-gradient));
   }
 }
 
@@ -78,11 +90,6 @@
   gap        : var(--gap);
 }
 
-.pmf-logo img {
-  display: block;
-  height : 48px;
-  width  : auto;
-}
 
 /* Nav principale : liste à puces FA transformée en barre horizontale.
    Les <img> d'icônes natives FA (src cassé vers 2img.net) sont masquées ; l'icône
@@ -254,6 +261,7 @@
   background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
   background-clip: text;
   width          : fit-content;
+  margin         : 0;
 }
 
 div#pmf-site-title h1::before {

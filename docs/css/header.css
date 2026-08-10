@@ -6,12 +6,13 @@
   background: var(--color-bg);
 }
 
-[class*="pmf-header__bar-horizontal"] {
+[class*="pmf-header__bar-horizontal"] .wrap {
   max-height: 50px;
+    overflow: hidden;
 }
 
-[class*="pmf-header__bar-vertical"] {
-  max-width: 50px;
+[class*="pmf-header__bar-vertical"] .wrap {
+    max-width: 50px;
 }
 
 [class*="pmf-header__bar"] {
@@ -26,8 +27,13 @@
   background: var(--color-accent);
 }
 
-/* Le contenu utile (recherche/menu/notifs) est deplace dans la navbar par
-   fa-toolbar-merge.js — la coquille FA restante n'a plus lieu d'etre visible. */
+/**/
+.pmf-header-img img {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
 [id*="fa_toolbar"] {
   display: none;
 }

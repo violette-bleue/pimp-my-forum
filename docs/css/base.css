@@ -34,6 +34,19 @@ body::before {
     position: fixed;
     z-index: -1;
 }
+body::after {
+    content: '';
+    background: url(https://violette-bleue.github.io/pimp-my-forum/img/noise.jpg);
+    display: block;
+    width: 100%;
+    height: stretch;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 60%;
+}
 /* homogénéisation des smileys partout peu importe la taille d'origine */
 img[src*="/smiles/"] {
     max-width: 20px;

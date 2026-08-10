@@ -33,6 +33,7 @@
     position: fixed;
     top: 0;
     right: 0;
+    z-index: -1;
 }
 
 .pmf-header-img img {
@@ -53,8 +54,8 @@
     animation: infinite 200ms movingGradient;
 }
 @keyframes movingGradient {
-  0% {background-position: 0%;}
-  100% {background-position: 100%;}
+  0% {background: linear-gradient(0deg, var(--flash-gradient))}
+  100% {background: linear-gradient(360deg, var(--flash-gradient))}
 }
 [id*="fa_toolbar"] {
   display: none;

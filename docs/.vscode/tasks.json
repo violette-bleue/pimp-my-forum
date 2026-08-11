@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "git: wip commit & push",
+      "label": "git: wip commit & sync",
       "type": "shell",
-      "command": "git add -A; if ($?) { git commit -m wip; if ($?) { git push } }",
+      "command": "git add -A; if ($?) { git commit -m wip }; git pull --rebase; if ($?) { git push }",
       "presentation": {
         "reveal": "silent",
         "panel": "shared",

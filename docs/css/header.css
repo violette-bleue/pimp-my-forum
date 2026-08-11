@@ -10,6 +10,7 @@
 
 [class*="pmf-header__bar-vertical"] .wrap {
   max-width: 50px;
+    justify-content: center;
 }
 
 [class*="pmf-header__bar"] {
@@ -214,6 +215,82 @@
    FA ne le valide pas) pour y écrire "icon:<clé>". Une ligne à ajouter par lien perso
    utilisé, sur ce modèle (clé = n'importe quelle entrée du dictionnaire icon.css) :
    .pmf-nav .mainmenu:has(img[src="icon:flame"])::before { -webkit-mask-image: var(--icon-flame); mask-image: var(--icon-flame); } */
+
+/* Elements FA integres dans la navbar par js/modules/fa-toolbar-merge.js
+   (carte utilisateur #fa_usermenu, menu #fa_menu/#fa_menulist, recherche
+   #fa_search, notifications #fa_notifications/#notif_list). */
+div#fa_usermenu img {
+  width: 50px;
+  border-radius: 20px;
+}
+
+#fa_usermenu table {
+  display: none;
+}
+
+#fa_menulist {
+  margin: 0;
+  padding: 0;
+}
+
+ul#fa_menulist a::before {
+  content: '';
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background: var(--color-text);
+  display: inline-block;
+  margin-right: 0.4em;
+  vertical-align: -0.15em;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Un lien = une regle, cible par fragment d'URL stable (pas d'id/classe FA
+   sur ces <a>). Attention aux substrings qui se recoupent (/u1 apparait
+   aussi dans /sta/u1 et /spa/u1, d'ou les :not() sur le lien profil). */
+ul#fa_menulist a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])::before {
+  -webkit-mask-image: var(--icon-user);
+  mask-image        : var(--icon-user);
+}
+
+ul#fa_menulist a[href*="mode=editprofile"]::before {
+  -webkit-mask-image: var(--icon-edit);
+  mask-image        : var(--icon-edit);
+}
+
+ul#fa_menulist a[href*="/sta/"]::before {
+  -webkit-mask-image: var(--icon-list);
+  mask-image        : var(--icon-list);
+}
+
+ul#fa_menulist a[href*="/spa/"]::before {
+  -webkit-mask-image: var(--icon-messages);
+  mask-image        : var(--icon-messages);
+}
+
+ul#fa_menulist a[href*="watchsearch"]::before {
+  -webkit-mask-image: var(--icon-eye);
+  mask-image        : var(--icon-eye);
+}
+
+ul#fa_menulist a[href*="/privmsg"]::before {
+  -webkit-mask-image: var(--icon-message);
+  mask-image        : var(--icon-message);
+}
+
+ul#fa_menulist a[href*="/admin"]::before {
+  -webkit-mask-image: var(--icon-lock);
+  mask-image        : var(--icon-lock);
+}
+
+ul#fa_menulist a[href*="logout=1"]::before {
+  -webkit-mask-image: var(--icon-logout);
+  mask-image        : var(--icon-logout);
+}
 
 /* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
 .menu-btn {

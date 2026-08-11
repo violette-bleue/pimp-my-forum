@@ -57,8 +57,8 @@ img[src*="/smiles/"] {
 .profile-icons li a i {
     display: block;
     font-size: 15px;
-    height: 10px;
-    width: 10px;
+    height: var(--icon-size);
+    width: var(--icon-size);
     background: linear-gradient(270deg, var(--color-accent), var(--flash-accent));
 }
 

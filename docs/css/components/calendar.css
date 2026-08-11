@@ -1,0 +1,88 @@
+/* ==========================================================================
+   components/calendar.css — grille du mini-calendrier (calendar_box.html).
+   Les largeurs de cellule sont posées en inline-style par FA/JS (%) ; ce
+   fichier ne gère que l'empilement flex et l'habillage.
+   ========================================================================== */
+
+.quick-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: center;
+  margin-bottom: var(--gap);
+}
+
+.quick-options .option {
+  flex: 1;
+  min-width: 100px;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--color-pannel);
+  color: var(--color-bg-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.calendar-day-row {
+  box-sizing: border-box;
+}
+
+.calendar-head {
+  padding: 0.4em;
+  text-align: center;
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+}
+
+.calendar-row {
+  display: flex;
+  width: 100%;
+}
+
+.calendar-cell-wrap,
+.calendar-cell-spacer {
+  box-sizing: border-box;
+  border-top: 1px solid var(--color-bg-soft);
+  border-left: 1px solid var(--color-bg-soft);
+}
+
+.calendar-cell {
+  min-height: 60px;
+  padding: 0.3em;
+  font-size: 0.75rem;
+}
+
+.calendar-day-date {
+  margin: 0 0 0.2em;
+  font-weight: bold;
+}
+
+.calendar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.add-event-day {
+  margin: 0.2em 0 0;
+  text-align: right;
+  opacity: 0.6;
+}
+
+.btn-fixed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-top: var(--gap);
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  cursor: pointer;
+}

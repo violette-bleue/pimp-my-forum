@@ -17,6 +17,9 @@
 @import url("components/topic-view.css");
 @import url("components/post-form.css");
 @import url("components/profile.css");
+@import url("components/portal.css");
+@import url("components/gallery.css");
+@import url("components/calendar.css");
 @import url("icons/icon.css");
 @import url("icons/tabler.css");
 @import url("tweaks.css");

@@ -59,12 +59,8 @@
   opacity: 0.85;
 }
 
-.grid-2,
 .grid-small-gaps {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--gap);
-  align-items: start;
 }
 
 .column1 {

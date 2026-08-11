@@ -47,6 +47,31 @@
   text-align: center;
 }
 
+/* Grille utilitaire native FA (.grid-1 a .grid-5 : N colonnes), reutilisee
+   telle quelle par plusieurs gabarits (profil, galerie...) plutot que
+   redefinie a chaque fois. */
+.grid-1,
+.grid-2,
+.grid-3,
+.grid-4,
+.grid-5 {
+  display: grid;
+  gap: var(--gap);
+  align-items: start;
+}
+
+.grid-1 { grid-template-columns: 1fr; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+@media (max-width: 700px) {
+  .grid-2, .grid-3, .grid-4, .grid-5 {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (min-width: 900px) {
   .pmf-content-grid:has(.pmf-sidebar--left:not(:empty)):has(.pmf-sidebar--right:not(:empty)) {
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--sidebar-width);

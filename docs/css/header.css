@@ -275,7 +275,7 @@
   }
 }
 
-.pmf-site-desc__title {
+.pmf-site-desc__title, .pmf-site-desc__title > h1 {
   font-family    : var(--font-display);
   color          : transparent;
   font-size      : 190px;

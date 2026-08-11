@@ -18,7 +18,11 @@
 
 /* Liens du toolbar-top (index) : nouveaux messages / sans reponse / marquer lu. */
 .pmf-toolbar a {
-  display: none;
+  font-size: 0; 
+
+}
+.pmf-toolbar i {
+  font-size: initial;
 }
 
 /* Toolbar-bottom (index) : ne garde que l'item --right (suppression cookies). */
@@ -34,4 +38,14 @@
 /* Jumpbox natif FA (select "Aller a" + bouton, bas de page forum/topic). */
 .jumpbox {
   display: none;
+}
+
+/* Fil d'ariane natif FA (texte/separateurs hors <a>, non isolables) : on
+   ecrase tout a 0 puis on ne restaure que les liens. */
+.sub-header-path {
+  font-size: 0;
+}
+
+.sub-header-path a {
+  font-size: initial;
 }

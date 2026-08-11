@@ -10,59 +10,6 @@
     font-display: swap;
 }
 
-@font-face {
-    font-family: 'Nichol Demo';
-    src        : url('../font/NicholDemoRegular.woff2') format('woff2'),
-        url('../font/NicholDemoRegular.woff') format('woff');
-    font-weight : normal;
-    font-style  : normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'PixelWarden';
-    src: url('../font/PixelWarden.woff2') format('woff2'),
-        url('../font/PixelWarden.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Hercules Pixel Font';
-    src: url('../font/HerculesPixelFont-Outline.woff2') format('woff2'),
-        url('../font/HerculesPixelFont-Outline.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Gome Pixel Rounded';
-    src: url('../font/GomePixel-Rounded.woff2') format('woff2'),
-        url('../font/GomePixel-Rounded.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Pixel Musketeer';
-    src: url('../font/PixelMusketeer.woff2') format('woff2'),
-        url('../font/PixelMusketeer.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Pixel Game Extrude';
-    src: url('../font/PixelGameExtrude.woff2') format('woff2'),
-        url('../font/PixelGameExtrude.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 
 :root {
     /* Couleurs */

@@ -21,7 +21,7 @@
 
 [class*="pmf-header__bar"]>.wrap {
   width     : fit-content;
-  background: var(--color-accent);
+  background: var(--flash-accent-3);
 
   overflow: hidden;
 }
@@ -123,6 +123,7 @@
   margin     : 0;
   margin-left: auto;
   padding    : 0;
+  font-size: 0;
 }
 
 .pmf-nav img {

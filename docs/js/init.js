@@ -45,6 +45,11 @@ if (document.getElementById("smiley-box")) {
   import("./modules/smiley-box.js").then((m) => m.init());
 }
 
+// Conditionnel : mirror des <select> simples (hors [multiple]) en trigger/panel stylables.
+if (document.querySelector("select:not([multiple])")) {
+  import("./modules/select-mirror.js").then((m) => m.init());
+}
+
 // Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
 // FA bloque les <script> dans le contenu des messages/pages ; #pmt-app seul (une simple
 // div) passe, et c'est ce point d'entree central qui se charge du montage.

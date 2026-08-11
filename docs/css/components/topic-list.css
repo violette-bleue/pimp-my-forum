@@ -1,0 +1,92 @@
+/* ==========================================================================
+   components/topic-list.css — .pmf-topic-row (liste des sujets d'un forum),
+   rendu dans les .pmf-category/.pmf-category__list de forum-list.css.
+   ========================================================================== */
+
+.pmf-category--announcement {
+  margin-bottom: var(--gap);
+}
+
+.pmf-category-spacer {
+  height: var(--gap);
+}
+
+.pmf-topic-row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 0.75em 1em;
+  border-top: 1px solid var(--color-bg-soft);
+  color: var(--color-bg-dark);
+}
+
+.pmf-topic-row--empty {
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.pmf-topic-row__icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pmf-topic-row__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.pmf-topic-row__title-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.pmf-topic-row__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.pmf-topic-row__title a {
+  color: var(--flash-accent);
+}
+
+.pmf-topic-row__desc,
+.pmf-topic-row__author {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.pmf-topic-row__posts,
+.pmf-topic-row__views {
+  flex-shrink: 0;
+  width: 70px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.pmf-topic-row__col-label {
+  display: block;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.pmf-topic-row__lastpost {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  flex-shrink: 0;
+  width: 180px;
+  font-size: 0.8rem;
+}
+
+.pmf-topic-row__lastpost-avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+}

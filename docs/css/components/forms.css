@@ -1,0 +1,18 @@
+/* ==========================================================================
+   components/forms.css — .pmf-input, controle de texte generique reutilise
+   partout (recherche, login, memberlist...).
+   ========================================================================== */
+
+.pmf-input {
+  border-radius: var(--radius);
+  border: 2px solid var(--color-bg-dark);
+  background: var(--color-pannel);
+  color: var(--color-bg-dark);
+  font-family: var(--font-body);
+  padding: 0.4em 0.7em;
+}
+
+.pmf-input::placeholder {
+  color: var(--color-bg-dark);
+  opacity: 0.6;
+}

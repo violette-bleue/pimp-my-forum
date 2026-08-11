@@ -1,0 +1,65 @@
+/* ==========================================================================
+   components/page-header.css — .pmf-page-header (titre + fil d'ariane +
+   actions), identique sur viewforum/viewtopic/search/faq/memberlist.
+   ========================================================================== */
+
+.pmf-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+.pmf-page-header__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  font-weight: normal;
+  color: var(--color-text);
+}
+
+.pmf-page-header__path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  margin-top: 0.3em;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.pmf-page-header__path a:hover {
+  color: var(--flash-accent);
+}
+
+.pmf-page-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.pmf-forum-search {
+  display: flex;
+}
+
+.pmf-forum-search .pmf-input--search {
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.pmf-forum-search button {
+  border: 2px solid var(--color-bg-dark);
+  border-left: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  padding: 0 0.7em;
+  cursor: pointer;
+}
+
+.pmf-forum-desc {
+  margin-bottom: var(--gap);
+  opacity: 0.85;
+  font-size: 0.9rem;
+}

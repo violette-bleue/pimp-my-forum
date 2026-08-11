@@ -2,8 +2,6 @@
    header.css
    ========================================================================== */
 
-.pmf-header {}
-
 [class*="pmf-header__bar-horizontal"] .wrap {
   max-height: 50px;
 }

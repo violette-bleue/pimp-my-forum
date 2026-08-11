@@ -45,4 +45,8 @@
     /* Icones a taille fixe (hors systeme [icon]/[icon-mask] et .pmf-nav, qui
        restent en em pour suivre la font-size de leur contexte). */
     --icon-size: 15px;
+
+    /* Avatar utilisateur, taille unique reutilisee partout (post, profil,
+       carte utilisateur) : un seul curseur pour tout repercuter. */
+    --avatar-size: 80px;
 }

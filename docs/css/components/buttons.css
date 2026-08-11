@@ -24,3 +24,8 @@
 .pmf-btn--outline {
   background: transparent;
 }
+
+.pmf-btn--danger {
+  background: var(--color-accent-2);
+  border-color: var(--color-accent-2);
+}

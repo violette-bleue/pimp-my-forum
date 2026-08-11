@@ -1,0 +1,241 @@
+/* ==========================================================================
+   components/profile.css — les 3 gabarits "profil" :
+     - profile_view_body  : #sidebar-left + <main id="profile">
+     - profile_advanced_body (son propre profil, /u1) : .cp.advanced-profile
+     - profile_add_body (édition, /profile?mode=editprofile) : .cp
+   Layouts pilotés par --sidebar-width/--content-max-width/--gap, comme le
+   reste du site — aucune valeur de colonne recodée en dur ici.
+   ========================================================================== */
+
+/* ---- profile_view_body : sidebar + contenu ------------------------------ */
+
+#sidebar-left {
+  float: left;
+  width: var(--sidebar-width);
+}
+
+#profile {
+  margin-left: calc(var(--sidebar-width) + var(--gap));
+}
+
+@media (max-width: 800px) {
+  #sidebar-left {
+    float: none;
+    width: 100%;
+  }
+  #profile {
+    margin-left: 0;
+  }
+}
+
+.profile-header {
+  position: relative;
+  text-align: center;
+}
+
+.profile-header-background {
+  display: none;
+}
+
+.profile-avatar img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.profile-username {
+  margin: 0.4em 0 0;
+  font-family: var(--font-title);
+  font-weight: bold;
+  text-align: center;
+}
+
+.profile-rank,
+.profile-status {
+  margin: 0.2em 0;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.grid-2,
+.grid-small-gaps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap);
+  align-items: start;
+}
+
+.column1 {
+  min-width: 0;
+}
+
+.h3 {
+  margin: 0 0 0.4em;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}
+
+.clear {
+  clear: both;
+}
+
+/* ---- .cp / .cp-inner / .cp-sidebar : advanced (own /u1) et add (edit) --- */
+
+.cp {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  gap: var(--gap);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+.cp-inner {
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-sidebar {
+  flex-shrink: 0;
+  width: var(--sidebar-width);
+}
+
+.cp-sidebar.advanced-profile {
+  width: auto;
+  flex-basis: var(--sidebar-width);
+}
+
+#profile-menu ul {
+  list-style: none;
+  margin: 0 0 var(--gap);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#profile-menu a {
+  display: block;
+  padding: 0.5em 0.8em;
+  border-radius: var(--radius);
+  background: var(--color-pannel);
+  color: var(--color-bg-dark);
+}
+
+#profile-menu a:hover {
+  background: var(--flash-accent);
+}
+
+.mod-login-avatar img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+  margin: 0 auto;
+}
+
+.mod-login-rank {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-top: 0.4em;
+}
+
+/* ---- Lignes de statistiques (dl/dt/dd repetes) --------------------------- */
+
+.profile-advanced-stats,
+.block-dl-default {
+  display: flex;
+  gap: 0.5em;
+  margin: 0 0 0.3em;
+  font-size: 0.85rem;
+}
+
+.profile-advanced-stats dt,
+.block-dl-default dt {
+  opacity: 0.75;
+}
+
+/* ---- Cartes ami / groupe / recompense ------------------------------------ */
+
+.friend-block-big,
+.friend-block,
+.group-block-big,
+.follower-card {
+  display: flex;
+  gap: var(--gap);
+  padding: 0.75em;
+  margin-bottom: var(--gap);
+  background: var(--color-pannel);
+  border-radius: var(--radius);
+}
+
+.avatar-big img,
+.avatar-default img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.friend-header,
+.group-header {
+  font-family: var(--font-title);
+}
+
+.friend-extra,
+.group-details {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.friend-buttons,
+.group-buttons {
+  list-style: none;
+  margin: 0.3em 0 0;
+  padding: 0;
+  display: flex;
+  gap: 0.4em;
+}
+
+.award_row {
+  display: flex;
+  gap: var(--gap);
+  padding: 0.75em;
+  margin-bottom: var(--gap);
+  background: var(--color-pannel);
+  border-radius: var(--radius);
+}
+
+.award_desc {
+  font-size: 0.85rem;
+}
+
+/* ---- Divers -------------------------------------------------------------- */
+
+.rep-button,
+.followBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.3em 0.8em;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-bg-soft);
+  color: var(--color-bg-dark);
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  margin: var(--gap) 0;
+}
+
+.new-message-link {
+  margin-bottom: var(--gap);
+}

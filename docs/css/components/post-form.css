@@ -1,0 +1,85 @@
+/* ==========================================================================
+   components/post-form.css — .pmf-form-block (posting_body et gabarits liés :
+   FAQ, formulaires de contact...). Champs stylés par sélecteurs descendants
+   (label/input/checkbox natifs) plutôt qu'en reclassant chaque template FA
+   un par un — un seul socle, décliné partout où .pmf-form-block apparaît.
+   ========================================================================== */
+
+.pmf-form-block {
+  background: var(--color-pannel);
+  color: var(--color-bg-dark);
+  border-radius: var(--radius);
+  margin-bottom: var(--gap);
+  overflow: hidden;
+}
+
+.pmf-form-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 0.5em 1em;
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  font-family: var(--font-title);
+  font-size: 1rem;
+}
+
+.pmf-form-block__body {
+  padding: 1em;
+}
+
+/* Champs "sucre" du gabarit FA : <label><span>Libellé</span> contrôle</label>,
+   répété tel quel partout — stylé une fois ici plutôt que reclassé. */
+.pmf-form-block__body label {
+  display: block;
+  margin-bottom: 0.75em;
+}
+
+/* :not(.radio):not(.checkbox) exclut le span de contrôle des labels
+   radio/checkbox (icône de sujet, options à cocher) — ce ne sont pas des
+   libellés texte, ne pas les rétrécir/aplatir comme les autres. */
+.pmf-form-block__body label > span:first-child:not(.radio):not(.checkbox) {
+  display: block;
+  margin-bottom: 0.25em;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.pmf-form-block__body .label-description,
+.pmf-form-block__body .description {
+  display: block;
+  margin-top: 0.2em;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.pmf-form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.radio-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6em;
+  align-items: center;
+  margin-bottom: 0.75em;
+}
+
+.radio-label {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.sub-head {
+  margin-top: 1em;
+  padding-top: 0.5em;
+  border-top: 1px solid var(--color-bg-soft);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}

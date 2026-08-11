@@ -16,3 +16,13 @@
   color: var(--color-bg-dark);
   opacity: 0.6;
 }
+
+.pmf-input--tiny {
+  width: 3em;
+  text-align: center;
+}
+
+textarea.pmf-input {
+  width: 100%;
+  resize: vertical;
+}

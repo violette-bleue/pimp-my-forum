@@ -4,7 +4,7 @@
     {
       "label": "git: wip commit & sync",
       "type": "shell",
-      "command": "git add -A; if ($?) { git commit -m wip }; git pull --rebase; if ($?) { git push }",
+      "command": "git add -A; git commit -m wip; git pull --rebase; git push",
       "presentation": {
         "reveal": "silent",
         "panel": "shared",

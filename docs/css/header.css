@@ -100,10 +100,6 @@
   }
 }
 
-[id*="fa_toolbar"] {
-  display: none;
-}
-
 .pmf-header__bar-top .wrap {
   max-width  : var(--content-max-width);
   margin     : 0 auto;

@@ -63,7 +63,7 @@ img[src*="/smiles/"] {
 }
 
 h1 {
-    font-family: 'Nichol Demo';
+    font-family: var(--font-mono);
     font-size: 60px;
     color: var(--color-accent-3);
     font-weight: normal;

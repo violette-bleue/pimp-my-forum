@@ -1,0 +1,55 @@
+/* ==========================================================================
+   tweaks.css — petites manips ciblant des elements/fragments qu'on choisit
+   de masquer ou retoucher, natifs FA comme classes pmf- deja en place :
+   display:none par defaut (regle sans propriete precisee = display:none),
+   mais aussi les cas plus retors ou l'element n'est pas isolable proprement
+   (ex. texte natif sans wrapper -> font-size:0 sur le parent + font-size:inherit
+   sur l'enfant qu'on veut garder visible, ou un ::before/::after pour
+   remplacer/masquer un fragment). Un bloc par element, commente avec son
+   origine/contexte : sert de reference pour le futur generateur (chaque
+   regle = une case a cocher potentielle).
+   ========================================================================== */
+
+/* Barre d'outils FA (recherche/menu utilisateur/notifications) : fusionnee
+   dans la navbar par js/modules/fa-toolbar-merge.js, l'originale est cachee. */
+[id*="fa_toolbar"] {
+  display: none;
+}
+
+/* Liens du toolbar-top (index) : nouveaux messages / sans reponse / marquer lu. */
+.pmf-toolbar a {
+  font-size: 0; 
+
+}
+.pmf-toolbar i {
+  font-size: initial;
+}
+
+/* Toolbar-bottom (index) : ne garde que l'item --right (suppression cookies). */
+.pmf-toolbar--bottom li:not([class*="--right"]) {
+  display: none;
+}
+
+/* Bloc "navigation rapide" (jump to topic) natif FA, viewforum. */
+.quick-nav-topics {
+  display: none;
+}
+
+/* Jumpbox natif FA (select "Aller a" + bouton, bas de page forum/topic). */
+.jumpbox {
+  display: none;
+}
+
+/* Fil d'ariane natif FA (texte/separateurs hors <a>, non isolables) : on
+   ecrase tout a 0 puis on ne restaure que les liens. */
+.sub-header-path {
+  font-size: 0;
+}
+
+.sub-header-path a {
+  font-size: initial;
+}
+
+/* Preset B : contrairement a A, la nav principale garde son libelle texte
+   a cote de l'icone (header.css la stylise en consequence) — pas de regle
+   icon-only ici. */

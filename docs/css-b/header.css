@@ -1,41 +1,46 @@
 /* ==========================================================================
-   header.css
+   header.css — Preset B. Meme structure (bar verticale + bandeau titre +
+   nav) que A, mais wordmark texte simple au lieu du degrade anime 190px, et
+   bar laterale en surface plate sombre au lieu de --flash-accent-3 saturee.
+   La nav retrouve son libelle texte (voir tweaks.css : la regle qui la
+   passait en icon-only n'existe pas dans ce preset) — plus dense a lire,
+   moins besoin de deviner ce que chaque icone represente.
    ========================================================================== */
 
 /* Toggle de preset (A/B), en tete de la barre verticale : meme largeur
-   (50px) que [class*="pmf-header__bar-vertical"] .wrap plus bas, pour
-   prolonger visuellement la meme colonne fixe. */
+   (60px) que [class*="pmf-header__bar-vertical"] .wrap plus bas. */
 .pmf-theme-toggle {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 20;
-  width: 50px;
+  width: 60px;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
+  border-radius: 0 0 var(--radius) 0;
   cursor: pointer;
-  background: var(--flash-accent-3);
-  color: var(--color-bg-dark);
+  background: var(--color-bg-dark);
+  color: var(--color-text);
 }
 
 .pmf-theme-toggle:hover {
-  background: var(--flash-accent);
+  color: var(--flash-accent);
 }
 
 .pmf-theme-toggle i {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 [class*="pmf-header__bar-horizontal"] .wrap {
-  max-height: 50px;  
+  max-height: 50px;
   width: 100vw;    flex-direction: row;
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
-  max-width: 50px;
+  max-width: 60px;
   justify-content: center;
   height: 100vh;    flex-direction: column;
 }
@@ -49,84 +54,20 @@
 
 [class*="pmf-header__bar"]>.wrap {
   width     : fit-content;
-  background: var(--flash-accent-3);
+  background: var(--color-bg-dark);
+  border-radius: 0 var(--radius) var(--radius) 0;
   overflow: hidden;    display: flex;
-
-
 }
 
 .pmf-header-img {
-  width   : 470px;
-  height  : 100%;
-  position: fixed;
-  top     : 0;
-  right  : 10%;
-  z-index: -1;
   display:none;
-}
-.pmf-header-img:before {
-    content: '';
-    display: block;
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: linear-gradient(281deg, var(--color-accent), var(--color-accent-2));
-    background: linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
-    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
-    background-size: 100%;
-    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    z-index: 1;
-    mix-blend-mode: hard-light;
-    filter: opacity(50%) saturate(100%) contrast(160%);
-}
-.pmf-header-img img {
-  position: absolute;
-  top     : 0;
-  right   : 0;
-  width   : 100%;    filter: saturate(250%) contrast(130%);
-
-}
-
-@property --pmf-gradient-angle {
-  syntax       : '<angle>';
-  inherits     : false;
-  initial-value: 45deg;
-}
-
-.pmf-header-img::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: linear-gradient(var(--pmf-gradient-angle), var(--flash-gradient));
-    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
-    background-size: 316%;
-    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    animation: movingGradient 15s linear infinite;
 }
 
 #pmf-site-desc {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 30px 0 20px;
-}
-
-@keyframes movingGradient {
-  0% {
-    --pmf-gradient-angle: 0deg;
-  }
-
-  100% {
-    --pmf-gradient-angle: 360deg;
-  }
+    margin: 24px 0 16px;
 }
 
 .pmf-header__bar-top .wrap {
@@ -142,17 +83,18 @@
 /* Nav principale : liste à puces FA transformée en barre horizontale.
    Les <img> d'icônes natives FA (src cassé vers 2img.net) sont masquées ; l'icône
    affichée est un ::before sur le lien, peint via les variables --icon-* du pack actif
-   (voir icons/tabler.css + dictionnaire dans icon.css). */
+   (voir icons/tabler.css + dictionnaire dans icon.css). Ici le libelle texte reste
+   visible a cote (pas d'icon-only) : c'est le pack d'icones commun, seule la mise en
+   forme differe de A. */
 .pmf-nav {
   display    : flex;
   flex-wrap  : wrap;
   align-items: center;
-  gap        : var(--gap);
+  gap        : 2px;
   list-style : none;
   margin     : 0;
   margin-left: auto;
   padding    : 0;
-  font-size: 0;
 }
 
 .pmf-nav img {
@@ -162,15 +104,18 @@
 .pmf-nav .mainmenu {
   display        : inline-flex;
   align-items    : center;
-  padding        : 0.4em 0.6em;
-  color          : var(--color-text);
-  font-family    : var(--font-body);
-  font-size      : 0.9rem;
+  padding        : 0.5em 0.75em;
+  border-radius  : var(--radius);
+  color          : var(--color-muted);
+  font-family    : var(--font-mono);
+  font-size      : 0.75rem;
+  letter-spacing : 0.02em;
   text-decoration: none;
 }
 
 .pmf-nav .mainmenu:hover {
-  color: var(--flash-accent);
+  color     : var(--color-text);
+  background: var(--color-bg-soft);
 }
 
 /* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
@@ -178,9 +123,9 @@
 .pmf-nav .mainmenu::before {
   content              : "";
   display              : inline-block;
-  width                : 1.1em;
-  height               : 1.1em;
-  margin-right         : 0.4em;
+  width                : 1em;
+  height               : 1em;
+  margin-right         : 0.5em;
   flex-shrink          : 0;
   background-color     : currentColor;
   -webkit-mask-size    : contain;
@@ -238,18 +183,12 @@
   mask-image        : var(--icon-logout);
 }
 
-/* Liens perso (ACP > liens de navigation) : href fixe à "#", donc pas d'identifiant
-   fiable côté lien — on détourne le champ "image" (jamais résolu comme vraie image,
-   FA ne le valide pas) pour y écrire "icon:<clé>". Une ligne à ajouter par lien perso
-   utilisé, sur ce modèle (clé = n'importe quelle entrée du dictionnaire icon.css) :
-   .pmf-nav .mainmenu:has(img[src="icon:flame"])::before { -webkit-mask-image: var(--icon-flame); mask-image: var(--icon-flame); } */
-
 /* Elements FA integres dans la navbar par js/modules/fa-toolbar-merge.js
    (carte utilisateur #fa_usermenu, menu #fa_menu/#fa_menulist, recherche
    #fa_search, notifications #fa_notifications/#notif_list). */
 div#fa_usermenu img {
-  width: 50px;
-  border-radius: 20px;
+  width: 40px;
+  border-radius: var(--radius);
 }
 
 #fa_usermenu table {
@@ -377,44 +316,30 @@ ul#fa_menulist a[href*="logout=1"]::before {
   }
 }
 
+/* Wordmark texte simple, accent unique — remplace le titre 190px multi-
+   degrade de A (et ses ::before/::after de superposition SVG). */
 .pmf-site-desc__title, .pmf-site-desc__title > h1 {
-  font-family    : var(--font-display);
-  color          : transparent;
-  font-size      : 190px;
+  font-family    : var(--font-title);
+  color          : var(--color-text);
+  font-size      : 28px;
+  letter-spacing : 0.08em;
+  text-transform : uppercase;
   display        : flex;
-  line-height    : 120px;
-  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
-  background-clip: text;
+  line-height    : normal;
   width          : fit-content;
   margin         : 0;
 }
 
-div#pmf-site-title::before {
-  content        : 'PIMP MY FORUM';
-  position       : absolute;
-  background     : url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
-  background-clip: text;
-  background-size: 290px;
-  mix-blend-mode : color;
-  z-index        : 2;
-}
-
+div#pmf-site-title::before,
 div#pmf-site-title::after {
-  content        : 'PIMP MY FORUM';
-  position       : absolute;
-  z-index        : 2;
-  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
-  background-clip: text;
-  mix-blend-mode : hard-light;
-  padding        : 0px 0px 0px 0px;
+  content: none;
 }
 
 .pmf-site-desc__tagline {
-    color: var(--color-text);
-    opacity: 0.8;
+    color: var(--color-muted);
     font-family: var(--font-mono);
     font-size: 10px;
     line-height: normal;
-    letter-spacing: 5px;
-    margin: 0;
+    letter-spacing: 3px;
+    margin: 0.4em 0 0;
 }

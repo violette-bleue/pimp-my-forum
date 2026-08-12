@@ -1,0 +1,41 @@
+/* pimp-my-forum/css/icons/tabler.css — pack "Tabler Icons" (MIT, https://tabler.io/icons,
+   https://github.com/tabler/tabler-icons — credits detaillees dans credits/tabler.json).
+   Un pack = ce seul fichier de variables. Meme dictionnaire de noms que tout autre pack :
+   swap de pack = charger un autre fichier comme celui-ci a la place, rien d'autre a toucher.
+
+   Deux ecritures cohabitent ici :
+   - bold/italic/underline : SVG inline en data URI (premiere version du mecanisme, avant
+     qu'on decide de passer par des fichiers).
+   - le reste : fichiers externes sous img/icons/tabler/<cle>.svg — un pack se distribue
+     alors comme un dossier (img/icons/<pack>/) + ce fichier de variables, sans avoir a
+     re-encoder chaque SVG en data URI. Les deux ecritures sont equivalentes pour
+     mask-image (la couleur vient de background-color: currentColor sur le consommateur,
+     pas du SVG) ; a terme les 3 data URI ci-dessus peuvent migrer vers des fichiers aussi.
+
+     URLs absolues (https://violette-bleue.github.io/pimp-my-forum/...) et non relatives :
+     meme convention que le reste du projet (cf. le fond SVG en dur dans header.css) — evite
+     tout risque de mauvaise resolution selon la profondeur reelle du fichier une fois servi. */
+
+:root {
+
+  --icon-bold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 5h6a3.5 3.5 0 0 1 0 7h-6l0 -7' /%3E%3Cpath d='M13 12h1a3.5 3.5 0 0 1 0 7h-7v-7' /%3E%3C/svg%3E");
+
+  --icon-italic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 5l6 0' /%3E%3Cpath d='M7 19l6 0' /%3E%3Cpath d='M14 5l-4 14' /%3E%3C/svg%3E");
+
+  --icon-underline: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 5v5a5 5 0 0 0 10 0v-5' /%3E%3Cpath d='M5 19h14' /%3E%3C/svg%3E");
+
+
+
+  /* Navbar (voir header.css) — reprennent les cles deja presentes dans le dictionnaire
+     general (home, search, user, message) ou en ajoutent de nouvelles (calendar, faq,
+     users, groups, logout) propres a la nav. */
+  --icon-home: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/home.svg");
+  --icon-calendar: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/calendar.svg");
+  --icon-faq: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/faq.svg");
+  --icon-search: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/search.svg");
+  --icon-users: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/users.svg");
+  --icon-groups: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/groups.svg");
+  --icon-user: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/user.svg");
+  --icon-message: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/message.svg");
+  --icon-logout: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/logout.svg");
+}

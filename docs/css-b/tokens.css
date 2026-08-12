@@ -1,0 +1,57 @@
+/* ==========================================================================
+   tokens.css — Preset B ("Nuit"). Meme dictionnaire de variables que le
+   preset A (docs/css/tokens.css) : c'est ce qui permet a tous les fichiers
+   de composants d'etre repris tels quels d'un preset a l'autre. Direction
+   volontairement opposee a A (poster neon/degrade multicolore) : surface
+   sombre, un seul accent chaud, densite plus resserree, coins arrondis
+   plutot que carres.
+   ========================================================================== */
+@font-face {
+    font-family: 'Porao Grottesche';
+    src        : url('../font/PoraoGrottescheRegular.woff2') format('woff2'),
+        url('../font/PoraoGrottescheRegular.woff') format('woff');
+    font-weight : normal;
+    font-style  : normal;
+    font-display: swap;
+}
+
+
+:root {
+    /* Couleurs — surface sombre, un seul accent (ambre) au lieu du trio
+       violet/rose/jaune de A : moins "poster", plus "salle de lecture". */
+    --color-bg     : #14161c;
+    --color-bg-dark: #0a0b0f;
+    --color-bg-soft: #262933;
+    --color-pannel : #1b1d24;
+
+    --color-text : #e8e9ee;
+    --color-muted: #868aa0;
+
+    --flash-accent  : #ffb454;
+    --flash-accent-2: #ff8181;
+    --flash-accent-3: #ffb454;
+    --flash-gradient: var(--flash-accent) 0%, var(--flash-accent) 100%;
+
+    --color-accent  : #ffb454;
+    --color-accent-2: #ff8181;
+    --color-accent-3: #ffb454;
+
+    /* Typo — memes familles que A (deja chargees par le header, pas de
+       requete supplementaire), mais usage different : le corps de texte
+       reste lisible, les libelles/meta passent en mono resserre. */
+    --font-display: "Porao Grottesche", sans-serif;
+    --font-title  : "Kode Mono", monospace;
+    --font-body   : "Krub", sans-serif;
+    --font-mono   : "Kode Mono", monospace;
+
+    /* Layout — coins arrondis (oppose au 0px de A), densite plus resserree,
+       colonne laterale et avatar nettement plus petits : l'idee est de
+       degager de la place pour le contenu plutot que la carte d'identite. */
+    --radius           : 12px;
+    --gap              : 10px;
+    --sidebar-width    : 190px;
+    --content-max-width: 980px;
+
+    --icon-size: 15px;
+    --avatar-size: 40px;
+}

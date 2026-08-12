@@ -1,0 +1,160 @@
+/* ==========================================================================
+   components/pimp-my-post.css — habillage du module "Pimp My Post".
+   Deux volets : coloration CodeMirror (theme "pnp") + panneau formulaire assiste.
+   S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
+   car le module peut charger cette CSS avant/independamment du reste.
+   Memes roles de couleur pour BBCode et HTML : une balise reste moutarde
+   qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
+   ========================================================================== */
+
+/* AJUSTEMENTS CODEMIRROR */
+.CodeMirror.cm-s-pmf {
+  background   : var(--color-bg);
+  color        : var(--color-text);
+  font-family  : var(--font-body, sans-serif);
+  font-size    : inherit;
+  line-height  : normal;
+  border-radius: var(--radius);
+  height       : auto;
+  padding      : 4px 2px;
+}
+
+.CodeMirror-wrap pre.CodeMirror-line>span>span, .CodeMirror-wrap pre.CodeMirror-line-like>span>span {
+    font-family: var(--font-mono, monospace);
+    background: var(--color-bg-dark);
+    display: inline-flex;
+    border-radius: 4px;
+    padding: 0 1px;
+}
+span:has(.cm-comment) {
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+.pmp-fa-raw {
+  all: revert;
+}
+/* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
+.cm-s-pmf .cm-tag {
+  color      : var(--color-accent);
+  font-weight: 600;
+}
+
+/* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
+.cm-s-pmf .cm-attribute {
+  color: var(--color-accent-3);
+}
+
+/* Le signe = lui-meme */
+.cm-s-pmf .cm-operator {
+  color  : var(--color-text);
+  opacity: 0.6;
+}
+
+/* Le container */
+.CodeMirror-scroll {
+    margin-bottom: -50px;
+    margin-right: -50px;
+    overflow-y: auto !important;
+}
+
+/* Valeurs entre guillemets */
+.cm-s-pmf .cm-string {
+  color: var(--color-accent-2);
+}
+
+/* Commentaires HTML <!-- ... --> : discret, atenue et italique */
+.cm-s-pmf .cm-comment {
+  color     : var(--color-text);
+  opacity   : 0.45;
+  font-style: italic;
+}
+
+/* Curseur et selection accordes a la palette */
+.cm-s-pmf .CodeMirror-cursor {
+    border-left: 3px solid var(--color-accent-2);
+    border-radius: 10px;
+}
+.cm-s-pmf .CodeMirror-selected {
+  background: rgba(47, 143, 138, 0.18);
+}
+
+.cm-s-pmf .CodeMirror-gutters {
+  background: var(--color-bg);
+}
+
+/* Apercu inline d'un code smiley reconnu (voir setupSmileyPreview dans pimp-my-post.js) */
+.pmf-cm-smiley {
+  max-width : 20px;
+  max-height: 20px;
+  vertical-align: middle;
+}
+
+/* ---- Volet INPUTS : bouton bascule + panneau formulaire ------------------- */
+.pmf-pmp-toggle {
+  display    : inline-block;
+  margin     : 6px 0;
+  line-height: normal;
+}
+
+.pmf-pmp-panel {
+  background   : var(--color-bg);
+  border-radius: var(--radius, 12px);
+  padding      : var(--gap);
+  color        : var(--color-text);
+}
+
+.pmf-pmp-empty {
+  opacity   : 0.6;
+  font-style: italic;
+  margin    : 0;
+}
+
+/* Groupe = un element cible (fieldset + legende = data-label) */
+.pmf-pmp-group {
+  border-radius: var(--radius);
+  padding      : 0.75rem 1rem 1rem;
+  margin       : 0 0 1rem;
+}
+
+.pmf-pmp-group:last-child {
+  margin-bottom: 0;
+}
+
+.pmf-pmp-group legend {
+  font-weight: 600;
+  color      : var(--color-accent-2);
+  padding    : 0 0.4rem;
+}
+
+/* Champ = un couple label + input/select/textarea */
+.pmf-pmp-field {
+  display       : flex;
+  flex-direction: column;
+  gap           : 0.25rem;
+  margin        : 0.5rem 0;
+}
+
+.pmf-pmp-field-label {
+  font-size: 0.85rem;
+  opacity  : 0.85;
+}
+
+.pmf-pmp-input {
+  font         : inherit;
+  color        : var(--color-text);
+  background   : var(--color-bg-soft);
+  border-radius: var(--radius);
+  padding      : 0.4rem 0.6rem;
+  line-height  : normal;
+}
+
+.pmf-pmp-input:focus {
+  outline     : none;
+  border-color: var(--color-accent-3);
+}
+
+textarea.pmf-pmp-input {
+  resize     : vertical;
+  min-height : 5rem;
+  font-family: var(--font-mono, monospace);
+}

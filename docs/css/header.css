@@ -50,9 +50,10 @@
 [class*="pmf-header__bar"]>.wrap {
   width     : fit-content;
   background: var(--flash-accent-3);
-  overflow: hidden;    display: flex;
-
-
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pmf-header-img {
@@ -145,7 +146,7 @@
    (voir icons/tabler.css + dictionnaire dans icon.css). */
 .pmf-nav {
   display    : flex;
-  flex-wrap  : wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap        : var(--gap);
   list-style : none;
@@ -153,6 +154,9 @@
   margin-left: auto;
   padding    : 0;
   font-size: 0;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
 }
 
 .pmf-nav img {
@@ -162,11 +166,12 @@
 .pmf-nav .mainmenu {
   display        : inline-flex;
   align-items    : center;
-  padding        : 0.4em 0.6em;
+  /* padding        : 0.4em 0.6em; */
   color          : var(--color-text);
   font-family    : var(--font-body);
-  font-size      : 0.9rem;
+  /* font-size      : 0.9rem; */
   text-decoration: none;
+  width: fit-content;
 }
 
 .pmf-nav .mainmenu:hover {
@@ -177,10 +182,10 @@
    .mainmenu / .mainmenu:hover automatiquement). */
 .pmf-nav .mainmenu::before {
   content              : "";
-  display              : inline-block;
-  width                : 1.1em;
-  height               : 1.1em;
-  margin-right         : 0.4em;
+  display: flex;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  margin-right: 0;
   flex-shrink          : 0;
   background-color     : currentColor;
   -webkit-mask-size    : contain;

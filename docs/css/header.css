@@ -180,7 +180,8 @@
 
 /* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
    .mainmenu / .mainmenu:hover automatiquement). */
-.pmf-nav .mainmenu::before {
+.pmf-nav .mainmenu::before,
+#fa_notifications::before {
   content              : "";
   display: flex;
   width: var(--icon-size);
@@ -339,10 +340,6 @@ a#fa_notifications::before {
   content: '';
   -webkit-mask-image: var(--icon-bell);
   mask-image: var(--icon-bell);
-  background: var(--color-text);
-  display: flex;
-  height: var(--icon-size);
-  width: var(--icon-size);
 }
 
 ul#notif_list {

@@ -3,12 +3,14 @@
    ========================================================================== */
 
 [class*="pmf-header__bar-horizontal"] .wrap {
-  max-height: 50px;
+  max-height: 50px;  
+  width: 100vw;
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
   max-width: 50px;
-    justify-content: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 [class*="pmf-header__bar"] {
@@ -21,7 +23,6 @@
 [class*="pmf-header__bar"]>.wrap {
   width     : fit-content;
   background: var(--flash-accent-3);
-
   overflow: hidden;
 }
 

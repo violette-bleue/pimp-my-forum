@@ -29,3 +29,9 @@
   background: var(--color-accent-2);
   border-color: var(--color-accent-2);
 }
+
+.pmf-btn--flat {
+  border: none;
+  background: transparent;
+  padding: 0.3em 0.6em;
+}

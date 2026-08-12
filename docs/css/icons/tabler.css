@@ -38,4 +38,34 @@
   --icon-user: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/user.svg");
   --icon-message: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/message.svg");
   --icon-logout: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/logout.svg");
+
+  /* Dictionnaire general (voir icon.css) — cles utilisees hors navbar : boutons,
+     editeur, listes de sujets, moderation, votes... */
+  --icon-close: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/close.svg");
+  --icon-bell: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/bell.svg");
+  --icon-stats: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/stats.svg");
+  --icon-chat: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/chat.svg");
+  --icon-flame: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/flame.svg");
+  --icon-box: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/box.svg");
+  --icon-check-circle: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/check-circle.svg");
+  --icon-list: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/list.svg");
+  --icon-messages: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/messages.svg");
+  --icon-clock: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/clock.svg");
+  --icon-trash: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/trash.svg");
+  --icon-apple: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/apple.svg");
+  --icon-eye: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/eye.svg");
+  --icon-filter: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/filter.svg");
+  --icon-graduation-cap: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/graduation-cap.svg");
+  --icon-lock: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/lock.svg");
+  --icon-comments: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/comments.svg");
+  --icon-heart: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/heart.svg");
+  --icon-quote: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/quote.svg");
+  --icon-plus: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/plus.svg");
+  --icon-edit: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/edit.svg");
+  --icon-info: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/info.svg");
+  --icon-plus-circle: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/plus-circle.svg");
+  --icon-minus-circle: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/minus-circle.svg");
+  --icon-minus: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/minus.svg");
+  --icon-thumb-up: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/thumb-up.svg");
+  --icon-thumb-down: url("https://violette-bleue.github.io/pimp-my-forum/img/icons/tabler/thumb-down.svg");
 }

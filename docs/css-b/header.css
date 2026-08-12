@@ -200,6 +200,10 @@ div#fa_usermenu img {
   padding: 0;
 }
 
+ul#fa_menulist a {
+  font-size: 0;
+}
+
 ul#fa_menulist a::before {
   content: '';
   width: var(--icon-size);
@@ -257,6 +261,38 @@ ul#fa_menulist a[href*="/admin"]::before {
 ul#fa_menulist a[href*="logout=1"]::before {
   -webkit-mask-image: var(--icon-logout);
   mask-image        : var(--icon-logout);
+}
+
+a#fa_notifications {
+  order: -1;
+  display: flex;
+  flex-direction: column;
+}
+
+a#fa_notifications::before {
+  content: '';
+  -webkit-mask-image: var(--icon-bell);
+  mask-image: var(--icon-bell);
+  background: var(--color-text);
+  display: flex;
+  height: var(--icon-size);
+  width: var(--icon-size);
+}
+
+ul#notif_list {
+  position: absolute;
+  width: 300px;
+  margin: 0;
+  padding: 10px;
+  background: linear-gradient(23deg, var(--flash-accent), var(--flash-accent-3) 80%, var(--flash-accent-2) 100%);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+[class*="pmf-header__bar-vertical"] #notif_list {
+  margin-left: 60px;
 }
 
 /* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */

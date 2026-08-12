@@ -252,6 +252,11 @@
   background: var(--flash-accent);
 }
 
+.pmf-post__reaction-btn.is-active {
+  background: var(--flash-accent);
+  color: var(--color-bg-dark);
+}
+
 .pmf-forum-rules {
   background: var(--color-pannel);
   color: var(--color-text);

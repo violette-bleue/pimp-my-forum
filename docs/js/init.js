@@ -34,6 +34,12 @@ if (document.querySelector('[data-pmf-slot="postrow"]')) {
   import("./modules/viewtopic-post-menu.js").then((m) => m.init());
 }
 
+// Conditionnel : réactions multi-étiquettes (Supabase), sur tout topic —
+// conteneurs de réaction et/ou point de montage du panneau admin mod.
+if (document.querySelector(".pmf-post__reactions[data-post-id]") || document.getElementById("pmf-reactions-admin")) {
+  import("./modules/reactions.js").then((m) => m.init());
+}
+
 // Conditionnel : Pimp My Post (coloration BBCode/HTML + inputs assistes) dans l'editeur
 // SCEditor (pages post/reponse/edition).
 if (document.getElementById("text_editor_textarea")) {

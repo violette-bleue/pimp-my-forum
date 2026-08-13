@@ -1,25 +1,11 @@
 /* ==========================================================================
-   components/pimp-my-post.css — habillage du module "Pimp My Post".
-   Deux volets : coloration CodeMirror (theme "pmf") + panneau formulaire assiste.
-
-   COUCHE DE CONFIG (bloc :root juste en dessous) : jeu de variables prefixees
-   --pimpmypost-*, autonome, qui NE DEPEND PAS des tokens du forum vitrine
-   (tokens.css). Ce sont les seules valeurs pensees pour etre survolees par un
-   forum installant le module : soit en y recopiant des valeurs en dur, soit en
-   y renvoyant vers ses propres variables (ex: --pimpmypost-color-bg: var(--ma-bg)).
-   Suffit de redefinir le sous-ensemble voulu dans un bloc :root pousse APRES
-   ce fichier (panneau CSS custom du forum) ; le reste garde ses defauts.
-
-   Le reste de la feuille (mise en page, structure des panneaux/gouttieres...)
-   n'est pas variabilise : c'est de la mecanique interne, a reserver aux forums
-   a l'aise en CSS qui veulent surcharger des selecteurs directement.
-
-   Memes roles de couleur pour BBCode et HTML : une balise reste "tag"
-   qu'elle soit [b] ou <div>, un attribut reste "attribute", une valeur reste
-   "value" — coherent des deux cotes.
+   # 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა from Pimp my forum by misenasha 🌈
    ========================================================================== */
 
-:root {
+/* :where() ramene la specificite de ce bloc a zero : n'importe quel ":root { --pimpmypost-x: .. }"
+   ecrit par le forum le bat automatiquement, sans !important et quel que soit l'ordre de
+   chargement des feuilles (cette CSS est injectee en JS, donc tard dans le <head>). */
+:where(:root) {
   /* Fond principal (editeur CodeMirror + panneau formulaire) */
   --pimpmypost-color-bg: #1e1e22;
   /* Fond en creux (gouttieres, puces de code inline dans l'editeur) */
@@ -94,9 +80,10 @@ span:has(.cm-comment) {
 
 /* Le container */
 .CodeMirror-scroll {
-    margin-bottom: -50px;
-    margin-right: -50px;
     overflow-y: auto !important;
+    min-height: 200px;
+    max-height: 500px;
+    padding: 0;
 }
 
 /* Valeurs entre guillemets */

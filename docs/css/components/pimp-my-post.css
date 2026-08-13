@@ -2,7 +2,10 @@
    # 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა from Pimp my forum by misenasha 🌈
    ========================================================================== */
 
-:root {
+/* :where() ramene la specificite de ce bloc a zero : n'importe quel ":root { --pimpmypost-x: .. }"
+   ecrit par le forum le bat automatiquement, sans !important et quel que soit l'ordre de
+   chargement des feuilles (cette CSS est injectee en JS, donc tard dans le <head>). */
+:where(:root) {
   /* Fond principal (editeur CodeMirror + panneau formulaire) */
   --pimpmypost-color-bg: #1e1e22;
   /* Fond en creux (gouttieres, puces de code inline dans l'editeur) */
@@ -30,7 +33,7 @@
   --pimpmypost-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
   --pimpmypost-radius: 6px;
-  --pimpmypost-gap: 10px;
+  --pimpmypost-gap: 10px;parf
 }
 
 /* AJUSTEMENTS CODEMIRROR */
@@ -77,9 +80,10 @@ span:has(.cm-comment) {
 
 /* Le container */
 .CodeMirror-scroll {
-    margin-bottom: -50px;
-    margin-right: -50px;
     overflow-y: auto !important;
+    min-height: 200px;
+    max-height: 500px;
+    padding: 0;
 }
 
 /* Valeurs entre guillemets */

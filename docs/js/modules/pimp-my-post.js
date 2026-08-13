@@ -37,6 +37,22 @@
    ("val" -> label = val) ou un objet { value, label } (label optionnel, defaut = value).
    Le "value" est ce qui s'ecrit dans le code ; le "label" est purement d'affichage.
 
+   Points d'extension pour surcouches forum-specifiques (overlay qui set PimpMyPost.Config
+   puis appelle init() ; le core n'a pas besoin d'etre modifie) :
+     toolbarButtons : [{ label:"...", className:"...", onClick({ cm, state, container }) }, ...]
+       -> boutons additionnels poses a cote du toggle "Pimp My Post", pour des actions
+          globales (ex: regler une image de fond de post). cm = instance CodeMirror
+          principale, state = { formMode, activeField }, container = .sceditor-container.
+     fieldTypes : { bgcolor(ctx) { ...; return node; }, ... }
+       -> types de champ custom, utilisables dans data-input via "widget--<nom>" (ex:
+          "widget--bgcolor"). Chaque fonction recoit un ctx et retourne le noeud DOM a
+          inserer dans la ligne du champ :
+            ctx = { el, id, tagName, cm, row, panel, state,
+                     read(attr), write(attr, value), writeClass(groupValues, chosen),
+                     currentClasses() }
+          read/write ciblent un attribut de el (par son ancre data-pmf-id, cf writeTarget) ;
+          writeClass fait la meme chose qu'un groupe class--<x> (ajoute/retire dans class=).
+
    Le champ texte accepte du markup brut (BBCode ET HTML), sans echappement.
    Les valeurs d'attributs echappent seulement les guillemets. */
 
@@ -120,6 +136,18 @@ function getClassGroup(name) {
     mode: raw.mode === "multi" ? "multi" : "single",
     values: normValues(raw.values)
   };
+}
+
+// Boutons de toolbar additionnels declares par le staff (config.toolbarButtons).
+function getToolbarButtons() {
+  const list = getStaffConfig().toolbarButtons;
+  return Array.isArray(list) ? list : [];
+}
+
+// Type de champ custom declare par le staff (config.fieldTypes[name]).
+function getFieldType(name) {
+  const types = getStaffConfig().fieldTypes || {};
+  return typeof types[name] === "function" ? types[name] : null;
 }
 
 export function init() {
@@ -322,6 +350,17 @@ function setupForm(host, cm, state, container) {
   toggle.textContent = "Pimp My Post";
   container.appendChild(toggle);
 
+  // Boutons additionnels du staff (config.toolbarButtons), poses a la suite du toggle.
+  getToolbarButtons().forEach((def) => {
+    if (!def || typeof def.onClick !== "function") return;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "pmf-pmp-toolbar-btn button2" + (def.className ? " " + def.className : "");
+    btn.textContent = def.label || "";
+    btn.addEventListener("click", () => def.onClick({ cm, state, container }));
+    container.appendChild(btn);
+  });
+
   // Applique un mode (form ou code) : bascule affichage + libelle du bouton. Utilise par le
   // clic et par la restauration du memo a l'ouverture. persist=false pour la restauration
   // initiale (inutile de reecrire ce qu'on vient de lire).
@@ -387,6 +426,11 @@ function isTextTarget(t) {
 // Cible groupe de classes ? "class--layout" -> "layout", sinon null.
 function classGroupName(target) {
   return target.indexOf("class--") === 0 ? target.slice("class--".length) : null;
+}
+
+// Cible type de champ custom ? "widget--bgcolor" -> "bgcolor", sinon null.
+function fieldTypeName(target) {
+  return target.indexOf("widget--") === 0 ? target.slice("widget--".length) : null;
 }
 
 function resolveLabel(target, explicitLabel, tagName, el) {
@@ -503,6 +547,34 @@ function buildForm(panel, cm, state) {
           });
           row.appendChild(sel);
         }
+        group.appendChild(row);
+        return;
+      }
+
+      const widgetName = fieldTypeName(target);
+      if (widgetName) {
+        // --- Type de champ custom (config.fieldTypes) ---
+        const renderer = getFieldType(widgetName);
+        if (!renderer) {
+          span.textContent = fieldLabel + " (type inconnu)";
+          group.appendChild(row);
+          return;
+        }
+        const ctx = {
+          el,
+          id,
+          tagName,
+          cm,
+          row,
+          panel,
+          state,
+          read: (attr) => el.getAttribute(attr) || "",
+          write: (attr, value) => writeTarget(cm, id, attr, value),
+          writeClass: (groupValues, chosen) => writeClassGroup(cm, id, groupValues, chosen),
+          currentClasses: () => currentClasses(el)
+        };
+        const control = renderer(ctx);
+        if (control instanceof Node) row.appendChild(control);
         group.appendChild(row);
         return;
       }

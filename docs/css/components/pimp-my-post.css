@@ -1,27 +1,70 @@
 /* ==========================================================================
    components/pimp-my-post.css — habillage du module "Pimp My Post".
-   Deux volets : coloration CodeMirror (theme "pnp") + panneau formulaire assiste.
-   S'appuie sur les tokens partages (tokens.css) avec fallback autonome,
-   car le module peut charger cette CSS avant/independamment du reste.
-   Memes roles de couleur pour BBCode et HTML : une balise reste moutarde
-   qu'elle soit [b] ou <div>, un attribut reste teal, une valeur orange brule.
+   Deux volets : coloration CodeMirror (theme "pmf") + panneau formulaire assiste.
+
+   COUCHE DE CONFIG (bloc :root juste en dessous) : jeu de variables prefixees
+   --pimpmypost-*, autonome, qui NE DEPEND PAS des tokens du forum vitrine
+   (tokens.css). Ce sont les seules valeurs pensees pour etre survolees par un
+   forum installant le module : soit en y recopiant des valeurs en dur, soit en
+   y renvoyant vers ses propres variables (ex: --pimpmypost-color-bg: var(--ma-bg)).
+   Suffit de redefinir le sous-ensemble voulu dans un bloc :root pousse APRES
+   ce fichier (panneau CSS custom du forum) ; le reste garde ses defauts.
+
+   Le reste de la feuille (mise en page, structure des panneaux/gouttieres...)
+   n'est pas variabilise : c'est de la mecanique interne, a reserver aux forums
+   a l'aise en CSS qui veulent surcharger des selecteurs directement.
+
+   Memes roles de couleur pour BBCode et HTML : une balise reste "tag"
+   qu'elle soit [b] ou <div>, un attribut reste "attribute", une valeur reste
+   "value" — coherent des deux cotes.
    ========================================================================== */
+
+:root {
+  /* Fond principal (editeur CodeMirror + panneau formulaire) */
+  --pimpmypost-color-bg: #1e1e22;
+  /* Fond en creux (gouttieres, puces de code inline dans l'editeur) */
+  --pimpmypost-color-bg-inset: #17171a;
+  /* Fond des champs de formulaire (input/select/textarea) */
+  --pimpmypost-color-bg-field: #2a2a30;
+
+  /* Texte courant */
+  --pimpmypost-color-text: #e4e4e7;
+  /* Texte attenue (commentaires, signe =, placeholder d'etat vide) */
+  --pimpmypost-color-muted: #9a9aa2;
+
+  /* Balises BBCode/HTML */
+  --pimpmypost-color-tag: #e5c07b;
+  /* Noms d'attribut */
+  --pimpmypost-color-attribute: #56b6c2;
+  /* Valeurs entre guillemets */
+  --pimpmypost-color-value: #d19a66;
+  /* Accent generique : legendes de groupe, focus des champs, curseur CodeMirror */
+  --pimpmypost-color-accent: #56b6c2;
+  /* Surlignage de selection dans l'editeur */
+  --pimpmypost-color-selection: rgba(86, 182, 194, 0.18);
+
+  --pimpmypost-font-body: system-ui, sans-serif;
+  --pimpmypost-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --pimpmypost-radius: 6px;
+  --pimpmypost-gap: 10px;
+}
 
 /* AJUSTEMENTS CODEMIRROR */
 .CodeMirror.cm-s-pmf {
-  background   : var(--color-bg);
-  color        : var(--color-text);
-  font-family  : var(--font-body, sans-serif);
+  background   : var(--pimpmypost-color-bg);
+  color        : var(--pimpmypost-color-text);
+  font-family  : var(--pimpmypost-font-body);
   font-size    : inherit;
   line-height  : normal;
-  border-radius: var(--radius);
+  border-radius: var(--pimpmypost-radius);
   height       : auto;
   padding      : 4px 2px;
 }
 
 .CodeMirror-wrap pre.CodeMirror-line>span>span, .CodeMirror-wrap pre.CodeMirror-line-like>span>span {
-    font-family: var(--font-mono, monospace);
-    background: var(--color-bg-dark);
+    font-family: var(--pimpmypost-font-mono);
+    background: var(--pimpmypost-color-bg-inset);
     display: inline-flex;
     border-radius: 4px;
     padding: 0 1px;
@@ -35,19 +78,18 @@ span:has(.cm-comment) {
 }
 /* Balises : crochets BBCode [b] [/b] et chevrons HTML <div> </div> */
 .cm-s-pmf .cm-tag {
-  color      : var(--color-accent);
+  color      : var(--pimpmypost-color-tag);
   font-weight: 600;
 }
 
 /* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
 .cm-s-pmf .cm-attribute {
-  color: var(--color-accent-3);
+  color: var(--pimpmypost-color-attribute);
 }
 
 /* Le signe = lui-meme */
 .cm-s-pmf .cm-operator {
-  color  : var(--color-text);
-  opacity: 0.6;
+  color: var(--pimpmypost-color-muted);
 }
 
 /* Le container */
@@ -59,27 +101,26 @@ span:has(.cm-comment) {
 
 /* Valeurs entre guillemets */
 .cm-s-pmf .cm-string {
-  color: var(--color-accent-2);
+  color: var(--pimpmypost-color-value);
 }
 
-/* Commentaires HTML <!-- ... --> : discret, atenue et italique */
+/* Commentaires HTML <!-- ... --> : discret et italique */
 .cm-s-pmf .cm-comment {
-  color     : var(--color-text);
-  opacity   : 0.45;
+  color     : var(--pimpmypost-color-muted);
   font-style: italic;
 }
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pmf .CodeMirror-cursor {
-    border-left: 3px solid var(--color-accent-2);
+    border-left: 3px solid var(--pimpmypost-color-accent);
     border-radius: 10px;
 }
 .cm-s-pmf .CodeMirror-selected {
-  background: rgba(47, 143, 138, 0.18);
+  background: var(--pimpmypost-color-selection);
 }
 
 .cm-s-pmf .CodeMirror-gutters {
-  background: var(--color-bg);
+  background: var(--pimpmypost-color-bg-inset);
 }
 
 /* Apercu inline d'un code smiley reconnu (voir setupSmileyPreview dans pimp-my-post.js) */
@@ -97,10 +138,10 @@ span:has(.cm-comment) {
 }
 
 .pmf-pmp-panel {
-  background   : var(--color-bg);
-  border-radius: var(--radius, 12px);
-  padding      : var(--gap);
-  color        : var(--color-text);
+  background   : var(--pimpmypost-color-bg);
+  border-radius: var(--pimpmypost-radius);
+  padding      : var(--pimpmypost-gap);
+  color        : var(--pimpmypost-color-text);
 }
 
 .pmf-pmp-empty {
@@ -111,7 +152,7 @@ span:has(.cm-comment) {
 
 /* Groupe = un element cible (fieldset + legende = data-label) */
 .pmf-pmp-group {
-  border-radius: var(--radius);
+  border-radius: var(--pimpmypost-radius);
   padding      : 0.75rem 1rem 1rem;
   margin       : 0 0 1rem;
 }
@@ -122,7 +163,7 @@ span:has(.cm-comment) {
 
 .pmf-pmp-group legend {
   font-weight: 600;
-  color      : var(--color-accent-2);
+  color      : var(--pimpmypost-color-accent);
   padding    : 0 0.4rem;
 }
 
@@ -141,20 +182,20 @@ span:has(.cm-comment) {
 
 .pmf-pmp-input {
   font         : inherit;
-  color        : var(--color-text);
-  background   : var(--color-bg-soft);
-  border-radius: var(--radius);
+  color        : var(--pimpmypost-color-text);
+  background   : var(--pimpmypost-color-bg-field);
+  border-radius: var(--pimpmypost-radius);
   padding      : 0.4rem 0.6rem;
   line-height  : normal;
 }
 
 .pmf-pmp-input:focus {
   outline     : none;
-  border-color: var(--color-accent-3);
+  border-color: var(--pimpmypost-color-accent);
 }
 
 textarea.pmf-pmp-input {
   resize     : vertical;
   min-height : 5rem;
-  font-family: var(--font-mono, monospace);
+  font-family: var(--pimpmypost-font-mono);
 }

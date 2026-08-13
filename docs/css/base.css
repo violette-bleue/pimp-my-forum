@@ -40,7 +40,7 @@ body::after {
     background: url(https://violette-bleue.github.io/pimp-my-forum/img/noise.jpg);
     display: block;
     width: 100%;
-    height: stretch;
+    height: 100%;
     position: fixed;
     z-index: 2;
     top: 0;
@@ -134,3 +134,117 @@ input[type="range"]:focus::-moz-range-thumb{
   outline: 3px solid #808080;
   outline-offset: 0.125rem;
 }
+
+
+
+
+
+
+  .pmf-pub-card {
+    box-sizing: border-box;
+    width: 610px;
+    max-width: 100%;
+    padding: 20px;
+    background: #fbfaff;
+    color: #3a2c52;
+    font-family: "Krub", sans-serif;
+    line-height: 1.5;
+  }
+
+ .pmf-pub-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg, #c6a3ff, #ff89c1, #eed91b, #c6a3ff, #ff89c1, #eed91b);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-position: 0%;
+    background-size: 250%;
+}
+
+.pmf-pub-card__badge-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.pmf-pub-card__cta-icon {
+    width: 18px;
+    height: 18px;
+}
+
+
+
+  #pmf-site-title.pmf-pub-card__wordmark {
+    font-family: "Porao Grottesche", serif;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-size: 182px;
+    display: flex;
+    line-height: 112px;
+    white-space: nowrap;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    width: fit-content;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::before {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-size: 40%;
+    mix-blend-mode: color;
+    z-index: 2;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::after {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    mix-blend-mode: hard-light;
+  }
+
+  .pmf-pub-card__text {
+    margin: 0 0 16px;
+    font-size: 0.85rem;
+  }
+
+  .pmf-pub-card__text + .pmf-pub-card__text {
+    margin-top: -10px;
+  }
+
+  .pmf-pub-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .pmf-pub-card__cta:hover,
+  .pmf-pub-card__cta:focus-visible {
+    filter: brightness(1.08);
+  }
+
+  .pmf-pub-card__cta:focus-visible {
+    outline: 2px solid #2b1f3d;
+    outline-offset: 2px;
+  }

@@ -1,0 +1,197 @@
+<!-- pimp-my-forum/tools/pub/index.html
+     Fiche de pub, a coller telle quelle sur une page HTML du forum vitrine (contenu,
+     pas un document HTML complet). Une fois publiee, l'URL de cette page FA se recycle
+     en <iframe src="..."> sur d'autres forums : on ne touche qu'un seul endroit pour
+     mettre a jour le visuel partout ou la carte est deja postee.
+
+     Auto-contenue expres (polices + couleurs codees en dur ici, pas de var() vers
+     tokens.css) : la carte tourne dans un iframe sur des forums tiers, elle ne doit
+     rien hors d'elle-meme. Palette et fonts alignees a la main sur docs/css/tokens.css
+     au moment de l'ecriture (--color-pannel, --flash-gradient, --font-display/body).
+
+     Wordmark = exactement la technique de #pmf-site-title (templates/general/overall_header.html
+     + docs/css/header.css:418-448), redimensionnee pour 320px : texte de base en degrade
+     (background-clip:text), ::before superpose la texture svg/04.svg en mix-blend-mode:color,
+     ::after resuperpose le degrade en hard-light. Le contenu du ::before/::after reste en
+     capitales alors que le texte de base est en casse normale — decalage volontaire de
+     l'original, pas une erreur, garde tel quel pour la meme texture "impression legerement
+     desalignee". -->
+
+<style>
+  /* Filtre grain plein-page, identique a body::after dans docs/css/base.css:38-50 (site
+     vitrine) : la page qui accueille cette carte sur FA herite du meme fini que le reste
+     du site plutot que de rester "propre" en dessous. */
+  body::after {
+    content: "";
+    background: url(https://violette-bleue.github.io/pimp-my-forum/img/noise.jpg);
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 60%;
+  }
+
+  .pmf-pub-card {
+    box-sizing: border-box;
+    width: 610px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fbfaff;
+    color: #3a2c52;
+    font-family: "Krub", sans-serif;
+    line-height: 1.5;
+  }
+
+  .pmf-pub-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    animation: pimpedBadge 200ms infinite;
+  }
+
+  .pmf-pub-card__badge-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .pmf-pub-card__cta-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Pulse rapide "en chantier" — desactivee pour qui demande moins de mouvement. */
+  @keyframes pimpedBadge {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.94); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pmf-pub-card__badge {
+      animation: none;
+    }
+  }
+
+  /* ---- Wordmark (technique #pmf-site-title, echelle carte) ---- */
+
+  #pmf-site-title.pmf-pub-card__wordmark {
+    font-family: "Porao Grottesche", serif;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-size: 182px;
+    display: flex;
+    line-height: 112px;
+    white-space: nowrap;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    width: fit-content;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::before {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-size: 40%;
+    mix-blend-mode: color;
+    z-index: 2;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::after {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    mix-blend-mode: hard-light;
+  }
+
+  .pmf-pub-card__text {
+    margin: 0 0 16px;
+    font-size: 0.85rem;
+  }
+
+  .pmf-pub-card__text + .pmf-pub-card__text {
+    margin-top: -10px;
+  }
+
+  .pmf-pub-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .pmf-pub-card__cta:hover {
+    filter: brightness(1.08);
+  }
+</style>
+
+<div class="pmf-pub-card">
+  <span class="pmf-pub-card__badge"><img class="pmf-pub-card__badge-icon" src="https://violette-bleue.github.io/pimp-my-forum/img/icons/icons8-fire-32.png" alt="" />En développement</span>
+  <div id="pmf-site-title" class="pmf-pub-card__wordmark">Pimp My Forum</div>
+  <p class="pmf-pub-card__text">
+    Une trousse à outils gratuite pour pimper ton ForumActif — éditeur de post, toolbar,
+    et d'autres modules en route — sans jamais toucher au cœur de ton forum.
+  </p>
+  <p class="pmf-pub-card__text">
+    Le projet est encore en chantier, pas encore ouvert au public. Avant ça, on veut vos
+    retours, vos idées, et peut-être vous comme partenaires.
+  </p>
+  <a class="pmf-pub-card__cta" href="https://discord.gg/5ezzxn9pq" target="_blank" rel="noopener">
+    <img class="pmf-pub-card__cta-icon" src="https://violette-bleue.github.io/pimp-my-forum/img/icons/icons8-lips-32.png" alt="" />
+    Rejoindre le Discord →
+    <img class="pmf-pub-card__cta-icon" src="https://violette-bleue.github.io/pimp-my-forum/img/icons/icons8-lipstick-32.png" alt="" />
+  </a>
+</div>
+
+<script>
+  // Compteur de clics maison (meme projet/cle Supabase que modules/reactions.js,
+  // meme modele de securite : cle publishable + RLS insert-only, voir
+  // supabase/schema-pub-clicks.sql). Pas de supabase-js ici : un simple POST REST
+  // suffit pour un insert fire-and-forget, pas besoin de session ni d'identite.
+  // target="_blank" sur le lien : la page reste vivante, pas de risque que la
+  // requete soit coupee par la navigation.
+  (function () {
+    var SUPABASE_URL = "https://zmcemvepmmawriilblky.supabase.co";
+    var SUPABASE_ANON_KEY = "sb_publishable_fYNIKzORfbNwReKtP_PFDw_XFo0ueLF";
+    var cta = document.querySelector(".pmf-pub-card__cta");
+    if (!cta) return;
+    cta.addEventListener("click", function () {
+      fetch(SUPABASE_URL + "/rest/v1/pub_card_clicks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: "Bearer " + SUPABASE_ANON_KEY,
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({ target: "discord", embedded_on: document.referrer || null })
+      }).catch(function () {});
+    });
+  })();
+</script>

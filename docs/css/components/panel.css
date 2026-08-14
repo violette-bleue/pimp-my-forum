@@ -44,3 +44,8 @@
   background: var(--color-bg-soft);
   font-size: 0.8rem;
 }
+.pmf-panel--message-die > div {
+  display: flex;
+  flex-direction: row-reverse;
+  height: fit-content;
+}

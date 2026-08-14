@@ -44,3 +44,11 @@
   background: var(--color-bg-soft);
   font-size: 0.8rem;
 }
+.pmf-panel--message-die > div {
+  display: flex;
+  flex-direction: row-reverse;
+  height: fit-content;
+}
+.pmf-panel.pmf-panel--message-die .pmf-panel__title, .pmf-panel.pmf-panel--message-die > p {
+	display: none;
+}

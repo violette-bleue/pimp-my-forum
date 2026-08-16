@@ -10,6 +10,14 @@
 #wrap.pmf-wrap {
   width: min(1200px, 94%);
   margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+}
+
+#wrap.pmf-wrap > #fa_ticker_block {
+  grid-column: 1 / -1;
 }
 
 .pmf-content-grid {
@@ -20,6 +28,7 @@
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0 1rem;
+  min-width: 0;
 }
 
 .pmf-main {
@@ -72,13 +81,13 @@
 }
 
 @media (min-width: 900px) {
-  .pmf-content-grid:has(.pmf-sidebar--left:not(:empty)):has(.pmf-sidebar--right:not(:empty)) {
+  #wrap.pmf-wrap:has(.pmf-sidebar--left:not(:empty)):has(.pmf-sidebar--right:not(:empty)) {
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--sidebar-width);
   }
-  .pmf-content-grid:has(.pmf-sidebar--left:not(:empty)):not(:has(.pmf-sidebar--right:not(:empty))) {
+  #wrap.pmf-wrap:has(.pmf-sidebar--left:not(:empty)):not(:has(.pmf-sidebar--right:not(:empty))) {
     grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   }
-  .pmf-content-grid:not(:has(.pmf-sidebar--left:not(:empty))):has(.pmf-sidebar--right:not(:empty)) {
+  #wrap.pmf-wrap:not(:has(.pmf-sidebar--left:not(:empty))):has(.pmf-sidebar--right:not(:empty)) {
     grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
   }
 }

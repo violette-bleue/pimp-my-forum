@@ -68,6 +68,12 @@ function initModules() {
   // #fa_toolbar dans la navbar plutot que de les laisser dans la barre FA.
   import("./modules/fa-toolbar-merge.js").then((m) => m.init());
 
+  // Conditionnel : convertit les images des liens de menu custom (barre de
+  // nav generee par FA) en icones du pack du site.
+  if (document.querySelector("#modernbb-nav-menu a.mainmenu img")) {
+    import("./modules/nav-icons.js").then((m) => m.init());
+  }
+
   // Conditionnel : ticker "new" (jcarousel), seulement si activé côté admin FA
   if (cfg.ticker && cfg.ticker.enabled) {
     import("./modules/ticker.js").then((m) => m.init(cfg.ticker));

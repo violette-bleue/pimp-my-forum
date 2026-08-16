@@ -52,8 +52,6 @@ body::after {
 img[src*="/smiles/"] {
     max-width: 20px;
 }
-/* Zones "boîte noire" FA (navbar JS ModernBB, LINKS pré-formatés, etc.) :
-   wrapper stylé sans restructurer l'intérieur. */
 .profile-icons li a i {
     display: block;
     font-size: 15px;

@@ -1,7 +1,5 @@
 /* ==========================================================================
-   components/calendar.css — grille du mini-calendrier (calendar_box.html).
-   Les largeurs de cellule sont posées en inline-style par FA/JS (%) ; ce
-   fichier ne gère que l'empilement flex et l'habillage.
+   components/calendar.css — grille du mini-calendrier (calendar_box.html)
    ========================================================================== */
 
 .quick-options {

@@ -1,17 +1,4 @@
-/* pimp-my-toolbar/core/parser.js
-   L'IMPORTEUR : miroir inverse de generator.js. Reconstruit un ETAT a partir du CSS/JS
-   deja colles sur un forum (ou re-colles ici), pour reprendre l'edition d'une config
-   existante plutot que repartir de zero.
-
-   Limite assumee : ce n'est PAS un parseur CSS generaliste. Il ne sait relire QUE le
-   format produit par generator.js (memes marqueurs de commentaires, memes selecteurs).
-   Un CSS retouche a la main (variables renommees, regles ajoutees) degrade le resultat
-   sans erreur bruyante : les morceaux non reconnus sont simplement ignores, l'etat
-   initial (natif) fait office de repli pour tout ce qui ne matche pas.
-
-   Limite structurelle (pas un bug d'ici) : un bouton custom MASQUE au moment de l'export
-   n'apparait nulle part dans le JS genere (customSnippet ne serialise que les boutons
-   visibles) — il est donc irrecuperable a l'import, quoi qu'on fasse cote parsing. */
+/* pimp-my-toolbar/core/parser.js — l'IMPORTEUR, miroir inverse de generator.js */
 
 import { createInitialState, setStyle } from "./state.js";
 import { PACKS, DEFAULT_PACK, getPack } from "../data/packs.js";
@@ -23,8 +10,7 @@ const JUSTIFY_TO_ALIGN = {
   "flex-end": "right"
 };
 
-// Marqueurs de blocs, dans l'ordre ou generateCss() les emet. Sert a decouper le CSS
-// en sections, sans dependre de la presence des blocs optionnels.
+// Marqueurs de blocs, dans l'ordre ou generateCss() les emet
 const CSS_MARKERS = [
   "Reglages — modifie ces valeurs pour tout repercuter",
   "Disposition + reset des regles natives parasites (fond, bordure)",
@@ -36,8 +22,7 @@ const CSS_MARKERS = [
   "Editeur collant au scroll"
 ];
 
-// Reconstruit un etat complet a partir du CSS et du JS deja generes (ou colles depuis
-// le forum). Repli gracieux : ce qui n'est pas reconnu reste a l'etat natif par defaut.
+// Reconstruit un etat complet a partir du CSS et du JS deja generes (ou colles depuis le forum)
 export function parseImport(cssText, jsText) {
   const state = createInitialState();
   const css = cssText || "";
@@ -222,8 +207,7 @@ function parseJs(js, state) {
 // --- Utilitaires -----------------------------------------------------------------
 
 // Decoupe le CSS en sections d'apres une liste de marqueurs connus (commentaires en
-// tete de bloc dans generator.js), dans l'ordre ou ils apparaissent reellement —
-// insensible a l'absence des blocs optionnels.
+// tete de bloc dans generator.js), dans l'ordre ou ils apparaissent reellement.
 function splitByMarkers(css, markers) {
   const found = markers
     .map((marker) => ({ marker, idx: css.indexOf("/* " + marker) }))

@@ -1,60 +1,5 @@
-/* modules/pimp-my-post.js — "Pimp My Post" : glow-up des posts dans l'editeur SCEditor.
-   Deux volets sous un meme toit, partageant la meme instance CodeMirror :
-     1. COLORATION syntaxique BBCode + HTML (balises, attributs, valeurs, commentaires)
-     2. INPUTS assistes : bascule code <-> formulaire genere a partir des data-input
-
-   CM est monte HORS du container SCEditor (frere, apres lui) pour echapper a l'interception
-   clavier que SCEditor applique dans son propre sous-arbre. Le textarea source natif est
-   masque mais nourri via inst.val() (BBCode canonique propre, ciblee par ID).
-   Sync bidirectionnel : frappe CM -> val(x) ; toolbar FA (insert) -> relit val() vers CM.
-   En mode formulaire, la toolbar est routee vers le dernier champ PMP actif (a la position
-   du curseur) au lieu du contenu global.
-   Le dernier mode choisi (code/form) est memorise en localStorage et reapplique a l'ouverture.
-   CodeMirror n'est pas charge sur FA : le module le charge lui-meme (une seule fois).
-
-   Convention inputs (declaree par l'auteur du template) :
-     Mode simple   : data-input="href target text"  (cibles separees par espaces)
-     Mode groupes  : data-input="(Lien@href) (Cible@target) (@text)"
-                     -> chaque (label@cible) = un champ ; label avant le @, optionnel.
-     "text"/"textarea"  -> textContent (input / textarea long) ; aussi en attribut sucre.
-     "class--<groupe>"  -> groupe de classes exclusif/multi, valeurs definies en config staff.
-     data-label / data-label-text -> en-tete de groupe / intitule du champ texte.
-     data-freezone[="Titre"]      -> emplacement (et libelle) de la zone de texte libre ;
-                                     a defaut, la zone libre ecrit avant la derniere fermeture.
-
-   Zone de texte libre : mini-instance CodeMirror (coloree comme l'editeur principal) dont le
-   contenu vit dans un element custom <pmp-freezone>...</pmp-freezone> (cree a la 1ere saisie).
-   Si l'utilisateur y tape un element porteur d'un data-input, un bouton "promouvoir" apparait
-   sur sa ligne (line-widget) : au clic, l'element est extrait de la zone libre et insere dans le
-   code principal juste avant <pmp-freezone>, ou il devient un vrai champ assiste.
-
-   Config staff optionnelle, lue defensivement depuis PimpMyPost.Config :
-     labels  : { "href": "...", "img href": "...", "freezone": "...", ... }
-     selects : { "data-size": ["sm", { value:"lg", label:"Grand" }], ... }
-     classes : { layout: ["col1", { value:"col2", label:"Deux colonnes" }],   (exclusif)
-                 couleur: { mode:"multi", values:["rouge","bleu"] } }          (multi)
-   Partout ou une liste de valeurs est attendue, chaque entree peut etre une string
-   ("val" -> label = val) ou un objet { value, label } (label optionnel, defaut = value).
-   Le "value" est ce qui s'ecrit dans le code ; le "label" est purement d'affichage.
-
-   Points d'extension pour surcouches forum-specifiques (overlay qui set PimpMyPost.Config
-   puis appelle init() ; le core n'a pas besoin d'etre modifie) :
-     toolbarButtons : [{ label:"...", className:"...", onClick({ cm, state, container }) }, ...]
-       -> boutons additionnels poses a cote du toggle "Pimp My Post", pour des actions
-          globales (ex: regler une image de fond de post). cm = instance CodeMirror
-          principale, state = { formMode, activeField }, container = .sceditor-container.
-     fieldTypes : { bgcolor(ctx) { ...; return node; }, ... }
-       -> types de champ custom, utilisables dans data-input via "widget--<nom>" (ex:
-          "widget--bgcolor"). Chaque fonction recoit un ctx et retourne le noeud DOM a
-          inserer dans la ligne du champ :
-            ctx = { el, id, tagName, cm, row, panel, state,
-                     read(attr), write(attr, value), writeClass(groupValues, chosen),
-                     currentClasses() }
-          read/write ciblent un attribut de el (par son ancre data-pmf-id, cf writeTarget) ;
-          writeClass fait la meme chose qu'un groupe class--<x> (ajoute/retire dans class=).
-
-   Le champ texte accepte du markup brut (BBCode ET HTML), sans echappement.
-   Les valeurs d'attributs echappent seulement les guillemets. */
+/* modules/pimp-my-post.js — "Pimp My Post" : glow-up des posts dans l'editeur SCEditor
+   (coloration syntaxique BBCode/HTML + inputs assistes via data-input) */
 
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
@@ -176,8 +121,7 @@ function setupEditor(container, inst) {
   const state = { formMode: false, activeField: null };
   container._pmfState = state;
 
-  // 1. Wrapper HORS du container SCEditor (frere juste apres) : hors de portee de
-  //    l'interception clavier qui vit dans le sous-arbre du container.
+  // 1. Wrapper HORS du container SCEditor (frere juste apres)
   const host = document.createElement("div");
   host.className = "pmf-cm-host";
   const shadow = document.createElement("textarea");
@@ -209,8 +153,7 @@ function setupEditor(container, inst) {
     syncing = false;
   });
 
-  // 4. Toolbar FA. Mode code : insertion globale + relecture vers CM. Mode formulaire :
-  //    on route l'insertion vers le champ PMP actif et on court-circuite le global.
+  // 4. Toolbar FA : mode code = insertion globale, mode formulaire = routee vers le champ actif
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
@@ -247,14 +190,7 @@ function setupEditor(container, inst) {
   setupForm(host, cm, state, container);
 }
 
-/* ---- Apercu smileys dans CM ------------------------------------------------
-   Remplace visuellement chaque code :xxx: connu par son image (cm.markText avec
-   replacedWith) sans toucher au texte source : cm.getValue() renvoie toujours le
-   code brut, donc aucun impact sur la sync CM<->POST ni sur le volet INPUTS.
-   Le dictionnaire code -> image est construit une seule fois par page (fusion de
-   toutes les categories de /smilies?mode=smilies_frame, memes pages que le picker
-   #smiley-box cf. modules/smiley-box.js), les categories etant decouvertes via le
-   <select> plutot que codees en dur (configurable cote admin FA). */
+/* ---- Apercu smileys dans CM ---- */
 
 let smileyDictPromise = null;
 
@@ -300,9 +236,7 @@ function setupSmileyPreview(cm) {
   });
 }
 
-// Efface les marqueurs precedents et rescanne tout le texte : plus simple et plus
-// sur que d'essayer de ne mettre a jour que ce qui a change, et suffisamment rapide
-// pour la taille d'un post typique (debounce 250ms de toute facon).
+// Efface les marqueurs precedents et rescanne tout le texte
 function rescanSmilies(cm, dict) {
   (cm._pmfSmileyMarks || []).forEach((m) => m.clear());
 
@@ -333,7 +267,7 @@ function rescanSmilies(cm, dict) {
 /* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
 
 const TARGET_SELECTOR = "[data-input], [text], [textarea]";
-// Balise custom de la zone de texte libre (voir entete). Un tiret = custom element valide.
+// Balise custom de la zone de texte libre. Un tiret = custom element valide.
 const FREE_TAG = "pmp-freezone";
 
 function setupForm(host, cm, state, container) {
@@ -342,8 +276,7 @@ function setupForm(host, cm, state, container) {
   panel.style.display = "none";
   host.parentNode.insertBefore(panel, host.nextSibling);
 
-  // A l'interieur de .sceditor-container (pas de contrainte clavier ici, contrairement a
-  // CM : un bouton n'intercepte pas la frappe). Flux normal, en dernier enfant.
+  // A l'interieur de .sceditor-container, en dernier enfant
   const toggle = document.createElement("button");
   toggle.type = "button";
   toggle.className = "pmf-pmp-toggle button2";
@@ -361,9 +294,7 @@ function setupForm(host, cm, state, container) {
     container.appendChild(btn);
   });
 
-  // Applique un mode (form ou code) : bascule affichage + libelle du bouton. Utilise par le
-  // clic et par la restauration du memo a l'ouverture. persist=false pour la restauration
-  // initiale (inutile de reecrire ce qu'on vient de lire).
+  // Applique un mode (form ou code) : bascule affichage + libelle du bouton
   const applyMode = (showForm, persist) => {
     state.formMode = showForm;
     if (showForm) {
@@ -623,9 +554,7 @@ function buildForm(panel, cm, state) {
   appendFreeEditor(panel, cm, state);
 }
 
-// Zone de texte libre : mini-instance CodeMirror editant le contenu de <pmp-freezone>.
-// Coloree comme l'editeur principal ; sync vers le code via writeFreeContent.
-// Detecte les data-input tapes et pose un bouton "promouvoir" sur leur ligne.
+// Zone de texte libre : mini-instance CodeMirror editant le contenu de <pmp-freezone>
 function appendFreeEditor(panel, cm, state) {
   const group = document.createElement("fieldset");
   group.className = "pmf-pmp-group pmf-pmp-free";
@@ -999,9 +928,7 @@ function wrapInsert(inst, fnName, state, container, after) {
       insertIntoField(f, getCM(), open, close);
       return;
     }
-    // Mode source (CM visible) : encadrer la selection reelle de CM, pas celle du
-    // textarea natif de SCEditor (obsolete/invisible, cause de l'insertion en fin de
-    // contenu). La resync CM -> champ POST est deja geree par cm.on("change").
+    // Mode source (CM visible) : encadrer la selection reelle de CM
     const cm = container._pmfCM;
     if (cm && container.classList.contains("sourceMode")) {
       insertIntoCM(cm, open, close);

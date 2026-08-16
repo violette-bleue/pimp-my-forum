@@ -1,24 +1,6 @@
-/* modules/reactions.js — réactions multi-étiquettes (Supabase), remplace le
-   "J'aime" natif FA (fermé aux invités — data-href vide hors connexion).
+/* modules/reactions.js — réactions multi-étiquettes (Supabase) */
 
-   Fonctionnement :
-   - Chaque visiteur reçoit une session anonyme Supabase au premier chargement
-     (identité stable côté serveur, sans compte réel) : sert de voter_id.
-   - Les étiquettes actives sur CE topic + les compteurs de chaque post sont
-     chargés en 3 requêtes groupées (pas une par post), puis les boutons sont
-     injectés dans les conteneurs vides que le template laisse en place
-     (.pmf-post__reactions[data-post-id]).
-   - Le panneau de config (quelles étiquettes sont actives sur ce topic)
-     n'est monté que si #pmf-reactions-admin existe dans le DOM — cf.
-     viewtopic_body.html, à l'intérieur du bloc FA <!-- BEGIN viewtopic_bottom
-     --> déjà réservé aux mods/admins du forum. Il exige en plus un VRAI
-     compte Supabase (pas la session anonyme) : la sécurité réelle vient des
-     policies RLS (supabase/schema-reactions.sql), pas de ce filtrage DOM.
-*/
-
-// Clé "publishable" (nouveau format Supabase, équivalent public de l'ancienne
-// clé "anon") : faite pour être exposée côté client, la sécurité vient des
-// policies RLS (supabase/schema-reactions.sql), pas du secret de cette clé.
+// Clé publishable Supabase
 const SUPABASE_URL = "https://zmcemvepmmawriilblky.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_fYNIKzORfbNwReKtP_PFDw_XFo0ueLF";
 
@@ -150,11 +132,7 @@ async function toggleReaction(btn, postId, typeId) {
   btn.disabled = false;
 }
 
-// ==========================================================================
-// Panneau admin — config des étiquettes actives sur ce topic. Mount déjà
-// filtré aux mods/admins côté template (viewtopic_bottom) ; ici on filtre en
-// plus sur une vraie session (pas anonyme) avant de rien laisser écrire.
-// ==========================================================================
+// Panneau admin — config des étiquettes actives sur ce topic
 
 function initAdminPanel(mount, topicId) {
   mount.innerHTML = "";

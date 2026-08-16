@@ -2,14 +2,11 @@
    header.css
    ========================================================================== */
 
-/* Toggle de preset (A/B), en tete de la barre verticale : meme largeur
-   (50px) que [class*="pmf-header__bar-vertical"] .wrap plus bas, pour
-   prolonger visuellement la meme colonne fixe. */
+/* Toggle theme */
 .pmf-theme-toggle {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 20;
   width: 50px;
   height: 50px;
   display: flex;
@@ -140,10 +137,6 @@
 }
 
 
-/* Nav principale : liste à puces FA transformée en barre horizontale.
-   Les <img> d'icônes natives FA (src cassé vers 2img.net) sont masquées ; l'icône
-   affichée est un ::before sur le lien, peint via les variables --icon-* du pack actif
-   (voir icons/tabler.css + dictionnaire dans icon.css). */
 .pmf-nav {
   display    : flex;
   flex-wrap: nowrap;
@@ -178,8 +171,6 @@
   color: var(--flash-accent);
 }
 
-/* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
-   .mainmenu / .mainmenu:hover automatiquement). */
 .pmf-nav .mainmenu::before,
 #fa_notifications::before {
   content              : "";
@@ -197,8 +188,6 @@
   mask-position        : center;
 }
 
-/* Liens fixes ModernBB : identifiables par href (stable, contrairement aux id
-   i_icon_mini_* qui dépendent de l'ordre d'affichage des liens dans l'ACP). */
 .pmf-nav a[href="/"]::before {
   -webkit-mask-image: var(--icon-home);
   mask-image        : var(--icon-home);
@@ -244,15 +233,6 @@
   mask-image        : var(--icon-logout);
 }
 
-/* Liens perso (ACP > liens de navigation) : href fixe à "#", donc pas d'identifiant
-   fiable côté lien — on détourne le champ "image" (jamais résolu comme vraie image,
-   FA ne le valide pas) pour y écrire "icon:<clé>". Une ligne à ajouter par lien perso
-   utilisé, sur ce modèle (clé = n'importe quelle entrée du dictionnaire icon.css) :
-   .pmf-nav .mainmenu:has(img[src="icon:flame"])::before { -webkit-mask-image: var(--icon-flame); mask-image: var(--icon-flame); } */
-
-/* Elements FA integres dans la navbar par js/modules/fa-toolbar-merge.js
-   (carte utilisateur #fa_usermenu, menu #fa_menu/#fa_menulist, recherche
-   #fa_search, notifications #fa_notifications/#notif_list). */
 div#fa_usermenu img {
   width: 50px;
   border-radius: 20px;
@@ -287,9 +267,6 @@ ul#fa_menulist a::before {
   mask-position: center;
 }
 
-/* Un lien = une regle, cible par fragment d'URL stable (pas d'id/classe FA
-   sur ces <a>). Attention aux substrings qui se recoupent (/u1 apparait
-   aussi dans /sta/u1 et /spa/u1, d'ou les :not() sur le lien profil). */
 ul#fa_menulist a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])::before {
   -webkit-mask-image: var(--icon-user);
   mask-image        : var(--icon-user);
@@ -358,7 +335,7 @@ ul#notif_list {
   margin-left: 60px;
 }
 
-/* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
+/* Toggle mobile */
 .menu-btn {
   position      : absolute;
   opacity       : 0;

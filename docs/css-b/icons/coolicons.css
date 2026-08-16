@@ -1,17 +1,4 @@
-/* pimp-my-forum/css/icons/coolicons.css — pack "coolicons" (Kryston Schwarze,
-   https://coolicons.cool/, licence Figma Community Paid Resource License — usage
-   personnel et commercial autorise, voir credits/coolicons.json). Meme dictionnaire
-   de noms que tabler.css : swap de pack = charger ce fichier a la place de tabler.css
-   (ou l'inverse), rien d'autre a toucher.
-
-   Pack incomplet par rapport au dictionnaire (voir icon.css) : coolicons ne fournit pas
-   d'equivalent direct pour --icon-flame, --icon-apple, --icon-graduation-cap,
-   --icon-thumb-up, --icon-thumb-down. Ces cles restent donc non definies ici (retombent
-   sur rien tant qu'on n'a pas trouve/dessine un remplacant) — meme etat de transition
-   assume que celui documente dans icon.css pour un pack qui ne couvre pas tout.
-
-   URLs absolues (https://violette-bleue.github.io/pimp-my-forum/...), meme convention
-   que tabler.css. */
+/* pimp-my-forum/css/icons/coolicons.css — pack "coolicons" */
 
 :root {
 

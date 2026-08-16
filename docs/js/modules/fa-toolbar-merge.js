@@ -1,15 +1,11 @@
 /* modules/fa-toolbar-merge.js — deplace des morceaux de #fa_toolbar (recherche,
-   menu utilisateur, notifications) dans la navbar plutot que de les laisser
-   dans la barre FA d'origine. Deplacement pur (appendChild/prepend), pas de
-   clone : les listeners JS que FA attache a ces elements restent intacts. */
+   menu utilisateur, notifications) dans la navbar */
 
 export function init() {
   const target = document.querySelector("#headerbar .wrap");
   if (!target) return;
 
-  // Carte utilisateur (avatar/rang/stats) : extraite de #fa_menulist, en tete
-  // de la navbar (avant le toggle mobile). #fa_welcome ("Bienvenue X") n'est
-  // pas repris, redondant avec la carte.
+  // Carte utilisateur (avatar/rang/stats), en tete de la navbar
   const userCard = document.getElementById("fa_usermenu");
   if (userCard) target.prepend(userCard);
 

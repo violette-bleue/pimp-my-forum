@@ -1,10 +1,5 @@
 /* ==========================================================================
-   components/topic-view.css — Preset B. Rupture volontaire avec A : au lieu
-   d'une grande colonne "carte d'identite" (--sidebar-width, ~190px, avatar
-   80px + rang + stats + contact), la colonne profil se reduit a une
-   gouttiere avatar (--avatar-size, 40px) — juste de quoi reconnaitre l'
-   auteur d'un coup d'oeil. Rang/infos/contact, superflus pour lire un fil,
-   sont masques : la largeur gagnee revient au contenu du message.
+   components/topic-view.css — Preset B
    ========================================================================== */
 
 .pmf-quick-nav {
@@ -53,9 +48,7 @@
   }
 }
 
-/* Gouttiere avatar : plus de carte d'identite laterale, juste de quoi
-   reconnaitre l'auteur. Le pseudo (potentiellement long) passe en
-   vertical, colle sous l'avatar, sans forcer la largeur de la colonne. */
+/* Gouttière avatar */
 .pmf-post__profile {
   grid-area: profile;
   padding: 0;
@@ -83,8 +76,7 @@
   color: var(--color-muted);
 }
 
-/* Rang / infos de contact : superflus pour suivre un fil, masques ici
-   (visibles en revanche sur la fiche profil elle-meme, profile.css). */
+/* Rang / infos de contact */
 .pmf-post__profile-rank,
 .pmf-post__profile-info,
 .pmf-post__profile-contact {

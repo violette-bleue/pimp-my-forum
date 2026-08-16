@@ -1,26 +1,7 @@
-<!-- pimp-my-forum/tools/pub/index.html
-     Fiche de pub, a coller telle quelle sur une page HTML du forum vitrine (contenu,
-     pas un document HTML complet). Une fois publiee, l'URL de cette page FA se recycle
-     en <iframe src="..."> sur d'autres forums : on ne touche qu'un seul endroit pour
-     mettre a jour le visuel partout ou la carte est deja postee.
-
-     Auto-contenue expres (polices + couleurs codees en dur ici, pas de var() vers
-     tokens.css) : la carte tourne dans un iframe sur des forums tiers, elle ne doit
-     rien hors d'elle-meme. Palette et fonts alignees a la main sur docs/css/tokens.css
-     au moment de l'ecriture (--color-pannel, --flash-gradient, --font-display/body).
-
-     Wordmark = exactement la technique de #pmf-site-title (templates/general/overall_header.html
-     + docs/css/header.css:418-448), redimensionnee pour 320px : texte de base en degrade
-     (background-clip:text), ::before superpose la texture svg/04.svg en mix-blend-mode:color,
-     ::after resuperpose le degrade en hard-light. Le contenu du ::before/::after reste en
-     capitales alors que le texte de base est en casse normale — decalage volontaire de
-     l'original, pas une erreur, garde tel quel pour la meme texture "impression legerement
-     desalignee". -->
+<!-- pimp-my-forum/tools/pub/index.html — fiche de pub, a coller telle quelle sur une page HTML du forum vitrine -->
 
 <style>
-  /* Filtre grain plein-page, identique a body::after dans docs/css/base.css:38-50 (site
-     vitrine) : la page qui accueille cette carte sur FA herite du meme fini que le reste
-     du site plutot que de rester "propre" en dessous. */
+  /* Filtre grain plein-page, identique a body::after dans docs/css/base.css */
   body::after {
     content: "";
     background: url(https://violette-bleue.github.io/pimp-my-forum/img/noise.jpg);
@@ -170,12 +151,7 @@
 </div>
 
 <script>
-  // Compteur de clics maison (meme projet/cle Supabase que modules/reactions.js,
-  // meme modele de securite : cle publishable + RLS insert-only, voir
-  // supabase/schema-pub-clicks.sql). Pas de supabase-js ici : un simple POST REST
-  // suffit pour un insert fire-and-forget, pas besoin de session ni d'identite.
-  // target="_blank" sur le lien : la page reste vivante, pas de risque que la
-  // requete soit coupee par la navigation.
+  // Compteur de clics maison (config Supabase)
   (function () {
     var SUPABASE_URL = "https://zmcemvepmmawriilblky.supabase.co";
     var SUPABASE_ANON_KEY = "sb_publishable_fYNIKzORfbNwReKtP_PFDw_XFo0ueLF";

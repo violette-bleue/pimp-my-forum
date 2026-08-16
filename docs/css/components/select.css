@@ -64,11 +64,6 @@
   box-shadow: 0 0px 10px var(--flash-accent-3);
 }
 
-/* Couleurs de degrade enregistrees en <color> pour permettre une VRAIE
-   transition (interpolation continue) au lieu du saut sec d'un linear-gradient
-   a l'autre. initial-value ne peut pas referencer var(--color-accent) (valeur
-   figee exigee par la spec @property) : garder ces hex synchros avec
-   tokens.css si les accents changent. */
 @property --pmf-option-color-1 {
   syntax: '<color>';
   inherits: true;

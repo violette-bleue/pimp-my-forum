@@ -1,27 +1,4 @@
-/* pimp-my-toolbar/app.js
-   Point d'entree de l'outil. Assemble le cycle :
-
-     INTERFACE  --edite-->  ETAT  --serialise-->  CSS + JS
-         |                    |
-         +---- apercu <-------+
-
-   L'etat est la source de verite unique : l'apercu le lit, le generateur le serialise.
-   Aucune divergence possible entre ce que l'utilisateur voit et le code produit.
-
-   Integration sur une page/un topic FA : FA bloque les <script> dans le contenu des
-   messages, donc pas de tag a coller ici. Seul un point de montage est necessaire :
-     <div id="pmt-app"></div>
-   Le montage est pris en charge par le point d'entree central du site (docs/js/init.js),
-   charge globalement (Modules > HTML & JAVASCRIPT), qui detecte #pmt-app et importe ce
-   module a la demande. Voir init.js pour le detail.
-
-   Montage manuel (autre contexte : plusieurs instances, id different...) :
-     <div id="mon-id"></div>
-     <script type="module">
-       import { mount } from "<base>/tools/pimp-my-toolbar/app.js";
-       mount(document.getElementById("mon-id"));
-     </script>
-*/
+/* pimp-my-toolbar/app.js — point d'entree de l'outil */
 
 import { createInitialState, setHidden, setPack, setStyle, addCustom, removeCustom, setCustomHidden } from "./core/state.js";
 import { generate } from "./core/generator.js";
@@ -30,14 +7,11 @@ import { renderPreview, renderReserve, applyGeneratedCss } from "./ui/preview.js
 import { bindDnd } from "./ui/dnd.js";
 import { PACKS, getPack } from "./data/packs.js";
 
-// Valeurs sentinelles de la grille d'icones des boutons custom (distinctes des noms de
-// glyphe reels, qui ne contiennent jamais d'espace).
+// Valeurs sentinelles de la grille d'icones des boutons custom
 const ICON_GLYPH_OTHER = "__glyph__";
 const ICON_IMAGE_URL = "__image__";
 
-// Charge la police d'un pack pour le picker d'icones, independamment de "Appliquer le
-// pack" (qui ne concerne que le CSS EXPORTE) : le picker doit toujours pouvoir afficher
-// les vrais glyphes, meme si l'utilisateur garde les icones natives sur sa toolbar.
+// Charge la police d'un pack pour le picker d'icones
 const loadedPickerFonts = new Set();
 function loadPickerFont(pack) {
   if (!pack.font || !pack.font.import || loadedPickerFonts.has(pack.id)) return;
@@ -48,8 +22,7 @@ function loadPickerFont(pack) {
   document.head.appendChild(link);
 }
 
-// Marge bouton/icone (px) : le bouton suit la taille d'icone choisie en gardant cet
-// ecart, pour rester coherent avec le defaut natif (32px bouton / 18px icone).
+// Marge bouton/icone (px), coherente avec le defaut natif (32px bouton / 18px icone)
 const BUTTON_PADDING = 14;
 
 // Synchronise un slider et son champ nombre associe (l'un pilote l'autre), et notifie
@@ -98,23 +71,18 @@ export function mount(root) {
   const state = createInitialState();
   const ui = buildLayout(root);
 
-  // Bascule Simple/Avance : affiche ou masque les reglages avances (pur affichage, aucun
-  // impact sur l'etat — une valeur avancee deja definie reste active meme masquee).
+  // Bascule Simple/Avance : affiche ou masque les reglages avances (pur affichage)
   const advancedEls = [...root.querySelectorAll(".pmt-advanced-only")];
   ui.advancedMode.addEventListener("change", () => {
     advancedEls.forEach((el) => { el.hidden = !ui.advancedMode.checked; });
   });
 
-  // Rafraichit apercu + reserve depuis l'etat, applique le CSS courant, rebranche les
-  // interactions. Le DOM etant reconstruit a chaque passage, les ecouteurs doivent l'etre
-  // aussi : c'est le prix de "l'apercu est une vue pure de l'etat", et il est modique.
+  // Rafraichit apercu + reserve depuis l'etat, applique le CSS courant, rebranche les interactions
   function refresh() {
     renderPreview(ui.preview, state);
     renderReserve(ui.reserve, state);
     renderCustomList();
 
-    // Un seul generate() : alimente a la fois l'apercu live et les zones de code, qui
-    // restent donc toujours a jour sans action explicite.
     const out = generate(state, { applyPack: ui.applyPack.checked });
     applyGeneratedCss(out.css);
     ui.cssOut.value = out.css;
@@ -129,8 +97,7 @@ export function mount(root) {
     bindClickShortcut();
   }
 
-  // Liste des boutons custom, avec suppression. Meme logique que le reste : une VUE de
-  // state.custom, reconstruite a chaque refresh().
+  // Liste des boutons custom, avec suppression (VUE de state.custom, reconstruite a chaque refresh)
   function renderCustomList() {
     ui.customList.innerHTML = "";
 
@@ -169,7 +136,6 @@ export function mount(root) {
   }
 
   // Raccourci d'appoint : un clic fait la meme chose qu'un glisser vers/depuis la reserve.
-  // Pratique au clavier/tactile, et sans conflit avec le drag (qui n'emet pas de click).
   // Les boutons custom (prefixe "pmt_") passent par setCustomHidden plutot que setHidden.
   function bindClickShortcut() {
     const toggle = (el, hidden) => {
@@ -199,10 +165,7 @@ export function mount(root) {
     refresh();
   });
 
-  // Grille d'icones des boutons custom : chaque bouton affiche le VRAI glyphe (police du
-  // pack chargee independamment de "Appliquer le pack", pour que le picker fonctionne
-  // meme si l'utilisateur garde les icones natives sur la toolbar). Plus deux entrees
-  // sentinelles (glyphe libre / image perso), rendues en texte plutot qu'en glyphe.
+  // Grille d'icones des boutons custom (+ 2 entrees sentinelles : glyphe libre / image perso)
   function populateCustomIconGrid() {
     const pack = getPack(state.iconPack);
     ui.customIconGrid.style.setProperty("--pmt-picker-font", `'${pack.font.family}'`);
@@ -248,9 +211,7 @@ export function mount(root) {
 
   ui.applyPack.addEventListener("change", refresh);
 
-  // Reglages : gap, taille des icones (la taille des boutons suit pour ne pas clipper
-  // le glyphe), couleur facultative. Slider + champ nombre restent synchronises (l'un
-  // ou l'autre pilote la meme valeur).
+  // Reglages : gap, taille des icones (la taille des boutons suit pour ne pas clipper le glyphe)
   syncRangeNumber(ui.gapRange, ui.gapNum, (v) => {
     setStyle(state, "group", "gap", v + "px");
     refresh();
@@ -299,8 +260,7 @@ export function mount(root) {
     refresh();
   });
 
-  // Disposition de la toolbar : sens (ligne/colonne), retour a la ligne, largeur max
-  // facultative. Le wrap est actif par defaut (socle) ; decocher ecrit l'exception nowrap.
+  // Disposition de la toolbar : sens (ligne/colonne), retour a la ligne, largeur max facultative
   ui.toolbarDirection.addEventListener("change", () => {
     const v = ui.toolbarDirection.value;
     setStyle(state, "toolbar", "direction", v === "row" ? null : v); // "row" = defaut, rien a ecrire
@@ -332,8 +292,7 @@ export function mount(root) {
     refresh();
   });
 
-  // Arrondi : container et groupes sont facultatifs (habillage, rien par defaut) ; les
-  // icones ont deja un defaut (6px, via la variable --pmt-radius), donc toujours actif.
+  // Arrondi : container et groupes facultatifs ; les icones ont deja un defaut (6px)
   bindOptionalRange(ui.toolbarRadiusEnable, ui.toolbarRadiusRange, ui.toolbarRadiusNum, (v) => {
     setStyle(state, "toolbar", "radius", v && v + "px");
     refresh();
@@ -349,8 +308,7 @@ export function mount(root) {
     refresh();
   });
 
-  // Padding : facultatif sur les 3 niveaux (box-sizing:border-box pose au socle evite
-  // qu'il ne fasse deborder la taille fixe des boutons ou la largeur max du container).
+  // Padding : facultatif sur les 3 niveaux
   bindOptionalRange(ui.toolbarPaddingEnable, ui.toolbarPaddingRange, ui.toolbarPaddingNum, (v) => {
     setStyle(state, "toolbar", "padding", v && v + "px");
     refresh();
@@ -378,8 +336,7 @@ export function mount(root) {
     });
   });
 
-  // Boutons personnalises : ajout a l'etat. Simple pour l'instant : encadrement
-  // avant/apres uniquement (pas de choix de type, l'action JS viendra plus tard).
+  // Boutons personnalises : ajout a l'etat
   ui.customAdd.addEventListener("click", () => {
     const label = ui.customLabel.value.trim();
     if (!label) return; // libelle obligatoire, sinon rien d'identifiable dans la toolbar
@@ -407,17 +364,13 @@ export function mount(root) {
     refresh();
   });
 
-  // Le code est deja tenu a jour en live par refresh() ; le bouton se contente d'afficher
-  // ou masquer le panneau (evite de noyer un nouvel utilisateur sous du code d'entree).
+  // Le bouton se contente d'afficher ou masquer le panneau de code (deja tenu a jour par refresh())
   ui.generateBtn.addEventListener("click", () => {
     ui.output.hidden = !ui.output.hidden;
     ui.generateBtn.textContent = ui.output.hidden ? "Afficher le code" : "Masquer le code";
   });
 
-  // Import : remplace le contenu de l'etat courant (meme objet, `state` reste const) par
-  // celui reconstruit depuis le CSS/JS colles. L'apercu et le code se remettent a jour
-  // via refresh() ; les controles (curseurs, cases) eux ne se resynchronisent pas tout
-  // seuls tant qu'on n'y touche pas — limitation connue, annoncee a l'utilisateur.
+  // Import : remplace le contenu de l'etat courant par celui reconstruit depuis le CSS/JS colles
   ui.importBtn.addEventListener("click", () => {
     const parsed = parseImport(ui.importCss.value, ui.importJs.value);
     state.buttons = parsed.buttons;

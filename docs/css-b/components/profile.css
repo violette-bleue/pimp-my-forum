@@ -1,10 +1,5 @@
 /* ==========================================================================
-   components/profile.css — les 3 gabarits "profil" :
-     - profile_view_body  : #sidebar-left + <main id="profile">
-     - profile_advanced_body (son propre profil, /u1) : .cp.advanced-profile
-     - profile_add_body (édition, /profile?mode=editprofile) : .cp
-   Layouts pilotés par --sidebar-width/--content-max-width/--gap, comme le
-   reste du site — aucune valeur de colonne recodée en dur ici.
+   components/profile.css
    ========================================================================== */
 
 /* ---- profile_view_body : sidebar + contenu ------------------------------ */

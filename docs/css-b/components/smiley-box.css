@@ -1,13 +1,7 @@
 /* ==========================================================================
-   components/smiley-box.css — deux publics dans le meme fichier :
-     - #smiley-box... : la coquille dans la page de post (top document).
-     - #sce_smilies_body... : le contenu du frame /smilies?mode=smilies_frame,
-       injecte par modules/smiley-box.js (meme URL chargee dans les deux docs,
-       chaque contexte ne matche que ses propres regles).
+   components/smiley-box.css
    ========================================================================== */
 
-
-/**/
 #smiley-box {
   background: var(--color-pannel);
   color: var(--color-text);
@@ -31,8 +25,6 @@
 
 #smiley-box #smileyContainer iframe {
   width: 100%;
-  /* la hauteur est reprise en main par ResizeObserver (smiley-box.js) : le max-height n'est
-     qu'un garde-fou si une categorie a un jour un tres grand nombre de smileys. */
   max-height: 420px;
   border: 2px solid var(--color-bg-soft);
   border-radius: var(--radius);
@@ -76,8 +68,6 @@
   align-items: center;
   gap: 0.3em;
   padding: 0 !important;
-  /* ecrase la largeur des &nbsp; d'origine (texte brut entre les <img>, non stylable
-     autrement) : leur chasse depend du font-size du parent, ramene ici a 0. */
   font-size: 0;
 }
 

@@ -47,9 +47,6 @@
   text-align: center;
 }
 
-/* Grille utilitaire native FA (.grid-1 a .grid-5 : N colonnes), reutilisee
-   telle quelle par plusieurs gabarits (profil, galerie...) plutot que
-   redefinie a chaque fois. */
 .grid-1,
 .grid-2,
 .grid-3,

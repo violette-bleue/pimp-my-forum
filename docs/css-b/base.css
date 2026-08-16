@@ -1,7 +1,5 @@
 /* ==========================================================================
-   base.css — Preset B. Pas de fond degrade anime ni de texture de bruit
-   (les deux `body::before`/`::after` de A) : surface plate et sombre,
-   volontairement plus calme.
+   base.css — Preset B
    ========================================================================== */
 
 body {
@@ -33,9 +31,7 @@ fieldset {
 img[src*="/smiles/"] {
     max-width: 20px;
 }
-/* Zones "boîte noire" FA (navbar JS ModernBB, LINKS pré-formatés, etc.) :
-   wrapper stylé sans restructurer l'intérieur. Accent unique plutot que le
-   degrade violet/jaune de A. */
+/* Zones "boîte noire" FA */
 .profile-icons li a i {
     display: block;
     font-size: 15px;

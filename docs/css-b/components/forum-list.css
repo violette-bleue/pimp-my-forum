@@ -75,7 +75,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 2fr 2fr; /* facilement modifiable avec le générateur */
+  grid-template-columns: 2fr 2fr;
 }
 
 .pmf-forum-row {

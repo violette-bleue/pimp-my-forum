@@ -1,28 +1,9 @@
-/* pimp-my-toolbar/ui/dnd.js
-   DRAG & DROP de l'apercu.
-
-   Regle d'or : un drop ne touche JAMAIS au DOM directement. Il modifie l'ETAT, puis
-   l'apercu est reconstruit depuis l'etat. L'etat reste la source de verite unique,
-   donc l'apercu et le code genere ne peuvent pas diverger.
-
-   Trois mouvements, tous traites par la meme fonction (dropIntoGroup) :
-     - reordonner dans un groupe   -> recalcul des order du groupe
-     - vers la reserve             -> hidden = true
-     - depuis la reserve / un autre groupe -> hidden = false, group = cible, order recalcule
-
-   Le deplacement inter-groupes est traduit en JS par le generateur (le CSS seul ne peut
-   pas deplacer un noeud vers un autre conteneur flex parent) ; voir generator.js.
-
-   Les boutons custom (state.custom, prefixe "pmt_" sur data-sceditor-command) suivent la
-   meme logique de reordonnancement/reserve mais dans leur seul groupe dedie (pas de
-   groupe natif, pas de deplacement inter-groupes) : dropCustomButton, en parallele de
-   dropIntoGroup. */
+/* pimp-my-toolbar/ui/dnd.js — drag & drop de l'apercu (un drop modifie l'ETAT, jamais le DOM) */
 
 const MIME = "text/pmt-command";
 const CUSTOM_PREFIX = "pmt_";
 
-/* Branche le drag & drop sur l'apercu et la reserve.
-   onChange() est appele apres toute modification d'etat (l'appelant rerend). */
+// Branche le drag & drop sur l'apercu et la reserve. onChange() est appele apres toute modification d'etat.
 export function bindDnd({ previewHost, reserveHost, state, onChange }) {
   let dragged = null; // commande en cours de deplacement
 
@@ -140,9 +121,7 @@ function buttonUnderX(group, clientX) {
   return null;
 }
 
-/* Applique un depot dans un groupe (natif ou non) : calcule la nouvelle position et
-   reecrit les order. Un changement de groupe est accepte ; sa traduction (deplacement
-   physique du bouton, impossible en CSS seul) est du ressort du generateur. */
+// Applique un depot dans un groupe (natif ou non) : calcule la nouvelle position et reecrit les order
 function dropIntoGroup(state, command, targetGroup, groupEl, clientX) {
   const btn = state.buttons[command];
   if (!btn) return;
@@ -188,9 +167,7 @@ function normalizeOrders(state, groupIndex) {
     });
 }
 
-/* Applique un depot dans le groupe custom : reordonnancement uniquement (un seul groupe,
-   pas de deplacement inter-groupes possible pour ces boutons). Meme logique de calcul de
-   position que dropIntoGroup, adaptee a state.custom (tableau, pas objet par commande). */
+// Applique un depot dans le groupe custom : reordonnancement uniquement (un seul groupe)
 function dropCustomButton(state, id, groupEl, clientX) {
   const btn = state.custom.find((c) => c.id === id);
   if (!btn) return;

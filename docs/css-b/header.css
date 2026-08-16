@@ -1,14 +1,8 @@
 /* ==========================================================================
-   header.css — Preset B. Meme structure (bar verticale + bandeau titre +
-   nav) que A, mais wordmark texte simple au lieu du degrade anime 190px, et
-   bar laterale en surface plate sombre au lieu de --flash-accent-3 saturee.
-   La nav retrouve son libelle texte (voir tweaks.css : la regle qui la
-   passait en icon-only n'existe pas dans ce preset) — plus dense a lire,
-   moins besoin de deviner ce que chaque icone represente.
+   header.css — Preset B
    ========================================================================== */
 
-/* Toggle de preset (A/B), en tete de la barre verticale : meme largeur
-   (60px) que [class*="pmf-header__bar-vertical"] .wrap plus bas. */
+/* Toggle theme */
 .pmf-theme-toggle {
   position: fixed;
   top: 0;
@@ -80,12 +74,7 @@
 }
 
 
-/* Nav principale : liste à puces FA transformée en barre horizontale.
-   Les <img> d'icônes natives FA (src cassé vers 2img.net) sont masquées ; l'icône
-   affichée est un ::before sur le lien, peint via les variables --icon-* du pack actif
-   (voir icons/tabler.css + dictionnaire dans icon.css). Ici le libelle texte reste
-   visible a cote (pas d'icon-only) : c'est le pack d'icones commun, seule la mise en
-   forme differe de A. */
+/* Nav principale */
 .pmf-nav {
   display    : flex;
   flex-wrap  : wrap;
@@ -118,8 +107,7 @@
   background: var(--color-bg-soft);
 }
 
-/* Icône de nav : un ::before par lien, recoloré via currentColor (donc il suit
-   .mainmenu / .mainmenu:hover automatiquement). */
+/* Icône de nav */
 .pmf-nav .mainmenu::before {
   content              : "";
   display              : inline-block;
@@ -136,8 +124,7 @@
   mask-position        : center;
 }
 
-/* Liens fixes ModernBB : identifiables par href (stable, contrairement aux id
-   i_icon_mini_* qui dépendent de l'ordre d'affichage des liens dans l'ACP). */
+/* Liens fixes ModernBB */
 .pmf-nav a[href="/"]::before {
   -webkit-mask-image: var(--icon-home);
   mask-image        : var(--icon-home);
@@ -183,9 +170,7 @@
   mask-image        : var(--icon-logout);
 }
 
-/* Elements FA integres dans la navbar par js/modules/fa-toolbar-merge.js
-   (carte utilisateur #fa_usermenu, menu #fa_menu/#fa_menulist, recherche
-   #fa_search, notifications #fa_notifications/#notif_list). */
+/* Éléments FA intégrés dans la navbar */
 div#fa_usermenu img {
   width: 40px;
   border-radius: var(--radius);
@@ -220,9 +205,7 @@ ul#fa_menulist a::before {
   mask-position: center;
 }
 
-/* Un lien = une regle, cible par fragment d'URL stable (pas d'id/classe FA
-   sur ces <a>). Attention aux substrings qui se recoupent (/u1 apparait
-   aussi dans /sta/u1 et /spa/u1, d'ou les :not() sur le lien profil). */
+/* Icônes menu utilisateur */
 ul#fa_menulist a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])::before {
   -webkit-mask-image: var(--icon-user);
   mask-image        : var(--icon-user);
@@ -295,7 +278,7 @@ ul#notif_list {
   margin-left: 60px;
 }
 
-/* Toggle mobile (checkbox-hack natif ModernBB, repris tel quel) */
+/* Toggle mobile */
 .menu-btn {
   position      : absolute;
   opacity       : 0;
@@ -352,8 +335,7 @@ ul#notif_list {
   }
 }
 
-/* Wordmark texte simple, accent unique — remplace le titre 190px multi-
-   degrade de A (et ses ::before/::after de superposition SVG). */
+/* Wordmark */
 .pmf-site-desc__title, .pmf-site-desc__title > h1 {
   font-family    : var(--font-title);
   color          : var(--color-text);

@@ -1,7 +1,5 @@
 /* ==========================================================================
-   components/reactions-admin.css — panneau de config des reactions actives
-   par topic (docs/js/modules/reactions.js). Mont eseulement pour les
-   mods/admins (viewtopic_body.html, bloc viewtopic_bottom).
+   components/reactions-admin.css
    ========================================================================== */
 
 .pmf-reactions-admin__toggle {

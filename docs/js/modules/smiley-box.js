@@ -1,25 +1,5 @@
 /* modules/smiley-box.js — reprend la main sur le picker de smileys (#smiley-box) sans le
-   recreer : le frame /smilies?mode=smilies_frame est same-origin, donc son contentDocument
-   est accessible depuis la page. Limites natives corrigees ici :
-     - tout CSS injecte dans le <head> du frame disparait des qu'on change de categorie de
-       smileys, car le <select> natif declenche une vraie navigation qui recharge le document ;
-     - impossible de cibler ce contenu depuis la feuille de style principale (le frame reste
-       un document distinct malgre le same-origin) ;
-     - la hauteur du frame est figee en dur par FA (attribut height="350"), sans rapport avec
-       le nombre reel de smileys d'une categorie.
-   Le <select>/<form> natifs sont remplaces par une barre d'onglets construite a partir de
-   leurs <option> (memes categories, navigation maison), plus un onglet "Recents" (localStorage,
-   aucun fetch). Seule la grille .smiley-element est fetchee et remplacee au clic ; les onglets
-   et le <head> (donc notre <link> injecte) restent des noeuds stables jamais reconstruits.
-   Chaque categorie deja chargee est mise en cache (state.cache) : plus de refetch au 2e clic.
-   Un jeton (state.token) invalide les reponses perimees si l'utilisateur change d'onglet avant
-   qu'un fetch precedent ait repondu.
-   La delegation de clic sur les smileys, posee une seule fois sur le body, cible #pmf-smiley-grid
-   (id qu'on pose nous-memes sur le conteneur persistant) plutot que les id="smiley_N" internes
-   a FA : ca fonctionne aussi bien sur le contenu FA que sur les <img> reconstruits pour l'onglet
-   Recents. L'insertion reutilise le point d'entree natif : le frame appelle normalement
-   parent.insertIntoEditor(code) -> ici directement window.insertIntoEditor, puisqu'on est deja
-   au niveau de la page top. */
+   recreer, via le contentDocument same-origin du frame /smilies?mode=smilies_frame */
 
 const SMILEY_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/components/smiley-box.css";
 const RECENT_KEY = "pmf-smiley-recent";
@@ -50,10 +30,7 @@ function setup(doc, iframe) {
   buildTabs(doc, iframe);
 }
 
-// Construit la barre d'onglets (Recents + categories FA) a partir des <option> du <select>
-// natif, puis le remplace. Ne s'execute qu'une fois par document de frame (garde _pmfBound) :
-// les changements d'onglet suivants passent par selectTab()/showRecent(), qui ne touchent
-// que la grille.
+// Construit la barre d'onglets (Recents + categories FA) a partir des <option> du <select> natif
 function buildTabs(doc, iframe) {
   if (doc.body._pmfBound) return;
 
@@ -64,11 +41,7 @@ function buildTabs(doc, iframe) {
 
   doc.body._pmfBound = true;
   grid.id = "pmf-smiley-grid";
-  // Le lot initial d'<img> porte encore le click jQuery natif du script FA (bind() au chargement
-  // de la frame, avant notre passage) : sans ca, il se declenche EN PLUS de notre delegation sur
-  // doc.body -> double insertion au premier clic. Reassigner innerHTML recree des noeuds neufs,
-  // donc sans ces listeners (les lots suivants viennent de fetch(), jamais de ce script -> non
-  // concernes).
+  // Recree des noeuds neufs pour perdre le click jQuery natif FA (evite une double insertion)
   grid.innerHTML = grid.innerHTML;
 
   // Etat par document de frame (un vrai rechargement de l'iframe -> nouveau doc -> etat neuf).
@@ -115,8 +88,7 @@ function activateTab(btn) {
   [...btn.parentNode.children].forEach((b) => b.classList.toggle("is-active", b === btn));
 }
 
-// Categorie FA : cache-first, sinon fetch (avec jeton anti-course) qui ne remplace que la
-// grille — les onglets et le <head> du frame ne sont jamais reconstruits.
+// Categorie FA : cache-first, sinon fetch (avec jeton anti-course)
 function selectTab(doc, iframe, btn, categ, grid, state) {
   activateTab(btn);
 
@@ -149,8 +121,7 @@ function selectTab(doc, iframe, btn, categ, grid, state) {
     });
 }
 
-// Onglet "Recents" : rendu synchrone depuis localStorage, aucun fetch -> le jeton est quand
-// meme incremente pour qu'une reponse de categorie encore en vol n'ecrase pas cette vue.
+// Onglet "Recents" : rendu synchrone depuis localStorage, aucun fetch
 function showRecent(doc, btn, grid, state) {
   activateTab(btn);
   state.token++;
@@ -194,10 +165,7 @@ function recordRecent(img) {
   }
 }
 
-// Cale la hauteur de l'iframe sur son contenu reel plutot que le height="350" fige par FA.
-// ResizeObserver capte tout changement de taille du document du frame, quelle qu'en soit la
-// cause (changement d'onglet, chargement du CSS injecte, images...) : pas besoin de recalculer
-// a la main a chaque endroit qui touche la grille.
+// Cale la hauteur de l'iframe sur son contenu reel plutot que le height="350" fige par FA
 function watchHeight(doc, iframe) {
   if (!window.ResizeObserver) return;
   const ro = new ResizeObserver(() => {

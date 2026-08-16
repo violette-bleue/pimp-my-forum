@@ -1,16 +1,4 @@
-/* pimp-my-forum/css/icons/icon.css — rendu generique, indifferent au pack charge (voir
-   icons/<pack>.css, ex. tabler.css). Le trick fonticon-like : un attribut plutot qu'une
-   classe par icone, deux variantes selon le besoin de recoloration :
-
-     [icon="x"]      -> image telle quelle (background-image). Pour un SVG deja fini
-                        (multi-couleur ou couleur volontaire) : pas de recoloration CSS.
-     [icon-mask="x"] -> masque (mask-image) + currentColor. Pour une icone mono-couleur
-                        qu'on veut pouvoir teinter en CSS (couleur, hover...).
-
-   <div icon="bold"></div>        <div icon-mask="bold" style="color:red"></div>
-
-   Une regle par entree du dictionnaire ci-dessous, generee une fois pour toutes : changer
-   de pack ne touche QUE le fichier de variables, jamais ces regles. */
+/* pimp-my-forum/css/icons/icon.css — rendu générique, indifférent au pack chargé */
 
 [icon] {
   display: inline-block;
@@ -47,10 +35,7 @@
 [icon="underline"]      { background-image: var(--icon-underline); }
 [icon-mask="underline"] { -webkit-mask-image: var(--icon-underline); mask-image: var(--icon-underline); }
 
-/* --- Entrees ajoutees pendant la conversion des templates FA (source: pack Ionicons
-   d'origine) — noms releves au fil des templates, PAS de correspondance --icon-* encore
-   fournie (voir tabler.css). Rendu invisible tant que la variable n'existe pas : etat de
-   transition attendu, a completer quand le pack sera etoffe. */
+/* --- Entrées ajoutées pendant la conversion des templates FA --- */
 
 [icon="close"]      { background-image: var(--icon-close); }
 [icon-mask="close"] { -webkit-mask-image: var(--icon-close); mask-image: var(--icon-close); }
@@ -145,8 +130,7 @@
 [icon="home"]      { background-image: var(--icon-home); }
 [icon-mask="home"] { -webkit-mask-image: var(--icon-home); mask-image: var(--icon-home); }
 
-/* --- Navbar (voir header.css) — cles ajoutees pour couvrir les liens fixes ModernBB
-   non deja presents ci-dessus (home/search/user/message existaient deja). --- */
+/* --- Navbar --- */
 
 [icon="calendar"]      { background-image: var(--icon-calendar); }
 [icon-mask="calendar"] { -webkit-mask-image: var(--icon-calendar); mask-image: var(--icon-calendar); }

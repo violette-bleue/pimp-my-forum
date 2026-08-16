@@ -1,16 +1,4 @@
-/* pimp-my-toolbar/ui/tool.css
-   Habillage de l'interface de l'outil.
-
-   Deux rendus distincts, volontairement :
-     - la TOOLBAR SIMULEE (#pmt-preview) est stylee par le CSS GENERE (scope a cette zone),
-       pour etre le reflet exact de ce que l'utilisateur obtiendra sur son forum ;
-     - la RESERVE (.pmt-reserve-zone) est stylee ici, en pastilles de texte lisibles.
-       Elle n'herite pas du CSS genere (sinon les boutons masques y seraient invisibles,
-       puisque le masquage est justement un display:none sur la commande).
-
-   Utilise directement les tokens du site (--color-*, --radius, definis dans
-   docs/css/tokens.css) : l'outil est une page autonome DU forum vitrine, ces variables
-   sont donc toujours presentes, pas besoin de repli local. */
+/* pimp-my-toolbar/ui/tool.css — habillage de l'interface de l'outil */
 
 @import url("../../tools.css");
 
@@ -918,10 +906,7 @@ img.smiley {
   border-color: var(--color-accent-2);
 }
 
-/* Couleur d'icone par defaut dans l'apercu : sans ca, le CSS du forum hote peut
-   rendre les glyphes blancs (donc invisibles sur fond blanc). Le CSS genere par
-   l'utilisateur, s'il definit une couleur, prendra le dessus (il est plus specifique
-   une fois scope, et porte !important). */
+/* Couleur d'icone par defaut dans l'apercu (le CSS genere par l'utilisateur prend le dessus si defini) */
 .pmt-preview .sceditor-button {
   cursor: pointer;
 }
@@ -930,8 +915,7 @@ img.smiley {
   color: var(--color-text);
 }
 
-/* Sans pack applique : on laisse le libelle natif visible pour que l'apercu reste
-   lisible (sur le vrai forum, ce sont les icones sprite natives qui s'affichent). */
+/* Sans pack applique : libelle natif visible pour que l'apercu reste lisible */
 .pmt-preview .sceditor-button div {
   font-size  : 11px;
   color      : var(--color-text);

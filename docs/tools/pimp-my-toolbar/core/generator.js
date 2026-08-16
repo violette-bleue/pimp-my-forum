@@ -1,24 +1,4 @@
-/*  pimp-my-toolbar/core/generator.js
-   Le GENERATEUR serialise l'etat en code pret a coller : { css, js }.
-
-   Principe :
-     - CSS = gros du livrable. Diff minimal pour masquage / ordre (on ne genere que ce qui
-       s'ecarte du natif). Le pack d'icones est un bloc coherent tout-ou-rien (appliquer un
-       pack = remplacer toutes les icones natives), genere si applyPack=true.
-     - JS = minimal, uniquement si des boutons custom existent (creation du groupe dedie
-       + cablage des actions). Aucun JS pour masquage/ordre/style (tout CSS).
-
-   VARIABLES CSS : le bloc genere declare ses reglages en variables sur .sceditor-toolbar
-   (taille des boutons, gap, taille/couleur des icones, police du pack, rayon). Elles sont
-   scopees a la toolbar (pas de pollution globale) et heritees par les groupes et boutons.
-   Consequence pratique : l'utilisateur a un seul endroit a modifier pour tout repercuter,
-   et changer de pack ne demande de toucher qu'a --pmt-font-pack.
-
-   Conventions :
-     - ciblage par [data-sceditor-command="X"] (semantique, stable)
-     - !important systematique (le CSS natif FA est coriace)
-     - @import du pack en toute premiere ligne du CSS
-*/
+/* pimp-my-toolbar/core/generator.js — serialise l'etat en code pret a coller : { css, js } */
 
 import { getPack } from "../data/packs.js";
 import { TOOLBAR_REFERENCE, ALL_COMMANDS, NATIVE_GROUP } from "../data/toolbar-reference.js";
@@ -32,8 +12,7 @@ const DEFAULTS = {
   radius: "6px"
 };
 
-// Alignement des groupes dans la toolbar (justify-content) : flex-start/flex-end plutot
-// que left/right, pour un support flex plus large.
+// Alignement des groupes dans la toolbar (justify-content)
 const ALIGN_TO_JUSTIFY = {
   left: "flex-start",
   center: "center",
@@ -74,8 +53,7 @@ function generateCss(state, applyPack) {
   // 2. Variables : le seul endroit a modifier pour ajuster l'ensemble.
   blocks.push(varsBlock(state, pack, applyPack));
 
-  // 3. Disposition de la toolbar (flex + retour a la ligne) : toujours applique,
-  // independant du pack d'icones (c'est un sujet de mise en page, pas d'icone).
+  // 3. Disposition de la toolbar (flex + retour a la ligne)
   blocks.push(toolbarLayoutBlock());
 
   // 4. Socle + icones du pack (tout-ou-rien).
@@ -93,19 +71,15 @@ function generateCss(state, applyPack) {
     );
   }
 
-  // 6. Ordre intra-groupe (diff : uniquement les groupes dont l'ordre differe du natif).
-  // Les groupes touches par un deplacement inter-groupes sont geres par le JS genere
-  // (ci-dessous) : le CSS seul ne sait pas deplacer un bouton vers un autre groupe.
+  // 6. Ordre intra-groupe (diff). Deplacement inter-groupes gere en JS (voir plus bas).
   const orderBlock = orderCss(state, affectedGroups(state));
   if (orderBlock) blocks.push(orderBlock);
 
-  // 7. Habillage optionnel (fonds, bordures, hover, disposition) : uniquement si defini
-  // dans l'etat.
+  // 7. Habillage optionnel (fonds, bordures, hover, disposition)
   const styleBlock = stylesCss(state);
   if (styleBlock) blocks.push(styleBlock);
 
-  // 8. Editeur collant au scroll (facultatif). Hors du sous-arbre .sceditor-* : cible le
-  // posting box FA lui-meme, donc a part du reste du socle.
+  // 8. Editeur collant au scroll (facultatif)
   if (state.styles.toolbar && state.styles.toolbar.sticky) blocks.push(stickyBlock());
 
   return blocks.filter(Boolean).join("\n\n") + "\n";
@@ -135,10 +109,7 @@ function varsBlock(state, pack, applyPack) {
 }`;
 }
 
-// Disposition de la toolbar et des groupes : flex + retour a la ligne, plus reset du
-// fond/bordure natifs FA (regles parasites qui autrement passent devant l'habillage
-// choisi par l'utilisateur). Toujours emis (independant du pack : la disposition n'a
-// rien a voir avec le choix des icones).
+// Disposition de la toolbar + reset des regles natives FA parasites (fond, bordure)
 function toolbarLayoutBlock() {
   return `/* Disposition + reset des regles natives parasites (fond, bordure) */
 .sceditor-toolbar,
@@ -150,9 +121,7 @@ function toolbarLayoutBlock() {
 }`;
 }
 
-// Socle + reset : neutralise le sprite natif, dimensionne et centre le bouton, masque le
-// libelle, prepare ::before avec la police du pack. Les groupes passent en flex pour le gap
-// (et pour rendre le reordonnancement par order possible).
+// Socle + reset : neutralise le sprite natif, prepare ::before avec la police du pack
 function iconResetBlock() {
   return `/* Socle : dimensions, centrage, neutralisation du sprite natif */
 .sceditor-toolbar .sceditor-group {
@@ -230,9 +199,7 @@ function affectedGroups(state) {
   return affected;
 }
 
-// Ordre intra-groupe : pour chaque groupe dont l'ordre courant differe du natif, on pose
-// un order:N sur ses boutons. Les groupes sont deja en flex via le socle. Les groupes
-// affectes par un deplacement inter-groupes sont ignores ici (geres en JS).
+// Ordre intra-groupe : pose order:N sur les boutons d'un groupe qui differe du natif
 function orderCss(state, affected) {
   const out = [];
   TOOLBAR_REFERENCE.forEach((group, groupIndex) => {
@@ -253,8 +220,7 @@ function orderCss(state, affected) {
   return out.length ? "/* Ordre intra-groupe */\n" + out.join("\n") : "";
 }
 
-// Habillage optionnel : fonds, bordures, espacements, disposition de la toolbar et des
-// groupes. Taille, gap, couleurs d'icone passent par les variables, pas ici.
+// Habillage optionnel : fonds, bordures, espacements, disposition
 function stylesCss(state) {
   const s = state.styles || {};
   const out = [];
@@ -273,8 +239,7 @@ function stylesCss(state) {
     const prop = tb.direction === "column" ? "align-items" : "justify-content";
     tbDecl.push(`${prop}: ${ALIGN_TO_JUSTIFY[tb.align]} !important;`);
   }
-  // Le socle pose deja flex-wrap:wrap par defaut ; ici on ne pose que l'exception (nowrap),
-  // qui l'emporte grace a l'ordre des regles (meme selecteur, meme poids, la derniere gagne).
+  // Le socle pose deja flex-wrap:wrap ; ici on pose seulement l'exception (nowrap)
   if (tb.wrap === "nowrap") tbDecl.push("flex-wrap: nowrap !important;");
   if (tb.border) tbDecl.push(`border: ${tb.border} !important;`);
   if (tbDecl.length) out.push(`.sceditor-toolbar {\n  ${tbDecl.join("\n  ")}\n}`);
@@ -298,8 +263,7 @@ function stylesCss(state) {
   return out.length ? "/* Habillage */\n" + out.join("\n\n") : "";
 }
 
-// Editeur collant : la position:sticky exige qu'aucun ancetre n'ait d'overflow different
-// de visible, d'ou le reset sur #postingbox (sinon le sticky est silencieusement ignore).
+// Editeur collant au scroll
 function stickyBlock() {
   return `/* Editeur collant au scroll */
 #postingbox {
@@ -313,10 +277,7 @@ function stickyBlock() {
 
 // --- JS (uniquement si necessaire : boutons custom et/ou deplacement inter-groupes) ---
 
-// Deplace physiquement les boutons des groupes affectes vers leur groupe/position cible.
-// Un appendChild sur un noeud deja present dans le DOM le deplace (pas de clone) ; en
-// egrenant chaque groupe affecte dans l'ordre cible, la sequence d'appendChild suffit
-// a la fois a le deplacer ET a le positionner correctement.
+// Deplace physiquement les boutons des groupes affectes vers leur position cible
 function reorgSnippet(state, affected) {
   const layout = {};
   affected.forEach((groupIndex) => {

@@ -1,31 +1,5 @@
-/* pimp-my-toolbar/core/state.js
-   L'ETAT est le pivot de l'outil : source de verite unique que l'interface edite,
-   que l'apercu lit, et que le generateur serialise en CSS/JS.
-
-   Forme de l'etat :
-   {
-     version: 1,
-     buttons: {                       // cle = data-sceditor-command
-       bold: { hidden:false, group:0, order:0, icon:null },  // icon null = glyphe du pack
-       ...                            // les 40 commandes
-     },
-     iconPack: "material",
-     custom: [                        // boutons custom (groupe dedie), reordonnables,
-       { id, label, icon, iconType:"glyph"|"image", type:"insert", payload, hidden, order }
-       // icon = nom de glyphe (pack actif) si iconType "glyph" (defaut), URL sinon
-       // hidden/order : comme les boutons natifs, gerent reserve + reordonnancement
-     ],
-     styles: { toolbar:{}, group:{}, button:{}, icon:{} }
-     // toolbar: { bg, padding, radius, border, direction:"row"|"column", maxWidth, gap,
-     //            align:"left"|"center"|"right", wrap:"wrap"|"nowrap", sticky:true }
-     // group:   { bg, border, radius, padding, gap, width }
-     // button:  { size, color, hoverColor, hoverBg, radius, bg, border, padding }
-     // icon:    { size }
-   }
-
-   L'etat initial reflete la toolbar NATIVE (rien de masque, ordre/groupe natifs,
-   aucune icone surchargee). Le generateur produit alors un diff minimal : un etat
-   initial pur -> CSS quasi vide (juste le pack d'icones si on veut l'appliquer). */
+/* pimp-my-toolbar/core/state.js — l'ETAT, pivot de l'outil (edite par l'interface,
+   lu par l'apercu, serialise en CSS/JS par le generateur) */
 
 import { TOOLBAR_REFERENCE } from "../data/toolbar-reference.js";
 import { DEFAULT_PACK } from "../data/packs.js";

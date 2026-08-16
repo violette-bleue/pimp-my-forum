@@ -1,10 +1,5 @@
 /* ==========================================================================
-   tokens.css — Preset B ("Nuit"). Meme dictionnaire de variables que le
-   preset A (docs/css/tokens.css) : c'est ce qui permet a tous les fichiers
-   de composants d'etre repris tels quels d'un preset a l'autre. Direction
-   volontairement opposee a A (poster neon/degrade multicolore) : surface
-   sombre, un seul accent chaud, densite plus resserree, coins arrondis
-   plutot que carres.
+   tokens.css — Preset B ("Nuit")
    ========================================================================== */
 @font-face {
     font-family: 'Porao Grottesche';
@@ -17,8 +12,7 @@
 
 
 :root {
-    /* Couleurs — surface sombre, un seul accent (ambre) au lieu du trio
-       violet/rose/jaune de A : moins "poster", plus "salle de lecture". */
+    /* Couleurs */
     --color-bg     : #14161c;
     --color-bg-dark: #0a0b0f;
     --color-bg-soft: #262933;
@@ -36,17 +30,13 @@
     --color-accent-2: #ff8181;
     --color-accent-3: #ffb454;
 
-    /* Typo — memes familles que A (deja chargees par le header, pas de
-       requete supplementaire), mais usage different : le corps de texte
-       reste lisible, les libelles/meta passent en mono resserre. */
+    /* Typo */
     --font-display: "Porao Grottesche", sans-serif;
     --font-title  : "Kode Mono", monospace;
     --font-body   : "Krub", sans-serif;
     --font-mono   : "Kode Mono", monospace;
 
-    /* Layout — coins arrondis (oppose au 0px de A), densite plus resserree,
-       colonne laterale et avatar nettement plus petits : l'idee est de
-       degager de la place pour le contenu plutot que la carte d'identite. */
+    /* Layout */
     --radius           : 12px;
     --gap              : 10px;
     --sidebar-width    : 190px;

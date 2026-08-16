@@ -1,23 +1,4 @@
-/* pimp-my-toolbar/data/packs.js
-   Packs d'icones. Un pack = une police d'icones + un mapping exhaustif
-   commande SCEditor -> glyphe (les 40 commandes de TOOLBAR_REFERENCE).
-
-   Structure d'un pack :
-     {
-       id, name,
-       font: { import: "<url @import de la police>", family: "<font-family>" },
-       icons: { <command>: "<glyphe>", ... },  // exhaustif : les 40 commandes
-       commonIcons: ["<glyphe>", ...]          // selection courante pour le dropdown
-                                                // des boutons personnalises (pas exhaustif :
-                                                // le champ libre reste le repli complet)
-     }
-
-   Decliner un pack = copier cette structure, changer font + les valeurs de icons.
-   Les CLES de icons sont invariantes (ce sont les commandes SCEditor) ; seules les
-   VALEURS (glyphes) et la police changent d'un pack a l'autre.
-
-   Le "value" (glyphe) est ce qui part dans le CSS (content) ; la police est chargee
-   via font.import (CDN officiel pour une police publique, jsDelivr pour un pack maison). */
+/* pimp-my-toolbar/data/packs.js — packs d'icones (police + mapping commande -> glyphe) */
 
 export const PACKS = {
   material: {

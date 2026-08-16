@@ -1,7 +1,5 @@
 /* ==========================================================================
-   components/select.css — mirror du <select> natif genere par
-   js/modules/select-mirror.js (le <select> reste dans le DOM, juste hidden ;
-   ce fichier ne stylise que le trigger/panel de remplacement).
+   components/select.css
    ========================================================================== */
 
 .pmf-select {
@@ -64,11 +62,7 @@
   box-shadow: 0 0px 10px var(--flash-accent-3);
 }
 
-/* Couleurs de degrade enregistrees en <color> pour permettre une VRAIE
-   transition (interpolation continue) au lieu du saut sec d'un linear-gradient
-   a l'autre. initial-value ne peut pas referencer var(--color-accent) (valeur
-   figee exigee par la spec @property) : garder ces hex synchros avec
-   tokens.css si les accents changent. */
+/* Couleurs de dégradé */
 @property --pmf-option-color-1 {
   syntax: '<color>';
   inherits: true;

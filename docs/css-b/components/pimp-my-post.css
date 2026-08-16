@@ -2,9 +2,6 @@
    # 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა from Pimp my forum by misenasha 🌈
    ========================================================================== */
 
-/* :where() ramene la specificite de ce bloc a zero : n'importe quel ":root { --pimpmypost-x: .. }"
-   ecrit par le forum le bat automatiquement, sans !important et quel que soit l'ordre de
-   chargement des feuilles (cette CSS est injectee en JS, donc tard dans le <head>). */
 :where(:root) {
   /* Fond principal (editeur CodeMirror + panneau formulaire) */
   --pimpmypost-color-bg: #1e1e22;
@@ -68,7 +65,7 @@ span:has(.cm-comment) {
   font-weight: 600;
 }
 
-/* Noms d'attribut : apres le = en BBCode, ou class/id/... en HTML */
+/* Noms d'attribut */
 .cm-s-pmf .cm-attribute {
   color: var(--pimpmypost-color-attribute);
 }
@@ -91,13 +88,13 @@ span:has(.cm-comment) {
   color: var(--pimpmypost-color-value);
 }
 
-/* Commentaires HTML <!-- ... --> : discret et italique */
+/* Commentaires HTML */
 .cm-s-pmf .cm-comment {
   color     : var(--pimpmypost-color-muted);
   font-style: italic;
 }
 
-/* Curseur et selection accordes a la palette */
+/* Curseur et sélection */
 .cm-s-pmf .CodeMirror-cursor {
     border-left: 3px solid var(--pimpmypost-color-accent);
     border-radius: 10px;
@@ -110,7 +107,7 @@ span:has(.cm-comment) {
   background: var(--pimpmypost-color-bg-inset);
 }
 
-/* Apercu inline d'un code smiley reconnu (voir setupSmileyPreview dans pimp-my-post.js) */
+/* Aperçu inline d'un smiley */
 .pmf-cm-smiley {
   max-width : 20px;
   max-height: 20px;
@@ -137,7 +134,7 @@ span:has(.cm-comment) {
   margin    : 0;
 }
 
-/* Groupe = un element cible (fieldset + legende = data-label) */
+/* Groupe */
 .pmf-pmp-group {
   border-radius: var(--pimpmypost-radius);
   padding      : 0.75rem 1rem 1rem;
@@ -154,7 +151,7 @@ span:has(.cm-comment) {
   padding    : 0 0.4rem;
 }
 
-/* Champ = un couple label + input/select/textarea */
+/* Champ */
 .pmf-pmp-field {
   display       : flex;
   flex-direction: column;

@@ -6,8 +6,7 @@
   box-sizing: border-box;
 }
 
-/* min(1200px, 94%) plutot que le 60% fixe de A : plus dense sur petit
-   ecran, plafonne large plutot que de continuer a s'etirer sur grand ecran. */
+/* Largeur du wrap */
 #wrap.pmf-wrap {
   width: min(1200px, 94%);
   margin: auto;
@@ -49,9 +48,7 @@
   text-align: center;
 }
 
-/* Grille utilitaire native FA (.grid-1 a .grid-5 : N colonnes), reutilisee
-   telle quelle par plusieurs gabarits (profil, galerie...) plutot que
-   redefinie a chaque fois. */
+/* Grille utilitaire FA */
 .grid-1,
 .grid-2,
 .grid-3,

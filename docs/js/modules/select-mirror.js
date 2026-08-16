@@ -1,11 +1,5 @@
 /* modules/select-mirror.js — remplace le rendu du <select> natif par un
-   trigger/panel stylables (la liste deroulante ouverte d'un <select> ne peut
-   pas etre stylee en CSS pur, cross-browser). Le <select> d'origine reste
-   dans le DOM (juste hidden) : valeur/name/soumission de formulaire et
-   scripts FA qui l'ecoutent via "change" continuent de fonctionner tel quel.
-
-   Opt-out par select : data-pmf-skip. Les <select multiple> sont ignores
-   (UI a repenser, pas un simple trigger/panel). */
+   trigger/panel stylables. Opt-out par select : data-pmf-skip. */
 
 let uid = 0;
 

@@ -1,8 +1,6 @@
 /* ==========================================================================
    components/post-form.css — .pmf-form-block (posting_body et gabarits liés :
-   FAQ, formulaires de contact...). Champs stylés par sélecteurs descendants
-   (label/input/checkbox natifs) plutôt qu'en reclassant chaque template FA
-   un par un — un seul socle, décliné partout où .pmf-form-block apparaît.
+   FAQ, formulaires de contact...)
    ========================================================================== */
 
 .pmf-form-block {
@@ -29,16 +27,11 @@
   padding: 1em;
 }
 
-/* Champs "sucre" du gabarit FA : <label><span>Libellé</span> contrôle</label>,
-   répété tel quel partout — stylé une fois ici plutôt que reclassé. */
 .pmf-form-block__body label {
   display: block;
   margin-bottom: 0.75em;
 }
 
-/* :not(.radio):not(.checkbox) exclut le span de contrôle des labels
-   radio/checkbox (icône de sujet, options à cocher) — ce ne sont pas des
-   libellés texte, ne pas les rétrécir/aplatir comme les autres. */
 .pmf-form-block__body label > span:first-child:not(.radio):not(.checkbox) {
   display: block;
   margin-bottom: 0.25em;

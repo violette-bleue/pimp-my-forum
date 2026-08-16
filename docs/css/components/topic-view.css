@@ -1,8 +1,6 @@
 /* ==========================================================================
    components/topic-view.css — .pmf-post (viewtopic_body), fiche identité +
-   contenu d'un message. Colonne profil en grid, largeur pilotée par
-   --sidebar-width (même curseur que le sidebar de mise en page — même
-   nature : colonne latérale fixe).
+   contenu d'un message
    ========================================================================== */
 
 .pmf-quick-nav {

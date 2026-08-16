@@ -1,10 +1,5 @@
-/* pimp-my-toolbar/data/toolbar-reference.js
-   Reference figee de la toolbar SCEditor ForumActif : les 40 commandes dans leur
-   ordre et groupe natifs, telles qu'observees sur le DOM reel (structure stable).
-   Sert de base a l'etat initial de l'outil. Cle de chaque bouton = data-sceditor-command.
-
-   Chaque groupe = un tableau de commandes. L'index du groupe (0..9) est son identifiant.
-   Les libelles (title FA) sont fournis a titre indicatif pour l'UI (apercu, tooltips). */
+/* pimp-my-toolbar/data/toolbar-reference.js — reference figee de la toolbar SCEditor FA
+   (40 commandes, ordre et groupe natifs) */
 
 export const TOOLBAR_REFERENCE = [
   // G0 — mise en forme texte

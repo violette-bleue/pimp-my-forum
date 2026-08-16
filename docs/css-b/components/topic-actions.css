@@ -38,8 +38,7 @@
   margin: 0;
 }
 
-/* Panneau de tri deroulant (viewforum) : #sort-btn recoit .expanded en JS
-   (voir le script inline du template), le panneau suit en sibling. */
+/* Panneau de tri déroulant */
 #sort-box {
   position: relative;
 }

@@ -2,9 +2,6 @@
    # 🌈 ૮ ˶ᵔ ᵕ ᵔ˶ ა from Pimp my forum by misenasha 🌈
    ========================================================================== */
 
-/* :where() ramene la specificite de ce bloc a zero : n'importe quel ":root { --pimpmypost-x: .. }"
-   ecrit par le forum le bat automatiquement, sans !important et quel que soit l'ordre de
-   chargement des feuilles (cette CSS est injectee en JS, donc tard dans le <head>). */
 :where(:root) {
   /* Fond principal (editeur CodeMirror + panneau formulaire) */
   --pimpmypost-color-bg: #1e1e22;

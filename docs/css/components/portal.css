@@ -1,9 +1,5 @@
 /* ==========================================================================
-   components/portal.css — contenu propre aux widgets du portail
-   (mod_*.html). Les coquilles (titre/corps) sont déjà couvertes par
-   .pmf-panel ; ce fichier ne couvre que le contenu interne spécifique à
-   chaque widget (natif FA, non renommé — trop de variantes pour justifier
-   une convention pmf-* dédiée à ce stade).
+   components/portal.css — contenu propre aux widgets du portail (mod_*.html)
    ========================================================================== */
 
 /* ---- mod_recent_topics ---------------------------------------------------- */

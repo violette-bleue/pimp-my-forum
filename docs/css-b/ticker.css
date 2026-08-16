@@ -12,8 +12,7 @@
   width: 10px;
 }
 
-/* Le spacing dépend d'une valeur admin FA (switch_ticker.SPACING) :
-   appliqué dynamiquement en JS via une variable CSS plutôt qu'en inline template. */
+/* Spacing */
 .jcarousel-skin-tango .jcarousel-item-horizontal {
   margin-right: var(--ticker-spacing, 5px);
 }

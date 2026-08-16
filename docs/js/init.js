@@ -110,6 +110,12 @@ function initModules() {
     import("./modules/select-mirror.js").then((m) => m.init());
   }
 
+  // Conditionnel : widget partenaires, deplace juste apres la ligne du forum
+  // "Contact & Partenariat" dans la liste des forums (page d'accueil).
+  if (document.getElementById("pmf-widget-partenaires")) {
+    import("./modules/partners-widget.js").then((m) => m.init());
+  }
+
   // Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
   const pmtApp = document.getElementById("pmt-app");
   if (pmtApp) {

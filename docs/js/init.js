@@ -110,6 +110,12 @@ function initModules() {
     import("./modules/select-mirror.js").then((m) => m.init());
   }
 
+  // Conditionnel : classes stables pmf-forum-<id>/pmf-categorie-<position> sur
+  // la liste des forums (index_box), pour cibler en CSS sans :has().
+  if (document.querySelector(".pmf-forum-row, .pmf-category")) {
+    import("./modules/forum-classes.js").then((m) => m.init(cfg.forumClasses));
+  }
+
   // Conditionnel : widget partenaires, deplace juste apres la ligne du forum
   // "Contact & Partenariat" dans la liste des forums (page d'accueil).
   if (document.getElementById("pmf-widget-partenaires")) {

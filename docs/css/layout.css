@@ -19,6 +19,11 @@
   grid-column: 1 / -1;
 }
 
+/* Ordre visuel fixe, independant de l'ordre reel dans le DOM */
+#wrap.pmf-wrap > .pmf-sidebar--left { order: 1; }
+#wrap.pmf-wrap > .pmf-content-grid { order: 2; }
+#wrap.pmf-wrap > .pmf-sidebar--right { order: 3; }
+
 .pmf-content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

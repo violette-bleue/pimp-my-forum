@@ -1,32 +1,27 @@
 /* ==========================================================================
-   wip.css — ajustements temporaires pour la vitrine pre-release du forum.
-   A SUPPRIMER (fichier + import dans init.css) a l'ouverture reelle.
+   ajustements temporaires prerelease
    ========================================================================== */
 
-/* Categorie 2 : masque l'entete pendant la phase pre-release. */
 .pmf-category.pmf-categorie-2 .pmf-category__header {
   display: none;
 }
 
-/* Marqueur "en construction" : force l'affichage en flex. */
 .pmf-wip {
   display: flex;
   gap: 5px;
 }
 
-/* Categorie 2 : liste des forums en flex (entete masquee ci-dessus). */
 .pmf-category.pmf-categorie-2 ul.pmf-category__list {
-  display: flex;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Slot board-index : colonne empilee pour la mise en page pre-release. */
 div[data-pmf-slot="board-index"] {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-/* pmf-wip : masque compteurs sujets/messages des lignes de forum. */
 .pmf-wip .pmf-forum-row__topics,
 .pmf-wip .pmf-forum-row__posts {
   display: none;

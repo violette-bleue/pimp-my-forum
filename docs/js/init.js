@@ -128,6 +128,12 @@ function initModules() {
     import("./modules/partners-widget.js").then((m) => m.init());
   }
 
+  // Conditionnel : contenu giefmod_index1/2 (index_box), deplace vers les
+  // ancres sidebar-left/right du header.
+  if (document.getElementById("pmf-widget-sidebar-left") || document.getElementById("pmf-widget-sidebar-right")) {
+    import("./modules/sidebar-widgets.js").then((m) => m.init());
+  }
+
   // Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
   const pmtApp = document.getElementById("pmt-app");
   if (pmtApp) {

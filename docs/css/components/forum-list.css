@@ -41,6 +41,8 @@
   background: var(--color-pannel);
   border-radius: var(--radius);
   overflow: hidden;
+  width: -webkit-fill-available;
+  width: stretch;
 }
 
 .pmf-category__header {

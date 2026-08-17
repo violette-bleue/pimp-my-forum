@@ -2,7 +2,8 @@
    pmf-widget-partenaires, contenu d'un widget HTML FA) juste apres le bloc
    titre/desc de la ligne du forum "Contact & Partenariat" dans la liste des
    forums (page d'accueil/categories). Le widget natif reste masque la ou FA
-   le rend par defaut (gere cote CSS) ; on ne recupere ici que son contenu. */
+   le rend par defaut ([id^="pmf-widget-"] dans layout.css) ; une fois
+   deplace vers son ancre, on le rend visible explicitement. */
 
 const PARTNERS_FORUM_HREF = "f6-contact-partenariat";
 
@@ -15,4 +16,5 @@ export function init() {
   if (!main) return;
 
   main.insertAdjacentElement("afterend", widget);
+  widget.style.display = "block";
 }

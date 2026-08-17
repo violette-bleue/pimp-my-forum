@@ -29,6 +29,7 @@
 
 .pmf-jumpbox {
   margin: var(--gap) 0;
+  display: none;
 }
 
 .pmf-jumpbox__row {

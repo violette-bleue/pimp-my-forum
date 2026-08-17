@@ -25,6 +25,9 @@
 
 .pmf-form-block__body {
   padding: 1em;
+  gap: var(--gap);
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .pmf-form-block__body label {
@@ -75,4 +78,18 @@
   border-top: 1px solid var(--color-bg-soft);
   font-family: var(--font-title);
   font-size: 0.9rem;
+}
+
+.pmf-editorbox {
+  display: flex;
+  gap: var(--gap);
+}
+
+.pmf-editorbox > div {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#message-box > br {
+  display: none;
 }

@@ -2,6 +2,10 @@
    recreer, via le contentDocument same-origin du frame /smilies?mode=smilies_frame */
 
 const SMILEY_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/components/smiley-box.css";
+// Le frame /smilies est un document distinct : les custom properties de tokens.css
+// (charge sur la page hote via le template FA) ne le traversent pas. On l'injecte
+// donc explicitement dans son <head> pour que smiley-box.css y retrouve ses vars.
+const TOKENS_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/tokens.css";
 const RECENT_KEY = "pmf-smiley-recent";
 const RECENT_MAX = 24;
 
@@ -26,6 +30,7 @@ export function init() {
 }
 
 function setup(doc, iframe) {
+  injectCss(doc, TOKENS_CSS);
   injectCss(doc, SMILEY_CSS);
   buildTabs(doc, iframe);
 }

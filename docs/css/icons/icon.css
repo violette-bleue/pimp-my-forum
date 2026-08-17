@@ -2,8 +2,8 @@
 
 [icon] {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+    width: var(--icon-size);
+    height: var(--icon-size);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -12,8 +12,8 @@
 
 [icon-mask] {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+    width: var(--icon-size);
+    height: var(--icon-size);
   background-color: currentColor;
   -webkit-mask-size: contain;
   mask-size: contain;

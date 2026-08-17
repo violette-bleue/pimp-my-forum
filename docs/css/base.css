@@ -140,8 +140,7 @@ input[type="range"]:focus::-moz-range-thumb{
 
   .pmf-pub-card {
     box-sizing: border-box;
-    width: 610px;
-    max-width: 100%;
+    width: 100%;
     padding: 20px;
     background: #fbfaff;
     color: #3a2c52;

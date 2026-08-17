@@ -80,6 +80,7 @@
   cursor: pointer;
   border-radius: var(--radius);
   transition: transform 0.1s ease;
+  max-width: 30px;
 }
 
 .smiley-element img:hover {

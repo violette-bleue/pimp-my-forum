@@ -86,6 +86,10 @@ span:has(.cm-comment) {
     padding: 0;
 }
 
+.sceditor-grip {
+  display: none;
+}
+
 /* Valeurs entre guillemets */
 .cm-s-pmf .cm-string {
   color: var(--pimpmypost-color-value);

@@ -81,8 +81,9 @@
 }
 
 .pmf-editorbox {
-  display: flex;
+  display: grid;
   gap: var(--gap);
+  grid-template-columns: 1fr 5fr;
 }
 
 .pmf-editorbox > div {
@@ -95,9 +96,8 @@
 }
 
 div#message-box div#textarea_content {
-  width: -webkit-fill-available !important;
-  width: stretch !important;
   height: stretch !important;
   display: flex;
   flex-direction: column;
+  width: 100% !important;
 }

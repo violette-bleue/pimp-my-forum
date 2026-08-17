@@ -33,6 +33,10 @@
   --pimpmypost-gap: 10px;
 }
 
+.pmf-cm-host {
+  height: 100%;
+}
+
 /* AJUSTEMENTS CODEMIRROR */
 .CodeMirror.cm-s-pmf {
   background   : var(--pimpmypost-color-bg);
@@ -41,8 +45,8 @@
   font-size    : inherit;
   line-height  : normal;
   border-radius: var(--pimpmypost-radius);
-  height       : auto;
   padding      : 4px 2px;
+  max-height   : 100%;
 }
 
 .CodeMirror-wrap pre.CodeMirror-line>span>span, .CodeMirror-wrap pre.CodeMirror-line-like>span>span {
@@ -79,7 +83,6 @@ span:has(.cm-comment) {
 .CodeMirror-scroll {
     overflow-y: auto !important;
     min-height: 200px;
-    max-height: 500px;
     padding: 0;
 }
 

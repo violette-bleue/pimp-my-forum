@@ -93,3 +93,11 @@
 #message-box > br {
   display: none;
 }
+
+div#message-box div#textarea_content {
+  width: -webkit-fill-available !important;
+  width: stretch !important;
+  height: stretch !important;
+  display: flex;
+  flex-direction: column;
+}

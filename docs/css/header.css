@@ -9,7 +9,7 @@
   left: 0;
   width: 50px;
   height: 50px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   border: none;
@@ -42,7 +42,6 @@
   top     : 50px;
   height  : 0;
   width   : 0;
-  animation-delay: 0;
 }
 
 [class*="pmf-header__bar"]>.wrap {
@@ -334,10 +333,6 @@ ul#notif_list {
 
 [class*="pmf-header__bar-vertical"] #notif_list {
   margin-left: 60px;
-}
-
-ul#notif_list[hidden] {
-  display: none;
 }
 
 /* Toggle mobile */

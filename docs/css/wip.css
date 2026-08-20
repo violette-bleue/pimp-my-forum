@@ -14,6 +14,7 @@
 .pmf-category.pmf-categorie-2 ul.pmf-category__list {
     display: flex;
     flex-direction: column;
+    overflow: visible;
 }
 
 div[data-pmf-slot="board-index"] {
@@ -25,4 +26,18 @@ div[data-pmf-slot="board-index"] {
 .pmf-wip .pmf-forum-row__topics,
 .pmf-wip .pmf-forum-row__posts {
   display: none;
+}
+.pmf-wip .pmf-forum-row__lastpost {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    display: flex;
+    background: var(--color-accent-3);
+    gap: var(--gap);
+    padding: 15px;
+    align-items: center;
+    overflow: v;
+}
+.pmf-wip .pmf-forum-row__lastpost span.pmf-forum-row__lastpost-info {
+    display: flex;
 }

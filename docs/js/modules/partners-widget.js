@@ -26,7 +26,14 @@ function initCarousel(widget) {
   const frames = Array.from(widget.querySelectorAll(".pmf-partenaires__frame"));
   const boutons = Array.from(widget.querySelectorAll(".pmf-partenaires__bouton"));
   const track = widget.querySelector(".pmf-partenaires__frames");
-  const dotsWrap = widget.querySelector(".pmf-partenaires__dots");
+  const stage = widget.querySelector(".pmf-partenaires__stage");
+  let dotsWrap = widget.querySelector(".pmf-partenaires__dots");
+  if (!dotsWrap && stage) {
+    dotsWrap = document.createElement("div");
+    dotsWrap.className = "pmf-partenaires__dots";
+    stage.insertAdjacentElement("afterend", dotsWrap);
+  }
+  if (dotsWrap) dotsWrap.textContent = ""; // vide le &nbsp; posé en dur (evite que FA supprime le bloc vide)
   const prevBtn = widget.querySelector(".pmf-partenaires__arrow--prev");
   const nextBtn = widget.querySelector(".pmf-partenaires__arrow--next");
   if (!framesWrap || !track || frames.length === 0) return;
@@ -37,7 +44,7 @@ function initCarousel(widget) {
     dot.className = "pmf-partenaires__dot";
     dot.setAttribute("aria-label", "Aller au partenaire " + (i + 1));
     dot.addEventListener("click", () => goTo(i, true));
-    dotsWrap.appendChild(dot);
+    if (dotsWrap) dotsWrap.appendChild(dot);
     return dot;
   });
 

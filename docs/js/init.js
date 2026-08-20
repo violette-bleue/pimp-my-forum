@@ -68,6 +68,9 @@ function initModules() {
   // #fa_toolbar dans la navbar plutot que de les laisser dans la barre FA.
   import("./modules/fa-toolbar-merge.js").then((m) => m.init());
 
+  // Toujours actif : raccroche les tableaux natifs FA (membres, moderation...) a .table1.
+  import("./modules/native-tables.js").then((m) => m.init());
+
   // Conditionnel : convertit les images des liens de menu custom (barre de
   // nav generee par FA) en icones du pack du site.
   if (document.querySelector("#modernbb-nav-menu a.mainmenu img")) {

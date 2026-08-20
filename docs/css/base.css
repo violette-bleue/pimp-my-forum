@@ -8,6 +8,7 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   margin: 0 !important;
+  animation: auto;
 }
  
 a {
@@ -62,8 +63,8 @@ img[src*="/smiles/"] {
 
 h1 {
     font-family: var(--font-mono);
-    font-size: 60px;
-    color: var(--color-accent-3);
+    font-size: 1.8rem;
+    color: var(--color-text);
     font-weight: normal;
 }
 input[type="range"] {

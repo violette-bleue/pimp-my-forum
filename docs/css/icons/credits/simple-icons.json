@@ -1,0 +1,9 @@
+{
+  "pack": "simple-icons (discord.svg uniquement)",
+  "author": "Simple Icons collective",
+  "source": "https://simpleicons.org/",
+  "repo": "https://github.com/simple-icons/simple-icons",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md",
+  "note": "Logo de marque (Discord) hors dictionnaire coolicons/tabler — utilise pour le lien discord du header et le lien nav custom, garde en couleur de marque fixe (pas de version [icon-mask])."
+}

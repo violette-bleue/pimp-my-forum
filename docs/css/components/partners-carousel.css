@@ -20,12 +20,17 @@
 
 .pmf-partenaires__bouton {
   display: inline-flex;
-  line-height: 0;
+  align-items: center;
+  line-height: normal;
   border: 2px solid transparent;
   border-radius: var(--radius);
-  padding: 2px;
-  transition: transform 0.15s ease, border-color 0.15s ease, filter 0.15s ease;
-  filter: grayscale(40%);
+  padding: 0.4em 0.9em;
+  background: var(--color-bg-soft);
+  color: var(--color-bg-dark);
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .pmf-partenaires__bouton img {
@@ -36,13 +41,13 @@
 
 .pmf-partenaires__bouton:hover,
 .pmf-partenaires__bouton:focus-visible {
-  filter: grayscale(0%);
+  background: var(--color-accent-3);
   transform: translateY(-2px);
 }
 
 .pmf-partenaires__bouton.is-active {
   border-color: var(--flash-accent-3);
-  filter: grayscale(0%);
+  background: var(--color-accent-3);
 }
 
 .pmf-partenaires__stage {

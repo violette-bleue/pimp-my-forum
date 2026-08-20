@@ -9,6 +9,12 @@
   display: none;
 }
 
+/* Toggle preset A/B (overall_header.html) : preset B (css-b) supprime en
+   commit e17ce24, le bouton pointe vers un css-b/init.css qui n'existe plus. */
+#pmf-theme-toggle {
+  display: none;
+}
+
 /* Liens du toolbar-top (index) : nouveaux messages / sans reponse / marquer lu. */
 .pmf-toolbar a {
   font-size: 0; 
@@ -42,6 +48,30 @@
 .sub-header-path a {
   font-size: initial;
 }
+
+.sub-header-path a:not(:last-child)::after {
+  content: "·";
+  font-size: initial;
+  margin: 0 0.4em;
+  opacity: 0.6;
+}
+
+/* #breadcrumbs (calendrier) : meme intention que .pmf-page-header__path
+   (page-header.css) mais jamais reliee a la classe, liens colles. */
+#breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+#breadcrumbs i.material-symbols-outlined {
+  font-size: 1em;
+  vertical-align: -0.15em;
+}
+
 
 /* Nav principale (header.css) : passe en icon-only, ne garde que le ::before. */
 .pmf-nav .mainmenu {

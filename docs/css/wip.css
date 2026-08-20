@@ -8,6 +8,7 @@
 
 .pmf-wip {
   display: flex;
+  flex-direction: column;
   gap: 5px;
 }
 
@@ -28,15 +29,13 @@ div[data-pmf-slot="board-index"] {
   display: none;
 }
 .pmf-wip .pmf-forum-row__lastpost {
-    position: absolute;
-    top: -20px;
-    right: 0;
+    align-self: flex-end;
     display: flex;
     background: var(--color-accent-3);
+    border-radius: var(--radius);
     gap: var(--gap);
-    padding: 15px;
+    padding: 0.4em 0.7em;
     align-items: center;
-    overflow: v;
 }
 .pmf-wip .pmf-forum-row__lastpost span.pmf-forum-row__lastpost-info {
     display: flex;

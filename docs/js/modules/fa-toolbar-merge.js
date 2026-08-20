@@ -37,7 +37,7 @@ function initNotifToggle(notifLink, notifList) {
   }
 
   notifLink.addEventListener("click", (e) => {
-    if (e.target.closest("#notif_list")) return; // clic sur un item/lien/suppression, pas sur le toggle
+    if (e.target.closest("#notif_list")) return; 
     e.preventDefault();
     const open = notifList.hidden;
     notifList.hidden = !open;

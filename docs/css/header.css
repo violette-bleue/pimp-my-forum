@@ -336,6 +336,10 @@ ul#notif_list {
   margin-left: 60px;
 }
 
+ul#notif_list[hidden] {
+  display: none;
+}
+
 /* Toggle mobile */
 .menu-btn {
   position      : absolute;

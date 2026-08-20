@@ -13,6 +13,6 @@ export function init() {
     const icon = document.createElement("i");
     icon.setAttribute("icon-mask", id);
     img.replaceWith(icon);
-    console.info('[pmf] nav-icons : "' + id + '" -> icon-mask (le 404 juste au-dessus vient de la meme image, attendu et sans consequence)');
+    //console.info('[pmf] nav-icons : "' + id + '" -> icon-mask (le 404 juste au-dessus vient de la meme image, attendu et sans consequence)');
   });
 }

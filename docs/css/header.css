@@ -42,6 +42,7 @@
   top     : 50px;
   height  : 0;
   width   : 0;
+  animation-delay: 0;
 }
 
 [class*="pmf-header__bar"]>.wrap {

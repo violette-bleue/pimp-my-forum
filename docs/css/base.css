@@ -1,5 +1,5 @@
 /* ==========================================================================
-   base.css — reset léger + styles de base
+   base.css — reset léger + styles de base 
    ========================================================================== */
 
 body {
@@ -7,7 +7,7 @@ body {
   color      : var(--color-text);
   font-family: var(--font-body);
   overflow-x: hidden;
-    margin: 0 !important;
+  margin: 0 !important;
 }
  
 a {

@@ -261,6 +261,7 @@ div#fa_usermenu {
   display       : flex;
   flex-direction: column;
   width         : 100%;
+  height: 200px;
 }
 
 input#fa_textarea {

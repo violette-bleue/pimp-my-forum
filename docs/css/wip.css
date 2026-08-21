@@ -34,14 +34,19 @@ div[data-pmf-slot="board-index"] {
   display: none;
 }
 .pmf-wip .pmf-forum-row__lastpost {
-    align-self: flex-end;
     display: flex;
-    background: var(--color-accent-3);
+    background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
     border-radius: var(--radius);
     gap: var(--gap);
-    padding: 0.4em 0.7em;
+    padding: 0;
     align-items: center;
+    order: -1;
 }
 .pmf-wip .pmf-forum-row__lastpost span.pmf-forum-row__lastpost-info {
     display: flex;
+    align-items: center;
+    gap: var(--gap);
+    height: 100%;
+    padding: 4px 10px;
+    color: var(--color-text);
 }

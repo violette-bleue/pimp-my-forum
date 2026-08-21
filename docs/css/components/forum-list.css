@@ -103,6 +103,8 @@
 .pmf-forum-row__main {
   flex: 1;
   min-width: 0;
+  line-height: 0;
+  order: -1;
 }
 
 .pmf-forum-row__title a {

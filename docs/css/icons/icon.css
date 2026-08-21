@@ -14,7 +14,7 @@
   display: inline-block;
   width: var(--icon-size);
   height: var(--icon-size);
-  background-color: mistyrose;
+  background-color: var(--color-text);
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;

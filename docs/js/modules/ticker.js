@@ -1,4 +1,3 @@
-/* modules/ticker.js — init jcarousel pour le ticker "new". Nécessite jQuery + jcarousel. */
 
 export function init(tickerCfg) {
   if (!window.jQuery || !window.jQuery.fn.jcarousel) return;
@@ -24,7 +23,6 @@ export function init(tickerCfg) {
       slidVert = true;
   }
 
-  // Applique le spacing admin en variable CSS (cf. ticker.css)
   document.documentElement.style.setProperty("--ticker-spacing", tickerCfg.spacing + "px");
 
   $("#fa_ticker_content").css("display", "block");

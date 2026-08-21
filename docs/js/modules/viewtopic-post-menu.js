@@ -1,4 +1,4 @@
-/* modules/viewtopic-post-menu.js — toggle du menu +/- sur chaque post, highlight.js, fix hauteur profil sans avatar */
+/* toggle du menu +/- sur chaque post, highlight.js, fix hauteur profil sans avatar */
 
 export function init() {
   if (window.jQuery && window.hljs) {

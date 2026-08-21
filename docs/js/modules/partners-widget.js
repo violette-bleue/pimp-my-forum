@@ -1,8 +1,4 @@
-/* modules/partners-widget.js — deplace le widget FA "Partenaires" (id
-   pmf-widget-partenaires, contenu d'un widget HTML FA) juste apres le bloc
-   titre/desc de la ligne du forum "Contact & Partenariat" dans la liste des
-   forums (page d'accueil/categories), puis initialise le carousel
-   boutons+iframes (cf. local/README.md pour le detail du mecanisme). */
+/* */
 
 const PARTNERS_FORUM_HREF = "f6-contact-partenariat";
 const AUTOPLAY_MS = 6000;
@@ -24,7 +20,7 @@ export function init() {
 function initCarousel(widget) {
   const framesWrap = widget.querySelector(".pmf-partenaires__frames-wrap");
   const frames = Array.from(widget.querySelectorAll(".pmf-partenaires__frame"));
-  const boutons = Array.from(widget.querySelectorAll(".pmf-partenaires__bouton"));
+  const boutons = Array.from(widget.querySelectorAll(".pmf-partenaires__boutons a"));
   const track = widget.querySelector(".pmf-partenaires__frames");
   const stage = widget.querySelector(".pmf-partenaires__stage");
   let dotsWrap = widget.querySelector(".pmf-partenaires__dots");

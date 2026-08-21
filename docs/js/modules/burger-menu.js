@@ -1,5 +1,3 @@
-/* modules/burger-menu.js — ferme le menu mobile si clic en dehors */
-
 export function init() {
   document.onclick = function (e) {
     if (!e.target.classList.contains("navicon")) {

@@ -1,6 +1,3 @@
-/* modules/select-mirror.js — remplace le rendu du <select> natif par un
-   trigger/panel stylables. Opt-out par select : data-pmf-skip. */
-
 let uid = 0;
 
 function mirrorSelect(select) {

@@ -1,4 +1,3 @@
-/* modules/native-popups.js — fenêtres natives FA (messagerie privée, signalement) */
 
 export function init(popupsCfg) {
   if (popupsCfg.pm) {

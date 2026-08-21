@@ -1,4 +1,4 @@
-/* modules/login-popup.js — recentre #login_popup au resize de la fenêtre */
+/*  */
 
 export function init(loginCfg) {
   if (!window.jQuery) return;

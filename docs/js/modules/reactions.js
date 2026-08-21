@@ -1,6 +1,5 @@
-/* modules/reactions.js — réactions multi-étiquettes (Supabase) */
+/* réactions multi-étiquettes */
 
-// Clé publishable Supabase
 const SUPABASE_URL = "https://zmcemvepmmawriilblky.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_fYNIKzORfbNwReKtP_PFDw_XFo0ueLF";
 

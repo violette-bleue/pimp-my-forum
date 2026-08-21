@@ -1,19 +1,14 @@
-/* modules/pimp-my-post.js — "Pimp My Post" : glow-up des posts dans l'editeur SCEditor
-   (coloration syntaxique BBCode/HTML + inputs assistes via data-input) */
-
 const CM_VERSION = "5.65.16";
 const CM_BASE = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/" + CM_VERSION;
 const PMF_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/components/pimp-my-post.css";
 
-// Cle localStorage du dernier mode choisi ("form" | "code").
 const MODE_KEY = "pmf-pmp-mode";
 
-// Attributs rendus en menu deroulant par defaut ("" = option vide). Fusionnes avec config.selects.
 const SELECT_ATTRS = {
   target: ["", "_blank", "_self", "_parent", "_top"]
 };
 
-// Dico de labels par defaut du module. Cles simples ("href") ou contextuelles ("img href").
+// Dico de labels par defaut
 const DEFAULT_LABELS = {
   href: "Lien",
   "img href": "Lien direct vers l'image",
@@ -27,7 +22,7 @@ const DEFAULT_LABELS = {
   freezone: "Ajout libre"
 };
 
-// Lecture defensive de la config staff : PimpMyPost.Config peut ne pas exister.
+// Lecture defensive de la config staff
 function getStaffConfig() {
   try {
     return (window.PimpMyPost && window.PimpMyPost.Config) || {};
@@ -36,7 +31,7 @@ function getStaffConfig() {
   }
 }
 
-// Memo du mode (localStorage, defensif : navigation privee stricte, storage bloque...).
+// Memo du mode 
 function loadMode() {
   try {
     return localStorage.getItem(MODE_KEY);
@@ -48,11 +43,10 @@ function saveMode(mode) {
   try {
     localStorage.setItem(MODE_KEY, mode);
   } catch (e) {
-    /* storage indisponible : on ignore, le module reste fonctionnel */
+    /* storage indisponible fallback */
   }
 }
 
-// Normalise une liste de valeurs (strings et/ou objets) -> [{ value, label }].
 // "val" -> { value:"val", label:"val" } ; { value, label? } -> label defaut = value.
 function normValues(list) {
   return (list || []).map((item) => {
@@ -66,13 +60,11 @@ function normValues(list) {
   });
 }
 
-// Selects effectifs = defauts du module + config.selects du staff.
 function getSelectAttrs() {
   return Object.assign({}, SELECT_ATTRS, getStaffConfig().selects || {});
 }
 
-// Normalise une entree config.classes[name] -> { mode:"single"|"multi", values:[{value,label}] }.
-// Tableau nu -> exclusif (single) ; objet { mode, values } -> tel quel.
+// config.classes[name] -> { mode:"single"|"multi", values:[{value,label}] }.
 function getClassGroup(name) {
   const raw = (getStaffConfig().classes || {})[name];
   if (!raw) return null;
@@ -83,13 +75,13 @@ function getClassGroup(name) {
   };
 }
 
-// Boutons de toolbar additionnels declares par le staff (config.toolbarButtons).
+// config.toolbarButtons
 function getToolbarButtons() {
   const list = getStaffConfig().toolbarButtons;
   return Array.isArray(list) ? list : [];
 }
 
-// Type de champ custom declare par le staff (config.fieldTypes[name]).
+// config.fieldTypes[name]
 function getFieldType(name) {
   const types = getStaffConfig().fieldTypes || {};
   return typeof types[name] === "function" ? types[name] : null;
@@ -117,11 +109,10 @@ function setupEditor(container, inst) {
   if (container._pmfDone) return; // garde anti double-init
   container._pmfDone = true;
 
-  // Etat partage entre les volets (mode courant + champ PMP actif pour le routage toolbar).
   const state = { formMode: false, activeField: null };
   container._pmfState = state;
 
-  // 1. Wrapper HORS du container SCEditor (frere juste apres)
+  // 1. Wrapper HORS du SCEditor
   const host = document.createElement("div");
   host.className = "pmf-cm-host";
   const shadow = document.createElement("textarea");
@@ -129,7 +120,7 @@ function setupEditor(container, inst) {
   host.appendChild(shadow);
   container.parentNode.insertBefore(host, container.nextSibling);
 
-  // 2. Masque le textarea source natif du container (garde la toolbar visible/utilisable).
+  // 2. tweak textarea source
   const sourceTextarea = container.querySelector("textarea");
   if (sourceTextarea) sourceTextarea.style.display = "none";
 
@@ -144,7 +135,7 @@ function setupEditor(container, inst) {
 
   let syncing = false;
 
-  // 3. CM -> champ POST : chaque edition clavier pousse via l'API (ciblee par ID).
+  // 3. CM -> champ POST
   cm.on("change", () => {
     if (syncing) return;
     syncing = true;
@@ -153,7 +144,7 @@ function setupEditor(container, inst) {
     syncing = false;
   });
 
-  // 4. Toolbar FA : mode code = insertion globale, mode formulaire = routee vers le champ actif
+  // 4. bouton
   const pullIntoCM = () => {
     if (syncing) return;
     syncing = true;
@@ -168,7 +159,6 @@ function setupEditor(container, inst) {
   wrapInsert(inst, "sourceEditorInsertText", state, container, pullIntoCM);
   wrapInsert(inst, "insert", state, container, pullIntoCM);
 
-  // 5. Bascule source <-> WYSIWYG : CM visible seulement en sourceMode.
   const syncVisibility = () => {
     if (container.classList.contains("sourceMode")) {
       syncing = true;
@@ -186,7 +176,6 @@ function setupEditor(container, inst) {
     attributeFilter: ["class"]
   });
 
-  // 6. Volet INPUTS : bouton bascule code <-> formulaire assiste.
   setupForm(host, cm, state, container);
 }
 
@@ -264,10 +253,9 @@ function rescanSmilies(cm, dict) {
   cm._pmfSmileyMarks = marks;
 }
 
-/* ---- Volet INPUTS (Pimp My Post) ------------------------------------------ */
+/* ---- INPUTS ------------------------------------------ */
 
 const TARGET_SELECTOR = "[data-input], [text], [textarea]";
-// Balise custom de la zone de texte libre. Un tiret = custom element valide.
 const FREE_TAG = "pmp-freezone";
 
 function setupForm(host, cm, state, container) {
@@ -276,14 +264,14 @@ function setupForm(host, cm, state, container) {
   panel.style.display = "none";
   host.parentNode.insertBefore(panel, host.nextSibling);
 
-  // A l'interieur de .sceditor-container, en dernier enfant
+  // append
   const toggle = document.createElement("button");
   toggle.type = "button";
   toggle.className = "pmf-pmp-toggle button2";
   toggle.textContent = "Pimp My Post";
   container.appendChild(toggle);
 
-  // Boutons additionnels du staff (config.toolbarButtons), poses a la suite du toggle.
+  // config.toolbarButtons
   getToolbarButtons().forEach((def) => {
     if (!def || typeof def.onClick !== "function") return;
     const btn = document.createElement("button");
@@ -294,7 +282,7 @@ function setupForm(host, cm, state, container) {
     container.appendChild(btn);
   });
 
-  // Applique un mode (form ou code) : bascule affichage + libelle du bouton
+  // bascule affichage + libelle du bouton
   const applyMode = (showForm, persist) => {
     state.formMode = showForm;
     if (showForm) {
@@ -315,11 +303,11 @@ function setupForm(host, cm, state, container) {
 
   toggle.addEventListener("click", () => applyMode(!state.formMode, true));
 
-  // Restauration du dernier mode memorise (form ouvert meme si aucun champ, par choix).
+  // Restauration du dernier mode memorise
   if (loadMode() === "form") applyMode(true, false);
 }
 
-// Normalise les cibles editables -> liste de { target, label } (label null si absent).
+// Normalise les cibles editables
 function parseTargets(el) {
   if (el.hasAttribute("textarea")) return [{ target: "textarea", label: null }];
   if (el.hasAttribute("text")) return [{ target: "text", label: null }];
@@ -354,12 +342,10 @@ function isTextTarget(t) {
   return t === "text" || t === "textarea";
 }
 
-// Cible groupe de classes ? "class--layout" -> "layout", sinon null.
 function classGroupName(target) {
   return target.indexOf("class--") === 0 ? target.slice("class--".length) : null;
 }
 
-// Cible type de champ custom ? "widget--bgcolor" -> "bgcolor", sinon null.
 function fieldTypeName(target) {
   return target.indexOf("widget--") === 0 ? target.slice("widget--".length) : null;
 }
@@ -379,12 +365,10 @@ function resolveLabel(target, explicitLabel, tagName, el) {
   return target;
 }
 
-// Liste des classes actuelles de l'element (depuis l'attribut class brut).
 function currentClasses(el) {
   return (el.getAttribute("class") || "").split(/\s+/).filter(Boolean);
 }
 
-// Ajoute une <option> a un select.
 function addOption(sel, value, label, selected) {
   const o = document.createElement("option");
   o.value = value;

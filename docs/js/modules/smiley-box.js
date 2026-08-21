@@ -1,10 +1,6 @@
-/* modules/smiley-box.js — reprend la main sur le picker de smileys (#smiley-box) sans le
-   recreer, via le contentDocument same-origin du frame /smilies?mode=smilies_frame */
+
 
 const SMILEY_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/components/smiley-box.css";
-// Le frame /smilies est un document distinct : les custom properties de tokens.css
-// (charge sur la page hote via le template FA) ne le traversent pas. On l'injecte
-// donc explicitement dans son <head> pour que smiley-box.css y retrouve ses vars.
 const TOKENS_CSS = "https://violette-bleue.github.io/pimp-my-forum/css/tokens.css";
 const RECENT_KEY = "pmf-smiley-recent";
 const RECENT_MAX = 24;
@@ -20,13 +16,13 @@ export function init() {
     try {
       doc = iframe.contentDocument;
     } catch (e) {
-      return; // cross-origin inattendu : on abandonne proprement
+      return; // cross-origin inattendu fallback
     }
     if (doc && doc.body) setup(doc, iframe);
   };
 
   iframe.addEventListener("load", trySetup);
-  trySetup(); // deja charge au moment ou le module demarre ?
+  trySetup(); 
 }
 
 function setup(doc, iframe) {
@@ -35,7 +31,7 @@ function setup(doc, iframe) {
   buildTabs(doc, iframe);
 }
 
-// Construit la barre d'onglets (Recents + categories FA) a partir des <option> du <select> natif
+// Construit la barre d'onglets
 function buildTabs(doc, iframe) {
   if (doc.body._pmfBound) return;
 
@@ -46,12 +42,11 @@ function buildTabs(doc, iframe) {
 
   doc.body._pmfBound = true;
   grid.id = "pmf-smiley-grid";
-  // Recree des noeuds neufs pour perdre le click jQuery natif FA (evite une double insertion)
+
   grid.innerHTML = grid.innerHTML;
 
-  // Etat par document de frame (un vrai rechargement de l'iframe -> nouveau doc -> etat neuf).
   const state = { cache: new Map(), token: 0 };
-  state.cache.set("", grid.innerHTML); // le contenu deja affiche = categorie par defaut
+  state.cache.set("", grid.innerHTML); 
 
   const tabs = doc.createElement("div");
   tabs.id = "pmf-smiley-tabs";
@@ -82,7 +77,7 @@ function buildTabs(doc, iframe) {
     try {
       window.insertIntoEditor(img.alt);
     } catch (err) {
-      /* editeur pas pret : on ignore, comme le fait le script natif FA */
+      /* editeur pas pret fallback */
     }
   });
 
@@ -93,13 +88,13 @@ function activateTab(btn) {
   [...btn.parentNode.children].forEach((b) => b.classList.toggle("is-active", b === btn));
 }
 
-// Categorie FA : cache-first, sinon fetch (avec jeton anti-course)
+// Categorie FA : cache-first, sinon fetch
 function selectTab(doc, iframe, btn, categ, grid, state) {
   activateTab(btn);
 
   const cached = state.cache.get(categ);
   if (cached != null) {
-    state.token++; // invalide un eventuel fetch encore en vol pour un autre onglet
+    state.token++; 
     grid.classList.remove("is-loading");
     grid.innerHTML = cached;
     return;
@@ -126,7 +121,7 @@ function selectTab(doc, iframe, btn, categ, grid, state) {
     });
 }
 
-// Onglet "Recents" : rendu synchrone depuis localStorage, aucun fetch
+// Onglet "Recents"
 function showRecent(doc, btn, grid, state) {
   activateTab(btn);
   state.token++;
@@ -159,14 +154,13 @@ function loadRecent() {
   }
 }
 
-// Enregistre le smiley clique en tete de liste (dedoublonne par alt = code BBCode), plafonne.
 function recordRecent(img) {
   try {
     const items = loadRecent().filter((it) => it.alt !== img.alt);
     items.unshift({ src: img.src, alt: img.alt, title: img.title || "" });
     localStorage.setItem(RECENT_KEY, JSON.stringify(items.slice(0, RECENT_MAX)));
   } catch (e) {
-    /* localStorage indisponible (navigation privee stricte...) : on ignore */
+    /* localStorage indisponible fallback */
   }
 }
 

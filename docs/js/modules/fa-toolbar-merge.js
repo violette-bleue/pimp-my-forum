@@ -1,21 +1,13 @@
-/* modules/fa-toolbar-merge.js — deplace des morceaux de #fa_toolbar (recherche,
-   menu utilisateur, notifications) dans la navbar */
-
 export function init() {
   const target = document.querySelector("#headerbar .wrap");
   if (!target) return;
 
-  // Carte utilisateur (avatar/rang/stats), en tete de la navbar
   const userCard = document.getElementById("fa_usermenu");
   if (userCard) target.prepend(userCard);
 
   const welcome = document.getElementById("fa_welcome");
   if (welcome) welcome.remove();
 
-  // #fa_menu (menu deroulant utilisateur natif FA) n'est pas repris tel quel :
-  // seuls quelques liens utiles en sont extraits (voir extractFromFaMenu), le
-  // reste (mes sujets, mes messages, separateurs...) reste dans #fa_toolbar,
-  // deja masque (tweaks.css), donc simplement inutilise plutot qu'affiche.
   extractFromFaMenu(userCard);
 
   ["fa_search", "fa_notifications"].forEach((id) => {
@@ -23,7 +15,6 @@ export function init() {
     if (el) target.appendChild(el);
   });
 
-  // Notifications imbriquees dans le lien plutot qu'en liste flottante a cote.
   const notifList = document.getElementById("notif_list");
   const notifLink = document.getElementById("fa_notifications");
   if (notifList && notifLink) {
@@ -32,9 +23,6 @@ export function init() {
   }
 }
 
-// Recupere dans #fa_menulist : le lien profil (-> href du rank title), le
-// lien editprofile (-> reçoit l'avatar), et les liens sujets-suivis/admin
-// (-> nouveaux <li> a la suite de la navbar).
 function extractFromFaMenu(userCard) {
   const menuList = document.getElementById("fa_menulist");
   if (!menuList) return;

@@ -1,6 +1,3 @@
-/* docs/sites/lucidaliahunters/pimp-my-post.js — surcouche "Pimp My Post" specifique
-   au forum Lucidalia Hunters */
-
 const ALLOWED_HOSTS = ["lucidaliahunters.forumactif.com", "lucidaliahunterstest.forumactif.com"];
 
 if (ALLOWED_HOSTS.includes(location.hostname)) {

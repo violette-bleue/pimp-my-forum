@@ -34,19 +34,19 @@
   transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-.pmf-partenaires__bouton img {
+.pmf-partenaires__boutons img {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
-.pmf-partenaires__bouton:hover,
-.pmf-partenaires__bouton:focus-visible {
+.pmf-partenaires__boutons a:hover,
+.pmf-partenaires__boutons a:focus-visible {
   background: var(--color-accent-3);
   transform: translateY(-2px);
 }
 
-.pmf-partenaires__bouton.is-active {
+.pmf-partenaires__bouton a.is-active {
   border-color: var(--flash-accent-3);
   background: var(--color-accent-3);
 }

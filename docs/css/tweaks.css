@@ -73,11 +73,8 @@
 }
 
 
-/* Nav principale (header.css) : passe en icon-only, ne garde que le ::before. */
+/* Nav principale (header.css) : passe en icon-only (le texte est ecrase a 0,
+   l'icone <i icon-mask> n'est pas affectee car dimensionnee en px). */
 .pmf-nav .mainmenu {
   font-size: 0;
-}
-
-.pmf-nav .mainmenu::before {
-  font-size: initial;
 }

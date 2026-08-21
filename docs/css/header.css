@@ -171,7 +171,6 @@
   color: var(--flash-accent);
 }
 
-.pmf-nav .mainmenu::before,
 #fa_notifications::before {
   content              : "";
   display: flex;
@@ -188,49 +187,12 @@
   mask-position        : center;
 }
 
-.pmf-nav a[href="/"]::before {
-  -webkit-mask-image: var(--icon-home);
-  mask-image        : var(--icon-home);
-}
-
-.pmf-nav a[href="/calendar"]::before {
-  -webkit-mask-image: var(--icon-calendar);
-  mask-image        : var(--icon-calendar);
-}
-
-.pmf-nav a[href="/faq"]::before {
-  -webkit-mask-image: var(--icon-faq);
-  mask-image        : var(--icon-faq);
-}
-
-.pmf-nav a[href^="/search"]::before {
-  -webkit-mask-image: var(--icon-search);
-  mask-image        : var(--icon-search);
-}
-
-.pmf-nav a[href="/memberlist"]::before {
-  -webkit-mask-image: var(--icon-users);
-  mask-image        : var(--icon-users);
-}
-
-.pmf-nav a[href="/groups"]::before {
-  -webkit-mask-image: var(--icon-groups);
-  mask-image        : var(--icon-groups);
-}
-
-.pmf-nav a[href^="/profile"]::before {
-  -webkit-mask-image: var(--icon-user);
-  mask-image        : var(--icon-user);
-}
-
-.pmf-nav a[href^="/privmsg"]::before {
-  -webkit-mask-image: var(--icon-message);
-  mask-image        : var(--icon-message);
-}
-
-.pmf-nav a#logout::before {
-  -webkit-mask-image: var(--icon-logout);
-  mask-image        : var(--icon-logout);
+/* Icones de la navbar (natives comme custom) : memes <i icon-mask="nom">
+   que partout ailleurs sur le site (icons/icon.css), on ne fait ici que
+   reprendre la couleur du texte du lien (au lieu du mistyrose demo). */
+.pmf-nav .mainmenu i[icon-mask] {
+  background-color: currentColor;
+  flex-shrink: 0;
 }
 
 div#fa_usermenu img {

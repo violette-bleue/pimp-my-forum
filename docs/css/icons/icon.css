@@ -12,9 +12,9 @@
 
 [icon-mask] {
   display: inline-block;
-    width: var(--icon-size);
-    height: var(--icon-size);
-  background-color: currentColor;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: mistyrose;
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;

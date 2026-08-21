@@ -64,20 +64,18 @@ function initModules() {
   // Toujours actif : gestion du menu burger mobile
   import("./modules/burger-menu.js").then((m) => m.init());
 
-  // Toujours actif : integre recherche/menu utilisateur/notifications de
-  // #fa_toolbar dans la navbar plutot que de les laisser dans la barre FA.
+  // Toujours actif : fusion toolbar fa et navbar
   import("./modules/fa-toolbar-merge.js").then((m) => m.init());
 
   // Toujours actif : raccroche les tableaux natifs FA (membres, moderation...) a .table1.
   import("./modules/native-tables.js").then((m) => m.init());
 
-  // Conditionnel : convertit les images des liens de menu custom (barre de
-  // nav generee par FA) en icones du pack du site.
-  if (document.querySelector("#modernbb-nav-menu a.mainmenu img")) {
+  // Conditionnel : conversion images navbar custom + icones natives -> icon-mask
+  if (document.querySelector('#modernbb-nav-menu a.mainmenu img, #modernbb-nav-menu a.mainmenu i[icon-mask^="http"]')) {
     import("./modules/nav-icons.js").then((m) => m.init());
   }
 
-  // Conditionnel : ticker "new" (jcarousel), seulement si activé côté admin FA
+  // Conditionnel : ticker "new" (jcarousel)
   if (cfg.ticker && cfg.ticker.enabled) {
     import("./modules/ticker.js").then((m) => m.init(cfg.ticker));
   }
@@ -92,13 +90,12 @@ function initModules() {
     import("./modules/native-popups.js").then((m) => m.init(cfg.popups));
   }
 
-  // Conditionnel : menu post + highlight.js (viewtopic_body uniquement)
+  // Conditionnel : menu post + highlight.js 
   if (document.querySelector('[data-pmf-slot="postrow"]')) {
     import("./modules/viewtopic-post-menu.js").then((m) => m.init());
   }
 
-  // Conditionnel : réactions multi-étiquettes (Supabase), sur tout topic —
-  // conteneurs de réaction et/ou point de montage du panneau admin mod.
+  // Conditionnel : réactions
   if (document.querySelector(".pmf-post__reactions[data-post-id]") || document.getElementById("pmf-reactions-admin")) {
     import("./modules/reactions.js").then((m) => m.init());
   }
@@ -109,18 +106,17 @@ function initModules() {
     import("./modules/pimp-my-post.js").then((m) => m.init());
   }
 
-  // Conditionnel : reprise en main du picker de smileys (#smiley-box, frame /smilies).
+  // Conditionnel : picker de smileys
   if (document.getElementById("smiley-box")) {
     import("./modules/smiley-box.js").then((m) => m.init());
   }
 
-  // Conditionnel : mirror des <select> simples (hors [multiple]) en trigger/panel stylables.
+  // Conditionnel : mirror des <select> 
   if (document.querySelector("select:not([multiple])")) {
     import("./modules/select-mirror.js").then((m) => m.init());
   }
 
-  // Conditionnel : classes stables pmf-forum-<id>/pmf-categorie-<position> sur
-  // la liste des forums (index_box), pour cibler en CSS sans :has().
+  // Conditionnel : classes forums/categories
   if (document.querySelector(".pmf-forum-row, .pmf-category")) {
     import("./modules/forum-classes.js").then((m) => m.init(cfg.forumClasses));
   }
@@ -131,13 +127,11 @@ function initModules() {
     import("./modules/partners-widget.js").then((m) => m.init());
   }
 
-  // Conditionnel : contenu giefmod_index1/2 (index_box), deplace vers les
-  // ancres sidebar-left/right du header.
   if (document.getElementById("pmf-widget-sidebar-left") || document.getElementById("pmf-widget-sidebar-right")) {
     import("./modules/sidebar-widgets.js").then((m) => m.init());
   }
 
-  // Conditionnel : Pimp My Toolbar, sur toute page qui contient son point de montage.
+  // Conditionnel : Pimp My Toolbar
   const pmtApp = document.getElementById("pmt-app");
   if (pmtApp) {
     import("../tools/pimp-my-toolbar/app.js").then((m) => m.mount(pmtApp));

@@ -50,3 +50,6 @@ div[data-pmf-slot="board-index"] {
     padding: 4px 10px;
     color: var(--color-text);
 }
+.pmf-wip .pmf-category__list {
+  display: flex;
+}

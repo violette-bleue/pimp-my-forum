@@ -107,6 +107,14 @@
   order: -1;
 }
 
+h3.pmf-forum-row__title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  order: -2;
+}
+
 .pmf-forum-row__title a {
   color: var(--flash-accent);
   font-family: var(--font-mono);
@@ -138,6 +146,10 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius);
+}
+
+span.pmf-forum-row__lastpost-avatar.pmf-fa-raw {
+  display: none;
 }
 
 .pmf-legend {

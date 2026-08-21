@@ -5,5 +5,5 @@
   "repo": "https://github.com/simple-icons/simple-icons",
   "license": "CC0-1.0",
   "licenseUrl": "https://github.com/simple-icons/simple-icons/blob/develop/LICENSE.md",
-  "note": "Logo de marque (Discord) hors dictionnaire coolicons/tabler — utilise pour le lien discord du header et le lien nav custom, garde en couleur de marque fixe (pas de version [icon-mask])."
+  "note": "Logo de marque (Discord), asset unique partage par les deux packs (coolicons et tabler pointent vers img/icons/coolicons/discord.svg) — utilise pour le lien discord du header et le lien nav custom, garde en couleur de marque fixe (pas de version [icon-mask])."
 }

@@ -27,30 +27,33 @@
 }
 
 [class*="pmf-header__bar-horizontal"] .wrap {
-  max-height: 50px;  
-  width: 100vw;    flex-direction: row;
+  max-height: 50px;
+  width: 100vw;
+  grid-template-rows: 100%;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
   max-width: 50px;
   justify-content: center;
-  height: 100vh;    flex-direction: column;
+  height: 100vh;
+  grid-template-columns: 100%;
+  grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
 }
 
 [class*="pmf-header__bar"] {
   position: sticky;
-  top     : 50px;
+  top: 0;
   height  : 0;
   width   : 0;
 }
 
 [class*="pmf-header__bar"]>.wrap {
-  width     : fit-content;
   background: var(--flash-accent-3);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
 }
 
 .pmf-header-img {
@@ -171,28 +174,49 @@
   color: var(--flash-accent);
 }
 
-#fa_notifications::before {
-  content              : "";
-  display: flex;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  margin-right: 0;
-  flex-shrink          : 0;
-  background-color     : currentColor;
-  -webkit-mask-size    : contain;
-  mask-size            : contain;
-  -webkit-mask-repeat  : no-repeat;
-  mask-repeat          : no-repeat;
-  -webkit-mask-position: center;
-  mask-position        : center;
+.pmf-nav a[href="/"]::before {
+  -webkit-mask-image: var(--icon-home);
+  mask-image        : var(--icon-home);
 }
 
-/* Icones de la navbar (natives comme custom) : memes <i icon-mask="nom">
-   que partout ailleurs sur le site (icons/icon.css), on ne fait ici que
-   reprendre la couleur du texte du lien (au lieu du mistyrose demo). */
-.pmf-nav .mainmenu i[icon-mask] {
-  background-color: currentColor;
-  flex-shrink: 0;
+.pmf-nav a[href="/calendar"]::before {
+  -webkit-mask-image: var(--icon-calendar);
+  mask-image        : var(--icon-calendar);
+}
+
+.pmf-nav a[href="/faq"]::before {
+  -webkit-mask-image: var(--icon-faq);
+  mask-image        : var(--icon-faq);
+}
+
+.pmf-nav a[href^="/search"]::before {
+  -webkit-mask-image: var(--icon-search);
+  mask-image        : var(--icon-search);
+}
+
+.pmf-nav a[href="/memberlist"]::before {
+  -webkit-mask-image: var(--icon-users);
+  mask-image        : var(--icon-users);
+}
+
+.pmf-nav a[href="/groups"]::before {
+  -webkit-mask-image: var(--icon-groups);
+  mask-image        : var(--icon-groups);
+}
+
+.pmf-nav a[href^="/profile"]::before {
+  -webkit-mask-image: var(--icon-user);
+  mask-image        : var(--icon-user);
+}
+
+.pmf-nav a[href^="/privmsg"]::before {
+  -webkit-mask-image: var(--icon-message);
+  mask-image        : var(--icon-message);
+}
+
+.pmf-nav a#logout::before {
+  -webkit-mask-image: var(--icon-logout);
+  mask-image        : var(--icon-logout);
 }
 
 div#fa_usermenu img {
@@ -270,15 +294,24 @@ ul#fa_menulist a[href*="logout=1"]::before {
 }
 
 a#fa_notifications {
-  order: -1;
+  order: -2;
   display: flex;
   flex-direction: column;
+  font-size: 0;
 }
 
 a#fa_notifications::before {
   content: '';
   -webkit-mask-image: var(--icon-bell);
   mask-image: var(--icon-bell);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  mask-size: 100%;
+  background: var(--color-text);
+  mask-position: center;
+  font-size: 10px;
+  display: flex;
+  cursor: pointer;
 }
 
 ul#notif_list {

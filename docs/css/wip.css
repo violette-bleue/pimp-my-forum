@@ -12,6 +12,11 @@
   gap: 5px;
 }
 
+.pmf-wip:first-of-type {
+  display: flex;
+  flex-direction: row;
+}
+
 .pmf-category.pmf-categorie-2 ul.pmf-category__list {
     display: flex;
     flex-direction: column;

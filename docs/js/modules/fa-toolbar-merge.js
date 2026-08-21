@@ -12,7 +12,13 @@ export function init() {
   const welcome = document.getElementById("fa_welcome");
   if (welcome) welcome.remove();
 
-  ["fa_search", "fa_menu", "fa_notifications"].forEach((id) => {
+  // #fa_menu (menu deroulant utilisateur natif FA) n'est pas repris tel quel :
+  // seuls quelques liens utiles en sont extraits (voir extractFromFaMenu), le
+  // reste (mes sujets, mes messages, separateurs...) reste dans #fa_toolbar,
+  // deja masque (tweaks.css), donc simplement inutilise plutot qu'affiche.
+  extractFromFaMenu(userCard);
+
+  ["fa_search", "fa_notifications"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) target.appendChild(el);
   });
@@ -24,6 +30,46 @@ export function init() {
     notifLink.appendChild(notifList);
     initNotifToggle(notifLink, notifList);
   }
+}
+
+// Recupere dans #fa_menulist : le lien profil (-> href du rank title), le
+// lien editprofile (-> reçoit l'avatar), et les liens sujets-suivis/admin
+// (-> nouveaux <li> a la suite de la navbar).
+function extractFromFaMenu(userCard) {
+  const menuList = document.getElementById("fa_menulist");
+  if (!menuList) return;
+
+  const profileLink = menuList.querySelector('a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])');
+  const editLink = menuList.querySelector('a[href*="mode=editprofile"]');
+  const watchLink = menuList.querySelector('a[href*="watchsearch"]');
+  const adminLink = menuList.querySelector('a[href*="/admin"]');
+
+  const rankTitle = document.getElementById("fa_ranktitle");
+  if (rankTitle && profileLink) rankTitle.href = profileLink.href;
+
+  const avatar = userCard && userCard.querySelector("img");
+  if (avatar && editLink) {
+    avatar.before(editLink);
+    editLink.appendChild(avatar);
+  }
+
+  const navList = document.getElementById("modernbb-nav-menu");
+  if (navList) {
+    [watchLink, adminLink].forEach((link, i) => {
+      if (!link) return;
+      navList.appendChild(toNavItem(link, i === 0 ? "eye" : "lock"));
+    });
+  }
+}
+
+function toNavItem(link, icon) {
+  link.classList.add("mainmenu");
+  const i = document.createElement("i");
+  i.setAttribute("icon-mask", icon);
+  link.prepend(i);
+  const li = document.createElement("li");
+  li.appendChild(link);
+  return li;
 }
 
 function initNotifToggle(notifLink, notifList) {

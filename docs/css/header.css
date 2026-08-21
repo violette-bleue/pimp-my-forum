@@ -51,6 +51,31 @@
   transition: all var(--anim);
 }
 
+[class*="pmf-header__bar-vertical"] {
+  height: 100vh;
+  position: fixed;
+}
+
+[class*="pmf-header__bar-horizontal"] {
+  width: 100vw;
+}
+
+[class*="pmf-header__bar"] * {
+  transition: all var(--anim);
+}
+
+[class*="pmf-header__bar"]:has(input#fa_textarea:focus) {
+  width: 200px;
+}
+
+[class*="pmf-header__bar-vertical"]:has(input#fa_textarea:focus) {
+  width: 200px;
+}
+
+[class*="pmf-header__bar-vertical"]:has(input#fa_textarea:focus) .pmf-nav .mainmenu {
+  font-size: 11px;
+}
+
 [class*="pmf-header__bar"]>.wrap {
   background: var(--flash-accent-3);
   display: grid;
@@ -219,6 +244,45 @@
   mask-image        : var(--icon-logout);
 }
 
+.mainmenu [icon="discord"] {
+  mask-size    : 85%;
+  background   : var(--color-text);
+  mask-repeat  : no-repeat;
+  mask-position: right;
+  display      : flex;
+}
+
+div#fa_search {
+  order: -1;
+}
+
+div#fa_usermenu {
+  order         : -5;
+  display       : flex;
+  flex-direction: column;
+  width         : 100%;
+}
+
+input#fa_textarea {
+  width        : 30px;
+  background   : var(--color-accent-3);
+  border-radius: var(--radius);
+  transition   : all var(--anim);
+  border       : 2px inset var(--color-accent-3);
+  padding      : 5px;
+  cursor       : zoom-in;
+}
+
+input#fa_textarea:focus {
+  width: 150px;
+}
+
+input:focus-visible {
+  outline      : none;
+  border-color : var(--flash-accent) !important;
+  background   : var(--flash-accent) !important;
+}
+
 div#fa_usermenu img {
   width: 50px;
   border-radius: 20px;
@@ -319,6 +383,10 @@ a#fa_notifications::before {
   left: 0;
 }
 
+a#fa_notifications.is-open::before {
+  transform: scale(1.2);
+}
+
 ul#notif_list {
   position: absolute;
   width: 300px;
@@ -332,6 +400,10 @@ ul#notif_list {
   left: unset!important;
   margin-left: 50px;
   top: 0;
+}
+
+ul#notif_list[hidden] {
+  display: none;
 }
 
 [class*="pmf-header__bar-vertical"] #notif_list {

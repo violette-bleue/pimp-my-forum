@@ -53,3 +53,7 @@ div[data-pmf-slot="board-index"] {
 .pmf-wip .pmf-category__list {
   display: flex;
 }
+
+.pmf-wip .pmf-panel.pmf-panel--message-die .pmf-panel__title, .pmf-wip .pmf-panel.pmf-panel--message-die > p {
+	display: none;
+}

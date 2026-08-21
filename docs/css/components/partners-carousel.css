@@ -102,7 +102,6 @@
   min-width: 0;
   overflow: hidden;
   border-radius: var(--radius);
-  background: var(--color-bg);
   height: var(--pmf-partenaires-h, 420px);
   max-height: 70vh;
   transition: height 0.25s ease;

@@ -143,4 +143,4 @@
 [icon="logout"]      { background-image: var(--icon-logout); }
 [icon-mask="logout"] { -webkit-mask-image: var(--icon-logout); mask-image: var(--icon-logout); }
 
-[icon="discord"] { background-image: var(--icon-discord); }
+[icon="discord"] {mask-image: var(--icon-discord);}

@@ -35,26 +35,27 @@
 }
 
 [class*="pmf-header__bar-vertical"] .wrap {
-  max-width: 50px;
-  width: fit-content;
-  justify-content: center;
-  height: 100vh;
+  width: 100%;
+  height: fit-content;
   grid-template-columns: 100%;
-  grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
-  justify-items: center;
+  grid-template-rows: repeat(5, auto);
+  padding: 20px;
 }
 
 [class*="pmf-header__bar"] {
   position: sticky;
   top: 0;
-  height  : 0;
-  width   : 0;
+  background: var(--flash-accent-3);
+  width: 60px;
+  height: 0;
+  transition: all var(--anim);
 }
 
 [class*="pmf-header__bar"]>.wrap {
   background: var(--flash-accent-3);
-  /* overflow: hidden; */
   display: grid;
+  justify-items: start;
+  gap: var(--gap);
 }
 
 .pmf-header-img {
@@ -144,7 +145,6 @@
 .pmf-nav {
   display    : flex;
   flex-wrap: nowrap;
-  align-items: center;
   gap        : var(--gap);
   list-style : none;
   margin     : 0;
@@ -163,12 +163,11 @@
 .pmf-nav .mainmenu {
   display        : inline-flex;
   align-items    : center;
-  /* padding        : 0.4em 0.6em; */
   color          : var(--color-text);
-  font-family    : var(--font-body);
-  /* font-size      : 0.9rem; */
+  font-family: var(--font-mono);
   text-decoration: none;
   width: fit-content;
+  gap: var(--gap);
 }
 
 .pmf-nav .mainmenu:hover {
@@ -223,6 +222,7 @@
 div#fa_usermenu img {
   width: 50px;
   border-radius: 20px;
+  max-width: 100%!important;
 }
 
 #fa_usermenu table {
@@ -297,8 +297,9 @@ ul#fa_menulist a[href*="logout=1"]::before {
 a#fa_notifications {
   order: -2;
   display: flex;
-  flex-direction: column;
   font-size: 0;
+  position: relative;
+  background: transparent;
 }
 
 a#fa_notifications::before {
@@ -313,6 +314,9 @@ a#fa_notifications::before {
   font-size: 10px;
   display: flex;
   cursor: pointer;
+  position: relative;
+  transition: all var(--anim);
+  left: 0;
 }
 
 ul#notif_list {
@@ -325,10 +329,12 @@ ul#notif_list {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  left: unset!important;
+  margin-left: 50px;
+  top: 0;
 }
 
 [class*="pmf-header__bar-vertical"] #notif_list {
-  margin-left: 60px;
 }
 
 /* Toggle mobile */

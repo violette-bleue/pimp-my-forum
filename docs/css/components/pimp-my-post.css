@@ -134,7 +134,9 @@ span:has(.cm-comment) {
 .cm-s-pmf .CodeMirror-gutters {
   background: var(--pimpmypost-color-bg-inset);
 }
-
+.CodeMirror.cm-s-pmf > div:first-of-type {
+    left: 0!important;
+}
 /* Apercu inline d'un code smiley reconnu (voir setupSmileyPreview dans pimp-my-post.js) */
 .pmf-cm-smiley {
   max-width : 20px;

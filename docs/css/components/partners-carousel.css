@@ -22,16 +22,9 @@
 .pmf-partenaires__boutons a {
   display: inline-flex;
   align-items: center;
-  line-height: normal;
-  border: 2px solid transparent;
-  border-radius: var(--radius);
-  padding: 0.4em 0.9em;
-  background: var(--color-bg-soft);
-  color: var(--color-bg-dark);
-  font-family: var(--font-title);
-  font-size: 0.8rem;
-  text-decoration: none;
-  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition: all var(--anim);
+  opacity: 50%;
+  transform: scale(90%);
 }
 
 .pmf-partenaires__boutons img {

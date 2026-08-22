@@ -99,6 +99,11 @@ function initModules() {
     import("./modules/pimp-my-post.js").then((m) => m.init());
   }
 
+  // Conditionnel : Pimp My Tooltip
+  if (document.querySelector("[title]")) {
+    import("./modules/pimp-my-tooltip.js").then((m) => m.init());
+  }
+
   // Conditionnel : smilies
   if (document.getElementById("smiley-box")) {
     import("./modules/smiley-box.js").then((m) => m.init());

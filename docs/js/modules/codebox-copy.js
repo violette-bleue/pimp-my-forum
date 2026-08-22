@@ -2,13 +2,13 @@
 
 export function init() {
   document.querySelectorAll(".codebox").forEach((box) => {
-    const code = box.querySelector("code");
+    const code = box.querySelector(".codebox");
     if (!code) return;
 
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "pmf-codebox-copy";
-    btn.textContent = "Copier";
+    btn.textContent = "Copier le code";
 
     btn.addEventListener("click", () => {
       const text = code.innerText;

@@ -10,8 +10,9 @@ bouton copier sur les balises [code]
 }
 
 dl.codebox {
-  margin: 0;
+  margin: var(--gap) 0;
   display: inline-flex;
+  position: relative;
 }
 
 dl.codebox dt {
@@ -25,6 +26,9 @@ dl.codebox dd {
 
 .pmf-codebox-copy {
   border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
   border-radius: var(--radius);
   background: var(--color-bg-soft);
   color: var(--color-text);
@@ -42,6 +46,14 @@ dl.codebox dd {
 .pmf-codebox-copy--done {
   background: var(--flash-accent-2);
   color: var(--color-bg-dark);
+}
+
+.hljs {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  padding-top: 30px;
+  background: var(--color-text);
 }
 
 .hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {

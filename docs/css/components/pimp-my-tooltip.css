@@ -1,0 +1,22 @@
+/* ==========================================================================
+   components/pimp-my-tooltip.css — infobulle custom (docs/js/modules/pimp-my-tooltip.js)
+   ========================================================================== */
+
+.pmf-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  max-width: var(--pmf-tooltip-max-width, 260px);
+  padding: 0.4em 0.7em;
+  background: var(--color-bg-dark);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  border-radius: var(--radius);
+}
+
+.pmf-tooltip--visible {
+  opacity: 1;
+}

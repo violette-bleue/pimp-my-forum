@@ -1,0 +1,57 @@
+<!-- pimp-my-forum/tools/pimp-my-tooltip/index.html — page de documentation (installation/config) -->
+
+<style>
+  .pmt-doc-code {
+    display: block;
+    overflow-x: auto;
+    background: #2b2118;
+    color: var(--color-accent);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin: 8px 0 18px;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    line-height: 1.5;
+    white-space: pre;
+  }
+  .pmt-doc-section {
+    margin-bottom: 28px;
+  }
+</style>
+
+<h1>Pimp My Tooltip</h1>
+<p class="pmf-tool-sub">Infobulle custom en remplacement du <code>title</code> natif du navigateur
+   (delai d'affichage nul, position suivant le curseur, style habille). Une etape pour
+   l'installer, une seconde facultative pour la regler.</p>
+
+<div class="pmt-doc-section">
+  <h2>1. Charger le module</h2>
+  <p>Administration &gt; Modules &gt; HTML &amp; JAVASCRIPT &gt; Gestion des codes Javascript
+     (placement : toutes les pages). Colle :</p>
+  <code class="pmt-doc-code">&lt;script type="module"&gt;
+  import { init } from "https://cdn.jsdelivr.net/gh/violette-bleue/pimp-my-forum@main/docs/js/modules/pimp-my-tooltip.js";
+  init();
+&lt;/script&gt;</code>
+  <p>Le module scanne toute la page a son chargement : chaque element portant un
+     attribut <code>title</code> se voit retirer ce <code>title</code> (pour eviter le
+     doublon avec l'infobulle native) et recoit l'infobulle custom a la place.</p>
+</div>
+
+<div class="pmt-doc-section">
+  <h2>2. Regler l'affichage (facultatif)</h2>
+  <p>Sans configuration, l'infobulle s'affiche sans delai, decalee de 14px sous le
+     curseur, largeur max 260px. Pour ajuster, colle un second bloc <strong>avant</strong>
+     le script d'installation :</p>
+  <code class="pmt-doc-code">&lt;script&gt;
+  window.PimpMyTooltip = { Config: {
+    selector: "[title]",   // elements cibles
+    delay: 120,             // ms avant affichage
+    offsetX: 14,            // decalage horizontal (px)
+    offsetY: 14,            // decalage vertical (px)
+    maxWidth: 260           // largeur max (px)
+  } };
+&lt;/script&gt;</code>
+</div>
+
+<p class="pmf-tool-hint">Cette page est provisoire : un configurateur visuel (a la maniere
+   de Pimp My Toolbar) viendra la remplacer pour composer ces reglages sans toucher au JS.</p>

@@ -6,10 +6,11 @@
 .pmf-page-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--gap);
   margin-bottom: var(--gap);
+  flex-direction: column;
 }
 
 .pmf-page-header__title {

@@ -28,6 +28,8 @@
 @import url("components/codebox-copy.css");
 @import url("components/pimp-my-tooltip.css");
 @import url("icons/icon.css");
-@import url("icons/coolicons.css");
 @import url("tweaks.css");
 @import url("wip.css");
+
+/*PACK ICONS*/
+@import url("icons/tabler.css");

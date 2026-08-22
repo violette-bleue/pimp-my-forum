@@ -91,7 +91,7 @@ codebox repliée dans les posts (aperçu tronqué + bouton copier en overlay)
 .pmf-post__content > div > div > .codebox {
   margin: 0;
   max-height: 50px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .pmf-post__content > div > div > .codebox code {

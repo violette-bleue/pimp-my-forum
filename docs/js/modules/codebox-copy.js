@@ -2,7 +2,7 @@
 
 export function init() {
   document.querySelectorAll(".codebox").forEach((box) => {
-    const code = box.querySelector(".codebox");
+    const code = box.querySelector("*:last-child");
     if (!code) return;
 
     const btn = document.createElement("button");

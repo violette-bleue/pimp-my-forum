@@ -46,7 +46,7 @@
   transform: translateY(-2px);
 }
 
-.pmf-partenaires__bouton a.is-active {
+.pmf-partenaires__boutons a.is-active {
   border-color: var(--flash-accent-3);
   background: var(--color-accent-3);
 }

@@ -3,21 +3,26 @@
    ========================================================================== */
 
 .pmf-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: var(--gap);
   line-height: normal;
   border-radius: var(--radius);
   padding: var(--padding);
-  font-family: var(--font-body);
-  border: 2px solid var(--text);
-  background: var(--bg);
-  color: var(--text);
+  font-family: var(--font-bouton);
+  color: var(--bgdark);
   cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all var(--anim);
+}
+
+.pmf-btn:hover {
+  background: var(--flash2) !important;
 }
 
 .pmf-btn--accent {
-  background: var(--accent);
+  background: var(--accent3);
   border-color: var(--accent);
 }
 

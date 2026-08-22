@@ -4,33 +4,30 @@
 
 :where(:root) {
   /* Fond principal (editeur CodeMirror + panneau formulaire) */
-  --pimpmypost-color-bg: #1e1e22;
+  --pimpmypost-color-bg: var(--bg);
   /* Fond en creux (gouttieres, puces de code inline dans l'editeur) */
-  --pimpmypost-color-bg-inset: #17171a;
+  --pimpmypost-color-bg-inset: var(--bgdark);
   /* Fond des champs de formulaire (input/select/textarea) */
-  --pimpmypost-color-bg-field: #2a2a30;
+  --pimpmypost-color-bg-field: var(--panel);
 
   /* Texte courant */
-  --pimpmypost-color-text: #e4e4e7;
+  --pimpmypost-color-text: var(--text);
   /* Texte attenue (commentaires, signe =, placeholder d'etat vide) */
-  --pimpmypost-color-muted: #9a9aa2;
+  --pimpmypost-color-muted: var(--muted);
 
   /* Balises BBCode/HTML */
-  --pimpmypost-color-tag: #e5c07b;
+  --pimpmypost-color-tag: var(--accent2);
   /* Noms d'attribut */
-  --pimpmypost-color-attribute: #56b6c2;
+  --pimpmypost-color-attribute: var(--flash3);
   /* Valeurs entre guillemets */
-  --pimpmypost-color-value: #d19a66;
+  --pimpmypost-color-value: var(--flash2);
   /* Accent generique : legendes de groupe, focus des champs, curseur CodeMirror */
-  --pimpmypost-color-accent: #56b6c2;
+  --pimpmypost-color-accent: var(--flash);
   /* Surlignage de selection dans l'editeur */
-  --pimpmypost-color-selection: rgba(86, 182, 194, 0.18);
-
-  --pimpmypost-font-body: system-ui, sans-serif;
-  --pimpmypost-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-
-  --pimpmypost-radius: 6px;
-  --pimpmypost-gap: 10px;
+  --pimpmypost-color-selection: var(--bgdark);
+  --pimpmypost-font-mono: var(--font-mono), "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --pimpmypost-radius: var(--radius);
+  --pimpmypost-gap: var(--gap);
 }
 
 .pmf-cm-host {
@@ -53,8 +50,10 @@
     font-family: var(--pimpmypost-font-mono);
     background: var(--pimpmypost-color-bg-inset);
     display: inline-flex;
-    border-radius: 4px;
-    padding: 0 1px;
+    border-radius: var(--radius);
+    padding: 0 2px;
+    line-height: 80%;
+    font-size: 90%;
 }
 span:has(.cm-comment) {
     flex-wrap: nowrap;
@@ -84,6 +83,16 @@ span:has(.cm-comment) {
     overflow-y: auto !important;
     min-height: 200px;
     padding: 0;
+    overflow-x: hidden!important;
+}
+
+.CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber, .CodeMirror-scroll, .CodeMirror-sizer {
+    text-align: initial;
+    line-height: 120%;
+}
+
+.sceditor-container {
+  border-radius: var(--radius);
 }
 
 .sceditor-grip {

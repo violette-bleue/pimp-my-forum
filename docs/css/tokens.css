@@ -40,8 +40,8 @@
     --radius           : 0px;
     --anim             : 500ms ease;
     --gap              : 5px;
-    --padding          : 0.5em 1em;
-    --padding-bouton   : 0.3em 0.6em;
+    --padding: calc(var(--gap)/2) var(--gap);
+    --padding-bouton   : calc(var(--gap)/2) var(--gap);
     --margin: 15px;
     --sidebar-width    : 220px;
     --content-max-width: 1200px;

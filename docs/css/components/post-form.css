@@ -101,3 +101,7 @@ div#message-box div#textarea_content {
   flex-direction: column;
   width: 100% !important;
 }
+
+form#quick_reply div#textarea_content {
+  width: 100% !important;
+}

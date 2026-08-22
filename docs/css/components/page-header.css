@@ -28,6 +28,25 @@
   font-size: 0;
   color: var(--muted);
   padding: 0 var(--gap);
+  background: var(--bg);
+}
+
+.pmf-page-header__path a {
+  font-size: 14px;
+  text-transform: lowercase;
+  font-family: var(--font-bouton);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--gap)*2);
+}
+
+.pmf-page-header__path a::after {
+  content: '﹒';
+  display: block;
+}
+
+.pmf-page-header__path a:last-of-type::after {
+  display: none;
 }
 
 .pmf-page-header__path a:hover {

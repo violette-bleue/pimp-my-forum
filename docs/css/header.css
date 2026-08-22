@@ -281,7 +281,7 @@ input#fa_textarea:focus {
 input:focus-visible {
   outline      : none;
   border-color : var(--flash) !important;
-  background   : var(--flash) !important;
+  background: var(--flash) !important;
 }
 
 div#fa_usermenu img {

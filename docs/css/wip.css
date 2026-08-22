@@ -5,7 +5,10 @@
 .pmf-category.pmf-categorie-2 .pmf-category__header, #like_popup {
   display: none!important;
 }
-
+form#forum-search {
+    display: none;
+    order: 2;
+}
 .pmf-wip {
   display: flex;
   flex-direction: column;

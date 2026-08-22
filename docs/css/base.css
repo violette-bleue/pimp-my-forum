@@ -54,6 +54,9 @@ body::after {
     mix-blend-mode: multiply;
     opacity: 60%;
 }
+img[src*="empty.gif"] {
+    display: none;
+}
 /* homogénéisation des smileys partout peu importe la taille d'origine */
 img[src*="/smiles/"] {
     max-width: 20px;

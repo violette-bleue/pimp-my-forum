@@ -108,6 +108,11 @@ div#message-box div#textarea_content {
 
 form#quick_reply div#textarea_content {
   width: 100% !important;
+  height: var(--editorh);
+  --editorh: 300px;
+  height: var(--editorh);
+  display: flex;
+  flex-direction: column;
 }
 
 form#quick_reply > div:last-of-type {

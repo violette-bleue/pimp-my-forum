@@ -92,7 +92,7 @@ span:has(.cm-comment) {
 /* Le container */
 .CodeMirror-scroll {
     overflow-y: auto !important;
-    height: 100%;
+    height: 30%;
     padding: 0;
     overflow-x: hidden!important;
 }
@@ -130,7 +130,9 @@ span:has(.cm-comment) {
   background: var(--flash3);
   opacity: 40%;
 }
-
+.CodeMirror-widget {
+    background: transparent !important;
+}
 .cm-s-pmf .CodeMirror-gutters {
   background: var(--pimpmypost-color-bg-inset);
 }

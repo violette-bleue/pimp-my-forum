@@ -1,12 +1,9 @@
-/* pmf.js — point d'entrée (chargé en <script type="module">) */
-
 const cfg = window.pmfConfig || {};
 
-// Config Supabase (log usage + check licence)
+// Config Supabase 
 const SUPABASE_URL = "https://zmcemvepmmawriilblky.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_fYNIKzORfbNwReKtP_PFDw_XFo0ueLF";
 
-// Log d'usage (fire-and-forget)
 fetch(SUPABASE_URL + "/rest/v1/pmf_installs", {
   method: "POST",
   headers: {
@@ -18,7 +15,6 @@ fetch(SUPABASE_URL + "/rest/v1/pmf_installs", {
   body: JSON.stringify({ host: location.hostname }),
 }).catch(() => {});
 
-// Check de licence (fail-open)
 fetch(SUPABASE_URL + "/rest/v1/rpc/pmf_check_status", {
   method: "POST",
   headers: {
@@ -64,18 +60,16 @@ function initModules() {
   // Toujours actif : gestion du menu burger mobile
   import("./modules/burger-menu.js").then((m) => m.init());
 
-  // Toujours actif : fusion toolbar fa et navbar
+  // Toujours actif : fusion toolbar fa et navbar / table
   import("./modules/fa-toolbar-merge.js").then((m) => m.init());
-
-  // Toujours actif : raccroche les tableaux natifs FA (membres, moderation...) a .table1.
   import("./modules/native-tables.js").then((m) => m.init());
 
-  // Conditionnel : conversion images navbar custom + icones natives -> icon-mask
+  // Conditionnel : icon navbar
   if (document.querySelector('#modernbb-nav-menu a.mainmenu img, #modernbb-nav-menu a.mainmenu i[icon-mask^="http"]')) {
     import("./modules/nav-icons.js").then((m) => m.init());
   }
 
-  // Conditionnel : ticker "new" (jcarousel)
+  // Conditionnel : carousel
   if (cfg.ticker && cfg.ticker.enabled) {
     import("./modules/ticker.js").then((m) => m.init(cfg.ticker));
   }
@@ -95,18 +89,17 @@ function initModules() {
     import("./modules/viewtopic-post-menu.js").then((m) => m.init());
   }
 
-  // Conditionnel : réactions
+  // Conditionnel : réactions 
   if (document.querySelector(".pmf-post__reactions[data-post-id]") || document.getElementById("pmf-reactions-admin")) {
     import("./modules/reactions.js").then((m) => m.init());
   }
 
-  // Conditionnel : Pimp My Post (coloration BBCode/HTML + inputs assistes) dans l'editeur
-  // SCEditor (pages post/reponse/edition).
+  // Conditionnel : Pimp My Post
   if (document.getElementById("text_editor_textarea")) {
     import("./modules/pimp-my-post.js").then((m) => m.init());
   }
 
-  // Conditionnel : picker de smileys
+  // Conditionnel : smilies
   if (document.getElementById("smiley-box")) {
     import("./modules/smiley-box.js").then((m) => m.init());
   }
@@ -121,8 +114,7 @@ function initModules() {
     import("./modules/forum-classes.js").then((m) => m.init(cfg.forumClasses));
   }
 
-  // Conditionnel : widget partenaires, deplace juste apres la ligne du forum
-  // "Contact & Partenariat" dans la liste des forums (page d'accueil).
+  // Conditionnel : widget partenaires
   if (document.getElementById("pmf-widget-partenaires")) {
     import("./modules/partners-widget.js").then((m) => m.init());
   }

@@ -172,4 +172,5 @@ dl.mod-login dt {
   font-family: var(--font-bouton);
   font-weight: 700;
   font-size: 12px;
+  cursor: pointer;
 }

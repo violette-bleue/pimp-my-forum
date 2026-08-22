@@ -59,12 +59,6 @@ span:has(.cm-comment) {
     flex-wrap: nowrap;
     flex-direction: column;
 }
-.CodeMirror-line span {
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-}
 .pmp-fa-raw {
   all: revert;
 }

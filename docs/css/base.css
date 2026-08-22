@@ -72,7 +72,13 @@ img[src*="/smiles/"] {
 .material-symbols-outlined {
     font-size: var(--icon-size);
 }
-
+hr {
+    display: block;
+    height: 2px;
+    background: linear-gradient(270deg, var(--gradientflash));
+    border: none;
+    border-radius: var(--radius);
+}
 h1 {
     font-family: var(--font-mono);
     font-size: 1.8rem;

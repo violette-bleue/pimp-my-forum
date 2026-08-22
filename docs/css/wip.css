@@ -15,8 +15,11 @@
 .pmf-wip:first-of-type {
   display: flex;
   flex-direction: row;
+  height: 600px;
 }
-
+.pmf-wip:first-of-type iframe {
+    max-height: 600px;
+}
 .pmf-category.pmf-categorie-2 ul.pmf-category__list {
     display: flex;
     flex-direction: column;

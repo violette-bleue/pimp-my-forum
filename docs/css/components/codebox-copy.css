@@ -10,6 +10,20 @@
   gap: var(--gap);
 }
 
+dl.codebox {
+  margin: 0;
+  display: inline-flex;
+}
+
+dl.codebox dt {
+  display: none;
+}
+
+dl.codebox dd {
+  margin: 0;
+  display: inline-flex;
+}
+
 .pmf-codebox-copy {
   border: none;
   border-radius: var(--radius);
@@ -29,4 +43,16 @@
 .pmf-codebox-copy--done {
   background: var(--flash-accent-2);
   color: var(--color-bg-dark);
+}
+
+.hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {
+  color: var(--flash-accent);
+}
+
+.hljs-tag {
+  color: var(--flash-accent-3);
+}
+
+.hljs-section, .hljs-name {
+  color: var(--color-accent-2);
 }

@@ -2,9 +2,8 @@
 
 export function init() {
   document.querySelectorAll(".codebox").forEach((box) => {
-    const label = box.querySelector("p");
     const code = box.querySelector("code");
-    if (!label || !code) return;
+    if (!code) return;
 
     const btn = document.createElement("button");
     btn.type = "button";
@@ -20,7 +19,7 @@ export function init() {
       }
     });
 
-    label.appendChild(btn);
+    code.appendChild(btn);
   });
 }
 

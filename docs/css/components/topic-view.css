@@ -204,6 +204,11 @@
   word-break: break-word;
 }
 
+.pmf-post__content > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .pmf-post__attachments {
   margin-top: var(--gap);
   padding-top: var(--gap);

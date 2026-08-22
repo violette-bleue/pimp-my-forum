@@ -33,6 +33,10 @@
   border-radius: var(--radius);
 }
 
+.pmf-reactions-admin__panel[hidden] {
+  display: none;
+}
+
 .pmf-reactions-admin__option {
   display: flex;
   align-items: center;

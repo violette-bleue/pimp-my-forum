@@ -4,12 +4,7 @@
    ========================================================================== */
 
 .pmf-quick-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--gap);
-  padding: 0.5em 0;
-  font-size: 0.85rem;
+  display: none;
 }
 
 .pmf-quick-nav a:hover {
@@ -201,6 +196,10 @@
   word-break: break-word;
 }
 
+.pmf-post__content > div > br {
+  line-height: var(--gap);
+}
+
 .pmf-post__attachments {
   margin-top: var(--gap);
   padding-top: var(--gap);
@@ -228,6 +227,7 @@
   flex-wrap: wrap;
   gap: 0.4em;
   padding: 0 var(--gap) var(--gap);
+  color: var(--color-accent-3);
 }
 
 .pmf-post__reaction-btn {
@@ -238,10 +238,10 @@
   border: none;
   border-radius: var(--radius);
   background: var(--color-bg-soft);
-  color: var(--color-bg-dark);
+  color: var(--color-text);
   cursor: pointer;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 11px;
 }
 
 .pmf-post__reaction-btn:hover {
@@ -249,8 +249,7 @@
 }
 
 .pmf-post__reaction-btn.is-active {
-  background: var(--flash-accent);
-  color: var(--color-bg-dark);
+  background: var(--flash-accent-3);
 }
 
 .pmf-forum-rules {

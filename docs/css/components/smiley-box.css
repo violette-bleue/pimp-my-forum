@@ -8,8 +8,8 @@
 
 
 #smiley-box {
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   padding: 0.75em;
   font-family: var(--font-body);
@@ -20,7 +20,7 @@
     display: none;
 }
 #smiley-box a {
-  color: var(--color-bg-dark);
+  color: var(--bgdark);
   font-weight: 600;
 }
 
@@ -31,9 +31,9 @@
 #smiley-box #smileyContainer iframe {
   width: 100%;
   max-height: 420px;
-  border: 2px solid var(--color-bg-dark);
+  border: 2px solid var(--bgdark);
   border-radius: var(--radius);
-  background: var(--color-bg-soft);
+  background: var(--bgsoft);
 }
 
 /* ---- Contenu du frame (document distinct) ------------------------------ */
@@ -47,7 +47,7 @@
 #pmf-smiley-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3em;
+  gap: var(--gap);
   margin-bottom: 0.5em !important;
 }
 
@@ -55,16 +55,16 @@
   font-family: var(--font-body);
   font-size: 0.75rem;
   padding: 0.25em 0.6em;
-  border: 2px solid var(--color-bg-dark);
+  border: 2px solid var(--bgdark);
   border-radius: var(--radius);
   background: #fff;
-  color: var(--color-bg-dark);
+  color: var(--bgdark);
   cursor: pointer;
 }
 
 .pmf-smiley-tab.is-active {
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
 }
 
 .smiley-element {

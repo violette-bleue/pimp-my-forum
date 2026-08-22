@@ -14,12 +14,12 @@
   justify-content: center;
   border: none;
   cursor: pointer;
-  background: var(--flash-accent-3);
-  color: var(--color-bg-dark);
+  background: var(--flash3);
+  color: var(--bgdark);
 }
 
 .pmf-theme-toggle:hover {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .pmf-theme-toggle i {
@@ -45,7 +45,7 @@
 [class*="pmf-header__bar"] {
   position: sticky;
   top: 0;
-  background: var(--flash-accent-3);
+  background: var(--flash3);
   width: 60px;
   height: 0;
   transition: all var(--anim);
@@ -77,7 +77,7 @@
 }
 
 [class*="pmf-header__bar"]>.wrap {
-  background: var(--flash-accent-3);
+  background: var(--flash3);
   display: grid;
   justify-items: start;
   gap: var(--gap);
@@ -100,8 +100,8 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background: linear-gradient(281deg, var(--color-accent), var(--color-accent-2));
-    background: linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
+    background: linear-gradient(281deg, var(--accent), var(--accent2));
+    background: linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
     -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
     background-size: 100%;
     mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
@@ -131,7 +131,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background: linear-gradient(var(--pmf-gradient-angle), var(--flash-gradient));
+    background: linear-gradient(var(--pmf-gradient-angle), var(--gradientflash));
     -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
     background-size: 316%;
     mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
@@ -188,7 +188,7 @@
 .pmf-nav .mainmenu {
   display        : inline-flex;
   align-items    : center;
-  color          : var(--color-text);
+  color          : var(--text);
   font-family: var(--font-mono);
   text-decoration: none;
   width: fit-content;
@@ -196,7 +196,7 @@
 }
 
 .pmf-nav .mainmenu:hover {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .pmf-nav a[href="/"]::before {
@@ -246,7 +246,7 @@
 
 .mainmenu [icon="discord"] {
   mask-size    : 85%;
-  background   : var(--color-text);
+  background   : var(--text);
   mask-repeat  : no-repeat;
   mask-position: right;
   display      : flex;
@@ -266,10 +266,10 @@ div#fa_usermenu {
 
 input#fa_textarea {
   width        : 30px;
-  background   : var(--color-accent-3);
+  background   : var(--accent3);
   border-radius: var(--radius);
   transition   : all var(--anim);
-  border       : 2px inset var(--color-accent-3);
+  border       : 2px inset var(--accent3);
   padding      : 5px;
   cursor       : zoom-in;
 }
@@ -280,8 +280,8 @@ input#fa_textarea:focus {
 
 input:focus-visible {
   outline      : none;
-  border-color : var(--flash-accent) !important;
-  background   : var(--flash-accent) !important;
+  border-color : var(--flash) !important;
+  background   : var(--flash) !important;
 }
 
 div#fa_usermenu img {
@@ -307,7 +307,7 @@ ul#fa_menulist a::before {
   content: '';
   width: var(--icon-size);
   height: var(--icon-size);
-  background: var(--color-text);
+  background: var(--text);
   display: inline-block;
   margin-right: 0.4em;
   vertical-align: -0.15em;
@@ -374,7 +374,7 @@ a#fa_notifications::before {
   width: var(--icon-size);
   height: var(--icon-size);
   mask-size: 100%;
-  background: var(--color-text);
+  background: var(--text);
   mask-position: center;
   font-size: 10px;
   display: flex;
@@ -393,11 +393,11 @@ ul#notif_list {
   width: 300px;
   margin: 0;
   padding: 10px;
-  background: linear-gradient(23deg, var(--flash-accent), var(--flash-accent-3) 80%, var(--flash-accent-2) 100%);
+  background: linear-gradient(23deg, var(--flash), var(--flash3) 80%, var(--flash2) 100%);
   font-size: 13px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: var(--gap);
   left: unset!important;
   margin-left: 50px;
   top: 0;
@@ -429,7 +429,7 @@ ul#notif_list[hidden] {
   display   : block;
   width     : 22px;
   height    : 2px;
-  background: var(--color-text);
+  background: var(--text);
 }
 
 .navicon::before,
@@ -439,7 +439,7 @@ ul#notif_list[hidden] {
   left      : 0;
   width     : 22px;
   height    : 2px;
-  background: var(--color-text);
+  background: var(--text);
 }
 
 .navicon::before {
@@ -473,7 +473,7 @@ ul#notif_list[hidden] {
   font-size      : 190px;
   display        : flex;
   line-height    : 120px;
-  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
+  background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
   background-clip: text;
   width          : fit-content;
   margin         : 0;
@@ -493,14 +493,14 @@ div#pmf-site-title::after {
   content        : 'PIMP MY FORUM';
   position       : absolute;
   z-index        : 2;
-  background     : linear-gradient(263deg, var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%);
+  background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
   background-clip: text;
   mix-blend-mode : hard-light;
   padding        : 0px 0px 0px 0px;
 }
 
 .pmf-site-desc__tagline {
-    color: var(--color-text);
+    color: var(--text);
     opacity: 0.8;
     font-family: var(--font-mono);
     font-size: 10px;

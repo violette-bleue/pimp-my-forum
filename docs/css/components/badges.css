@@ -5,7 +5,7 @@
 .pmf-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: var(--gap);
   line-height: normal;
   border-radius: 999px;
   padding: 0.2em 0.6em;
@@ -13,8 +13,8 @@
 }
 
 .pmf-badge--flash {
-  background: var(--color-accent-2);
-  color: var(--color-bg);
+  background: var(--accent2);
+  color: var(--bg);
 }
 
 .pmf-badge--dim {

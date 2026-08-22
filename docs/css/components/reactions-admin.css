@@ -7,29 +7,29 @@
 .pmf-reactions-admin__toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
   margin-top: var(--gap);
   padding: 0.4em 0.8em;
   border: none;
   border-radius: var(--radius);
-  background: var(--color-bg-soft);
-  color: var(--color-text);
+  background: var(--bgsoft);
+  color: var(--text);
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.85rem;
 }
 
 .pmf-reactions-admin__toggle:hover {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .pmf-reactions-admin__panel {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6em 1.2em;
+  gap: var(--gap);
   margin-top: var(--gap);
   padding: 1em;
-  background: var(--color-pannel);
+  background: var(--panel);
   border-radius: var(--radius);
 }
 
@@ -40,7 +40,7 @@
 .pmf-reactions-admin__option {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
   font-size: 0.85rem;
   cursor: pointer;
 }
@@ -55,5 +55,5 @@
 
 .pmf-reactions-admin__error {
   font-size: 0.8rem;
-  color: var(--color-accent-2);
+  color: var(--accent2);
 }

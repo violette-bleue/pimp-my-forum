@@ -17,14 +17,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1em;
+  gap: var(--gap);
 }
 
 .pmf-pagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.3em;
+  gap: var(--gap);
 }
 
 .pmf-jumpbox {
@@ -35,7 +35,7 @@
 .pmf-jumpbox__row {
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: var(--gap);
   margin: 0;
 }
 
@@ -46,7 +46,7 @@
 #sort-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: var(--gap);
   cursor: pointer;
 }
 
@@ -59,8 +59,8 @@
   min-width: 200px;
   margin-top: 0.3em;
   padding: 1em;
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -89,8 +89,8 @@
   flex: 1;
   min-width: 200px;
   padding: 0.75em 1em;
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   font-size: 0.85rem;
 }
@@ -98,7 +98,7 @@
 .pmf-info-block__title {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
   margin: 0 0 0.4em;
   font-family: var(--font-title);
   font-size: 0.9rem;

@@ -13,30 +13,35 @@
 
 :root {
     /* Couleurs */
-    --color-bg     : #b095c5;
-    --color-bg-dark: #9275a3;
-    --color-bg-soft: #d4aaf3;
-    --color-pannel : #e0dcf5;
-    --color-text : #ffffff;
-    --color-muted: #e5e0f4;
-    --flash-accent  : #c6a3ff;
-    --flash-accent-2: #eed91b;
-    --flash-accent-3: #ff89c1;
-    --flash-gradient: var(--flash-accent) 40%, var(--flash-accent-3) 73%, var(--flash-accent-2) 140%;
-    --color-accent  : #d5d8ff;
-    --color-accent-2: #fbc9bd;
-    --color-accent-3: #f6bce6;
+    --bg     : #b095c5;
+    --bgdark: #9275a3;
+    --bgsoft: #d4aaf3;
+    --panel : #e0dcf5;
+    --text : #ffffff;
+    --muted: #e5e0f4;
+    --flash  : #c6a3ff;
+    --flash2: #eed91b;
+    --flash3: #ff89c1;
+    --accent  : #d5d8ff;
+    --accent2: #fbc9bd;
+    --accent3: #f6bce6;
+    --gradient: var(--accent) 40%, var(--accent3) 73%, var(--accent2) 140%;
+    --gradientflash: var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%;
+
 
     /* Typo */
     --font-display: "Porao Grottesche", sans-serif;
     --font-title  : "Kode Mono", monospace;
     --font-body   : "Krub", sans-serif;
     --font-mono   : "Kode Mono", monospace;
+    --font-bouton : var(--font-mono);
 
     /* Layout */
     --radius           : 0px;
     --anim             : 500ms ease;
     --gap              : 5px;
+    --padding          : 0.5em 1em;
+    --padding-bouton   : 0.3em 0.6em;
     --sidebar-width    : 220px;
     --content-max-width: 1200px;
     --icon-size: 15px;

@@ -51,13 +51,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--gap);
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0.5rem 1rem;
   font-family: var(--font-body);
   font-size: 0.8rem;
-  color: var(--color-muted);
+  color: var(--muted);
   text-align: center;
 }
 

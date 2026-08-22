@@ -81,7 +81,7 @@
   font-size    : 12px;
   line-height  : 1.5;
   background   : #2b2118;
-  color        : var(--color-accent);
+  color        : var(--accent);
   border       : none;
   border-radius: var(--radius);
   padding      : 12px;

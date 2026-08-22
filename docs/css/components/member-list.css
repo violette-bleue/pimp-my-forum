@@ -9,7 +9,7 @@
 }
 
 .pmf-member-list {
-  background: var(--color-pannel);
+  background: var(--panel);
   border-radius: var(--radius);
   overflow: hidden;
   margin-bottom: var(--gap);
@@ -24,16 +24,16 @@
 }
 
 .pmf-member-list__header {
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-title);
   font-size: 0.75rem;
   opacity: 0.9;
 }
 
 .pmf-member-row {
-  color: var(--color-bg-dark);
-  border-top: 1px solid var(--color-bg-soft);
+  color: var(--bgdark);
+  border-top: 1px solid var(--bgsoft);
 }
 
 .pmf-member-row--empty {
@@ -57,8 +57,8 @@
 .pmf-member-row__profile a {
   display: flex;
   align-items: center;
-  gap: 0.6em;
-  color: var(--flash-accent);
+  gap: var(--gap);
+  color: var(--flash);
   text-decoration: none;
   font-family: var(--font-mono);
 }
@@ -99,7 +99,7 @@
   font-size: 0.8rem;
   opacity: 0.85;
   flex-direction: column;
-  gap: 0.2em;
+  gap: var(--gap);
 }
 
 @media (max-width: 700px) {

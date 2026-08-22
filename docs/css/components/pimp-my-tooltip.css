@@ -10,8 +10,8 @@
   transition: opacity 150ms ease;
   max-width: var(--pmf-tooltip-max-width, 260px);
   padding: 0.4em 0.7em;
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 0.8rem;
   border-radius: var(--radius);

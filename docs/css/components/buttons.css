@@ -5,20 +5,20 @@
 .pmf-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
   line-height: normal;
   border-radius: var(--radius);
-  padding: 0.5em 1em;
+  padding: var(--padding);
   font-family: var(--font-body);
-  border: 2px solid var(--color-text);
-  background: var(--color-bg);
-  color: var(--color-text);
+  border: 2px solid var(--text);
+  background: var(--bg);
+  color: var(--text);
   cursor: pointer;
 }
 
 .pmf-btn--accent {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .pmf-btn--outline {
@@ -26,12 +26,12 @@
 }
 
 .pmf-btn--danger {
-  background: var(--color-accent-2);
-  border-color: var(--color-accent-2);
+  background: var(--accent2);
+  border-color: var(--accent2);
 }
 
 .pmf-btn--flat {
   border: none;
   background: transparent;
-  padding: 0.3em 0.6em;
+  padding: var(--padding-bouton);
 }

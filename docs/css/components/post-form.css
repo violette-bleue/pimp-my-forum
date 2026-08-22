@@ -4,8 +4,8 @@
    ========================================================================== */
 
 .pmf-form-block {
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   margin-bottom: var(--gap);
   overflow: hidden;
@@ -16,9 +16,9 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--gap);
-  padding: 0.5em 1em;
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  padding: var(--padding);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-title);
   font-size: 1rem;
 }
@@ -61,7 +61,7 @@
 .radio-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6em;
+  gap: var(--gap);
   align-items: center;
   margin-bottom: 0.75em;
 }
@@ -75,7 +75,7 @@
 .sub-head {
   margin-top: 1em;
   padding-top: 0.5em;
-  border-top: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
   font-family: var(--font-title);
   font-size: 0.9rem;
 }

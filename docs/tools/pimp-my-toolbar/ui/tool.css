@@ -717,7 +717,7 @@ img.smiley {
 /*PMT*/
 
 .pmt-panel {
-  background   : var(--color-bg);
+  background   : var(--bg);
   border-radius: var(--radius);
   padding      : 16px;
   margin-bottom: 18px;
@@ -759,7 +759,7 @@ img.smiley {
   border       : 1px solid transparent;
   border-radius: var(--radius);
   background   : #fff;
-  color        : var(--flash-accent);
+  color        : var(--flash);
   cursor       : pointer;
   overflow     : hidden;
   padding      : 0;
@@ -769,12 +769,12 @@ img.smiley {
 }
 
 .pmt-icon-pick:hover {
-  border-color: var(--color-accent-2);
+  border-color: var(--accent2);
 }
 
 .pmt-icon-pick.active {
-    border-color: var(--flash-accent-3);
-    color: var(--flash-accent-3);
+    border-color: var(--flash3);
+    color: var(--flash3);
 }
 .pmt-icon-pick-special {
   font-family: inherit;
@@ -819,27 +819,27 @@ img.smiley {
 .pmt-align-btn span {
   width: 3px;
   min-height: 2px;
-  background: var(--color-text);
+  background: var(--text);
   border-radius: 1px;
   opacity: .6;
 }
 
 .pmt-align-btn:hover {
-  border-color: var(--color-accent-2);
+  border-color: var(--accent2);
 }
 
 .pmt-align-btn.active {
-  border-color: var(--color-accent-2);
+  border-color: var(--accent2);
   background: rgba(193, 80, 46, .12);
 }
 
 .pmt-align-btn.active span {
   opacity: 1;
-  background: var(--color-accent-2);
+  background: var(--accent2);
 }
 
 .pmt-btn {
-  background   : var(--color-accent-2);
+  background   : var(--accent2);
   color        : #fff;
   border       : none;
   border-radius: var(--radius);
@@ -850,8 +850,8 @@ img.smiley {
 }
 
 .pmt-btn:hover {
-  background: var(--color-accent);
-  color     : var(--color-text);
+  background: var(--accent);
+  color     : var(--text);
 }
 
 .pmt-custom-list {
@@ -889,8 +889,8 @@ img.smiley {
 }
 
 .pmt-custom-item-remove:hover {
-  border-color: var(--color-accent-2);
-  color       : var(--color-accent-2);
+  border-color: var(--accent2);
+  color       : var(--accent2);
 }
 
 /* --- Zone d'apercu : simple cadre d'accueil, le rendu vient du CSS genere --- */
@@ -903,7 +903,7 @@ img.smiley {
 }
 
 .pmt-reserve {
-  border-color: var(--color-accent-2);
+  border-color: var(--accent2);
 }
 
 /* Couleur d'icone par defaut dans l'apercu (le CSS genere par l'utilisateur prend le dessus si defini) */
@@ -912,13 +912,13 @@ img.smiley {
 }
 
 .pmt-preview .sceditor-button::before {
-  color: var(--color-text);
+  color: var(--text);
 }
 
 /* Sans pack applique : libelle natif visible pour que l'apercu reste lisible */
 .pmt-preview .sceditor-button div {
   font-size  : 11px;
-  color      : var(--color-text);
+  color      : var(--text);
   padding    : 2px 6px;
   white-space: nowrap;
 }

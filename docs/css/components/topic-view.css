@@ -8,7 +8,7 @@
 }
 
 .pmf-quick-nav a:hover {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .pmf-post {
@@ -18,8 +18,8 @@
     "profile head"
     "profile body"
     "profile reactions";
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   margin-bottom: var(--gap);
   overflow: hidden;
@@ -44,7 +44,7 @@
 .pmf-post__profile {
   grid-area: profile;
   padding: var(--gap);
-  background: var(--color-bg-soft);
+  background: var(--bgsoft);
 }
 
 .pmf-post__profile-avatar img {
@@ -61,14 +61,14 @@
 }
 
 .pmf-post__profile-name a {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .pmf-post__profile-rank {
   font-size: 0.8rem;
   opacity: 0.8;
   padding-bottom: 0.4em;
-  border-bottom: 1px solid var(--color-bg-dark);
+  border-bottom: 1px solid var(--bgdark);
   margin-bottom: 0.4em;
 }
 
@@ -103,8 +103,8 @@
   width: 1.6em;
   height: 1.6em;
   border-radius: var(--radius);
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-mono);
 }
 
@@ -117,7 +117,7 @@
   margin: 0.3em 0 0;
   padding: 0.3em;
   list-style: none;
-  background: var(--color-bg-dark);
+  background: var(--bgdark);
   border-radius: var(--radius);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
@@ -131,13 +131,13 @@
   display: flex;
   align-items: center;
   padding: 0.4em;
-  color: var(--color-text);
+  color: var(--text);
   cursor: pointer;
 }
 
 .pmf-post__icon-item a:hover,
 .pmf-post__icon-item span:hover {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .pmf-post__title {
@@ -149,7 +149,7 @@
 }
 
 .pmf-post__title a {
-  color: var(--color-bg-dark);
+  color: var(--bgdark);
 }
 
 .pmf-post__date {
@@ -161,7 +161,7 @@
 .pmf-post__vote {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
 }
 
 .pmf-post__vote-bar,
@@ -175,15 +175,15 @@
   height: 6px;
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--color-bg-soft);
+  background: var(--bgsoft);
 }
 
 .pmf-post__vote-bar-fill--plus {
-  background: var(--color-accent-3);
+  background: var(--accent3);
 }
 
 .pmf-post__vote-bar-fill--minus {
-  background: var(--color-bg-dark);
+  background: var(--bgdark);
 }
 
 .pmf-post__body {
@@ -203,7 +203,7 @@
 .pmf-post__attachments {
   margin-top: var(--gap);
   padding-top: var(--gap);
-  border-top: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
   font-size: 0.85rem;
 }
 
@@ -216,7 +216,7 @@
 .pmf-post__signature {
   margin-top: var(--gap);
   padding-top: var(--gap);
-  border-top: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
   font-size: 0.8rem;
   opacity: 0.8;
 }
@@ -225,36 +225,36 @@
   grid-area: reactions;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4em;
+  gap: var(--gap);
   padding: 0 var(--gap) var(--gap);
-  color: var(--color-accent-3);
+  color: var(--accent3);
 }
 
 .pmf-post__reaction-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
-  padding: 0.3em 0.6em;
+  gap: var(--gap);
+  padding: var(--padding-bouton);
   border: none;
   border-radius: var(--radius);
-  background: var(--color-bg-soft);
-  color: var(--color-text);
+  background: var(--bgsoft);
+  color: var(--text);
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 11px;
 }
 
 .pmf-post__reaction-btn:hover {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .pmf-post__reaction-btn.is-active {
-  background: var(--flash-accent-3);
+  background: var(--flash3);
 }
 
 .pmf-forum-rules {
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   margin-bottom: var(--gap);
   overflow: hidden;
@@ -262,9 +262,9 @@
 
 .pmf-forum-rules__title {
   margin: 0;
-  padding: 0.5em 1em;
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  padding: var(--padding);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-title);
   font-size: 1rem;
 }

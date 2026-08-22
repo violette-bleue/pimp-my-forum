@@ -3,8 +3,8 @@
    ========================================================================== */
 
 .pmf-footer {
-  background: var(--color-bg-dark);
-  color: var(--color-muted);
+  background: var(--bgdark);
+  color: var(--muted);
   font-family: var(--font-body);
   font-size: 0.85rem;
 }
@@ -31,17 +31,17 @@
 
 .pmf-footer__item a,
 .pmf-footer__link {
-  color: var(--color-muted);
+  color: var(--muted);
   text-decoration: none;
 }
 
 .pmf-footer__item a:hover,
 .pmf-footer__link:hover {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .pmf-footer__copyright {
-  border-top: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
 }
 
 .pmf-footer__copyright-inner {

@@ -18,8 +18,8 @@
 .calendar {
   display: flex;
   flex-wrap: wrap;
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -31,8 +31,8 @@
 .calendar-head {
   padding: 0.4em;
   text-align: center;
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-title);
   font-size: 0.75rem;
 }
@@ -45,8 +45,8 @@
 .calendar-cell-wrap,
 .calendar-cell-spacer {
   box-sizing: border-box;
-  border-top: 1px solid var(--color-bg-soft);
-  border-left: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
+  border-left: 1px solid var(--bgsoft);
 }
 
 .calendar-cell {
@@ -75,12 +75,12 @@
 .btn-fixed {
   display: inline-flex;
   align-items: center;
-  gap: 0.3em;
+  gap: var(--gap);
   margin-top: var(--gap);
-  padding: 0.5em 1em;
+  padding: var(--padding);
   border: none;
   border-radius: var(--radius);
-  background: var(--color-accent);
-  color: var(--color-bg);
+  background: var(--accent);
+  color: var(--bg);
   cursor: pointer;
 }

@@ -49,18 +49,18 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--gap);
 }
 
 .tabs li {
   padding: 0.5em 0.8em;
   border-radius: var(--radius);
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
 }
 
 .tabs li.activetab {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 /* ---- Liste des messages (privmsgs_body) ----------------------------------- */
@@ -70,9 +70,9 @@
   align-items: center;
   gap: var(--gap);
   padding: 0.6em 0.8em;
-  border-top: 1px solid var(--color-bg-soft);
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  border-top: 1px solid var(--bgsoft);
+  background: var(--panel);
+  color: var(--bgdark);
 }
 
 .notification-check {
@@ -92,7 +92,7 @@
 .notification-title {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
 }
 
 .notification-date {

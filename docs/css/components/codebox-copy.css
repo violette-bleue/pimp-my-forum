@@ -30,8 +30,8 @@ dl.codebox dd {
   top: 0;
   left: 0;
   border-radius: var(--radius);
-  background: var(--color-bg-soft);
-  color: var(--color-text);
+  background: var(--bgsoft);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 0.8rem;
   padding: 0.2em 0.7em;
@@ -41,12 +41,12 @@ dl.codebox dd {
 }
 
 .pmf-codebox-copy:hover {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .pmf-codebox-copy--done {
-  background: var(--flash-accent-2);
-  color: var(--color-bg-dark);
+  background: var(--flash2);
+  color: var(--bgdark);
 }
 
 .hljs {
@@ -54,19 +54,19 @@ dl.codebox dd {
   flex-wrap: wrap;
   position: relative;
   padding-top: 30px;
-  background: var(--color-text);
+  background: var(--text);
 }
 
 .hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .hljs-tag {
-  color: var(--flash-accent-3);
+  color: var(--flash3);
 }
 
 .hljs-section, .hljs-name {
-  color: var(--color-accent-2);
+  color: var(--accent2);
 }
 
 /* ==========================================================================

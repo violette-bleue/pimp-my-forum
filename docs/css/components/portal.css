@@ -6,7 +6,7 @@
 
 .mod-recent-row {
   padding: 0.4em 0;
-  border-bottom: 1px solid var(--color-bg-soft);
+  border-bottom: 1px solid var(--bgsoft);
   font-size: 0.85rem;
 }
 
@@ -16,13 +16,13 @@
 
 .mod-recent-title {
   display: block;
-  color: var(--flash-accent);
+  color: var(--flash);
 }
 
 .mod-recent-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8em;
+  gap: var(--gap);
   margin-top: 0.2em;
   font-size: 0.75rem;
   opacity: 0.8;
@@ -32,7 +32,7 @@
 .mod-recent-author {
   display: inline-flex;
   align-items: center;
-  gap: 0.2em;
+  gap: var(--gap);
 }
 
 /* ---- mod_top_posters / mod_top_post_users_* / mod_top_liked_post_month --- */
@@ -57,14 +57,14 @@
   position: relative;
   flex: 1;
   height: 1.2em;
-  background: var(--color-bg-soft);
+  background: var(--bgsoft);
   border-radius: var(--radius);
   overflow: hidden;
 }
 
 .mod-top-pct {
   height: 100%;
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .mod-top-desc {
@@ -80,7 +80,7 @@
 .pmf-panel__body:has(> .mod-stats-users) {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6em;
+  gap: var(--gap);
   font-size: 0.85rem;
 }
 
@@ -98,7 +98,7 @@
 dl.mod-login {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4em 0.8em;
+  gap: var(--gap);
   margin: 0 0 0.75em;
   font-size: 0.85rem;
 }
@@ -150,7 +150,7 @@ dl.mod-login dt {
 .event_item .date {
   display: flex;
   align-items: center;
-  gap: 0.4em;
+  gap: var(--gap);
   margin-top: 0.3em;
   font-size: 0.8rem;
 }
@@ -162,10 +162,10 @@ dl.mod-login dt {
 .button2 {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
-  padding: 0.5em 1em;
+  gap: var(--gap);
+  padding: var(--padding);
   border-radius: var(--radius);
-  background: var(--color-accent);
-  color: var(--color-bg);
+  background: var(--accent);
+  color: var(--bg);
   text-decoration: none;
 }

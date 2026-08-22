@@ -3,8 +3,8 @@
    ========================================================================== */
 
 body {
-  background : var(--color-bg);
-  color      : var(--color-text);
+  background : var(--bg);
+  color      : var(--text);
   font-family: var(--font-body);
   overflow-x: hidden;
   margin: 0 !important;
@@ -33,7 +33,7 @@ fieldset {
 }
 body::before {
     content: '';
-    background: linear-gradient(57deg, var(--flash-gradient));
+    background: linear-gradient(57deg, var(--gradientflash));
     display: flex;
     width: 100%;
     height: 100%;
@@ -66,17 +66,17 @@ img[src*="/smiles/"] {
     font-size: 15px;
     height: var(--icon-size);
     width: var(--icon-size);
-    background: linear-gradient(270deg, var(--color-accent), var(--flash-accent));
+    background: linear-gradient(270deg, var(--accent), var(--flash));
 }
 
 h1 {
     font-family: var(--font-mono);
     font-size: 1.8rem;
-    color: var(--color-text);
+    color: var(--text);
     font-weight: normal;
 }
 input[type="range"] {
-    color: var(--color-accent);
+    color: var(--accent);
 }
 /*********** Baseline, reset styles ***********/
 input[type="range"] {
@@ -100,7 +100,7 @@ input[type="range"]:focus {
 /******** Chrome, Safari, Opera and Edge Chromium styles ********/
 /* slider track */
 input[type="range"]::-webkit-slider-runnable-track {
-    background: var(--color-bg);border-radius: 10px;
+    background: var(--bg);border-radius: 10px;
 }
 
 /* slider thumb */
@@ -110,7 +110,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -3px; 
   height: 10px;
   width: 20px;
-  background: linear-gradient(270deg, var(--color-accent), var(--flash-accent)) fixed 200%;  
+  background: linear-gradient(270deg, var(--accent), var(--flash)) fixed 200%;  
   border-radius: 0.5rem;
   transition: all 20ms ease;
       box-shadow: 0 0 2px #0000004d;
@@ -161,7 +161,7 @@ input[type="range"]:focus::-moz-range-thumb{
  .pmf-pub-card__badge {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--gap);
     padding: 3px 10px;
     margin-bottom: 14px;
     background: linear-gradient(90deg, #c6a3ff, #ff89c1, #eed91b, #c6a3ff, #ff89c1, #eed91b);
@@ -236,7 +236,7 @@ input[type="range"]:focus::-moz-range-thumb{
   .pmf-pub-card__cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--gap);
     padding: 8px 16px;
     background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
     color: #2b1f3d;

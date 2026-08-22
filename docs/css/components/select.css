@@ -15,12 +15,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5em;
+  gap: var(--gap);
   padding: 2px 10px;
   border-radius: var(--radius);
-  border: 2px solid var(--flash-accent);
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  border: 2px solid var(--flash);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 0.9rem;
   text-align: left;
@@ -59,9 +59,9 @@
   max-height: 260px;
   overflow-y: auto;
   border-radius: var(--radius);
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
-  box-shadow: 0 0px 10px var(--flash-accent-3);
+  background: var(--panel);
+  color: var(--bgdark);
+  box-shadow: 0 0px 10px var(--flash3);
 }
 
 @property --pmf-option-color-1 {
@@ -81,17 +81,17 @@
   font-family: var(--font-body);
   font-size: 0.9rem;
   cursor: pointer;
-  --pmf-option-color-1: var(--color-accent);
-  --pmf-option-color-2: var(--color-accent-3);
+  --pmf-option-color-1: var(--accent);
+  --pmf-option-color-2: var(--accent3);
   background: linear-gradient(90deg, var(--pmf-option-color-1), var(--pmf-option-color-2));
-  color: var(--color-bg-dark);
+  color: var(--bgdark);
   transition: --pmf-option-color-1 500ms ease, --pmf-option-color-2 500ms ease;
 }
 
 .pmf-select__option:hover,
 .pmf-select__option[aria-selected="true"] {
-  --pmf-option-color-1: var(--color-accent-3);
-  --pmf-option-color-2: var(--color-accent-2);
+  --pmf-option-color-1: var(--accent3);
+  --pmf-option-color-2: var(--accent2);
 }
 
 .pmf-select__option[aria-disabled="true"] {

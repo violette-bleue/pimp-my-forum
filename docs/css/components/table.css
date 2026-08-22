@@ -6,15 +6,15 @@
 .table1 {
   width: 100%;
   border-collapse: collapse;
-  background: var(--color-pannel);
-  color: var(--color-bg-dark);
+  background: var(--panel);
+  color: var(--bgdark);
   border-radius: var(--radius);
   overflow: hidden;
 }
 
 .table1 th {
-  background: var(--color-bg-dark);
-  color: var(--color-text);
+  background: var(--bgdark);
+  color: var(--text);
   font-family: var(--font-title);
   font-size: 0.85rem;
   padding: 0.5em 0.8em;
@@ -23,18 +23,18 @@
 
 .table1 td {
   padding: 0.5em 0.8em;
-  border-top: 1px solid var(--color-bg-soft);
+  border-top: 1px solid var(--bgsoft);
   vertical-align: middle;
 }
 
 .table1 tr.row3 td {
-  background: var(--color-bg-soft);
+  background: var(--bgsoft);
   font-family: var(--font-title);
   font-size: 0.85rem;
 }
 
 .table1 tr.selected td {
-  background: var(--flash-accent);
+  background: var(--flash);
 }
 
 .table1 tr.center td,
@@ -68,7 +68,7 @@
 
   .table1 td {
     border-top: none;
-    border-bottom: 1px solid var(--color-bg-soft);
+    border-bottom: 1px solid var(--bgsoft);
   }
 
   .table1 td[data-th]::before {

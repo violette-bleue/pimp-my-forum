@@ -9,7 +9,7 @@
 .pmf-wip {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: var(--gap);
 }
 
 .pmf-wip:first-of-type {
@@ -26,7 +26,7 @@
 div[data-pmf-slot="board-index"] {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: var(--gap);
 }
 
 .pmf-wip .pmf-forum-row__topics,
@@ -48,7 +48,7 @@ div[data-pmf-slot="board-index"] {
     gap: var(--gap);
     height: 100%;
     padding: 4px 10px;
-    color: var(--color-text);
+    color: var(--text);
 }
 .pmf-wip .pmf-category__list {
   display: flex;

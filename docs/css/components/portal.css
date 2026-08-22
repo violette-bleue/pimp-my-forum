@@ -165,7 +165,11 @@ dl.mod-login dt {
   gap: var(--gap);
   padding: var(--padding);
   border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--accent3);
+  color: var(--bgdark);
   text-decoration: none;
+  border-style: none;
+  font-family: var(--font-bouton);
+  font-weight: 700;
+  font-size: 12px;
 }

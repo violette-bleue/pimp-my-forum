@@ -22,7 +22,7 @@
   /* Valeurs entre guillemets */
   --pimpmypost-color-value: var(--flash2);
   /* Accent generique : legendes de groupe, focus des champs, curseur CodeMirror */
-  --pimpmypost-color-accent: var(--flash);
+  --pimpmypost-color-accent: var(--flash3);
   /* Surlignage de selection dans l'editeur */
   --pimpmypost-color-selection: var(--bgdark);
   --pimpmypost-font-mono: var(--font-mono), "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
@@ -58,6 +58,12 @@
 span:has(.cm-comment) {
     flex-wrap: nowrap;
     flex-direction: column;
+}
+.CodeMirror-line span {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 .pmp-fa-raw {
   all: revert;

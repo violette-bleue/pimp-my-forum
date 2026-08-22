@@ -105,3 +105,10 @@ div#message-box div#textarea_content {
 form#quick_reply div#textarea_content {
   width: 100% !important;
 }
+
+form#quick_reply > div:last-of-type {
+  margin-top: 0px !important;
+  z-index: 2;
+  position: relative;
+  text-align: right !important;
+}

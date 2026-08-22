@@ -92,6 +92,9 @@
 [icon="user"]      { background-image: var(--icon-user); }
 [icon-mask="user"] { -webkit-mask-image: var(--icon-user); mask-image: var(--icon-user); }
 
+[icon="register"]      { background-image: var(--icon-register); }
+[icon-mask="register"] { -webkit-mask-image: var(--icon-register); mask-image: var(--icon-register); }
+
 [icon="comments"]      { background-image: var(--icon-comments); }
 [icon-mask="comments"] { -webkit-mask-image: var(--icon-comments); mask-image: var(--icon-comments); }
 

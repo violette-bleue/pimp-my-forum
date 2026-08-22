@@ -8,6 +8,7 @@ const NATIVE_ICON_MAP = {
   icon_members: "users",
   icon_groups: "groups",
   icon_ucp: "user",
+  icon_register: "register",
   icon_message: "message",
   icon_logout: "logout",
 };

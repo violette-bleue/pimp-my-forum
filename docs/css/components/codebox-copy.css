@@ -50,11 +50,11 @@ dl.codebox dd {
 }
 
 .hljs {
-  display: flex;
+  display: flex!important;
   flex-wrap: wrap;
   position: relative;
-  padding-top: 30px;
-  background: var(--text);
+  padding-top: 30px!important;
+  background: var(--text)!important;
 }
 
 .hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {

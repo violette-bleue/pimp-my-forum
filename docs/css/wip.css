@@ -2,8 +2,8 @@
    ajustements temporaires prerelease
    ========================================================================== */
 
-.pmf-category.pmf-categorie-2 .pmf-category__header {
-  display: none;
+.pmf-category.pmf-categorie-2 .pmf-category__header, #like_popup {
+  display: none!important;
 }
 
 .pmf-wip {

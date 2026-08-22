@@ -197,6 +197,8 @@
 }
 
 .pmf-post__content > div > br {
+  height: var(--gap);
+  display: block;
   line-height: var(--gap);
 }
 

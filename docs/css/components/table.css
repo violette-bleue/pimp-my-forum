@@ -11,7 +11,9 @@
   border-radius: var(--radius);
   overflow: hidden;
 }
-
+.table1 td:has(div:empty) {
+  display: none;
+}
 .table1 th {
   background: var(--bgdark);
   color: var(--text);

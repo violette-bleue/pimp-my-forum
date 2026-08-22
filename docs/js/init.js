@@ -104,7 +104,12 @@ function initModules() {
     import("./modules/smiley-box.js").then((m) => m.init());
   }
 
-  // Conditionnel : mirror des <select> 
+  // Conditionnel : bouton copier sur les balises [code]
+  if (document.querySelector(".codebox")) {
+    import("./modules/codebox-copy.js").then((m) => m.init());
+  }
+
+  // Conditionnel : mirror des <select>
   if (document.querySelector("select:not([multiple])")) {
     import("./modules/select-mirror.js").then((m) => m.init());
   }

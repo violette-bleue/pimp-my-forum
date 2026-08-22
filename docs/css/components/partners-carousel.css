@@ -15,8 +15,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.8em;
-  margin-bottom: 1em;
+  gap: var(--gap);
 }
 
 .pmf-partenaires__boutons a {

@@ -46,13 +46,19 @@
   max-height   : 100%;
 }
 
+pre.CodeMirror-line > span {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 100%;
+}
 .CodeMirror-wrap pre.CodeMirror-line>span>span, .CodeMirror-wrap pre.CodeMirror-line-like>span>span {
     font-family: var(--pimpmypost-font-mono);
     background: var(--pimpmypost-color-bg-inset);
     display: inline-flex;
     border-radius: var(--radius);
     padding: 0 2px;
-    line-height: 80%;
+    /* line-height: 80%; */
     font-size: 90%;
 }
 span:has(.cm-comment) {
@@ -76,6 +82,11 @@ span:has(.cm-comment) {
 /* Le signe = lui-meme */
 .cm-s-pmf .cm-operator {
   color: var(--pimpmypost-color-muted);
+}
+
+.CodeMirror-code {
+    position: relative;
+    z-index: 0;
 }
 
 /* Le container */
@@ -112,11 +123,12 @@ span:has(.cm-comment) {
 
 /* Curseur et selection accordes a la palette */
 .cm-s-pmf .CodeMirror-cursor {
-    border-left: 3px solid var(--pimpmypost-color-accent);
+    border-left: 3px solid white;
     border-radius: 10px;
 }
 .cm-s-pmf .CodeMirror-selected {
-  background: var(--pimpmypost-color-selection);
+  background: var(--flash3);
+  opacity: 40%;
 }
 
 .cm-s-pmf .CodeMirror-gutters {

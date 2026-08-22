@@ -226,8 +226,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--gap);
-  padding: 0 var(--gap) var(--gap);
+  padding: var(--gap);
   color: var(--accent3);
+  margin-top: var(--margin);
 }
 
 .pmf-post__reaction-btn {

@@ -48,7 +48,7 @@ body::after {
     width: 100%;
     height: 100%;
     position: fixed;
-    z-index: 2;
+    z-index: 10;
     top: 0;
     pointer-events: none;
     mix-blend-mode: multiply;
@@ -67,6 +67,10 @@ img[src*="/smiles/"] {
     height: var(--icon-size);
     width: var(--icon-size);
     background: linear-gradient(270deg, var(--accent), var(--flash));
+}
+
+.material-symbols-outlined {
+    font-size: var(--icon-size);
 }
 
 h1 {

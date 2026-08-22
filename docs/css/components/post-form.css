@@ -55,7 +55,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--gap);
-  margin-top: var(--gap);
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .radio-wrap {
@@ -84,11 +85,14 @@
   display: grid;
   gap: var(--gap);
   grid-template-columns: 1fr 5fr;
+  --editorh: 370px;
+  height: var(--editorh);
 }
 
 .pmf-editorbox > div {
   margin: 0 !important;
   padding: 0 !important;
+  height: var(--editorh);
 }
 
 #message-box > br {
@@ -96,10 +100,10 @@
 }
 
 div#message-box div#textarea_content {
-  height: stretch !important;
   display: flex;
   flex-direction: column;
   width: 100% !important;
+  height: 100%;
 }
 
 form#quick_reply div#textarea_content {

@@ -49,11 +49,11 @@ dl.codebox dd {
   color: var(--bgdark);
 }
 
-.hljs {
+code {
   display: flex!important;
   flex-wrap: wrap;
   position: relative;
-  padding-top: 30px!important;
+  padding: 30px 10px 5px 10px!important;
   background: var(--text)!important;
 }
 

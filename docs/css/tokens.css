@@ -22,6 +22,7 @@
     --flash  : #c6a3ff;
     --flash2: #eed91b;
     --flash3: #ff89c1;
+    --flash4: #a461d6;
     --accent  : #d5d8ff;
     --accent2: #fbc9bd;
     --accent3: #f6bce6;
@@ -44,7 +45,7 @@
     --padding-bouton   : calc(var(--gap)/2) var(--gap);
     --margin: 15px;
     --sidebar-width    : 220px;
-    --content-max-width: 1200px;
+    --content-max-width: 900px;
     --icon-size: 15px;
     --avatar-size: 80px;
 }

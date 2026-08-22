@@ -15,6 +15,8 @@
   font-size: 11px;
   font-weight: 700;
   transition: all var(--anim);
+  border-style: none;
+  background: var(--accent);
 }
 
 .pmf-btn:hover {
@@ -27,7 +29,7 @@
 }
 
 .pmf-btn--outline {
-  background: transparent;
+  background: var(--accent2);
 }
 
 .pmf-btn--danger {

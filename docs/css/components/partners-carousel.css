@@ -47,8 +47,8 @@
 }
 
 .pmf-partenaires__boutons a.is-active {
-  border-color: var(--flash-accent-3);
-  background: var(--color-accent-3);
+    opacity: 1;
+    transform: scale(100%);
 }
 
 .pmf-partenaires__stage {

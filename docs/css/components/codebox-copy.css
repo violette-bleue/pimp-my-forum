@@ -67,3 +67,39 @@ dl.codebox dd {
 .hljs-section, .hljs-name {
   color: var(--color-accent-2);
 }
+
+/* ==========================================================================
+codebox repliée dans les posts (aperçu tronqué + bouton copier en overlay)
+   ========================================================================== */
+
+.pmf-post__content > div > div:has(code) {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: auto 60%;
+  align-items: center;
+  justify-content: end;
+}
+
+.pmf-post__content > div > div:has(code) > br {
+  display: none;
+}
+
+.pmf-post__content > div > div > code {
+  margin: 0;
+}
+
+.pmf-post__content > div > div > .codebox {
+  margin: 0;
+  max-height: 50px;
+  overflow: hidden;
+}
+
+.pmf-post__content > div > div > .codebox code {
+  font-size: 0;
+  overflow: unset;
+}
+
+.pmf-post__content > div > div > .codebox code button {
+  display: block;
+  font-size: 20px;
+}

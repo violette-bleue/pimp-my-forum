@@ -1,0 +1,515 @@
+/* header.css */
+
+/* Toggle theme */
+.pmf-theme-toggle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  background: var(--flash3);
+  color: var(--bgdark);
+}
+
+.pmf-theme-toggle:hover {
+  background: var(--flash);
+}
+
+.pmf-theme-toggle i {
+  font-size: 22px;
+}
+
+[class*="pmf-header__bar-horizontal"] .wrap {
+  max-height: 50px;
+  width: 100vw;
+  grid-template-rows: 100%;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
+}
+
+[class*="pmf-header__bar-vertical"] .wrap {
+  width: 100%;
+  height: fit-content;
+  grid-template-columns: 100%;
+  grid-template-rows: repeat(5, auto);
+  padding: 20px;
+}
+
+[class*="pmf-header__bar"] {
+  position: sticky;
+  top: 0;
+  background: var(--flash3);
+  width: 60px;
+  height: 0;
+  transition: all var(--anim);
+}
+
+[class*="pmf-header__bar-vertical"] {
+  height: 100vh;
+  position: fixed;
+}
+
+[class*="pmf-header__bar-horizontal"] {
+  width: 100vw;
+}
+
+[class*="pmf-header__bar"] * {
+  transition: all var(--anim);
+}
+
+[class*="pmf-header__bar"]:has(input#fa_textarea:focus) {
+  width: 200px;
+}
+
+[class*="pmf-header__bar-vertical"]:has(input#fa_textarea:focus) {
+  width: 200px;
+}
+
+[class*="pmf-header__bar-vertical"]:has(input#fa_textarea:focus) .pmf-nav .mainmenu {
+  font-size: 11px;
+}
+
+[class*="pmf-header__bar"]>.wrap {
+  background: var(--flash3);
+  display: grid;
+  justify-items: start;
+  gap: var(--gap);
+}
+
+.pmf-header-img {
+  width   : 470px;
+  height  : 100%;
+  position: fixed;
+  top     : 0;
+  right  : 10%;
+  z-index: -1;
+  display:none;
+}
+.pmf-header-img:before {
+    content: '';
+    display: block;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(281deg, var(--accent), var(--accent2));
+    background: linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
+    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
+    background-size: 100%;
+    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere.png);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    z-index: 1;
+    mix-blend-mode: hard-light;
+    filter: opacity(50%) saturate(100%) contrast(160%);
+}
+.pmf-header-img img {
+  position: absolute;
+  top     : 0;
+  right   : 0;
+  width   : 100%;    filter: saturate(250%) contrast(130%);
+
+}
+
+@property --pmf-gradient-angle {
+  syntax       : '<angle>';
+  inherits     : false;
+  initial-value: 45deg;
+}
+
+.pmf-header-img::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(var(--pmf-gradient-angle), var(--gradientflash));
+    -webkit-mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
+    background-size: 316%;
+    mask-image: url(https://violette-bleue.github.io/pimp-my-forum/img/banniere_alpha.png);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    animation: movingGradient 15s linear infinite;
+}
+
+#pmf-site-desc {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px 0 20px;
+}
+
+@keyframes movingGradient {
+  0% {
+    --pmf-gradient-angle: 0deg;
+  }
+
+  100% {
+    --pmf-gradient-angle: 360deg;
+  }
+}
+
+.pmf-header__bar-top .wrap {
+  max-width  : var(--content-max-width);
+  margin     : 0 auto;
+  padding    : 0.5rem 1rem;
+  display    : flex;
+  align-items: center;
+  gap        : var(--gap);
+}
+
+
+.pmf-nav {
+  display    : flex;
+  flex-wrap: nowrap;
+  gap        : var(--gap);
+  list-style : none;
+  margin     : 0;
+  margin-left: auto;
+  padding    : 0;
+  font-size: 0;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.pmf-nav img {
+  display: none;
+}
+
+.pmf-nav .mainmenu {
+  display        : inline-flex;
+  align-items    : center;
+  color: var(--panelsoft);
+  font-family: var(--font-mono);
+  text-decoration: none;
+  width: fit-content;
+  gap: var(--gap);
+}
+
+.pmf-nav .mainmenu:hover {
+  color: var(--flash);
+}
+
+.pmf-nav a[href="/"]::before {
+  -webkit-mask-image: var(--icon-home);
+  mask-image        : var(--icon-home);
+}
+
+.pmf-nav a[href="/calendar"]::before {
+  -webkit-mask-image: var(--icon-calendar);
+  mask-image        : var(--icon-calendar);
+}
+
+.pmf-nav a[href="/faq"]::before {
+  -webkit-mask-image: var(--icon-faq);
+  mask-image        : var(--icon-faq);
+}
+
+.pmf-nav a[href^="/search"]::before {
+  -webkit-mask-image: var(--icon-search);
+  mask-image        : var(--icon-search);
+}
+
+.pmf-nav a[href="/memberlist"]::before {
+  -webkit-mask-image: var(--icon-users);
+  mask-image        : var(--icon-users);
+}
+
+.pmf-nav a[href="/groups"]::before {
+  -webkit-mask-image: var(--icon-groups);
+  mask-image        : var(--icon-groups);
+}
+
+.pmf-nav a[href^="/profile"]::before {
+  -webkit-mask-image: var(--icon-user);
+  mask-image        : var(--icon-user);
+}
+
+.pmf-nav a[href^="/privmsg"]::before {
+  -webkit-mask-image: var(--icon-message);
+  mask-image        : var(--icon-message);
+}
+
+.pmf-nav a#logout::before {
+  -webkit-mask-image: var(--icon-logout);
+  mask-image        : var(--icon-logout);
+}
+
+.mainmenu [icon="discord"] {
+  mask-size    : 85%;
+  background: currentColor;
+  mask-repeat  : no-repeat;
+  mask-position: right;
+  display      : flex;
+}
+
+div#fa_search {
+  order: -1;
+}
+
+div#fa_usermenu {
+  order         : -5;
+  display       : flex;
+  flex-direction: column;
+  width         : 100%;
+  height: 200px;
+}
+
+input#fa_textarea {
+  width        : 30px;
+  background   : var(--accent3);
+  border-radius: var(--radius);
+  transition   : all var(--anim);
+  border       : 2px inset var(--accent3);
+  padding      : 5px;
+  cursor       : zoom-in;
+}
+
+input#fa_textarea:focus {
+  width: 150px;
+}
+
+input:focus-visible {
+  outline      : none;
+  border-color : var(--flash) !important;
+  background: var(--flash) !important;
+}
+
+div#fa_usermenu img {
+  width: 50px;
+  border-radius: 20px;
+  max-width: 100%!important;
+}
+
+#fa_usermenu table {
+  display: none;
+}
+
+#fa_menulist {
+  margin: 0;
+  padding: 0;
+}
+
+ul#fa_menulist a {
+  font-size: 0;
+}
+
+ul#fa_menulist a::before {
+  content: '';
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background: var(--text);
+  display: inline-block;
+  margin-right: 0.4em;
+  vertical-align: -0.15em;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+ul#fa_menulist a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])::before {
+  -webkit-mask-image: var(--icon-user);
+  mask-image        : var(--icon-user);
+}
+
+ul#fa_menulist a[href*="mode=editprofile"]::before {
+  -webkit-mask-image: var(--icon-edit);
+  mask-image        : var(--icon-edit);
+}
+
+ul#fa_menulist a[href*="/sta/"]::before {
+  -webkit-mask-image: var(--icon-list);
+  mask-image        : var(--icon-list);
+}
+
+ul#fa_menulist a[href*="/spa/"]::before {
+  -webkit-mask-image: var(--icon-messages);
+  mask-image        : var(--icon-messages);
+}
+
+ul#fa_menulist a[href*="watchsearch"]::before {
+  -webkit-mask-image: var(--icon-eye);
+  mask-image        : var(--icon-eye);
+}
+
+ul#fa_menulist a[href*="/privmsg"]::before {
+  -webkit-mask-image: var(--icon-message);
+  mask-image        : var(--icon-message);
+}
+
+ul#fa_menulist a[href*="/admin"]::before {
+  -webkit-mask-image: var(--icon-lock);
+  mask-image        : var(--icon-lock);
+}
+
+ul#fa_menulist a[href*="logout=1"]::before {
+  -webkit-mask-image: var(--icon-logout);
+  mask-image        : var(--icon-logout);
+}
+
+a#fa_notifications {
+  order: -2;
+  display: flex;
+  font-size: 0;
+  position: relative;
+  background: transparent;
+  color: var(--panelsoft);
+}
+
+a#fa_notifications::before {
+  content: '';
+  -webkit-mask-image: var(--icon-bell);
+  mask-image: var(--icon-bell);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  mask-size: 100%;
+  background: currentColor;
+  mask-position: center;
+  font-size: 10px;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--anim);
+  left: 0;
+}
+
+a#fa_notifications.is-open::before {
+  transform: scale(1.2);
+}
+
+ul#notif_list {
+  position: absolute;
+  width: 300px;
+  margin: 0;
+  padding: 10px;
+  background: linear-gradient(23deg, var(--flash), var(--flash3) 80%, var(--flash2) 100%);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  left: unset!important;
+  margin-left: 50px;
+  top: 0;
+}
+
+ul#notif_list[hidden] {
+  display: none;
+}
+
+[class*="pmf-header__bar-vertical"] #notif_list {
+}
+
+/* Toggle mobile */
+.menu-btn {
+  position      : absolute;
+  opacity       : 0;
+  pointer-events: none;
+}
+
+.menu-icon {
+  display    : none;
+  cursor     : pointer;
+  padding    : 0.5em;
+  margin-left: auto;
+}
+
+.navicon {
+  position  : relative;
+  display   : block;
+  width     : 22px;
+  height    : 2px;
+  background: var(--text);
+}
+
+.navicon::before,
+.navicon::after {
+  content   : "";
+  position  : absolute;
+  left      : 0;
+  width     : 22px;
+  height    : 2px;
+  background: var(--text);
+}
+
+.navicon::before {
+  top: -7px;
+}
+
+.navicon::after {
+  top: 7px;
+}
+
+@media (max-width: 700px) {
+  .menu-icon {
+    display: inline-flex;
+  }
+
+  .pmf-nav {
+    display       : none;
+    width         : 100%;
+    flex-direction: column;
+    margin-left   : 0;
+  }
+
+  .menu-btn:checked~.pmf-nav {
+    display: flex;
+  }
+}
+
+.pmf-site-desc__title, .pmf-site-desc__title > h1 {
+  font-family    : var(--font-display);
+  color          : transparent;
+  font-size      : 190px;
+  display        : flex;
+  line-height    : 120px;
+  background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
+  background-clip: text;
+  width          : fit-content;
+  margin         : 0;
+}
+
+div#pmf-site-title::before {
+  content        : 'PIMP MY FORUM';
+  position       : absolute;
+  background     : url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
+  background-clip: text;
+  background-size: 290px;
+  mix-blend-mode : color;
+  z-index        : 2;
+}
+
+div#pmf-site-title::after {
+  content        : 'PIMP MY FORUM';
+  position       : absolute;
+  z-index        : 2;
+  background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
+  background-clip: text;
+  mix-blend-mode : hard-light;
+  padding        : 0px 0px 0px 0px;
+}
+
+.pmf-site-desc__tagline {
+    color: var(--panelsoft);
+    font-family: var(--font-mono);
+    font-size: var(--fsize-body);
+    line-height: normal;
+    letter-spacing: 5px;
+    margin: 0;
+}
+
+.pmf-category__header {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--padding);
+  font-family: var(--font-title);
+}

@@ -1,0 +1,78 @@
+/* table.css — tableau natif FA */
+
+.table1 {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.table1 td:has(div:empty) {
+  display: none;
+}
+.table1 th {
+  background: var(--bgdark);
+  color: var(--text);
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  padding: 0.5em 0.8em;
+  text-align: left;
+}
+
+.table1 td {
+  padding: 0.5em 0.8em;
+  border-top: 1px solid var(--bgsoft);
+  vertical-align: middle;
+}
+
+.table1 tr.row3 td {
+  background: var(--bgsoft);
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+}
+
+.table1 tr.selected td {
+  background: var(--flash);
+}
+
+.table1 tr.center td,
+.table1 td.center {
+  text-align: center;
+}
+
+.table1 td.avatar-mini img,
+.table1 td.usrlistbg img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  vertical-align: middle;
+}
+
+/* version mobile */
+
+@media (max-width: 700px) {
+  .table1 thead.mobile-hidden {
+    display: none;
+  }
+
+  .table1,
+  .table1 tbody,
+  .table1 tr,
+  .table1 td {
+    display: block;
+    width: 100%;
+  }
+
+  .table1 td {
+    border-top: none;
+    border-bottom: 1px solid var(--bgsoft);
+  }
+
+  .table1 td[data-th]::before {
+    content: attr(data-th);
+    font-weight: bold;
+    margin-right: 0.4em;
+  }
+}

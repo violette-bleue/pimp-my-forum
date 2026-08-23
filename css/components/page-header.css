@@ -1,0 +1,85 @@
+/* page-header.css — titre+fil */
+
+.pmf-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+  flex-direction: column;
+}
+
+.pmf-page-header__title {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  font-weight: normal;
+  color: var(--text);
+}
+
+.pmf-page-header__path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  font-size: 0;
+  color: var(--panelsoft);
+  padding: var(--padding-bouton);
+  background: var(--bg);
+}
+
+.pmf-page-header__path a {
+  font-size: 14px;
+  text-transform: lowercase;
+  font-family: var(--font-bouton);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--gap)*2);
+}
+
+.pmf-page-header__path a::after {
+  content: '﹒';
+  display: block;
+}
+
+.pmf-page-header__path a:last-of-type::after {
+  display: none;
+}
+
+.pmf-page-header__path a:hover {
+  color: var(--flash);
+}
+
+.pmf-page-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.pmf-forum-search {
+  display: flex;
+  order: 2;
+}
+
+.pmf-forum-search .pmf-input--search {
+  border: 2px inset var(--accent3);
+  border-radius: var(--radius);
+}
+.pmf-forum-search .pmf-input--search:focus-visible {
+    background: var(--accent3)!important;
+}
+.pmf-forum-search button {
+  border: 2px solid var(--bgdark);
+  border-left: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--bgdark);
+  color: var(--text);
+  padding: 0 0.7em;
+  cursor: pointer;
+}
+
+.pmf-forum-desc {
+  margin-bottom: var(--gap);
+  opacity: 0.85;
+  font-size: 0.9rem;
+}

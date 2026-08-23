@@ -1,0 +1,132 @@
+/* post-form.css — form-block */
+
+.pmf-form-block {
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  margin-bottom: var(--gap);
+  overflow: hidden;
+}
+
+.pmf-form-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: var(--padding);
+  background: var(--bgdark);
+  color: var(--panel);
+  font-family: var(--font-title);
+  font-size: 1rem;
+}
+
+.pmf-form-block__body {
+  padding: var(--padding);
+  gap: var(--gap);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: auto;
+}
+
+.pmf-form-block__body label {
+  /* display: block; */
+  /* margin-bottom: 0.75em; */
+}
+
+.pmf-form-block__body label > span:first-child:not(.radio):not(.checkbox) {
+  display: block;
+}
+
+.pmf-form-block__body .label-description,
+.pmf-form-block__body .description {
+  display: block;
+  margin-top: 0.2em;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.pmf-form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.radio-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: center;
+  margin-bottom: 0.75em;
+}
+
+.radio-label {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.sub-head {
+  margin-top: 1em;
+  padding-top: 0.5em;
+  border-top: 1px solid var(--bgsoft);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}
+
+.pmf-editorbox {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr 5fr;
+  --editorh: 370px;
+  min-height: var(--editorh);
+}
+.pmf-input[name="subject"] {
+    width: 100%;
+}
+.pmf-editorbox > div { 
+  margin: 0 !important;
+  padding: 0 !important;
+  height: stretch;
+}
+
+#message-box > br {
+  display: none;
+}
+
+div#message-box div#textarea_content {
+  display: grid;
+  width: 100% !important;
+  height: 100%;
+  grid-template-rows: max-content auto;
+  grid-template-areas:
+    "toolbar"
+    "textarea";
+}
+
+form#quick_reply div#textarea_content {
+  width: 100% !important;
+  --editorh: 170px;
+  height: fit-content;
+  display: grid;
+  grid-template-rows: max-content auto;
+  grid-template-areas:
+    "toolbar"
+    "textarea";
+}
+
+form#quick_reply > div:last-of-type {
+  margin-top: 0px !important;
+  z-index: 2;
+  position: relative;
+  text-align: right !important;
+}
+
+form#quick_reply {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}

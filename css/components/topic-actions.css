@@ -1,0 +1,102 @@
+/* topic-actions.css — barre sujets */
+
+.pmf-topic-actions {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 0.5em 0;
+  font-size: 0.85rem;
+}
+
+.pmf-topic-actions__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.pmf-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.pmf-jumpbox {
+  margin: var(--gap) 0;
+  display: none;
+}
+
+.pmf-jumpbox__row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  margin: 0;
+}
+
+#sort-box {
+  position: relative;
+}
+
+#sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap);
+  cursor: pointer;
+}
+
+.pmf-sort-form {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  min-width: 200px;
+  margin-top: 0.3em;
+  padding: 1em;
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#sort-btn.expanded ~ .pmf-sort-form {
+  display: block;
+}
+
+.pmf-sort-form__title {
+  margin: 0 0 0.5em;
+  font-size: 0.9rem;
+}
+
+.pmf-info-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  margin: var(--gap) 0;
+}
+
+.pmf-forum_perm {
+  display: none;
+}
+
+.pmf-info-block {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75em 1em;
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+.pmf-info-block__title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  margin: 0 0 0.4em;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}

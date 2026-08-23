@@ -1,0 +1,84 @@
+/* calendar.css — mini-calendrier */
+
+.quick-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: center;
+  margin-bottom: var(--gap);
+}
+
+.quick-options .option {
+  flex: 1;
+  min-width: 100px;
+}
+
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.calendar-day-row {
+  box-sizing: border-box;
+}
+
+.calendar-head {
+  padding: 0.4em;
+  text-align: center;
+  background: var(--bgdark);
+  color: var(--text);
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+}
+
+.calendar-row {
+  display: flex;
+  width: 100%;
+}
+
+.calendar-cell-wrap,
+.calendar-cell-spacer {
+  box-sizing: border-box;
+  border-top: 1px solid var(--bgsoft);
+  border-left: 1px solid var(--bgsoft);
+}
+
+.calendar-cell {
+  min-height: 60px;
+  padding: 0.3em;
+  font-size: 0.75rem;
+}
+
+.calendar-day-date {
+  margin: 0 0 0.2em;
+  font-weight: bold;
+}
+
+.calendar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.add-event-day {
+  margin: 0.2em 0 0;
+  text-align: right;
+  opacity: 0.6;
+}
+
+.btn-fixed {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap);
+  margin-top: var(--gap);
+  padding: var(--padding);
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+}

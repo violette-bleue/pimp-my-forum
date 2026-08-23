@@ -1,0 +1,271 @@
+/* base.css — reset + base */
+
+body {
+  background : var(--bg);
+  color      : var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  margin: 0 !important;
+  animation: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+ 
+a {
+  font-weight: unset;
+  font-style: normal;
+  color: unset;
+  text-decoration: unset;
+}
+
+li {
+  list-style: none;
+}
+
+dd {
+  margin: 0;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+body::before {
+    content: '';
+    background: linear-gradient(57deg, var(--gradientflash));
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+    top: 0;
+}
+body::after {
+    content: '';
+    background: url(https://violette-bleue.github.io/pimp-my-forum/img/noise.jpg);
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 60%;
+}
+img[src*="empty.gif"] {
+    display: none;
+}
+/* smileys */
+img[src*="/smiles/"] {
+    max-width: 20px;
+}
+.profile-icons li a i {
+    display: block;
+    font-size: 15px;
+    height: var(--icon-size);
+    width: var(--icon-size);
+    background: linear-gradient(270deg, var(--accent), var(--flash));
+}
+
+.material-symbols-outlined {
+    font-size: var(--icon-size)!important;
+}
+hr {
+    display: block;
+    height: 2px;
+    background: linear-gradient(270deg, var(--gradientflash));
+    border: none;
+    border-radius: var(--radius);
+}
+h1 {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    color: var(--text);
+    font-weight: normal;
+}
+input[type="range"] {
+    color: var(--accent);
+}
+/* reset styles */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: stretch;
+    display: flex;
+    align-items: center;
+    border: none;
+    transition: all 200ms ease;
+}
+
+/* focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/* chrome/edge */
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+    background: var(--bg);border-radius: 10px;
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -3px; 
+  height: 10px;
+  width: 20px;
+  background: linear-gradient(270deg, var(--accent), var(--flash)) fixed 200%;  
+  border-radius: 0.5rem;
+  transition: all 20ms ease;
+      box-shadow: 0 0 2px #0000004d;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+    transform: scale(110%);
+}
+
+/* firefox */
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background-color: #add8e6;
+  border-radius: 0.5rem;
+  height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  background-color: #808080;
+  border: none; 
+  border-radius: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb{
+  outline: 3px solid #808080;
+  outline-offset: 0.125rem;
+}
+
+
+button {
+    font-family: var(--font-mono)!important;
+    font-size: var(--fsize-bouton);
+    font-weight: 800;
+}
+
+
+  .pmf-pub-card {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px;
+    background: #fbfaff;
+    color: #3a2c52;
+    font-family: "Krub", sans-serif;
+    line-height: 1.5;
+    margin: 0 auto;
+  }
+
+ .pmf-pub-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap);
+    padding: 3px 10px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg, #c6a3ff, #ff89c1, #eed91b, #c6a3ff, #ff89c1, #eed91b);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-position: 0%;
+    background-size: 250%;
+}
+
+.pmf-pub-card__badge-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.pmf-pub-card__cta-icon {
+    width: 18px;
+    height: 18px;
+}
+
+
+
+  #pmf-site-title.pmf-pub-card__wordmark {
+    font-family: "Porao Grottesche", serif;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-size: 182px;
+    display: flex;
+    line-height: 112px;
+    white-space: nowrap;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    width: fit-content;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::before {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    background: url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-size: 40%;
+    mix-blend-mode: color;
+    z-index: 2;
+  }
+
+  #pmf-site-title.pmf-pub-card__wordmark::after {
+    content: "PIMP MY FORUM";
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(263deg, #c6a3ff 40%, #ff89c1 73%, #eed91b 140%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    mix-blend-mode: hard-light;
+  }
+
+  .pmf-pub-card__text {
+    margin: 0 0 36px;
+    font-size: 0.85rem;
+  }
+
+  .pmf-pub-card__text + .pmf-pub-card__text {
+    margin-top: -10px;
+  }
+
+  .pmf-pub-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap);
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #c6a3ff 0%, #ff89c1 73%, #eed91b 140%);
+    color: #2b1f3d;
+    font-family: "Kode Mono", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .pmf-pub-card__cta:hover,
+  .pmf-pub-card__cta:focus-visible {
+    filter: brightness(1.08);
+  }
+
+  .pmf-pub-card__cta:focus-visible {
+    outline: 2px solid #2b1f3d;
+    outline-offset: 2px;
+  }

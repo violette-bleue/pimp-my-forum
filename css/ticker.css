@@ -1,0 +1,19 @@
+/* ticker.css */
+
+.pmf-ticker {
+  margin-top: 4px;
+}
+
+
+.jcarousel-skin-tango .jcarousel-item {
+  text-align: center;
+  width: 10px;
+}
+
+.jcarousel-skin-tango .jcarousel-item-horizontal {
+  margin-right: var(--ticker-spacing, 5px);
+}
+
+.jcarousel-skin-tango .jcarousel-item-vertical {
+  margin-bottom: var(--ticker-spacing, 5px);
+}

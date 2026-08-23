@@ -1,0 +1,148 @@
+/* icon.css — rendu générique */
+
+[icon] {
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+[icon-mask] {
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  vertical-align: -0.15em;
+}
+
+/* dictionnaire */
+
+[icon="bold"]      { background-image: var(--icon-bold); }
+[icon-mask="bold"] { -webkit-mask-image: var(--icon-bold); mask-image: var(--icon-bold); }
+
+[icon="italic"]      { background-image: var(--icon-italic); }
+[icon-mask="italic"] { -webkit-mask-image: var(--icon-italic); mask-image: var(--icon-italic); }
+
+[icon="underline"]      { background-image: var(--icon-underline); }
+[icon-mask="underline"] { -webkit-mask-image: var(--icon-underline); mask-image: var(--icon-underline); }
+
+[icon="close"]      { background-image: var(--icon-close); }
+[icon-mask="close"] { -webkit-mask-image: var(--icon-close); mask-image: var(--icon-close); }
+
+[icon="bell"]      { background-image: var(--icon-bell); }
+[icon-mask="bell"] { -webkit-mask-image: var(--icon-bell); mask-image: var(--icon-bell); }
+
+[icon="stats"]      { background-image: var(--icon-stats); }
+[icon-mask="stats"] { -webkit-mask-image: var(--icon-stats); mask-image: var(--icon-stats); }
+
+[icon="chat"]      { background-image: var(--icon-chat); }
+[icon-mask="chat"] { -webkit-mask-image: var(--icon-chat); mask-image: var(--icon-chat); }
+
+[icon="flame"]      { background-image: var(--icon-flame); }
+[icon-mask="flame"] { -webkit-mask-image: var(--icon-flame); mask-image: var(--icon-flame); }
+
+[icon="box"]      { background-image: var(--icon-box); }
+[icon-mask="box"] { -webkit-mask-image: var(--icon-box); mask-image: var(--icon-box); }
+
+[icon="message"]      { background-image: var(--icon-message); }
+[icon-mask="message"] { -webkit-mask-image: var(--icon-message); mask-image: var(--icon-message); }
+
+[icon="check-circle"]      { background-image: var(--icon-check-circle); }
+[icon-mask="check-circle"] { -webkit-mask-image: var(--icon-check-circle); mask-image: var(--icon-check-circle); }
+
+[icon="list"]      { background-image: var(--icon-list); }
+[icon-mask="list"] { -webkit-mask-image: var(--icon-list); mask-image: var(--icon-list); }
+
+[icon="messages"]      { background-image: var(--icon-messages); }
+[icon-mask="messages"] { -webkit-mask-image: var(--icon-messages); mask-image: var(--icon-messages); }
+
+[icon="clock"]      { background-image: var(--icon-clock); }
+[icon-mask="clock"] { -webkit-mask-image: var(--icon-clock); mask-image: var(--icon-clock); }
+
+[icon="trash"]      { background-image: var(--icon-trash); }
+[icon-mask="trash"] { -webkit-mask-image: var(--icon-trash); mask-image: var(--icon-trash); }
+
+[icon="apple"]      { background-image: var(--icon-apple); }
+[icon-mask="apple"] { -webkit-mask-image: var(--icon-apple); mask-image: var(--icon-apple); }
+
+[icon="eye"]      { background-image: var(--icon-eye); }
+[icon-mask="eye"] { -webkit-mask-image: var(--icon-eye); mask-image: var(--icon-eye); }
+
+[icon="search"]      { background-image: var(--icon-search); }
+[icon-mask="search"] { -webkit-mask-image: var(--icon-search); mask-image: var(--icon-search); }
+
+[icon="filter"]      { background-image: var(--icon-filter); }
+[icon-mask="filter"] { -webkit-mask-image: var(--icon-filter); mask-image: var(--icon-filter); }
+
+[icon="graduation-cap"]      { background-image: var(--icon-graduation-cap); }
+[icon-mask="graduation-cap"] { -webkit-mask-image: var(--icon-graduation-cap); mask-image: var(--icon-graduation-cap); }
+
+[icon="lock"]      { background-image: var(--icon-lock); }
+[icon-mask="lock"] { -webkit-mask-image: var(--icon-lock); mask-image: var(--icon-lock); }
+
+[icon="user"]      { background-image: var(--icon-user); }
+[icon-mask="user"] { -webkit-mask-image: var(--icon-user); mask-image: var(--icon-user); }
+
+[icon="register"]      { background-image: var(--icon-register); }
+[icon-mask="register"] { -webkit-mask-image: var(--icon-register); mask-image: var(--icon-register); }
+
+[icon="comments"]      { background-image: var(--icon-comments); }
+[icon-mask="comments"] { -webkit-mask-image: var(--icon-comments); mask-image: var(--icon-comments); }
+
+[icon="heart"]      { background-image: var(--icon-heart); }
+[icon-mask="heart"] { -webkit-mask-image: var(--icon-heart); mask-image: var(--icon-heart); }
+
+[icon="quote"]      { background-image: var(--icon-quote); }
+[icon-mask="quote"] { -webkit-mask-image: var(--icon-quote); mask-image: var(--icon-quote); }
+
+[icon="plus"]      { background-image: var(--icon-plus); }
+[icon-mask="plus"] { -webkit-mask-image: var(--icon-plus); mask-image: var(--icon-plus); }
+
+[icon="edit"]      { background-image: var(--icon-edit); }
+[icon-mask="edit"] { -webkit-mask-image: var(--icon-edit); mask-image: var(--icon-edit); }
+
+[icon="info"]      { background-image: var(--icon-info); }
+[icon-mask="info"] { -webkit-mask-image: var(--icon-info); mask-image: var(--icon-info); }
+
+[icon="plus-circle"]      { background-image: var(--icon-plus-circle); }
+[icon-mask="plus-circle"] { -webkit-mask-image: var(--icon-plus-circle); mask-image: var(--icon-plus-circle); }
+
+[icon="minus-circle"]      { background-image: var(--icon-minus-circle); }
+[icon-mask="minus-circle"] { -webkit-mask-image: var(--icon-minus-circle); mask-image: var(--icon-minus-circle); }
+
+[icon="minus"]      { background-image: var(--icon-minus); }
+[icon-mask="minus"] { -webkit-mask-image: var(--icon-minus); mask-image: var(--icon-minus); }
+
+[icon="thumb-up"]      { background-image: var(--icon-thumb-up); }
+[icon-mask="thumb-up"] { -webkit-mask-image: var(--icon-thumb-up); mask-image: var(--icon-thumb-up); }
+
+[icon="thumb-down"]      { background-image: var(--icon-thumb-down); }
+[icon-mask="thumb-down"] { -webkit-mask-image: var(--icon-thumb-down); mask-image: var(--icon-thumb-down); }
+
+[icon="home"]      { background-image: var(--icon-home); }
+[icon-mask="home"] { -webkit-mask-image: var(--icon-home); mask-image: var(--icon-home); }
+
+[icon="calendar"]      { background-image: var(--icon-calendar); }
+[icon-mask="calendar"] { -webkit-mask-image: var(--icon-calendar); mask-image: var(--icon-calendar); }
+
+[icon="faq"]      { background-image: var(--icon-faq); }
+[icon-mask="faq"] { -webkit-mask-image: var(--icon-faq); mask-image: var(--icon-faq); }
+
+[icon="users"]      { background-image: var(--icon-users); }
+[icon-mask="users"] { -webkit-mask-image: var(--icon-users); mask-image: var(--icon-users); }
+
+[icon="groups"]      { background-image: var(--icon-groups); }
+[icon-mask="groups"] { -webkit-mask-image: var(--icon-groups); mask-image: var(--icon-groups); }
+
+[icon="logout"]      { background-image: var(--icon-logout); }
+[icon-mask="logout"] { -webkit-mask-image: var(--icon-logout); mask-image: var(--icon-logout); }
+
+[icon="discord"] {mask-image: var(--icon-discord);}

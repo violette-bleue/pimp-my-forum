@@ -1,0 +1,25 @@
+/* forms.css — input générique */
+
+.pmf-input {
+  border-radius: var(--radius);
+  border: 2px solid var(--bgdark);
+  background: var(--panel);
+  color: var(--bgdark);
+  font-family: var(--font-body);
+  padding: 0.4em 0.7em;
+}
+
+.pmf-input::placeholder {
+  color: var(--bgdark);
+  opacity: 0.6;
+}
+
+.pmf-input--tiny {
+  width: 3em;
+  text-align: center;
+}
+
+textarea.pmf-input {
+  width: 100%;
+  resize: vertical;
+}

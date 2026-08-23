@@ -1,0 +1,100 @@
+/* codebox-copy.css — bouton copier */
+
+.codebox p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+dl.codebox {
+  margin: var(--gap) 0;
+  display: inline-flex;
+  position: relative;
+}
+
+dl.codebox dt {
+  display: none;
+}
+
+dl.codebox dd {
+  margin: 0;
+  display: inline-flex;
+}
+
+.pmf-codebox-copy {
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--panelsoft);
+  padding: var(--padding-bouton);
+  cursor: pointer;
+  transition: background var(--anim);
+  white-space: nowrap;
+}
+
+.pmf-codebox-copy:hover {
+  background: var(--flash);
+}
+
+.pmf-codebox-copy--done {
+  background: var(--flash2);
+  color: var(--bgdark);
+}
+
+code {
+  display: flex!important;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 30px 10px 5px 10px!important;
+  background: var(--panelsoft)!important;
+}
+
+.hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {
+  color: var(--flash);
+}
+
+.hljs-tag {
+  color: var(--flash3);
+}
+
+.hljs-section, .hljs-name {
+  color: var(--accent2);
+}
+
+/* codebox repliée */
+
+.pmf-post__content > div > div:has(code) {
+  display: flex;
+  gap: var(--gap);
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.pmf-post__content > div > div:has(code) > br {
+  display: none;
+}
+
+.pmf-post__content > div > div > code {
+  margin: 0;
+}
+
+.pmf-post__content > div > div > .codebox {
+  margin: 0;
+  max-height: 50px;
+  overflow: visible;
+}
+
+.pmf-post__content > div > div > .codebox code {
+  font-size: 0;
+  overflow: unset;
+  padding: 0!important;
+}
+
+.pmf-post__content > div > div > .codebox code button {
+  display: block;
+  font-size: 20px;
+}

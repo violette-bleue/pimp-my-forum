@@ -1,0 +1,61 @@
+/* tokens.css — variables */
+@font-face {
+    font-family: 'Porao Grottesche';
+    src        : url('../font/PoraoGrottescheRegular.woff2') format('woff2'),
+        url('../font/PoraoGrottescheRegular.woff') format('woff');
+    font-weight : normal;
+    font-style  : normal;
+    font-display: swap;
+}
+
+
+:root {
+    /* Couleurs */
+    --bg     : #b095c5;
+    --bgdark: #9275a3;
+    --bgsoft: #d4aaf3;
+    --panel : #e0dcf5;
+    --panelsoft: #f2edff;
+    --text: #736287;
+    --muted: #9481ab;
+    --flash  : #c6a3ff;
+    --flash2: #eed91b;
+    --flash3: #ff89c1;
+    --flash4: #a461d6;
+    --accent  : #d5d8ff;
+    --accent2: #ffaf9c;
+    --accent3: #f6bce6;
+    --gradient: var(--accent) 40%, var(--accent3) 73%, var(--accent2) 140%;
+    --gradientflash: var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%;
+
+
+    /* Typo */
+    --font-display: "Porao Grottesche", sans-serif;
+    --font-title  : "Kode Mono", monospace;
+    --font-body   : "Krub", sans-serif;
+    --font-mono   : "Kode Mono", monospace;
+    --font-bouton : var(--font-mono);
+
+    /* Layout */
+    --radius           : 0px;
+    --anim             : 500ms ease;
+    --gap              : 5px;
+    --padding: calc(var(--gap)*3);
+    --padding-bouton   : calc(var(--gap)/2) var(--gap);
+    --margin: 15px;
+    --sidebar-width    : 220px;
+    --content-max-width: 900px;
+    --icon-size: 15px;
+    --avatar-size: 80px;
+    --fsize-bouton: 11px;
+    rtan;
+    importa;
+    import;
+    impor;
+    impo;
+    imp;
+    im;
+    i;
+    --fsize-body: 14px;
+    --fsize-title: 25px;
+}

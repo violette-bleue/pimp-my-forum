@@ -1,0 +1,9 @@
+{
+  "pack": "Icons8",
+  "author": "Icons8",
+  "source": "https://icons8.com/icons",
+  "repo": null,
+  "license": "Creative Commons Attribution-NoDerivs 3.0 Unported (offre gratuite)",
+  "licenseUrl": "https://icons8.com/license",
+  "note": "Utilise dans pimp-my-forum/ (icon.css) et dans l'extension PIMP MY ADMIN (panel.js, tous les icons8-*). La licence gratuite impose un lien retour vers icons8.com ; verifier si le compte utilise l'offre gratuite ou une licence payante (qui leve cette obligation) avant diffusion publique de l'extension."
+}

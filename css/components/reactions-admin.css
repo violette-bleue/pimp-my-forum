@@ -1,0 +1,55 @@
+/* reactions-admin.css */
+
+.pmf-reactions-admin__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap);
+  margin-top: var(--gap);
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--bgsoft);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.pmf-reactions-admin__toggle:hover {
+  background: var(--flash);
+}
+
+.pmf-reactions-admin__panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  margin-top: var(--gap);
+  padding: 1em;
+  background: var(--panel);
+  border-radius: var(--radius);
+}
+
+.pmf-reactions-admin__panel[hidden] {
+  display: none;
+}
+
+.pmf-reactions-admin__option {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pmf-reactions-admin__login {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  width: 100%;
+}
+
+.pmf-reactions-admin__error {
+  font-size: 0.8rem;
+  color: var(--accent2);
+}

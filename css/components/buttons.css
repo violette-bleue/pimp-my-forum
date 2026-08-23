@@ -1,0 +1,42 @@
+/* buttons.css */
+
+.pmf-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  line-height: normal;
+  border-radius: var(--radius);
+  padding: var(--padding-bouton);
+  font-family: var(--font-bouton);
+  color: var(--bgdark);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all var(--anim);
+  border-style: none;
+  background: var(--accent);
+}
+
+.pmf-btn:hover {
+  background: var(--flash2) !important;
+}
+
+.pmf-btn--accent {
+  background: var(--accent3);
+  border-color: var(--accent);
+}
+
+.pmf-btn--outline {
+  background: var(--accent2);
+}
+
+.pmf-btn--danger {
+  background: var(--accent2);
+  border-color: var(--accent2);
+}
+
+.pmf-btn--flat {
+  border: none;
+  background: transparent;
+  padding: var(--padding-bouton);
+}

@@ -1,0 +1,48 @@
+/* panel.css — réutilisé partout */
+
+.pmf-panel {
+  background: var(--panel);
+  color: var(--bgdark);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: var(--gap);
+}
+
+.pmf-panel__title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  background: var(--bgdark);
+  color: var(--text);
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  padding: var(--padding);
+}
+
+.pmf-panel__title a {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  color: inherit;
+  text-decoration: none;
+}
+
+.pmf-panel__body {
+  padding: 1em;
+}
+
+.pmf-panel__meta {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.pmf-panel__footer {
+  padding: var(--padding);
+  background: var(--bgsoft);
+  font-size: 0.8rem;
+}
+.pmf-panel--message-die > div {
+  display: flex;
+  flex-direction: row-reverse;
+  height: fit-content;
+}

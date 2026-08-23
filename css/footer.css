@@ -1,0 +1,71 @@
+/* footer.css */
+
+.pmf-footer {
+  background: transparent;
+  color: var(--panel);
+  font-family: var(--font-body);
+  font-size: var(--fsize-body);
+  position: relative;
+  width: 60%;
+  max-width: var(--content-max-width);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--padding) 0 var(--padding);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+}
+
+.pmf-footer * {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    flex-wrap: wrap;
+    height: fit-content;
+}
+.pmf-footer>div {
+    width: 100%;
+}
+.pmf-footer > div > * {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+.pmf-footer * > br {
+    display: none;
+}
+.pmf-footer__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pmf-footer__item--end {
+  margin-left: auto;
+}
+
+.pmf-footer__item a,
+.pmf-footer__link {
+  color: var(--panelsoft);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.pmf-footer__item a:hover,
+.pmf-footer__link:hover {
+  color: var(--flash);
+}
+
+
+
+.pmf-footer__copyright-inner {
+  /* font-size: 0.75rem; */
+}

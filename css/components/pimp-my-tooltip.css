@@ -1,0 +1,21 @@
+/* pimp-my-tooltip.css */
+
+.pmf-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  max-width: var(--pmf-tooltip-max-width, 260px);
+  padding: var(--padding-bouton);
+  background: var(--flash3);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fsize-bouton);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.pmf-tooltip--visible {
+  opacity: 1;
+}

@@ -2,8 +2,8 @@
 
 export function init() {
   document.querySelectorAll(".codebox").forEach((box) => {
-    const code = box.querySelector("*:last-child");
-    if (!code) return;
+    const anchor = box.querySelector("*:last-child");
+    if (!anchor) return;
 
     const btn = document.createElement("button");
     btn.type = "button";
@@ -11,7 +11,7 @@ export function init() {
     btn.textContent = "Copier le code";
 
     btn.addEventListener("click", () => {
-      const text = code.innerText;
+      const text = extractCode(box);
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => feedback(btn)).catch(() => fallback(text, btn));
       } else {
@@ -19,8 +19,16 @@ export function init() {
       }
     });
 
-    code.appendChild(btn);
+    anchor.appendChild(btn);
   });
+}
+
+function extractCode(box) {
+  const source = box.querySelector("code, pre") || box;
+  const clone = source.cloneNode(true);
+  clone.querySelectorAll(".pmf-codebox-copy").forEach((b) => b.remove());
+  clone.querySelectorAll("br").forEach((br) => br.replaceWith("\n"));
+  return clone.textContent.trim();
 }
 
 function fallback(text, btn) {

@@ -407,7 +407,13 @@ textarea.pmf-pmp-input {
   outline-offset: 1px;
   /* background     : rgba(127, 127, 127, 0.12); */
 }
-
+xmp {
+    display: inline;
+    white-space: normal;
+    background: var(--accent3);
+    font-family: var(--font-mono);
+    margin: 0;
+}
 /* formatage wysiwyg */
 .cm-s-pmf .pmf-fmt-b { font-weight: 700; }
 .cm-s-pmf .pmf-fmt-i { font-style: italic; }
@@ -437,7 +443,7 @@ textarea.pmf-pmp-input {
 }
 
 .cm-s-pmf .pmf-fmt-h1 { font-size: 1.6em; font-weight: 700; line-height: 1.25; }
-.cm-s-pmf .pmf-fmt-h2 { font-size: 1.4em; font-weight: 700; line-height: 1.25; }
+.cm-s-pmf .pmf-fmt-h2 > span {font-size: 1.4em;font-weight: 700;line-height: normal;font-family: var(--font-mono);}
 .cm-s-pmf .pmf-fmt-h3 { font-size: 1.2em; font-weight: 700; }
 .cm-s-pmf .pmf-fmt-h4 { font-size: 1.05em; font-weight: 700; }
 .cm-s-pmf .pmf-fmt-h5 { font-weight: 700; }

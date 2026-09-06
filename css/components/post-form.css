@@ -7,7 +7,9 @@
   margin-bottom: var(--gap);
   overflow: hidden;
 }
-
+div#preview .blog-card {
+    display: none;
+}
 .pmf-form-block__header {
   display: flex;
   align-items: center;
@@ -129,4 +131,7 @@ form#quick_reply {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+}
+form#quick_reply ~ .block {
+    display: none;
 }

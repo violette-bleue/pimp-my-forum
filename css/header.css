@@ -342,6 +342,9 @@ ul#fa_menulist a::before {
     order: 1;
     margin-top: auto;
 }
+.pmf-nav li:has([href*="login"]) {
+    order: 2;
+}
 ul#fa_menulist a[href*="/u"]:not([href*="/sta/"]):not([href*="/spa/"])::before {
   -webkit-mask-image: var(--icon-user);
   mask-image        : var(--icon-user);
@@ -504,12 +507,14 @@ ul#notif_list[hidden] {
   line-height    : 120px;
   background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);
   background-clip: text;
-  width          : fit-content;
   margin         : 0;
+  height: 130px;
+  width: 100%;
+  justify-content: center;
 }
 
 div#pmf-site-title::before {
-  content        : 'PIMP MY FORUM';
+  content: var(--pagetitle);
   position       : absolute;
   background     : url(https://violette-bleue.github.io/pimp-my-forum/svg/04.svg);
   background-clip: text;
@@ -519,7 +524,7 @@ div#pmf-site-title::before {
 }
 
 div#pmf-site-title::after {
-  content        : 'PIMP MY FORUM';
+  content: var(--pagetitle);
   position       : absolute;
   z-index        : 2;
   background     : linear-gradient(263deg, var(--flash) 40%, var(--flash3) 73%, var(--flash2) 140%);

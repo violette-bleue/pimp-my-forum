@@ -10,6 +10,7 @@
 
 
 :root {
+    --pagetitle: 'Pimp my forum';
     /* Couleurs */
     --bg     : #b095c5;
     --bgdark: #9275a3;

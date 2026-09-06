@@ -43,14 +43,16 @@
   display: block;
 }
 
-.pmf-page-header__path a:last-of-type::after, , .sub-header-path a:last-of-type::after {
+.pmf-page-header__path a:last-of-type::after, .sub-header-path a:last-of-type::after {
   display: none;
 }
 
 .pmf-page-header__path a:hover {
   color: var(--flash);
 }
-
+.pmf-main .sub-header-info .page-title {
+    display: none;
+}
 .pmf-page-header__actions {
   display: flex;
   align-items: center;

@@ -20,6 +20,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--gap);
+  margin-top: auto;
 }
 
 /* -- barre de partage / plus menu (widget natif addthis) -- */
@@ -53,6 +54,9 @@
   background: var(--panel);
   color: var(--bgdark);
   margin-bottom: var(--gap);
+}
+.pmf-main .post > * {
+    padding: var(--padding);
 }
 
 @media (max-width: 700px) {
@@ -227,6 +231,9 @@
 
 .pmf-main .postbody .blog_cal-border {
   width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
 }
 
 .pmf-main .blog_cal-day {
@@ -349,7 +356,7 @@
 .pmf-main .comments-title {
   display: flex;
   align-items: center;
-  gap: var(--gap);
+  gap: calc(var(--gap)*2);
   font-family: var(--font-title);
   font-size: 1.1rem;
   font-weight: normal;
@@ -360,7 +367,7 @@
 .pmf-main .comments-title::after {
   content: "";
   flex: 1;
-  height: 1px;
+  height: 2px;
   background: var(--bgsoft);
 }
 

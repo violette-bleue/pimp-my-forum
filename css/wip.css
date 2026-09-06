@@ -6,10 +6,7 @@
 form#forum-search, .pmf-stats, #fa_toolbar {
     display: none;
 }
-.pmf-pmp-toggle {
-    /* pointer-events: none; */
-    /* opacity: 20%; */
-}
+
 .pmf-wip {
   display: flex;
   flex-direction: column;

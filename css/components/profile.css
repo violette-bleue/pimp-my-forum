@@ -59,9 +59,11 @@
 .column1 {
   min-width: 0;
 }
-
+[name="quickreply"] + .h3 {
+    display: none;
+}
 .h3 {
-  margin: 0 0 0.4em;
+  margin: 0;
   font-family: var(--font-title);
   font-size: 0.9rem;
 }

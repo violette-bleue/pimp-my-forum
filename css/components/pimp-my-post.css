@@ -214,11 +214,12 @@ span.cm-variable-2 {
 .pmf-pmp-toggle,
 .pmf-pmp-toolbar-btn {
   display    : inline-block;
-  margin     : 6px 0 6px 6px;
   line-height: normal;
   white-space: nowrap;
 }
-
+.pmf-pmp-toggle {
+    margin-left: auto;
+}
 /* widgets inline */
 .CodeMirror-widget:has(textarea.pmf-pmp-input) {
     width: stretch;
@@ -579,9 +580,10 @@ textarea.pmf-pmp-input {
     border-radius: var(--radius)!important;
     text-align: left;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     grid-area: toolbar;
+    gap: var(--gap);
 }
 
 #textarea_content .sceditor-toolbar,

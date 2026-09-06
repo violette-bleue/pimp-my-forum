@@ -45,14 +45,17 @@ dl.codebox dd {
   color: var(--bgdark);
 }
 
-code {
+.codebox code {
   display: flex!important;
   flex-wrap: wrap;
   position: relative;
   padding: 30px 10px 5px 10px!important;
   background: var(--panelsoft)!important;
 }
-
+code {
+    background: var(--panelsoft) !important;
+    padding: 0 var(--gap);
+}
 .hljs-string, .hljs-variable, .hljs-template-variable, .hljs-strong, .hljs-emphasis, .hljs-quote {
   color: var(--flash);
 }

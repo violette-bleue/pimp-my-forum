@@ -30,7 +30,7 @@
 }
 
 .pmf-main .topic-actions-buttons {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--gap);

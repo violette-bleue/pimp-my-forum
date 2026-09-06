@@ -126,7 +126,7 @@
 }
 
 .pmf-main .profile-icons {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 0.2em;
   list-style: none;
@@ -135,9 +135,78 @@
   background: var(--accent3);
 }
 
-.pmf-main .profile-icons li a {
+.pmf-main .post-menu.expanded ~ .profile-icons {
+  display: flex;
+}
+
+.pmf-main .profile-icons li a,
+.pmf-main .profile-icons li span {
   display: flex;
   padding: 0.4em;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.pmf-main .profile-icons li a:hover,
+.pmf-main .profile-icons li span:hover {
+  color: var(--flash);
+}
+
+/* -- glyphes coolicons en masque (html natif non modifiable) -- */
+
+.pmf-main .profile-icons i,
+.pmf-main .profile-icons img {
+  display: none;
+}
+
+.pmf-main .profile-icons li a::before,
+.pmf-main .profile-icons li span::before,
+.pmf-main .profile-icons .btn-quote-multi span::after {
+  content: "";
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background-color: currentColor;
+  -webkit-mask: var(--pmf-profile-icon, none) center / contain no-repeat;
+  mask: var(--pmf-profile-icon, none) center / contain no-repeat;
+}
+
+.pmf-main .profile-icons .btn-thank a {
+  --pmf-profile-icon: var(--icon-heart);
+}
+
+.pmf-main .profile-icons .btn-quote-multi span {
+  --pmf-profile-icon: var(--icon-quote);
+}
+
+.pmf-main .profile-icons .btn-quote-multi span::after {
+  --pmf-profile-icon: var(--icon-plus);
+  width: calc(var(--icon-size) * 0.65);
+  height: calc(var(--icon-size) * 0.65);
+}
+
+.pmf-main .profile-icons .btn-quote a {
+  --pmf-profile-icon: var(--icon-quote);
+}
+
+.pmf-main .profile-icons .btn-edit a {
+  --pmf-profile-icon: var(--icon-edit);
+}
+
+.pmf-main .profile-icons .btn-delete a {
+  --pmf-profile-icon: var(--icon-trash);
+}
+
+.pmf-main .profile-icons .btn-ip a {
+  --pmf-profile-icon: var(--icon-info);
+}
+
+.pmf-main .profile-icons .btn-report a:first-of-type {
+  --pmf-profile-icon: var(--icon-flag);
+}
+
+.pmf-main .profile-icons .btn-report a:last-of-type {
+  --pmf-profile-icon: var(--icon-lock);
 }
 
 .pmf-main .blog_cal-border > div {

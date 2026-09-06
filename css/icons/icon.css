@@ -112,6 +112,9 @@
 [icon="info"]      { background-image: var(--icon-info); }
 [icon-mask="info"] { -webkit-mask-image: var(--icon-info); mask-image: var(--icon-info); }
 
+[icon="flag"]      { background-image: var(--icon-flag); }
+[icon-mask="flag"] { -webkit-mask-image: var(--icon-flag); mask-image: var(--icon-flag); }
+
 [icon="plus-circle"]      { background-image: var(--icon-plus-circle); }
 [icon-mask="plus-circle"] { -webkit-mask-image: var(--icon-plus-circle); mask-image: var(--icon-plus-circle); }
 

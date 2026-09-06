@@ -22,12 +22,12 @@
 }
 
 .pmf-btn--accent {
-  background: var(--accent3);
+  background: var(--flash2);
   border-color: var(--accent);
 }
 
 .pmf-btn--outline {
-  background: var(--accent2);
+  background: var(--accent3);
 }
 
 .pmf-btn--danger {

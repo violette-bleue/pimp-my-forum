@@ -110,8 +110,8 @@
 
 .pmf-main .postbody .menu-wrap {
   position: absolute;
-  top: var(--padding);
-  right: var(--padding);
+  top: 0;
+  right: 0;
 }
 
 .pmf-main .post-menu {
@@ -127,16 +127,23 @@
 
 .pmf-main .profile-icons {
   display: none;
-  flex-wrap: wrap;
-  gap: 0.2em;
+  gap: var(--gap);
   list-style: none;
-  margin: 0.3em 0 0;
   padding: var(--padding-bouton);
   background: var(--accent3);
+  position: absolute;
+  top: 0;
+  right: -36px;
+  margin: 0;
+  left: unset;
 }
-
+.pmf-main .profile-icons .btn-thank,
+.pmf-main .profile-icons .btn-quote-multi{
+    display: none;
+}
 .pmf-main .post-menu.expanded ~ .profile-icons {
   display: flex;
+  flex-direction: column;
 }
 
 .pmf-main .profile-icons li a,
@@ -393,13 +400,9 @@
 }
 
 .pmf-main .comment .menu-wrap {
-  position: static;
-}
-
-.pmf-main .comment .profile-icons {
-  background: transparent;
-  padding: 0;
-  margin: 0;
+  position: relative;
+  top: -15px;
+  right: -15px;
 }
 
 .pmf-main .comment-info {

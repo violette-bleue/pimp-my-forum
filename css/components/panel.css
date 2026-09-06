@@ -13,10 +13,11 @@
   align-items: center;
   gap: var(--gap);
   background: var(--bgdark);
-  color: var(--text);
+  color: var(--accent3);
   font-family: var(--font-title);
   font-size: 1.1rem;
   padding: var(--padding);
+  margin: 0;
 }
 
 .pmf-panel__title a {
@@ -26,7 +27,17 @@
   color: inherit;
   text-decoration: none;
 }
-
+.pmf-panel > form[action="/post"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+.pmf-panel >
+    form[action="/post"] {
+    display: flex;
+    align-items: center;
+};
+}
 .pmf-panel__body {
   padding: 1em;
 }
@@ -38,8 +49,9 @@
 
 .pmf-panel__footer {
   padding: var(--padding);
-  background: var(--bgsoft);
   font-size: 0.8rem;
+  display: flex;
+  gap: var(--gap);
 }
 .pmf-panel--message-die > div {
   display: flex;

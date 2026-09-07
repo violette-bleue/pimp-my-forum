@@ -364,6 +364,9 @@ section#pmt-settings > div {
   opacity: 60%;
   filter: grayscale(1);
 }
+section#pmt-settings[hidden] {
+    display: none;
+}
 .pmt-panel {
   background: var(--panelsoft);
   border-radius: var(--radius);

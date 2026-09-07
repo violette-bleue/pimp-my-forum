@@ -6,7 +6,7 @@
   background: var(--panel);
   color: var(--bgdark);
   font-family: var(--font-body);
-  padding: 0.4em 0.7em;
+  padding: var(--padding-bouton);
 }
 
 .pmf-input::placeholder {
@@ -15,8 +15,8 @@
 }
 
 .pmf-input--tiny {
-  width: 3em;
-  text-align: center;
+  width: 20em;
+  text-align: left;
 }
 
 textarea.pmf-input {

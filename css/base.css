@@ -87,6 +87,9 @@ h1 {
     color: var(--text);
     font-weight: normal;
 }
+h1, h2, h3, h4 {
+  
+}
 input[type="range"] {
     color: var(--accent);
 }

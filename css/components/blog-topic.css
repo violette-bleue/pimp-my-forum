@@ -284,7 +284,7 @@
 }
 
 .pmf-main .postbody .content > br {
-  display: none;
+  /* display: none; */
 }
 
 /* -- j'aime (article + commentaires) -- */

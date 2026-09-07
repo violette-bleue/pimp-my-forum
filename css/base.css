@@ -88,7 +88,31 @@ h1 {
     font-weight: normal;
 }
 h1, h2, h3, h4 {
-  
+  padding: 0;
+  margin: 0;
+}
+h2 {
+    background: linear-gradient(
+15deg, var(--flash) 40%, var(--accent3) 73%, var(--accent2) 140%);
+    display: flex;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    unicode-bidi: unset;
+    width: fit-content;
+}
+h2::before {
+    content: '>';
+    position: absolute;
+    left: calc(var(--padding) * -3);
+    display: block;
+    width: fit-content;
+    height: 100%;
+    color: var(--panel);
+}
+h3 {
+    background: var(--gradient);
+    display: flex;
 }
 input[type="range"] {
     color: var(--accent);

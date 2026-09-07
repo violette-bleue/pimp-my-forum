@@ -277,6 +277,7 @@
   line-height: 1.6;
   font-size: 15px;
   word-break: break-word;
+  overflow: visible!important;
 }
 
 .pmf-main .postbody .content .blog-card {
@@ -453,9 +454,6 @@
     transform: scale(102%);
 }
 
-.blog_message img {
-    max-height: 100%;
-}
 
 .blog_message {
     position: absolute;
@@ -475,14 +473,16 @@
 .blog_message .blog-card {
     display: flex;
     position: relative;
-    height: fit-content;
     width: 100%;
+    height: 100%;
 }
 
 .blog_message .blog-card img {
     z-index: -1;
-    width: 100%;
     opacity: 20%;
+    min-width: 0;
+    height: fit-content;
+    min-height: 100%;
 }
 
 .blog_message .blog-card h2, .blog_message .blog-card h1 {

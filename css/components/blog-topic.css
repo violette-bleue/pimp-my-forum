@@ -469,7 +469,9 @@
 .bloglist>li>* {
     z-index: 1;
 }
-
+.bloglist .blog_message > br {
+    display: none;
+}
 .blog_message .blog-card {
     display: flex;
     position: relative;

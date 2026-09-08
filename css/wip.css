@@ -71,7 +71,6 @@ div[data-pmf-slot="board-index"] {
   top: 0;
   pointer-events: none;
   will-change: transform;
-  mix-blend-mode: difference;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -80,8 +79,7 @@ div[data-pmf-slot="board-index"] {
     height: 64px;
     margin-top: -50%;
     margin-left: -50%;
-    border-radius: 50%;
-    border: solid 1px rgba(227, 222, 193, 0.64);
+    background-image: url('https://violette-bleue.github.io/pimp-my-forum/img/logo.png');
     transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1),
       background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),
       border-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),
@@ -103,7 +101,7 @@ div[data-pmf-slot="board-index"] {
     top: -50%;
     width: 100%;
     height: 100%;
-    background-image: url('https://svgshare.com/i/MzQ.svg');
+    background-image: url('');
     background-repeat: no-repeat;
     background-position: center;
   }

@@ -429,7 +429,6 @@ xmp {
 
 .cm-s-pmf .pmf-fmt-link {
   color          : var(--pimpmypost-color-accent);
-  text-decoration: underline;
 }
 
 .cm-s-pmf .pmf-fmt-center { text-align: center; }
@@ -442,10 +441,10 @@ xmp {
   opacity     : 0.9;
 }
 
-.cm-s-pmf .pmf-fmt-h1 { font-size: 1.6em; font-weight: 700; line-height: 1.25; }
-.cm-s-pmf .pmf-fmt-h2 > span {font-size: 1.4em;font-weight: 700;line-height: normal;font-family: var(--font-mono);}
-.cm-s-pmf .pmf-fmt-h3 { font-size: 1.2em; font-weight: 700; }
-.cm-s-pmf .pmf-fmt-h4 { font-size: 1.05em; font-weight: 700; }
+.cm-s-pmf .pmf-fmt-h1 {font-weight: 700;line-height: 1.25;background: var(--accent2);}
+.cm-s-pmf .pmf-fmt-h2 {font-weight: 700;line-height: normal;font-family: var(--font-mono);background: var(--accent3);}
+.cm-s-pmf .pmf-fmt-h3 { font-size: 1.2em; font-weight: 700; background: var(--accent);}
+.cm-s-pmf .pmf-fmt-h4 { font-size: 1.05em; font-weight: 700; background: var(--accent4);}
 .cm-s-pmf .pmf-fmt-h5 { font-weight: 700; }
 .cm-s-pmf .pmf-fmt-h6 { font-weight: 700; opacity: 0.85; }
 

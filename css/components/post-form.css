@@ -5,7 +5,6 @@
   color: var(--bgdark);
   border-radius: var(--radius);
   margin-bottom: var(--gap);
-  overflow: hidden;
 }
 div#preview .blog-card {
     display: none;
@@ -29,6 +28,7 @@ div#preview .blog-card {
   flex-wrap: wrap;
   flex-direction: column;
   height: auto;
+  overflow: unset;
 }
 
 .pmf-form-block__body label {

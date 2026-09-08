@@ -116,7 +116,8 @@ hr {
   border-radius: var(--radius);
 }
 
-h1 {
+h1,
+#preview h1 {
   font-family: var(--font-mono);
   font-size  : 1.8rem;
   color      : var(--text);
@@ -127,7 +128,8 @@ h1 {
   align-items: center;
 }
 
-.postbody .content h1::after {
+.postbody .content h1::after,
+#preview h1::after {
   content   : '';
   display   : block;
   width     : stretch;

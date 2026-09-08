@@ -2,7 +2,7 @@ const cursor = document.querySelector('#cursor');
 const cursorCircle = cursor.querySelector('.cursor__circle');
 
 const mouse = { x: -100, y: -100 }; // mouse pointer's coordinates
-const pos = { x: 0, y: 0 }; // cursor's coordinates
+const pos = { x: 100, y: 100 }; // cursor's coordinates
 const speed = 0.1; // between 0 and 1
 
 const updateCoordinates = e => {
@@ -66,5 +66,5 @@ cursorModifiers.forEach(curosrModifier => {
     const className = this.getAttribute('cursor-class');
     cursor.classList.remove(className);
   });
-  
+
 });

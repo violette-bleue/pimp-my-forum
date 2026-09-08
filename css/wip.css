@@ -75,11 +75,13 @@ div[data-pmf-slot="board-index"] {
 
 @media (hover: hover) and (pointer: fine) {
   .cursor__circle {
-    width: 64px;
-    height: 64px;
+    width: 44px;
+    height: 44px;
     margin-top: -50%;
     margin-left: -50%;
     background-image: url('https://violette-bleue.github.io/pimp-my-forum/img/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1),
       background-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),
       border-color 0.3s cubic-bezier(0.25, 1, 0.5, 1),

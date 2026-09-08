@@ -1,3 +1,4 @@
+export function init() {
 const cursor = document.querySelector('#cursor');
 const cursorCircle = cursor.querySelector('.cursor__circle');
 
@@ -67,4 +68,4 @@ cursorModifiers.forEach(curosrModifier => {
     cursor.classList.remove(className);
   });
 
-});
+});}

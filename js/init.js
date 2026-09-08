@@ -71,7 +71,6 @@ function initModules() {
   // cursor
   loadModule("./modules/cursor.js", (m) => m.init());
 
-
   // icon navbar
   if (document.querySelector('#modernbb-nav-menu a.mainmenu img, #modernbb-nav-menu a.mainmenu i[icon-mask^="http"]')) {
     loadModule("./modules/nav-icons.js", (m) => m.init());

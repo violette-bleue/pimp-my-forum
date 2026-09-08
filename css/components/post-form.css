@@ -85,6 +85,7 @@ div#preview .blog-card {
   grid-template-columns: 1fr 5fr;
   --editorh: 370px;
   min-height: var(--editorh);
+  max-width: 100%;
 }
 .pmf-input[name="subject"] {
     width: 100%;

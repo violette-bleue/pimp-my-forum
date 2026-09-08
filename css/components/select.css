@@ -4,6 +4,7 @@
   position: relative;
   display: inline-block;
   min-width: 180px;
+  max-width: 100%;
 }
 
 .pmf-select__trigger {

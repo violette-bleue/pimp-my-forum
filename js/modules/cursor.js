@@ -2,9 +2,9 @@ export function init() {
 const cursor = document.querySelector('#cursor');
 const cursorCircle = cursor.querySelector('.cursor__circle');
 
-const mouse = { x: -100, y: -100 }; // mouse pointer's coordinates
-const pos = { x: 100, y: 100 }; // cursor's coordinates
-const speed = 0.1; // between 0 and 1
+const mouse = { x: -1000, y: -1000 }; // mouse pointer's coordinates
+const pos = { x: 99999, y: 100 }; // cursor's coordinates
+const speed = 0; // between 0 and 1
 
 const updateCoordinates = e => {
   mouse.x = e.clientX;

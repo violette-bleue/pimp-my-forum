@@ -31,6 +31,7 @@ a {
   transition         : all var(--anim);
   background-size    : 150%;
   font-size          : 0.9em;
+  white-space: pre;
 }
 
 .postbody .content>a:hover,

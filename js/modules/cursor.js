@@ -66,4 +66,5 @@ cursorModifiers.forEach(curosrModifier => {
     const className = this.getAttribute('cursor-class');
     cursor.classList.remove(className);
   });
+  
 });

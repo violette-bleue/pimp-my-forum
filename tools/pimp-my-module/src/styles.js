@@ -45,11 +45,10 @@ pmf-style,pmf-js,pmf-init,pmf-demo,[data-pmf="style"],[data-pmf="js"],[data-pmf=
 .pmf-unit{font-size:12px;color:var(--pmf-muted)}
 
 .pmf-app input,.pmf-app select,.pmf-app textarea,.pmf-app button{font:inherit;color:inherit}
-.pmf-text,.pmf-num,.pmf-select,.pmf-textarea,.pmf-code{padding:4px 7px;border:1px solid var(--pmf-border);border-radius:5px;background:var(--pmf-bg);font-size:13px}
+.pmf-text,.pmf-num,.pmf-textarea,.pmf-code{padding:4px 7px;border:1px solid var(--pmf-border);border-radius:5px;background:var(--pmf-bg);font-size:13px}
 .pmf-text{flex:1 1 120px;min-width:0}
 .pmf-text--short{flex:0 1 96px;font-family:ui-monospace,Consolas,monospace;font-size:12px}
 .pmf-num{width:64px;font-size:12px}
-.pmf-select{flex:1 1 120px;min-width:0}
 .pmf-textarea{width:100%;resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:12px}
 .pmf-range{flex:1 1 90px;min-width:60px;accent-color:var(--pmf-accent)}
 .pmf-check{width:16px;height:16px;margin:0;accent-color:var(--pmf-accent)}

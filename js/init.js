@@ -13,7 +13,7 @@ fetch(SUPABASE_URL + "/rest/v1/pmf_installs", {
     Prefer: "return=minimal",
   },
   body: JSON.stringify({ host: location.hostname }),
-}).catch(() => {});
+}).catch(() => { });
 
 fetch(SUPABASE_URL + "/rest/v1/rpc/pmf_check_status", {
   method: "POST",
@@ -101,4 +101,5 @@ function initModules() {
   if (document.getElementById("pmf-widget-sidebar-left") || document.getElementById("pmf-widget-sidebar-right")) {
     loadModule("./modules/sidebar-widgets.js", (m) => m.init());
   }
+
 }

@@ -63,7 +63,7 @@ div[data-pmf-slot="board-index"] {
 }
 
 
-/**/
+/*
 #cursor {
   position: fixed;
   z-index: 99;
@@ -119,3 +119,4 @@ div[data-pmf-slot="board-index"] {
     border-color: transparent;
   }
 }
+*/

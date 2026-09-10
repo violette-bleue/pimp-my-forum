@@ -60,6 +60,7 @@
     z-index: -1;
     opacity: 0;
     pointer-events: none;
+    transition: all var(--anim);
 }
 [class*="pmf-header__bar"]:hover::after {
     opacity: 20%;

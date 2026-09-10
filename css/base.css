@@ -130,6 +130,7 @@ h1,
 }
 
 .postbody .content h1::after,
+.pmf-post__body h1::after,
 #preview h1::after {
   content   : '';
   display   : block;
@@ -148,6 +149,7 @@ h4 {
 }
 
 .postbody .content>h2,
+.pmf-post__body h2,
 #preview h2 {
   background     : linear-gradient(15deg, var(--flash) 40%, var(--accent3) 73%, var(--accent2) 140%);
   display        : flex;
@@ -158,7 +160,8 @@ h4 {
   width          : fit-content;
 }
 
-h2::before,
+.postbody .content > h2::before,
+.pmf-post__body h2::before,
 #preview h2:before {
   content : '>';
   position: absolute;
@@ -168,8 +171,8 @@ h2::before,
   height  : 100%;
   color   : var(--panel);
 }
-
-h3,
+.postbody .content > h3,
+.pmf-post__body h3,
 #preview h3 {
   background: var(--gradient);
   display   : flex;

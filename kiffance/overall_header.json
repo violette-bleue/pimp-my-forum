@@ -1,7 +1,14 @@
 {
-    "{SITENAME_TITLE}": {
-        "description": "Le nom du forum. Ne s'affiche que sur la page d'accueil d'un forum.",
-        "type": "string",
-        "default": ""
-    }
+    "description": "Configuration générale de l'en-tête du forum.",
+    "hint": "La structure de ce template reste ouverte et sera refermée dans le template overall_footer",
+    "variables": {
+        "{SITENAME_TITLE}": {
+            "description": "Le titre du forum. Ne s'affiche que sur la page d'accueil d'un forum.",
+            "type": "string",
+            "range": "all",
+            "default": "",
+            "variant": []
+        }
+    },
+    "comments": {}
 }

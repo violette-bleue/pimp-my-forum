@@ -97,6 +97,8 @@ h3.pmf-forum-row__title {
   align-items: center;
   gap: var(--gap);
   order: -2;
+  position: relative;
+  height: stretch;
 }
 
 .pmf-forum-row__title a {
@@ -105,8 +107,12 @@ h3.pmf-forum-row__title {
 }
 
 .pmf-forum-row__desc {
-  font-size: 0.85rem;
-  opacity: 0.8;
+  font-size: 1.2rem;
+  color: var(--bgdark);
+  margin-top: auto;
+  position: absolute;
+  bottom: var(--padding);
+  font-weight: 600;
 }
 
 .pmf-forum-row__topics,

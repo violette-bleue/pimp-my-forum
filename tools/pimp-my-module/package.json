@@ -1,0 +1,15 @@
+{
+  "name": "pimp-my-module",
+  "version": "1.0.0",
+  "description": "Generateur de modules Forumactif : balises <pmf-*>, tokens %%nom%%, interface de reglage generee, demo live et code pret a coller.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.mjs",
+    "watch": "node build.mjs --watch",
+    "serve": "node build.mjs && npx --yes serve -l 5173 ."
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2"
+  }
+}

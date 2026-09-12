@@ -115,6 +115,13 @@
             "range": "overall_footer, overall_header, posting_body",
             "default": "https://illiweb.com/rs3/40/frm/jquery/",
             "variant": []
+        },
+        "{L_LANG}": {
+            "description": "Contient une chaîne de texte qui permet de définir la langue de votre forum.",
+            "type": "string",
+            "range": "overall_footer, overall_header, posting_smilies_frame, posting_smilies_wysiwyg, simple_header",
+            "default": "lang/fr",
+            "variant": []
         }
     },
     "comments": {}

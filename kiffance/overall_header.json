@@ -94,6 +94,13 @@
             "value": "Rechercher des forums",
             "default": "Rechercher des forums",
             "variant": []
+        },
+        "{JQUERY_PATH}": {
+            "description": "Contient l'adresse URL de la librairie JavaScript jQuery.",
+            "type": "string",
+            "range": "overall_header",
+            "default": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+            "variant": []
         }
     },
     "comments": {}

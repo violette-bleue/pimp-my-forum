@@ -83,7 +83,8 @@
             "description": "Lien vers l'annuaire des forums dans la langue du forum.",
             "type": "string",
             "range": "overall_header",
-            "default": "",
+            "value": "https://www.annuairedeforums.com",
+            "default": "https://www.annuairedeforums.com",
             "variant": []
         },
         "{SEARCH_FORUMS}": {

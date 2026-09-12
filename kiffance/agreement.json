@@ -1,0 +1,11 @@
+{
+  "variables": {
+    "{U_AGREE_OVER13}": {
+      "description": "test",
+      "type": "string",
+      "range": "all",
+      "default": "test",
+      "variant": []
+    }
+  }
+}

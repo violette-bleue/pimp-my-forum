@@ -57,7 +57,7 @@
             "variant": []
         },
         "{META_FAVICO}": {
-            "description": "Contient la balise META gérant le favicon de votre forum.",
+            "description": "Contient la balise META gérant le favicon de votre forum. Configuration de l'URL d'image dans le panneau d'administration : `Panneau d'administration > Général > Forum | Configuration > Favicon du forum`",
             "type": "html",
             "range": "overall_header",
             "value": "",

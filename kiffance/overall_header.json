@@ -40,6 +40,13 @@
             "value": "",
             "default": "ltr",
             "variant": []
+        },
+        "{S_CONTENT_ENCODING}": {
+            "description": "Remplacé par l'encodage de votre forum.",
+            "type": "string",
+            "range": "overall_header",
+            "default": "Si votre forum a été créé avant le 17 septembre 2008 : l'encodage dépendra de la langue d'affichage du forum, pour le français ce sera windows-1252. Si votre forum a été créé après le 17 septembre 2008 : l'encodage sera utf-8 quelle que soit la langue du forum.",
+            "variant": []
         }
     },
     "comments": {}

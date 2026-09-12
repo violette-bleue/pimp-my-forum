@@ -71,6 +71,13 @@
             "value": "",
             "default": "",
             "variant": []
+        },
+        "{switch_canonical_url.CANONICAL_URL}": {
+            "description": "Contient l'adresse URL de la balise link rel canonical qui est liée au duplicate content et donc aux pages qui ont des contenus similaires mais dont l'accès peut se faire par différentes URL.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

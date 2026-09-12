@@ -101,6 +101,13 @@
             "range": "overall_header",
             "default": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
             "variant": []
+        },
+        "{JS_DIR}": {
+            "description": "Contient l'adresse URL du dossier dans lesquel se trouvent les fichiers script généraux de forumactif.",
+            "type": "string",
+            "range": "overall_footer, overall_header, posting_body, posting_smilies_frame, posting_smilies_wysiwyg, search_body, search_results_posts, simple_header, viewcomments_body, viewtopic_body",
+            "default": "https://illiweb.com/rs3/40/frm/",
+            "variant": []
         }
     },
     "comments": {}

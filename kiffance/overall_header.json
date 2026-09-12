@@ -3,10 +3,49 @@
     "hint": "La structure de ce template reste ouverte et sera refermée dans le template overall_footer",
     "variables": {
         "{SITENAME_TITLE}": {
-            "description": "Le titre du forum. Ne s'affiche que sur la page d'accueil d'un forum.",
+            "description": "Contient le titre du forum défini dans `Général > Promotion du forum | Les moteurs de recherche > Titre de la page d'accueil`. Ne s'affiche que sur la page d'accueil d'un forum.",
             "type": "string",
-            "range": "all",
+            "range": "global",
             "default": "",
+            "variant": []
+        },
+        "{PAGE_TITLE}": {
+            "description": "Contient le titre de la page sur laquelle on se trouve.",
+            "value": "",
+            "type": "string",
+            "range": "global",
+            "default": "test",
+            "variant": []
+        },
+        "{RICH_SNIPPET_GOOGLE}": {
+            "description": "Contient le balisage JSON-LD. Utilisé pour améliorer le référencement et l'affichage enrichi dans les résultats de recherche Google.",
+            "type": "string",
+            "value": "",
+            "range": "global",
+            "default": "",
+            "variant": []
+        },
+        "{L_LANG_HTML}": {
+            "description": "Contient la langue de votre forum.",
+            "type": "string",
+            "range": "overall_header, simple_header",
+            "default": "",
+            "value": "fr",
+            "variant": []
+        },
+        "{S_CONTENT_DIRECTION}": {
+            "description": "Contient la direction du texte suivant la langue d'affichage du forum.",
+            "type": "string",
+            "range": "overall_header",
+            "value": "",
+            "default": "ltr",
+            "variant": []
+        },
+        "{S_CONTENT_ENCODING}": {
+            "description": "Remplacé par l'encodage de votre forum.",
+            "type": "string",
+            "range": "overall_header",
+            "default": "Si votre forum a été créé avant le 17 septembre 2008 : l'encodage dépendra de la langue d'affichage du forum, pour le français ce sera windows-1252. Si votre forum a été créé après le 17 septembre 2008 : l'encodage sera utf-8 quelle que soit la langue du forum.",
             "variant": []
         }
     },

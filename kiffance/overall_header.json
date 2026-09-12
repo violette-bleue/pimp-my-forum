@@ -14,7 +14,7 @@
             "value": "",
             "type": "string",
             "range": "global",
-            "default": "",
+            "default": "test",
             "variant": []
         },
         "{RICH_SNIPPET_GOOGLE}": {

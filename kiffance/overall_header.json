@@ -32,6 +32,14 @@
             "default": "",
             "value": "fr",
             "variant": []
+        },
+        "{S_CONTENT_DIRECTION}": {
+            "description": "Contient la direction du texte suivant la langue d'affichage du forum.",
+            "type": "string",
+            "range": "overall_header",
+            "value": "",
+            "default": "ltr",
+            "variant": []
         }
     },
     "comments": {}

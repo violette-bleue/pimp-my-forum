@@ -3,9 +3,25 @@
     "hint": "La structure de ce template reste ouverte et sera refermée dans le template overall_footer",
     "variables": {
         "{SITENAME_TITLE}": {
-            "description": "Le titre du forum. Ne s'affiche que sur la page d'accueil d'un forum.",
+            "description": "Contient le titre du forum défini dans `Général > Promotion du forum | Les moteurs de recherche > Titre de la page d'accueil`. Ne s'affiche que sur la page d'accueil d'un forum.",
             "type": "string",
-            "range": "all",
+            "range": "global",
+            "default": "",
+            "variant": []
+        },
+        "{PAGE_TITLE}": {
+            "description": "Contient le titre de la page sur laquelle on se trouve.",
+            "value": "",
+            "type": "string",
+            "range": "global",
+            "default": "",
+            "variant": []
+        },
+        "{RICH_SNIPPET_GOOGLE}": {
+            "description": "Contient le balisage JSON-LD. Utilisé pour améliorer le référencement et l'affichage enrichi dans les résultats de recherche Google.",
+            "type": "string",
+            "value": "",
+            "range": "global",
             "default": "",
             "variant": []
         }

@@ -4,8 +4,8 @@
     "variables": {
         "{SITENAME_TITLE}": {
             "description": "Le titre du forum. Ne s'affiche que sur la page d'accueil d'un forum. ♥",
-            "type": "string",
-            "range": "all",
+            "type": "texte",
+            "range": "globale",
             "default": "",
             "variant": []
         }

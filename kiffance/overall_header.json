@@ -63,6 +63,14 @@
             "value": "",
             "default": "",
             "variant": []
+        },
+        "{SITENAME}": {
+            "description": "Contient la valeur spécifiée pour Nom du site dans `Panneau d'administration > Général > Forum | Configuration.`",
+            "type": "string",
+            "range": "agreement, overall_header",
+            "value": "",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

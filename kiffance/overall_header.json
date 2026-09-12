@@ -78,6 +78,13 @@
             "range": "",
             "default": "",
             "variant": []
+        },
+        "{URL_BOARD_DIRECTORY}": {
+            "description": "Lien vers l'annuaire des forums dans la langue du forum.",
+            "type": "string",
+            "range": "overall_header",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

@@ -1,6 +1,6 @@
 /* buttons.css */
 
-.pmf-btn {
+.pmf-page-header__actions .pmf-btn {
   display: flex;
   align-items: center;
   gap: var(--gap);
@@ -21,7 +21,7 @@
   background: var(--flash2) !important;
 }
 
-.pmf-btn--accent {
+.pmf-btn.pmf-btn--accent {
   background: var(--flash2);
   border-color: var(--accent);
 }

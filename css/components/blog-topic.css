@@ -493,16 +493,17 @@
 }
 
 .blog_message .blog-card h2 {
-    top: 0;
+    top: 8px;
     margin: 0;
     width: 60px;
     text-align: right;
+    line-height: 2.1rem;
 }
 
 .blog_message .blog-card h1 {
     margin: 0;
-    left: 70px;
-    font-size: 115px;
+    left: 60px;
+    font-size: 105px;
     line-height: 81px;
 }
 

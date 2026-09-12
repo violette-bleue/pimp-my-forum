@@ -194,3 +194,7 @@
   gap: 0.3em;
   flex-shrink: 0;
 }
+
+.forumbg.announcement li.header {
+    display: none;
+}

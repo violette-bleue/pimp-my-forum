@@ -311,9 +311,9 @@
 /*PMT*/
 
 div#pmt-app .pmt {
-  --widtheditor: 600px;
+  --widtheditor: 100%;
   display: grid;
-  grid-template-columns: 5fr 1fr;
+  grid-template-columns: 70% 1fr;
   grid-template-rows: repeat(3, auto);
   max-width: 100%;
   gap: var(--gap);

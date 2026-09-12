@@ -85,6 +85,14 @@
             "range": "overall_header",
             "default": "",
             "variant": []
+        },
+        "{SEARCH_FORUMS}": {
+            "description": "Contient du texte.",
+            "type": "string",
+            "range": "overall_header",
+            "value": "Rechercher des forums",
+            "default": "Rechercher des forums",
+            "variant": []
         }
     },
     "comments": {}

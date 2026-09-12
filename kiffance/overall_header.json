@@ -24,6 +24,14 @@
             "range": "global",
             "default": "",
             "variant": []
+        },
+        "{L_LANG_HTML}": {
+            "description": "Contient la langue de votre forum.",
+            "type": "string",
+            "range": "overall_header, simple_header",
+            "default": "",
+            "value": "fr",
+            "variant": []
         }
     },
     "comments": {}

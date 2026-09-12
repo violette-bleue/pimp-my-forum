@@ -55,6 +55,14 @@
             "value": "",
             "default": "",
             "variant": []
+        },
+        "{META_FAVICO}": {
+            "description": "Contient la balise META gérant le favicon de votre forum.",
+            "type": "html",
+            "range": "overall_header",
+            "value": "",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

@@ -122,6 +122,13 @@
             "range": "overall_footer, overall_header, posting_smilies_frame, posting_smilies_wysiwyg, simple_header",
             "default": "lang/fr",
             "variant": []
+        },
+        "{JAVASCRIPT}": {
+            "description": "Variable actuellement inutilisée.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

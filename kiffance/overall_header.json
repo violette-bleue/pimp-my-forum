@@ -164,6 +164,13 @@
             "range": "globale",
             "default": "",
             "variant": []
+        },
+        "{GENERATED_NAV_BAR}": {
+            "description": "Affiche la barre de navigation choisie dans `Affichage > Page d'accueil | En-tête & Navigation > Barre de navigation`.",
+            "type": "html",
+            "range": "overall_header",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

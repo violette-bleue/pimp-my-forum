@@ -150,6 +150,13 @@
             "range": "globale",
             "default": "",
             "variant": []
+        },
+        "{LOGO}": {
+            "description": "Contient l'adresse URL du logo du forum, spécifiée dans `Affichage > Images et Couleurs | Gestion des images > Logo du forum.`",
+            "type": "string",
+            "range": "overall_header",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

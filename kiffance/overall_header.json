@@ -157,6 +157,13 @@
             "range": "overall_header",
             "default": "",
             "variant": []
+        },
+        "{L_INDEX}": {
+            "description": "Contient la valeur spécifiée pour Nom du site dans `Général > Forum | Configuration`.",
+            "type": "string",
+            "range": "globale",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

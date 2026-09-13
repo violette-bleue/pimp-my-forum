@@ -143,6 +143,13 @@
             "range": "overall_header, posting_smilies_frame, posting_smilies_wysiwyg",
             "default": "<link rel='stylesheet' href='/84-ltr.css' type='text/css' />",
             "variant": []
+        },
+        "{U_INDEX}": {
+            "description": "Adresse url absolue vers l'index du forum. Si il n'y a pas de portail ou de page html mis en page d'accueil : `/`, sinon : `/forum`",
+            "type": "string",
+            "range": "globale",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

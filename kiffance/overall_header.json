@@ -129,6 +129,13 @@
             "range": "",
             "default": "",
             "variant": []
+        },
+        "{CSS}": {
+            "description": "Utilisé pour afficher le CSS lors des prévisualisations.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

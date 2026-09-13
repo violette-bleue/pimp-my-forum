@@ -136,6 +136,13 @@
             "range": "",
             "default": "",
             "variant": []
+        },
+        "{T_HEAD_STYLESHEET}": {
+            "description": "Contient le CSS global (CSS de base + CSS perso) du forum.",
+            "type": "html",
+            "range": "overall_header, posting_smilies_frame, posting_smilies_wysiwyg",
+            "default": "<link rel='stylesheet' href='/84-ltr.css' type='text/css' />",
+            "variant": []
         }
     },
     "comments": {}

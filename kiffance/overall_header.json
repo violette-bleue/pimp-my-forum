@@ -47,6 +47,130 @@
             "range": "overall_header",
             "default": "Si votre forum a été créé avant le 17 septembre 2008 : l'encodage dépendra de la langue d'affichage du forum, pour le français ce sera windows-1252. Si votre forum a été créé après le 17 septembre 2008 : l'encodage sera utf-8 quelle que soit la langue du forum.",
             "variant": []
+        },
+        "{META}": {
+            "description": "Contient les différentes balises META de votre forum.",
+            "type": "html",
+            "range": "overall_header",
+            "value": "",
+            "default": "",
+            "variant": []
+        },
+        "{META_FAVICO}": {
+            "description": "Contient la balise META gérant le favicon de votre forum. Configuration de l'URL d'image dans le panneau d'administration : `Panneau d'administration > Général > Forum | Configuration > Favicon du forum`",
+            "type": "html",
+            "range": "overall_header",
+            "value": "",
+            "default": "",
+            "variant": []
+        },
+        "{SITENAME}": {
+            "description": "Contient la valeur spécifiée pour Nom du site dans `Panneau d'administration > Général > Forum | Configuration.`",
+            "type": "string",
+            "range": "agreement, overall_header",
+            "value": "",
+            "default": "",
+            "variant": []
+        },
+        "{switch_canonical_url.CANONICAL_URL}": {
+            "description": "Contient l'adresse URL de la balise link rel canonical qui est liée au duplicate content et donc aux pages qui ont des contenus similaires mais dont l'accès peut se faire par différentes URL.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
+        },
+        "{URL_BOARD_DIRECTORY}": {
+            "description": "Lien vers l'annuaire des forums dans la langue du forum.",
+            "type": "string",
+            "range": "overall_header",
+            "value": "https://www.annuairedeforums.com",
+            "default": "https://www.annuairedeforums.com",
+            "variant": []
+        },
+        "{SEARCH_FORUMS}": {
+            "description": "Contient du texte.",
+            "type": "string",
+            "range": "overall_header",
+            "value": "Rechercher des forums",
+            "default": "Rechercher des forums",
+            "variant": []
+        },
+        "{JQUERY_PATH}": {
+            "description": "Contient l'adresse URL de la librairie JavaScript jQuery.",
+            "type": "string",
+            "range": "overall_header",
+            "default": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+            "variant": []
+        },
+        "{JS_DIR}": {
+            "description": "Contient l'adresse URL du dossier dans lesquel se trouvent les fichiers script généraux de forumactif.",
+            "type": "string",
+            "range": "overall_footer, overall_header, posting_body, posting_smilies_frame, posting_smilies_wysiwyg, search_body, search_results_posts, simple_header, viewcomments_body, viewtopic_body",
+            "default": "https://illiweb.com/rs3/40/frm/",
+            "variant": []
+        },
+        "{JQUERY_DIR}": {
+            "description": "Contient l'adresse URL du dossier dans lesquel se trouvent les fichiers script et css relatifs à jQuery.",
+            "type": "string",
+            "range": "overall_footer, overall_header, posting_body",
+            "default": "https://illiweb.com/rs3/40/frm/jquery/",
+            "variant": []
+        },
+        "{L_LANG}": {
+            "description": "Contient une chaîne de texte qui permet de définir la langue de votre forum.",
+            "type": "string",
+            "range": "overall_footer, overall_header, posting_smilies_frame, posting_smilies_wysiwyg, simple_header",
+            "default": "lang/fr",
+            "variant": []
+        },
+        "{JAVASCRIPT}": {
+            "description": "Variable actuellement inutilisée.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
+        },
+        "{CSS}": {
+            "description": "Utilisé pour afficher le CSS lors des prévisualisations.",
+            "type": "",
+            "range": "",
+            "default": "",
+            "variant": []
+        },
+        "{T_HEAD_STYLESHEET}": {
+            "description": "Contient le CSS global (CSS de base + CSS perso) du forum.",
+            "type": "html",
+            "range": "overall_header, posting_smilies_frame, posting_smilies_wysiwyg",
+            "default": "<link rel='stylesheet' href='/84-ltr.css' type='text/css' />",
+            "variant": []
+        },
+        "{U_INDEX}": {
+            "description": "Adresse url absolue vers l'index du forum. Si il n'y a pas de portail ou de page html mis en page d'accueil : `/`, sinon : `/forum`",
+            "type": "string",
+            "range": "globale",
+            "default": "",
+            "variant": []
+        },
+        "{LOGO}": {
+            "description": "Contient l'adresse URL du logo du forum, spécifiée dans `Affichage > Images et Couleurs | Gestion des images > Logo du forum.`",
+            "type": "string",
+            "range": "overall_header",
+            "default": "",
+            "variant": []
+        },
+        "{L_INDEX}": {
+            "description": "Contient la valeur spécifiée pour Nom du site dans `Général > Forum | Configuration`.",
+            "type": "string",
+            "range": "globale",
+            "default": "",
+            "variant": []
+        },
+        "{GENERATED_NAV_BAR}": {
+            "description": "Affiche la barre de navigation choisie dans `Affichage > Page d'accueil | En-tête & Navigation > Barre de navigation`.",
+            "type": "html",
+            "range": "overall_header",
+            "default": "",
+            "variant": []
         }
     },
     "comments": {}

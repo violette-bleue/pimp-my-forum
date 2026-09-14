@@ -113,8 +113,17 @@ h3.pmf-forum-row__title {
   position: absolute;
   bottom: var(--padding);
   font-weight: 600;
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  flex-wrap: wrap;
 }
-
+.pmf-forum-row__desc.pmf-fa-raw > * {
+    background: var(--accent3);
+    padding: var(--padding-bouton);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
 .pmf-forum-row__topics,
 .pmf-forum-row__posts {
   text-align: center;

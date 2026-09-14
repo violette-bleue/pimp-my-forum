@@ -1,12 +1,14 @@
 {
   "variables": {
     "{U_AGREE_OVER13}": {
-      "description": "# description en markdown\nbold italique et du `code` voir un  [lien](url)",
+      "description": "# description en markdown\nbold italique et du `code` voir un  [lien](url)\n\n\t__Ilyaa llll__ _hlirgh_ ehye **hai** ~~ehye~~ ilyaayar li'hee h'hafh'drn 'fhalma llll nwor, Dagon uh'e kadishtu uln goka naflgnaiih gnaiihoth goka shagg 'fhalma, athg h'gnaiih ooboshu hai R'lyeh k'yarnak uaaah kn'a Nyarlathotep stell'bsna. Mg chafh'drn Yoggoth gof'nn 'fhalma ya ep mnahn' throd, ebunma ooboshu lw'nafh kadishtu nagoka h'hafh'drn 'fhalmaor nnnshagg lw'nafh, ep ch' Hastur kn'a f'zhro Cthulhuyar chtenff. Tsathoggua goka mg syha'h wgah'n mg kn'a, syha'h li'hee athg ilyaa uln 'bthnk vulgtmyar, athg goka athg shugg fm'latgh. NaNyarlathotep nnngeb k'yarnak R'lyeh grah'nagl ronyar k'yarnak gof'nn tharanak vulgtlagln, uaaah wgah'n kn'a shtunggli naya naflchtenff nw gnaiih, n'ghftnyth ph'ch' 'ai k'yarnak ah kn'a vulgtm mnahn'. ",
       "type": "",
-      "range": "global",
-      "default": "valeur par défaut",
+      "range": [
+        "agreement"
+      ],
+      "default": "valeur par défaut\tIlyaa llll hlirgh ehye hai ehye ilyaayar li'hee h'hafh'drn 'fhalma llll nwor, Dagon uh'e kadishtu uln goka naflgnaiih gnaiihoth goka shagg 'fhalma, athg h'gnaiih ooboshu hai R'lyeh k'yarnak uaaah kn'a Nyarlathotep stell'bsna. Mg chafh'drn Yoggoth gof'nn 'fhalma ya ep mnahn' throd, ebunma ooboshu lw'nafh kadishtu nagoka h'hafh'drn 'fhalmaor nnnshagg lw'nafh, ep ch' Hastur kn'a f'zhro Cthulhuyar chtenff. Tsathoggua goka mg syha'h wgah'n mg kn'a, syha'h li'hee athg ilyaa uln 'bthnk vulgtmyar, athg goka athg shugg fm'latgh. NaNyarlathotep nnngeb k'yarnak R'lyeh grah'nagl ronyar k'yarnak gof'nn tharanak vulgtlagln, uaaah wgah'n kn'a shtunggli naya naflchtenff nw gnaiih, n'ghftnyth ph'ch' 'ai k'yarnak ah kn'a vulgtm mnahn'. \tIlyaa llll hlirgh ehye hai ehye ilyaayar li'hee h'hafh'drn 'fhalma llll nwor, Dagon uh'e kadishtu uln goka naflgnaiih gnaiihoth goka shagg 'fhalma, athg h'gnaiih ooboshu hai R'lyeh k'yarnak uaaah kn'a Nyarlathotep stell'bsna. Mg chafh'drn Yoggoth gof'nn 'fhalma ya ep mnahn' throd, ebunma ooboshu lw'nafh kadishtu nagoka h'hafh'drn 'fhalmaor nnnshagg lw'nafh, ep ch' Hastur kn'a f'zhro Cthulhuyar chtenff. Tsathoggua goka mg syha'h wgah'n mg kn'a, syha'h li'hee athg ilyaa uln 'bthnk vulgtmyar, athg goka athg shugg fm'latgh. NaNyarlathotep nnngeb k'yarnak R'lyeh grah'nagl ronyar k'yarnak gof'nn tharanak vulgtlagln, uaaah wgah'n kn'a shtunggli naya naflchtenff nw gnaiih, n'ghftnyth ph'ch' 'ai k'yarnak ah kn'a vulgtm mnahn'. ",
       "variant": [],
-      "value": "value dans un <code>"
+      "value": "value dans un <code> \tIlyaa llll hlirgh ehye hai ehye ilyaayar li'hee h'hafh'drn 'fhalma llll nwor, Dagon uh'e kadishtu uln goka naflgnaiih gnaiihoth goka shagg 'fhalma, athg h'gnaiih ooboshu hai R'lyeh k'yarnak uaaah kn'a Nyarlathotep stell'bsna. Mg chafh'drn Yoggoth gof'nn 'fhalma ya ep mnahn' throd, ebunma ooboshu lw'nafh kadishtu nagoka h'hafh'drn 'fhalmaor nnnshagg lw'nafh, ep ch' Hastur kn'a f'zhro Cthulhuyar chtenff. Tsathoggua goka mg syha'h wgah'n mg kn'a, syha'h li'hee athg ilyaa uln 'bthnk vulgtmyar, athg goka athg shugg fm'latgh. NaNyarlathotep nnngeb k'yarnak R'lyeh grah'nagl ronyar k'yarnak gof'nn tharanak vulgtlagln, uaaah wgah'n kn'a shtunggli naya naflchtenff nw gnaiih, n'ghftnyth ph'ch' 'ai k'yarnak ah kn'a vulgtm mnahn'. "
     }
   }
 }

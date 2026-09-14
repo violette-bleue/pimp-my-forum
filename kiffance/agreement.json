@@ -1,11 +1,12 @@
 {
   "variables": {
     "{U_AGREE_OVER13}": {
-      "description": "test",
-      "type": "string",
-      "range": "all",
-      "default": "test",
-      "variant": []
+      "description": "# description en markdown\nbold italique et du `code` voir un  [lien](url)",
+      "type": "",
+      "range": "global",
+      "default": "valeur par défaut",
+      "variant": [],
+      "value": "value dans un <code>"
     }
   }
 }

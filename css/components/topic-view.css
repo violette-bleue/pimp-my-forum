@@ -299,9 +299,7 @@
 
 
 /**/
-:is(style, h1,h2,h3,h4,h5,h6) + br,
-:is(style, h1,h2,h3,h4,h5,h6) + br + br,
-:is(style, h1,h2,h3,h4,h5,h6) + br + br + br {/* display:none; */}
+:is(style, h1,h2,h3,h4,h5,h6) + br {display:none;}
 
 /* AJUSTEMENT COULEURS */
 [style="color: rgb(255, 255, 0);"] {

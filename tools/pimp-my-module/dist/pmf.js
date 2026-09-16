@@ -1,4 +1,5 @@
-(() => {
+export function init() { 
+  (() => {
   // src/styles.js
   var CSS = `
 pmf-module,[data-pmf="module"]{display:block}
@@ -928,3 +929,4 @@ ${close("script")}${close("body")}${close("html")}`);
     return node ? node.getAttribute(name) || node.getAttribute(`data-${name}`) : null;
   }
 })();
+}

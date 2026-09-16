@@ -102,4 +102,10 @@ function initModules() {
     loadModule("./modules/sidebar-widgets.js", (m) => m.init());
   }
 
+
+  // pimp my module
+    if (document.getElementById("pmf-app")) {
+    loadModule("../tools/pimp-my-module/dist/pmf.js", (m) => m.init());
+  }
+
 }

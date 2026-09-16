@@ -12,18 +12,22 @@ fetch(SUPABASE_URL + "/rest/v1/pmf_installs", {
     Authorization: "Bearer " + SUPABASE_ANON_KEY,
     Prefer: "return=minimal",
   },
-  body: JSON.stringify({ host: location.hostname }),
-}).catch(() => { });
+  body: JSON.stringify({
+    host: location.hostname
+  }),
+}).catch(() => {});
 
 fetch(SUPABASE_URL + "/rest/v1/rpc/pmf_check_status", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    apikey: SUPABASE_ANON_KEY,
-    Authorization: "Bearer " + SUPABASE_ANON_KEY,
-  },
-  body: JSON.stringify({ p_host: location.hostname }),
-})
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: "Bearer " + SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify({
+      p_host: location.hostname
+    }),
+  })
   .then((r) => r.json())
   .then((rows) => {
     const row = Array.isArray(rows) ? rows[0] : null;
@@ -104,8 +108,8 @@ function initModules() {
 
 
   // pimp my module
-    if (document.querySelector("pmf-demo")) {
-    loadModule("../tools/pimp-my-module/dist/pmf.js", (m) => m.init());
+  if (document.querySelector('pmf-module, [data-pmf="module"]')) {
+    loadModule("../tools/pimp-my-module/dist/pmf.min.js");
   }
 
 }

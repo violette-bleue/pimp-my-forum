@@ -104,7 +104,7 @@ function initModules() {
 
 
   // pimp my module
-    if (document.getElementById("pmf-app")) {
+    if (document.querySelector("pmf-demo")) {
     loadModule("../tools/pimp-my-module/dist/pmf.js", (m) => m.init());
   }
 

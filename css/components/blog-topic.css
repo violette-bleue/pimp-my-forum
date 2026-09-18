@@ -1,9 +1,9 @@
 /* blog-topic.css */
 
-.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage)) > * {
+.pmf-main .postbody .content:has(pmf-module-dev:not(:has(.pmf-stage))) > * {
   display: none;
 }
-.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage))::before {
+.pmf-main .postbody .content:has(pmf-module-dev:not(:has(.pmf-stage)))::before {
     content: '';
     display: block;
     background: red;

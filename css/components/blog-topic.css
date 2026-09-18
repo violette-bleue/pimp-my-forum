@@ -576,3 +576,14 @@ a.blog_comments-num {
     flex-direction: column;
     gap: var(--gap);
 }
+
+.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage)):before {
+    content: '';
+    display: block;
+    background: url(https://violette-bleue.github.io/pimp-my-forum/img/icons/loader.svg) center/contain no-repeat;
+    width: 50px;
+    height: 50px;
+}
+
+.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage))>* {display:none}
+

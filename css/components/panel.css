@@ -65,6 +65,7 @@
 .pmf-panel.pmf-panel--pa {
     display: flex;
     flex-direction: column;
+    padding: var(--padding);
 }
 .pmf-panel.pmf-panel--pa > div {
     display: inline-flex;

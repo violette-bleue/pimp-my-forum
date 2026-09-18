@@ -453,6 +453,8 @@ ul#notif_list {
 ul#notif_list li {
     padding: var(--padding);
 }
+ul#notif_list li.unread {
+}
 ul#notif_list[hidden] {
   display: none;
 }

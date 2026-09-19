@@ -578,9 +578,18 @@ a.blog_comments-num {
 }
 
 
-pmf-module-dev:not(.pmf-complete) {     background: linear-gradient(45deg, var(--gradientflash));
-    mask-image: url(
-    https://violette-bleue.github.io/pimp-my-forum/img/icons/loader.svg); }
+pmf-module-dev:not(.pmf-complete):before {
+  content:'';
+  background: linear-gradient(45deg, var(--gradientflash));
+  mask-image: url(
+    https://violette-bleue.github.io/pimp-my-forum/img/icons/loader.svg);
+  display: block;
+  width: 60px;
+  height: 60px;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  margin: 0 auto;
+  }
 pmf-module-dev.pmf-complete .pmf-app { /* fade-in, etc. */ }
 
   /*

@@ -590,20 +590,9 @@ pmf-module-dev:not(.pmf-complete):before {
   mask-repeat: no-repeat;
   margin: 0 auto;
   }
-pmf-module-dev.pmf-complete .pmf-app { /* fade-in, etc. */ }
-
-  /*
-.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage)):before {
-    content: '';
-    display: block;
-    background: linear-gradient(45deg, var(--gradientflash));
-    mask-image: url(
-    https://violette-bleue.github.io/pimp-my-forum/img/icons/loader.svg);
-    width: 50px;
-    height: 50px;
-    mask-size: cover;
-}
-
-.pmf-main .postbody .content:has(pmf-module-dev):not(:has(.pmf-stage))>* {display:none}
-
-*/
+pmf-module-dev:not(.pmf-complete) .pmf-app {
+                                      opacity: 0;
+                                      height: 0;
+                                      transition: all 300ms ease;
+                                  }
+pmf-module-dev.pmf-complete .pmf-app {opacity: 1;height: stretch;}
